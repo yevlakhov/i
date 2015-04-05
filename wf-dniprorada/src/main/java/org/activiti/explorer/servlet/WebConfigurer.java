@@ -6,6 +6,7 @@ import javax.servlet.ServletContextListener;
 import javax.servlet.ServletRegistration;
 
 import org.activiti.explorer.conf.ApplicationConfiguration;
+import org.activiti.rest.conf.RestConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.context.WebApplicationContext;
@@ -36,6 +37,7 @@ public class WebConfigurer implements ServletContextListener {
     
     if (context == null) {
         rootContext = new AnnotationConfigWebApplicationContext();
+        rootContext.register(RestConfiguration.class);
         rootContext.register(ApplicationConfiguration.class);
         rootContext.refresh();
     } else {
@@ -60,7 +62,10 @@ public class WebConfigurer implements ServletContextListener {
 
     log.debug("Registering Spring MVC Servlet");
     ServletRegistration.Dynamic dispatcherServlet = servletContext.addServlet("dispatcher", new DispatcherServlet(dispatcherServletConfiguration));
+    //dispatcherServlet.addMapping("/rest/*");
     dispatcherServlet.addMapping("/service/*");
+    //dispatcherServlet.addMapping("/service/rest/*");
+    //dispatcherServlet.addMapping("/web/*");
     dispatcherServlet.setLoadOnStartup(1);
     dispatcherServlet.setAsyncSupported(true);
     

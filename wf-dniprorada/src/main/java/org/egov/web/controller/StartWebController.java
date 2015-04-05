@@ -2,6 +2,7 @@ package org.egov.web.controller;
 
 import java.io.IOException;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,7 +48,8 @@ public class StartWebController {
 	public ModelAndView index() {
 		
 		ModelAndView modelAndView = new ModelAndView("index");
-		List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().latestVersion().list();
+		//List<ProcessDefinition> processDefinitions = repositoryService.createProcessDefinitionQuery().latestVersion().list();
+		List<ProcessDefinition> processDefinitions = new LinkedList();
 		modelAndView.addObject("processList", processDefinitions);
 		return modelAndView;
 	}

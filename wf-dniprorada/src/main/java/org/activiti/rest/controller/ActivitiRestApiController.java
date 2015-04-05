@@ -1,5 +1,6 @@
 package org.activiti.rest.controller;
 
+import java.util.LinkedList;
 import java.util.List;
 
 import org.activiti.engine.RepositoryService;
@@ -64,7 +65,8 @@ public class ActivitiRestApiController extends ExecutionBaseResource{
 	@RequestMapping(value = "/getProcessDefinitions", method = RequestMethod.GET)
 	@Transactional
 	public List<ProcessDefinition> getProcessDefinitions() {
-		return repositoryService.createProcessDefinitionQuery().latestVersion().list();
+		//return repositoryService.createProcessDefinitionQuery().latestVersion().list();
+		return new LinkedList();
 }
 
 }
