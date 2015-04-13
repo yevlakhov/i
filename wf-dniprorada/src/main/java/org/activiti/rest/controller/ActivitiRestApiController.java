@@ -16,10 +16,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.MultiValueMap;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.activiti.rest.controller.ActivitiRestException.ErrorCode.*;
 
 /**
  * ...wf-dniprorada/service/...
@@ -31,7 +34,7 @@ import java.util.List;
  */
 @Controller
 @RequestMapping(value="/rest")
-public class ActivitiRestApiController extends ExecutionBaseResource{
+public class ActivitiRestApiController extends ExecutionBaseResource {
 	@SuppressWarnings("unused")
 	private final Logger log = LoggerFactory.getLogger(ActivitiRestApiController.class);
 	@Autowired
@@ -40,6 +43,20 @@ public class ActivitiRestApiController extends ExecutionBaseResource{
 	private TaskService taskService;
 	@Autowired
 	private RepositoryService repositoryService;
+
+    @RequestMapping(value = "/create-session/{bank}", method = RequestMethod.POST)
+    public @ResponseBody SessionI createSession(@PathVariable String bank, @RequestParam MultiValueMap<String, String> parameters) throws ActivitiRestException {
+        switch (Bank.valueOfEqualIgnoreCase(bank)){
+            case PB: return new Session(bank);
+            case OB:
+            default: throw new ActivitiRestException(API_B_ERR_0000, "Unsupported bank");
+        }
+    }
+
+    @RequestMapping(value = "/delete-session/{session}", method = RequestMethod.DELETE)
+    public @ResponseBody SessionI deleteSession(@PathVariable String session) throws ActivitiRestException {
+        return new Session(session);
+    }
 
 	@RequestMapping(value = "/start-process/{key}", method = RequestMethod.GET)
 	@Transactional

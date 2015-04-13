@@ -26,7 +26,7 @@ public class ActivitiExceptionController {
 
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     @ExceptionHandler(value = RuntimeException.class)
-    public @ResponseBody ErrorResponseI catchRuntimeException(RuntimeException exception) {
-        return new ErrorResponse(SYSTEM_ERROR_CODE, exception.getMessage());
+    public void catchRuntimeException(RuntimeException exception) throws ActivitiRestException {
+        throw new ActivitiRestException(ActivitiRestException.ErrorCode.API_S_ERR_0000, exception);
     }
 }

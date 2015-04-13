@@ -5,24 +5,30 @@ package org.activiti.rest.controller;
  */
 public class ActivitiRestException extends Exception {
 
-    private String errorCode;
+    public enum ErrorCode {
 
-    public ActivitiRestException(String errorCode, String message) {
+        API_S_ERR_0000, //Базовая системная ошибка
+        API_B_ERR_0000 //Базовая бизнес ошибка
+    }
+
+    private ErrorCode errorCode;
+
+    public ActivitiRestException(ErrorCode errorCode, String message) {
         super(message);
         this.errorCode = errorCode;
     }
 
-    public ActivitiRestException(String errorCode, Throwable throwable) {
+    public ActivitiRestException(ErrorCode errorCode, Throwable throwable) {
         super(throwable);
         this.errorCode = errorCode;
     }
 
-    public ActivitiRestException(String errorCode, String message, Throwable throwable) {
+    public ActivitiRestException(ErrorCode errorCode, String message, Throwable throwable) {
         super(message, throwable);
         this.errorCode = errorCode;
     }
 
     public String getErrorCode() {
-        return errorCode;
+        return errorCode.name();
     }
 }
