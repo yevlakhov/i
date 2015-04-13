@@ -2,8 +2,8 @@
 
 ##### Baic Headers
 
-| Name        | Value           |
-| ------------- |:-------------:|
+| Name | Value |
+| --- |---|
 | Content-Type | application/json |
 | Accept | application/json |
 | Authorization | Basic ... |
@@ -18,11 +18,11 @@
 
 **Response**
 
-```json
+<pre>
 	{
 		"id":"31" //[1..1]
 	}
-```
+</pre>
 
 #### 2. Get tasks
 
@@ -34,7 +34,7 @@
 
 **Response**
 
-```json
+<pre>
 	[                                                     //[0..N]
   		{
     		"delegationState": "RESOLVED",                //[0..1]
@@ -57,7 +57,7 @@
 		    "processDefinitionId": "21"                   //[0..1]
 	  }
 	]
-```
+</pre>
 
 #### 3. Process definitions
 
@@ -67,7 +67,7 @@
 
 **Response**
 
-```json
+<pre>
 	[											                              //[0..N]
   		{
     		"id": "CivilCardAccountlRequest:1:9",                             //[1..1]
@@ -83,4 +83,4 @@
 		    "suspended": true                                                 //[1..1]
 	  }
 	]
-```
+</pre>
