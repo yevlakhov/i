@@ -29,12 +29,14 @@
         </constructor-arg>
     </bean>
 
-    <bean id="oauth2AccessDeniedHandler" class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+    <bean id="oauth2AccessDeniedHandler"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+    <bean id="oauth2AuthenticationEntryPoint"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
 
     <security:http create-session="never"
                    entry-point-ref="oauth2AuthenticationEntryPoint">
         <security:anonymous enabled="false" />
-        <security:http-basic entry-point-ref="customBasicAuthenticationEntryPoint"/>
         <security:access-denied-handler ref="oauth2AccessDeniedHandler" />
     </security:http>
 
@@ -42,7 +44,11 @@
                                  token-services-ref="tokenServices"
                                  user-approval-handler-ref="userApprovalHandler"
                                  token-endpoint-url="/oauth/token">
+        <!-- change authorization code on token and refresh token -->
+        <oauth2:authorization-code />
+        <!-- change refresh token after expiration of token on new token and new refresh token -->
         <oauth2:refresh-token />
+        <!-- bank simulation of two phase authentication -->
         <oauth2:password />
     </oauth2:authorization-server>
 
