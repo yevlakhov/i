@@ -4,11 +4,21 @@
        xmlns:security="http://www.springframework.org/schema/security"
        xmlns:oauth2="http://www.springframework.org/schema/security/oauth2"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
-       http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.1.xsd
-       http://www.springframework.org/schema/security http://www.springframework.org/schema/security/spring-security-4.0.xsd
-       http://www.springframework.org/schema/security/oauth2 http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xsi:schemaLocation="
+       http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans-4.1.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context-4.1.xsd
+       http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/security
+       http://www.springframework.org/schema/security/spring-security-4.0.xsd
+       http://www.springframework.org/schema/security/oauth2
+       http://www.springframework.org/schema/security/spring-security-oauth2-2.0.xsd"
        default-autowire="byName">
+
+    <import resource="oauth2-client-context.xml" />
 
     <bean id="tokenStore" class="ua.org.bankid.oauth.impl.RedisTokenStore" />
 
@@ -38,8 +48,37 @@
         </constructor-arg>
     </bean>
 
-    <bean id="oauth2AuthenticationEntryPoint"
+   <!-- <bean id="authenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
+-->
+    <bean id="authenticationEntryPoint"
+          class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
+        <!--<constructor-arg name="loginFormUrl" value="${page.choose.appropriate.bank.redirect.url:'/defaultURL'}"/>-->
+        <constructor-arg name="loginFormUrl" value="/defaultURL"/>
+    </bean>
+
+    <bean id="oauth2AccessDeniedHandler"
+          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
+
+    <bean id="oAuth2RestTemplate" class="org.springframework.security.oauth2.client.OAuth2RestTemplate"
+          scope="session">
+        <constructor-arg name="resource" ref="oAuth2ProtectedResourceDetails" />
+        <aop:scoped-proxy/>
+    </bean>
+
+    <bean id="oAuth2ProtectedResourceDetails" scope="session"
+          class="org.springframework.security.oauth2.client.token.grant.code.AuthorizationCodeResourceDetails">
+        <property name="id" value="${egov.service.provider.client.id:hadcoredClientId}" />
+        <property name="accessTokenUri" value="/accessTokenUri" />
+        <property name="scope" value="scope.view.passport" />
+    </bean>
+
+    <bean id="oAuth2AuthenticationProcessingFilter"
+          class="org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter">
+        <constructor-arg name="defaultFilterProcessesUrl" value="/defaultURL"/>
+        <property name="restTemplate" ref="oAuth2RestTemplate"/>
+        <property name="tokenServices" ref="tokenServices"/>
+    </bean>
 
     <security:global-method-security secured-annotations="enabled"
                                      pre-post-annotations="enabled">
@@ -49,7 +88,7 @@
     </security:global-method-security>
 
     <security:http create-session="never"
-                   entry-point-ref="oauth2AuthenticationEntryPoint"
+                   entry-point-ref="authenticationEntryPoint"
                    access-decision-manager-ref="oauthAuthAccessDecisionManager"
                    auto-config="true"
                    use-expressions="true">
@@ -68,9 +107,13 @@
         <security:intercept-url pattern="/*/elections/**" method="POST"
                                 access="hasAnyRole('scope.vote.president', 'scope.vote.parliament')"/>
 
+        <security:custom-filter ref="oauth2ClientContextFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
+        <security:custom-filter ref="oAuth2AuthenticationProcessingFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
         <security:custom-filter ref="resourceServerFilter" before="PRE_AUTH_FILTER" />
         <security:access-denied-handler ref="oauth2AccessDeniedHandler" />
     </security:http>
+
+    <oauth2:client id="oauth2ClientContextFilter" />
 
     <!-- authorization server on e-gov side -->
     <oauth2:authorization-server client-details-service-ref="clientDetailsService"
@@ -86,8 +129,6 @@
                             resource-id="ProtectedResourceByBankId"
                             token-services-ref="tokenServices" />
 
-    <bean id="oauth2AccessDeniedHandler"
-          class="org.springframework.security.oauth2.provider.error.OAuth2AccessDeniedHandler" />
 
     <security:authentication-manager alias="authenticationManager">
         <security:authentication-provider ref="authenticationProvider"/>
