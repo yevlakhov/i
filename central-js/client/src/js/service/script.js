@@ -1,4 +1,5 @@
-define('service', ['angularAMD', 'service.general.country', 'service.general.region', 'service.general.city', 'places/service', 'service/service', 'bankid/service', 'activiti/service'], function (angularAMD) {
+define('service', ['angularAMD', 'service.general.country', 'service.general.region', 'service.general.city',
+                   'places/service', 'service/service', 'bankid/service', 'activiti/service', 'catalog/service'], function (angularAMD) {
     var app = angular.module('service', []);
 
     app.config(['$stateProvider', function ($stateProvider) {
@@ -8,7 +9,10 @@ define('service', ['angularAMD', 'service.general.country', 'service.general.reg
 				resolve: {
 					service: ['$stateParams', 'ServiceService', function($stateParams, ServiceService) {
 						return ServiceService.get($stateParams.id);
-					}]
+					}],
+                    catalog: ['CatalogService', function() {
+                        //return CatalogService.getServices();
+                    }]
 				},
                 views: {
                     '': angularAMD.route({

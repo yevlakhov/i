@@ -1,6 +1,20 @@
 define('state/service/controller', ['angularAMD'], function (angularAMD) {
 	angularAMD.controller('ServiceController', ['$state', '$rootScope', '$scope', 'service', function ($state, $rootScope, $scope, service) {
 		$scope.service = service;
+        //debugger;
+        //for (var i = 0; i < catalog.length; i++) {
+        //    var category = catalog[i];
+        //    for (var j = 0; j < category.aSubcategory.length; j++) {
+        //        var subCategory = category.aSubcategory[j];
+        //        for (var k = 0; k < subCategory.aService.length; k++) {
+        //            var curService = subCategory.aService[k];
+        //            if (curService.nID === $stateParams.id) {
+        //                $scope.subcategory = subCategory;
+        //                return;
+        //            }
+        //        }
+        //    }
+        //}
 	}]);
 });
 
