@@ -1,4 +1,4 @@
-package ua.org.bankid.oauth.systest
+package ua.gov.systests.bankid.oauth
 
 import groovy.text.GStringTemplateEngine
 import org.apache.commons.lang3.Validate

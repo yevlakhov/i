@@ -1,4 +1,4 @@
-package ua.org.bankid.oauth.systest
+package ua.gov.systests.bankid.oauth
 
 import groovy.util.logging.Slf4j
 import groovyx.net.http.RESTClient

@@ -1,4 +1,4 @@
-package ua.org.bankid.oauth.systest
+package ua.gov.systests.bankid.oauth
 
 /**
  * @author zora.borys
