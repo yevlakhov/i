@@ -20,6 +20,8 @@
 
     <import resource="oauth2-client-context.xml" />
 
+    <context:property-placeholder location="classpath:oauth.properties" />
+
     <bean id="tokenStore" class="ua.org.bankid.oauth.impl.RedisTokenStore" />
 
     <bean id="clientDetailsService" class="ua.org.bankid.oauth.BankIdClientDetailsService" />
@@ -53,8 +55,7 @@
 -->
     <bean id="authenticationEntryPoint"
           class="org.springframework.security.web.authentication.LoginUrlAuthenticationEntryPoint">
-        <!--<constructor-arg name="loginFormUrl" value="${page.choose.appropriate.bank.redirect.url:'/defaultURL'}"/>-->
-        <constructor-arg name="loginFormUrl" value="/defaultURL"/>
+        <constructor-arg name="loginFormUrl" value="${page.choose.appropriate.bank.redirect.url}"/>
     </bean>
 
     <bean id="oauth2AccessDeniedHandler"
@@ -75,7 +76,7 @@
 
     <bean id="oAuth2AuthenticationProcessingFilter"
           class="org.springframework.security.oauth2.client.filter.OAuth2ClientAuthenticationProcessingFilter">
-        <constructor-arg name="defaultFilterProcessesUrl" value="/defaultURL"/>
+        <constructor-arg name="defaultFilterProcessesUrl" value="${page.choose.appropriate.bank.redirect.url}"/>
         <property name="restTemplate" ref="oAuth2RestTemplate"/>
         <property name="tokenServices" ref="tokenServices"/>
     </bean>

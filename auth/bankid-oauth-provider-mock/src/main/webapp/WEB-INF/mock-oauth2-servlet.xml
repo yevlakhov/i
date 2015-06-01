@@ -57,8 +57,18 @@
     <bean id="oauth2AuthenticationEntryPoint"
           class="org.springframework.security.oauth2.provider.error.OAuth2AuthenticationEntryPoint" />
 
+<!--    <security:http use-expressions="true" entry-point-ref="clientAuthenticationEntryPoint">
+        <security:http-basic/>
+        <security:logout/>
+        <security:anonymous enabled="false"/>
+        <security:intercept-url pattern="/**" access="isFullyAuthenticated()"/>
+        <security:custom-filter ref="oauth2ClientContextFilter" after="EXCEPTION_TRANSLATION_FILTER"/>
+        <security:custom-filter ref="oAuth2AuthenticationProcessingFilter" before="FILTER_SECURITY_INTERCEPTOR"/>
+    </security:http>-->
+
     <security:http create-session="never"
                    entry-point-ref="oauth2AuthenticationEntryPoint">
+        <security:csrf disabled="true" />
         <security:anonymous enabled="false" />
         <security:access-denied-handler ref="oauth2AccessDeniedHandler" />
     </security:http>
