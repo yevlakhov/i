@@ -16,6 +16,13 @@ module.exports.index = function(options, callback) {
 			"documents": [{
 				"type": "passport",
 				"fields": ["series", "number", "issue", "dateIssue", "dateExpiration", "issueCountryIso2"]
+			}],
+			"scans": [{
+				"type": "passport",
+				"fields": ["link", "dateCreate"]
+			}, {
+				"type": "zpassport",
+				"fields": ["link", "dateCreate"]
 			}]
 		}
 	}, callback);

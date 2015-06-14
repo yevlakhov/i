@@ -1,5 +1,9 @@
-define('formData/factory', ['angularAMD', 'file/directive', 'parameter/factory', 'datepicker/factory', 'file/factory', 'bankid/documents/factory'], function(angularAMD) {
-  angularAMD.factory('FormDataFactory', function(ParameterFactory, DatepickerFactory, FileFactory, BankIDDocumentsFactory) {
+define('formData/factory', ['angularAMD',
+  'file/directive', 'parameter/factory', 'datepicker/factory',
+  'file/factory', 'filebankid/factory', 'bankid/documents/factory',
+  'bankid/scans/factory'
+], function(angularAMD) {
+  angularAMD.factory('FormDataFactory', function(ParameterFactory, DatepickerFactory, FileFactory, FileBankIDFactory, BankIDDocumentsFactory, BankIDScansFactory) {
     var FormDataFactory = function() {
       this.processDefinitionId = null;
 
@@ -11,19 +15,20 @@ define('formData/factory', ['angularAMD', 'file/directive', 'parameter/factory',
       this.processDefinitionId = ActivitiForm.processDefinitionId;
       for (var key in ActivitiForm.formProperties) {
         var property = ActivitiForm.formProperties[key];
-        switch (property.type) {
-          case 'date':
-            this.params[property.id] = new DatepickerFactory();
+        if ('date' === property.type) {
+          this.params[property.id] = new DatepickerFactory();
+          this.params[property.id].value = property.value;
+        } else if ('file' === property.type) {
+          if (/^bankId_scan_/.test(property.id)) {
+            this.params[property.id] = new FileBankIDFactory();
             this.params[property.id].value = property.value;
-            break;
-          case 'file':
+          } else {
             this.params[property.id] = new FileFactory();
             this.params[property.id].value = property.value;
-            break;
-          default:
-            this.params[property.id] = new ParameterFactory();
-            this.params[property.id].value = property.value;
-            break;
+          }
+        } else {
+          this.params[property.id] = new ParameterFactory();
+          this.params[property.id].value = property.value;
         }
       }
     };
@@ -45,7 +50,7 @@ define('formData/factory', ['angularAMD', 'file/directive', 'parameter/factory',
                 case 'passport':
                   field = 'bankIdPassport';
               }
-              if (field == null) {
+              if (field === null) {
                 return;
               }
               if (this.hasParam(field)) {
@@ -53,6 +58,13 @@ define('formData/factory', ['angularAMD', 'file/directive', 'parameter/factory',
                 this.params[field].value = documents.getPassport();
               }
             }, this);
+            break;
+          case 'scans':
+            var scans = new BankIDScansFactory();
+            scans.initialize(value);
+            angular.forEach(scans.list, function(scan) {
+              this.params[field].upload(scan);
+            }
             break;
           default:
             var field = 'bankId' + key;
