@@ -8,10 +8,12 @@ define('filebankid/factory', ['angularAMD'], function(angularAMD) {
       return this.value;
     };
 
-    FileBankID.prototype.upload = function(scan, oServiceData){
-      var url = ActivitiService.getUploadFileURL(oServiceData);
-      return null;
-    }
+    FileBankID.prototype.uploadAndSetValue = function(oServiceData, scan){
+      var setValueCallback = function(data){
+        this.value = data;
+      }
+      ActivitiService.uploadFileFromScan(oServiceData, scan, setValueCallback);
+    };
 
     return FileBankID;
   });

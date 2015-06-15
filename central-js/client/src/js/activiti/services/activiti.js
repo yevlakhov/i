@@ -29,19 +29,15 @@ define('activiti/service', ['angularAMD'], function(angularAMD) {
 			return './api/uploadfile?url=' + oServiceData.sURL + 'service/rest/file/upload_file_to_redis';
 		};
 
-		this.uploadFileFromScan = function(oServiceData, scan) {
+		this.uploadFileFromScan = function(oServiceData, scan, setValueCallback) {
 			var body = {
 				'scan': scan,
 				'url': oServiceData.sURL + 'service/rest/file/upload_file_to_redis'
 			};
-			return $http.post('./api/upload/scan', body, {})
+			$http.post('./api/process-form/scan', body, {})
 				.then(function(response) {
-					return response.data;
+					setValueCallback(response.data);
 				});
-		};
-
-		this.updateFileField = function(oServiceData, formData, propertyID, fileUUID) {
-			formData.params[propertyID].value = fileUUID;
 		};
 	}]);
 });

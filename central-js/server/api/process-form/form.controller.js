@@ -1,16 +1,28 @@
 var request = require('request');
 
-module.exports.get = function(options, callback) {
-	return request.get({
-		'url': options.params.url,
-		'auth': {
-			'username': options.username,
-			'password': options.password
-		}
-	}, callback);
-};
+module.exports.uploadScan = function(req, res){
+	res.end();
+}
 
-module.exports.post = function(options, callback) {
+module.exports.submit = function(req, res) {
+	var config = require('../../config');
+	var activiti = config.activiti;
+	
+	var options = {
+		protocol: activiti.protocol,
+		hostname: activiti.hostname,
+		port: activiti.port,
+		path: activiti.path,
+		username: activiti.username,
+		password: activiti.password,
+		formData: req.body
+	};
+	
+	var callback = function(error, response, body) {
+		res.send(body);
+		res.end();
+	}
+	
 	var properties = [];
 	for(var i in options.formData.params) {
 		properties.push({
@@ -32,4 +44,34 @@ module.exports.post = function(options, callback) {
 		},
 		'json': true
 	}, callback);
-};
+}
+
+module.exports.get = function(req, res) {
+	var config = require('../../config');
+	var activiti = config.activiti;
+	
+	var options = {
+		protocol: activiti.protocol,
+		hostname: activiti.hostname,
+		port: activiti.port,
+		path: activiti.path,
+		username: activiti.username,
+		password: activiti.password,
+		params: {
+			url: req.query.url || null
+		}
+	};
+	
+	var callback = function(error, response, body) {
+		res.send(body);
+		res.end();
+	}
+	
+	request.get({
+		'url': options.params.url,
+		'auth': {
+			'username': options.username,
+			'password': options.password
+		}
+	}, callback);
+}

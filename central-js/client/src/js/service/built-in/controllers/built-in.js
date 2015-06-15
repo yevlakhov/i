@@ -17,7 +17,7 @@ define('service/built-in/bankid/controller', ['angularAMD', 'formData/factory'],
 		$scope.data = $scope.data || {};
 		$scope.data.formData = new FormDataFactory();
 		$scope.data.formData.initialize(ActivitiForm);
-		$scope.data.formData.setBankIDAccount(BankIDAccount);
+		$scope.data.formData.setBankIDAccount(BankIDAccount, oServiceData);
 		
 		var currentState = $state.$current;
 		$scope.data.region = currentState.data.region;
@@ -69,42 +69,6 @@ define('service/built-in/bankid/controller', ['angularAMD', 'formData/factory'],
 
       var fileKey = function(file){
         return file.name + file.size;
-      };
-
-      $scope.uploadFile = function() {
-        uiUploader.startUpload({
-          url: ActivitiService.getUploadFileURL(oServiceData),
-          concurrency: 2,
-          onProgress: function(file) {
-            $scope.isUploading = true;
-            $scope.$apply();
-          },
-          onCompleted: function(file, response) {
-            $scope.isUploading = false;
-            if (response) {
-              try {
-                JSON.parse(response);
-                alert(response);
-              } catch (e) {
-                ActivitiService.updateFileField(oServiceData,
-                  $scope.data.formData, $scope.files[fileKey(file)], response);
-              }
-            }
-            $scope.$apply();
-          }
-        });
-      };
-
-      $scope.files = {};
-      $scope.addFile = function(propertyId, event) {
-        var files = event.target.files;
-        if (files && files.length === 1) {
-          uiUploader.addFiles(files);
-          if (uiUploader.getFiles()[0]) {
-            $scope.files[fileKey(event.target.files[0])] = propertyId;
-          }
-        }
-        $scope.$apply();
       };
     }
   ]);

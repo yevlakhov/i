@@ -37,7 +37,7 @@ define('formData/factory', ['angularAMD',
       return this.params.hasOwnProperty(param);
     };
 
-    FormDataFactory.prototype.setBankIDAccount = function(BankIDAccount) {
+    FormDataFactory.prototype.setBankIDAccount = function(BankIDAccount, oServiceData) {
       return angular.forEach(BankIDAccount.customer, function(value, key) {
         switch (key) {
           case 'documents':
@@ -63,7 +63,11 @@ define('formData/factory', ['angularAMD',
             var scans = new BankIDScansFactory();
             scans.initialize(value);
             angular.forEach(scans.list, function(scan) {
-              this.params[field].upload(scan);
+              var field = 'bankId_scan_' + scan.type;
+              if (this.hasParam(field)) {
+                this.fields[field] = true;              
+                this.params[field].uploadAndSetValue(oServiceData, scan);
+              }
             }
             break;
           default:
