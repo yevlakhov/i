@@ -10,7 +10,7 @@ define('bankid/scan/factory', ['angularAMD'], function (angularAMD) {
 				this.extension = null;
 			};
 			
-			passport.prototype.initialize = function(scan) {
+			scan.prototype.initialize = function(scan) {
 				this.type = scan.type;			
 				this.link = scan.link;
 				this.dateCreate = scan.dateCreate;

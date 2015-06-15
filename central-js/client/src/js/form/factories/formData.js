@@ -68,7 +68,7 @@ define('formData/factory', ['angularAMD',
                 this.fields[field] = true;              
                 this.params[field].uploadAndSetValue(oServiceData, scan);
               }
-            }
+            }, this); 
             break;
           default:
             var field = 'bankId' + key;
