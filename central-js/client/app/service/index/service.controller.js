@@ -1,8 +1,20 @@
-angular.module('app').controller('ServiceController', function($scope, $rootScope, $timeout, CatalogService, AdminService, $filter, statesRepository, RegionListFactory, LocalityListFactory) {
+angular.module('app').controller('ServiceController',
+  function($scope,
+           $rootScope,
+           $timeout,
+           $modal,
+           CatalogService,
+           AdminService,
+           ServiceTreeService,
+           $filter,
+           statesRepository,
+           RegionListFactory,
+           LocalityListFactory
+  ) {
   $scope.data = {region: null, city: null};
 
   function getIDPlaces() {
-    return ($scope.bShowExtSearch && $scope.selectedStatus == 2 && $scope.data.region !== null) ?
+    return ($scope.bShowExtSearch && $scope.selectedStatus === 2 && $scope.data.region !== null) ?
       [$scope.data.region].concat($scope.data.city === null ? $scope.data.region.aCity : $scope.data.city)
         .map(function(e) { return e.sID_UA; }) : statesRepository.getIDPlaces();
   }
@@ -59,12 +71,14 @@ angular.module('app').controller('ServiceController', function($scope, $rootScop
         $scope.filterByExtSearch();
       else
         $scope.catalog = copyCatalog();
-    }).finally(function() {$scope.spinner = false;});
+    }).finally(function() {
+      $scope.spinner = false;
+    });
   };
 
   $scope.onExtSearchClick = function() {
     $scope.bShowExtSearch = !$scope.bShowExtSearch;
-    if ($scope.operator != -1 || $scope.selectedStatus != -1 || $scope.data.region != null)
+    if ($scope.operator !== -1 || $scope.selectedStatus !== -1 || $scope.data.region !== null)
         $scope.search();
   };
 
@@ -136,7 +150,7 @@ angular.module('app').controller('ServiceController', function($scope, $rootScop
             return sc.aService.length > 0;
           });
 
-          if (item.aSubcategory.length == 0) {
+          if (item.aSubcategory.length === 0) {
             item.sName = "";
           }
         }
@@ -146,9 +160,43 @@ angular.module('app').controller('ServiceController', function($scope, $rootScop
   });
 
   $scope.$watch('selectedStatus', function(newValue, oldValue) {
-    if ((newValue == 2 || oldValue == 2) && $scope.data.region !== null)
+    if ((newValue === 2 || oldValue === 2) && $scope.data.region !== null)
       $scope.search();
   });
+
+  $scope.serviceEditor = (function(){
+
+    var openModal = function (service) {
+      var modalInstance = $modal.open({
+        animation: true,
+        templateUrl: 'app/service/index/editor/modal.html',
+        controller: 'EditorModalController',
+        resolve: {
+          serviceToEdit: function () {
+            return angular.copy(service);
+          }
+        }
+      });
+
+      modalInstance.result.then(function (editedSlot) {
+
+      });
+    };
+
+    return {
+      add: function(){
+        openModal();
+      },
+      edit: function(serviceToEdit){
+        openModal(serviceToEdit)
+      },
+      remove: function(serviceToRemove){
+        ServiceTreeService.removeSubcategory()
+      }
+    }
+  })();
+
+
 
   $scope.search();
 });
