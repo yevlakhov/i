@@ -1,8 +1,19 @@
 'use strict';
 
 var request = require('request');
+var _ = require('lodash');
 var config = require('../../config/environment');
 var activiti = config.activiti;
+
+var sHostPrefix = config.server.sServerRegion;
+console.log('1)sHostPrefix='+sHostPrefix);
+
+if(sHostPrefix==null){
+  sHostPrefix = "https://test.region.igov.org.ua";
+  console.log('2)sHostPrefix='+sHostPrefix);
+}
+
+var sHost = sHostPrefix + "/wf-region/service";
 
 var buildUrl = function(path){
   var url = activiti.protocol + '://' + activiti.hostname + activiti.path + path;
@@ -10,6 +21,22 @@ var buildUrl = function(path){
 };
 
 module.exports.getServicesTree = function (req, res) {
+
+  //var callback = function (error, response, body) {
+  //  res.send(body);
+  //  res.end();
+  //};
+  //
+  //activiti.sendGetRequest(req,
+  //  res,
+  //  '/services/getServicesTree',
+  //  {
+  //    'sFind': req.query.sFind,
+  //    'asID_Place_UA': req.query.asIDPlaceUA
+  //  },
+  //  callback,
+  //  sHost
+  //);
 
   var options = {
     protocol: activiti.protocol,
@@ -45,21 +72,9 @@ module.exports.getServicesTree = function (req, res) {
 };
 
 module.exports.setServicesTree = function(req, res) {
-  var options = {
-    path: 'services/setServicesTree',
-    query: {
-      nID_Subject : req.query.nID_Subject
-    }
-  };
-
-  activiti.sendPostRequest(req, res, '/flow/setFlowSlot_ServiceData', {
-    nID_FlowSlot: req.params.nID
+  activiti.sendPostRequest(req, res, '/services/setServicesTree', {
+    nID_Subject : req.session.subject.nID
   }, null, sHost);
-
-  activiti.post(options, function(error, statusCode, result) {
-    res.statusCode = statusCode;
-    res.send(result);
-  }, req.body);
 };
 
 var remove = function(path, req, res){
@@ -68,7 +83,7 @@ var remove = function(path, req, res){
     query: {
       nID: req.query.nID,
       bRecursive: req.query.bRecursive,
-      nID_Subject: req.query.nID_Subject
+      nID_Subject: req.session.subject.nID
     }
   };
 

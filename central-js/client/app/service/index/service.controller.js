@@ -1,16 +1,16 @@
-angular.module('app').controller('ServiceController',
+angular.module('app')
+  .controller('ServiceController',
   function($scope,
            $rootScope,
            $timeout,
-           $modal,
            CatalogService,
            AdminService,
-           ServiceTreeService,
+           EditServiceTreeService,
            $filter,
            statesRepository,
            RegionListFactory,
-           LocalityListFactory
-  ) {
+           LocalityListFactory)
+  {
     $scope.data = {region: null, city: null};
 
     function getIDPlaces() {
@@ -39,6 +39,10 @@ angular.module('app').controller('ServiceController',
     $scope.regionList = new RegionListFactory();
     $scope.regionList.load(null, null);
     $scope.localityList = new LocalityListFactory();
+
+    $scope.categoryEditor = EditServiceTreeService.category;
+    $scope.subcategoryEditor = EditServiceTreeService.subcategory;
+    $scope.serviceEditor = EditServiceTreeService.service;
 
     $scope.loadRegionList = function(search) {
       return $scope.regionList.load(null, search);
@@ -167,143 +171,5 @@ angular.module('app').controller('ServiceController',
         $scope.search();
     });
 
-    $scope.categoryEditor = (function(){
-
-      var openModal = function (category) {
-        var modalInstance = $modal.open({
-          animation: true,
-          templateUrl: 'app/service/index/editor/editCategory.html',
-          controller: 'EditorModalController',
-          resolve: {
-            entityToEdit: function () {
-              if (category){
-                return {
-                  sName: category.sName,
-                  nOrder: category.nOrder
-                };
-              }else{
-                return undefined;
-              }
-            }
-          }
-        });
-
-        modalInstance.result.then(function (editedCategory) {
-          var index = $scope.catalog.indexOf(category);
-          if (index !== -1) {
-            category.sName = editedCategory.sName;
-            category.nOrder = editedCategory.nOrder;
-          }
-          else{
-            editedCategory.aSubcategory = [];
-            $scope.catalog.push(editedCategory);
-          }
-          ServiceTreeService.setServicesTree(null, $scope.catalog);
-        });
-      };
-
-      return {
-        add: function(){
-          openModal();
-        },
-        edit: function(category){
-          openModal(category)
-        },
-        remove: function(categoryToRemove){
-          ServiceTreeService.removeCategory(categoryToRemove)
-        }
-      }
-    })();
-
-    $scope.subcategoryEditor = (function(){
-
-      var openModal = function (category, subcategory) {
-        var modalInstance = $modal.open({
-          animation: true,
-          templateUrl: 'app/service/index/editor/editSubcategory.html',
-          controller: 'EditorModalController',
-          resolve: {
-            entityToEdit: function () {
-              if (subcategory){
-                return {
-                  sName: subcategory.sName,
-                  nOrder: subcategory.nOrder
-                }
-              }
-              return undefined;
-            }
-          }
-        });
-
-        modalInstance.result.then(function (editedSubcategory) {
-          var index = category.aSubcategory.indexOf(subcategory);
-          if (index !== -1) {
-            subcategory.sName = editedSubcategory.sName;
-            subcategory.nOrder = editedSubcategory.nOrder;
-          }
-          else{
-            editedSubcategory.aService = [];
-            category.aSubcategory.push(editedSubcategory);
-          }
-          ServiceTreeService.setServicesTree(null, $scope.catalog);
-        });
-      };
-
-      return {
-        add: function(category){
-          openModal(category);
-        },
-        edit: function(category, subcategory){
-          openModal(category, subcategory)
-        },
-        remove: function(subcategoryToRemove){
-          ServiceTreeService.removeSubcategory()
-        }
-      }
-    })();
-
-    $scope.serviceEditor = (function(){
-
-      var openModal = function (subcategory, service) {
-        var modalInstance = $modal.open({
-          animation: true,
-          templateUrl: 'app/service/index/editor/editService.html',
-          controller: 'EditorModalController',
-          resolve: {
-            entityToEdit: function () {
-              return angular.copy(service);
-            }
-          }
-        });
-
-        modalInstance.result.then(function (editedService) {
-          var index = subcategory.aService.indexOf(service);
-          if (index !== -1) {
-            subcategory.aService[index] = editedService;
-          }
-          else{
-            subcategory.aService.push(editedService);
-          }
-          ServiceTreeService.setServicesTree(null, $scope.catalog);
-        });
-      };
-
-      return {
-        add: function(subcategory){
-          openModal(subcategory);
-        },
-        edit: function(subcategory, serviceToEdit){
-          openModal(subcategory, serviceToEdit)
-        },
-        remove: function(serviceToRemove){
-          ServiceTreeService.removeService(serviceToRemove)
-        }
-      }
-    })();
-
-
-
-
-
-  $scope.search();
-});
+    $scope.search();
+  });
