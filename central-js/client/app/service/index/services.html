@@ -132,11 +132,11 @@
     </div>
   </div>
 
-  <div class="row">
+  <div ng-if="bAdmin" class="row">
     <div class="col-md-12">
       <a class="ctrls-admin ctrls-cat add0-cat"
          href=""
-         ng-if="bAdmin">
+         ng-click="categoryEditor.add()">
         <i class="glyphicon glyphicon-plus"></i>&nbsp;Додати категорію
       </a>
     </div>
@@ -153,13 +153,15 @@
         <a class="ctrls-admin ctrls-cat"
            href=""
            title="Редагувати категорію"
-           ng-if="bAdmin">
+           ng-if="bAdmin"
+           ng-click="categoryEditor.edit(category)">
           <i class="glyphicon glyphicon-pencil"></i>
         </a>
         <a class="ctrls-admin ctrls-cat"
            href=""
            title="Видалити категорію"
-           ng-if="bAdmin">
+           ng-if="bAdmin"
+           ng-click="categoryEditor.remove(category)">
           <i class="glyphicon glyphicon-remove"></i>
         </a>
       </h1>
@@ -169,7 +171,8 @@
       <div class="spacer20"></div>
       <p>
         <a class="ctrls-admin ctrls-subcat add0-subcat"
-           href="">
+           href=""
+           ng-click="subcategoryEditor.add(category)">
           <i class="glyphicon glyphicon-plus"></i>&nbsp;Додати підкатегорію
         </a>
       </p>
@@ -177,19 +180,27 @@
 
     <div class="col-md-4"
          ng-repeat-start="subcategory in category.aSubcategory">
-      <h3>{{subcategory.sName}} <a class="ctrls-admin ctrls-subcat"
-                                   href=""
-                                   title="Редагувати підкатегорію"
-                                   ng-if="bAdmin"><span class="glyphicon glyphicon-pencil"></span></a>
+      <h3>{{subcategory.sName}}
+        <a class="ctrls-admin ctrls-subcat"
+           href=""
+           title="Редагувати підкатегорію"
+           ng-if="bAdmin"
+           ng-click="subcategoryEditor.edit(category, subcategory)">
+          <i class="glyphicon glyphicon-pencil"></i>
+        </a>
         <a class="ctrls-admin ctrls-subcat"
            href=""
            title="Видалити підкатегорію"
-           ng-if="bAdmin"><span class="glyphicon glyphicon-remove"></span></a></h3>
+           ng-if="bAdmin"
+           ng-click="subcategoryEditor.remove(subcategory)">
+          <i class="glyphicon glyphicon-remove"></i>
+        </a>
+      </h3>
 
       <a class="ctrls-admin ctrls-srvc add0-srvc"
          href=""
          ng-if="bAdmin"
-         ng-click="serviceEditor.add()">
+         ng-click="serviceEditor.add(subcategory)">
         <i class="glyphicon glyphicon-plus"></i>&nbsp;Додати послугу
       </a>
       <ul class="list-unstyled">
@@ -216,7 +227,7 @@
                href=""
                title="Редагувати послугу"
                ng-if="bAdmin"
-               ng-click="serviceEditor.edit(service)">
+               ng-click="serviceEditor.edit(subcategory, service)">
               <i class="glyphicon glyphicon-pencil"></i>
             </a>
             <a class="ctrls-admin ctrls-srvc"

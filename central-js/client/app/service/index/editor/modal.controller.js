@@ -1,22 +1,16 @@
 'use strict';
 
 angular.module('app')
-  .controller('EditorModalController', function($scope, $modalInstance, serviceToEdit) {
+  .controller('EditorModalController', function($scope, $modalInstance, entityToEdit) {
 
-    $scope.service = serviceToEdit;
-
-    $scope.showSave = function(){
-      return true;
-    };
+    $scope.isNew = entityToEdit === undefined;
+    $scope.entity = entityToEdit || {};
 
     $scope.save = function () {
-      $modalInstance.close();
+      $modalInstance.close($scope.entity);
     };
 
     $scope.cancel = function () {
       $modalInstance.dismiss('cancel');
     };
-
-    //Init
-
   });
