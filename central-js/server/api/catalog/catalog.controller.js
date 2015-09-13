@@ -78,22 +78,29 @@ module.exports.setServicesTree = function(req, res) {
 };
 
 var remove = function(path, req, res){
-  var options = {
-    path: path,
-    query: {
+
+  activiti.sendDeleteRequest(req, res, path, {
       nID: req.query.nID,
       bRecursive: req.query.bRecursive,
       nID_Subject: req.session.subject.nID
-    }
-  };
+    }, null, sHost);
 
-  activiti.del(options, function(error, statusCode, result) {
-    if (error) {
-      res.send(error);
-    } else {
-      res.status(statusCode).json(result);
-    }
-  });
+  //var options = {
+  //  path: path,
+  //  query: {
+  //    nID: req.query.nID,
+  //    bRecursive: req.query.bRecursive,
+  //    nID_Subject: req.session.subject.nID
+  //  }
+  //};
+
+  //activiti.del(options, function(error, statusCode, result) {
+  //  if (error) {
+  //    res.send(error);
+  //  } else {
+  //    res.status(statusCode).json(result);
+  //  }
+  //});
 };
 
 module.exports.removeService = function(req, res) {

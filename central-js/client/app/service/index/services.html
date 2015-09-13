@@ -161,7 +161,7 @@
            href=""
            title="Видалити категорію"
            ng-if="bAdmin"
-           ng-click="categoryEditor.remove(category)">
+           ng-click="categoryEditor.remove(category.nID)">
           <i class="glyphicon glyphicon-remove"></i>
         </a>
       </h1>
@@ -172,7 +172,7 @@
       <p>
         <a class="ctrls-admin ctrls-subcat add0-subcat"
            href=""
-           ng-click="subcategoryEditor.add(category)">
+           ng-click="subcategoryEditor.add(category.nID)">
           <i class="glyphicon glyphicon-plus"></i>&nbsp;Додати підкатегорію
         </a>
       </p>
@@ -185,14 +185,14 @@
            href=""
            title="Редагувати підкатегорію"
            ng-if="bAdmin"
-           ng-click="subcategoryEditor.edit(category, subcategory)">
+           ng-click="subcategoryEditor.edit(category.nID, subcategory)">
           <i class="glyphicon glyphicon-pencil"></i>
         </a>
         <a class="ctrls-admin ctrls-subcat"
            href=""
            title="Видалити підкатегорію"
            ng-if="bAdmin"
-           ng-click="subcategoryEditor.remove(subcategory)">
+           ng-click="subcategoryEditor.remove(subcategory.nID)">
           <i class="glyphicon glyphicon-remove"></i>
         </a>
       </h3>
@@ -200,7 +200,7 @@
       <a class="ctrls-admin ctrls-srvc add0-srvc"
          href=""
          ng-if="bAdmin"
-         ng-click="serviceEditor.add(subcategory)">
+         ng-click="serviceEditor.add(category.nID, subcategory.nID)">
         <i class="glyphicon glyphicon-plus"></i>&nbsp;Додати послугу
       </a>
       <ul class="list-unstyled">
@@ -227,14 +227,14 @@
                href=""
                title="Редагувати послугу"
                ng-if="bAdmin"
-               ng-click="serviceEditor.edit(subcategory, service)">
+               ng-click="serviceEditor.edit(category.nID, subcategory.nID, service)">
               <i class="glyphicon glyphicon-pencil"></i>
             </a>
             <a class="ctrls-admin ctrls-srvc"
                href=""
                title="Видалити послугу"
                ng-if="bAdmin"
-               ng-click="serviceEditor.remove(service)">
+               ng-click="serviceEditor.remove(service.nID)">
               <i class="glyphicon glyphicon-remove"></i>
             </a>
           </p>

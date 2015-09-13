@@ -12,7 +12,7 @@
       <a class="ctrls-admin ctrls-srvc add0-srvc"
          href=""
          ng-if="bAdmin"
-         ng-click="serviceEditor.add(subcategory)">
+         ng-click="serviceEditor.add(category.nID, subcategory.nID)">
         <i class="glyphicon glyphicon-plus"></i>&nbsp;Додати послугу
       </a>
     </div>
@@ -40,14 +40,14 @@
             href=""
             title="Редагувати послугу"
             ng-if="bAdmin"
-            ng-click="serviceEditor.edit(subcategory, service)">
+            ng-click="serviceEditor.edit(category.nID, subcategory.nID, service)">
            <i class="glyphicon glyphicon-pencil"></i>
           </a>
           <a class="ctrls-admin ctrls-srvc"
             href=""
             title="Видалити послугу"
             ng-if="bAdmin"
-            ng-click="serviceEditor.remove(service)">
+            ng-click="serviceEditor.remove(service.nID)">
            <i class="glyphicon glyphicon-remove"></i>
           </a>
       </li>

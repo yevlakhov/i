@@ -70,20 +70,20 @@ angular.module('app').service('CatalogService', function ($http, $q) {
     return simpleHttpPromise(request, callback);
   };
 
-  this.removeService = function(nID, bRecursive, nID_Subject, callback){
-    return del('/api/catalog/service', nID, bRecursive, nID_Subject, callback);
-  };
-
-  this.removeServiceData = function(nID, bRecursive, nID_Subject, callback){
-    return del('/api/catalog/serviceData', nID, bRecursive, nID_Subject, callback);
+  this.removeCategory = function(nID, bRecursive, nID_Subject, callback){
+    return del('/api/catalog/category', nID, bRecursive, nID_Subject, callback);
   };
 
   this.removeSubcategory = function(nID, bRecursive, nID_Subject, callback){
     return del('/api/catalog/subcategory', nID, bRecursive, nID_Subject, callback);
   };
 
-  this.removeCategory = function(nID, bRecursive, nID_Subject, callback){
-    return del('/api/catalog/category', nID, bRecursive, nID_Subject, callback);
+  this.removeService = function(nID, bRecursive, nID_Subject, callback){
+    return del('/api/catalog/service', nID, bRecursive, nID_Subject, callback);
+  };
+
+  this.removeServiceData = function(nID, bRecursive, nID_Subject, callback){
+    return del('/api/catalog/serviceData', nID, bRecursive, nID_Subject, callback);
   };
 
   this.removeServicesTree = function(nID_Subject, callback){

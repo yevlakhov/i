@@ -1,13 +1,6 @@
 angular.module('app')
   .factory('EditServiceTreeService', function($http, $modal, CatalogService) {
 
-    var catalog;
-    CatalogService.getServices()
-      .then(function(result){
-        catalog = result;
-      }
-    );
-
     var categoryEditor = (function(){
       var openModal = function (category) {
         var modalInstance = $modal.open({
@@ -31,11 +24,10 @@ angular.module('app')
         });
 
         modalInstance.result.then(function (editedCategory) {
-          //var catalogToSent = [ editedCategory ];
-          //CatalogService.setServicesTree(catalogToSent)
-          CatalogService.setServicesTree(editedCategory)
+          var catalogToSend = [ editedCategory ];
+          CatalogService.setServicesTree(catalogToSend)
             .then(function(result){
-              catalog = result;
+
             });
         });
       };
@@ -47,15 +39,15 @@ angular.module('app')
         edit: function(category){
           openModal(category)
         },
-        remove: function(categoryToRemove){
-          CatalogService.removeCategory(categoryToRemove)
+        remove: function(categoryId){
+          CatalogService.removeCategory(categoryId)
         }
       }
     })();
 
     var subcategoryEditor = (function(){
 
-      var openModal = function (category, subcategory) {
+      var openModal = function (categoryId, subcategory) {
         var modalInstance = $modal.open({
           animation: true,
           templateUrl: 'app/common/factories/editor/editSubcategory.html',
@@ -64,6 +56,8 @@ angular.module('app')
             entityToEdit: function () {
               if (subcategory){
                 return {
+                  nID: subcategory.nID,
+                  sID: subcategory.sID,
                   sName: subcategory.sName,
                   nOrder: subcategory.nOrder
                 }
@@ -74,37 +68,45 @@ angular.module('app')
         });
 
         modalInstance.result.then(function (editedSubcategory) {
-          var index = category.aSubcategory.indexOf(subcategory);
-          if (index !== -1) {
-            subcategory.sName = editedSubcategory.sName;
-            subcategory.nOrder = editedSubcategory.nOrder;
-          }
-          else{
-            editedSubcategory.aService = [];
-            category.aSubcategory.push(editedSubcategory);
-          }
-          CatalogService.setServicesTree(catalog)
+
+          var catalogToSend = [
+            {
+              nID: categoryId,
+              aSubcategory: [ editedSubcategory ]
+            }
+          ];
+
+          //var index = category.aSubcategory.indexOf(subcategory);
+          //if (index !== -1) {
+          //  subcategory.sName = editedSubcategory.sName;
+          //  subcategory.nOrder = editedSubcategory.nOrder;
+          //}
+          //else{
+          //  editedSubcategory.aService = [];
+          //  category.aSubcategory.push(editedSubcategory);
+          //}
+          CatalogService.setServicesTree(catalogToSend)
             .then(function(result){
-              catalog = result;
+
             });
         });
       };
 
       return {
-        add: function(category){
-          openModal(category);
+        add: function(categoryId){
+          openModal(categoryId);
         },
-        edit: function(category, subcategory){
-          openModal(category, subcategory)
+        edit: function(categoryId, subcategory){
+          openModal(categoryId, subcategory)
         },
-        remove: function(subcategoryToRemove){
-          CatalogService.removeSubcategory()
+        remove: function(subcategoryId){
+          CatalogService.removeSubcategory(subcategoryId)
         }
       }
     })();
 
     var serviceEditor = (function(){
-      var openModal = function (subcategory, service) {
+      var openModal = function (categoryId, subcategoryId, service) {
         var modalInstance = $modal.open({
           animation: true,
           templateUrl: 'app/common/factories/editor/editService.html',
@@ -117,29 +119,42 @@ angular.module('app')
         });
 
         modalInstance.result.then(function (editedService) {
-          var index = subcategory.aService.indexOf(service);
-          if (index !== -1) {
-            subcategory.aService[index] = editedService;
-          }
-          else{
-            subcategory.aService.push(editedService);
-          }
-          CatalogService.setServicesTree(catalog)
+//
+          var catalogToSend = [
+            {
+              nID: categoryId,
+              aSubcategory: [
+                {
+                  nID: subcategoryId,
+                  "aService": [ editedService ]
+                }
+              ]
+            }
+          ];
+
+          //var index = subcategory.aService.indexOf(service);
+          //if (index !== -1) {
+          //  subcategory.aService[index] = editedService;
+          //}
+          //else{
+          //  subcategory.aService.push(editedService);
+          //}
+          CatalogService.setServicesTree(catalogToSend)
             .then(function(result){
-              catalog = result;
+
             });
         });
       };
 
       return {
-        add: function(subcategory){
-          openModal(subcategory);
+        add: function(categoryId, subcategoryId){
+          openModal(categoryId, subcategoryId);
         },
-        edit: function(subcategory, serviceToEdit){
-          openModal(subcategory, serviceToEdit)
+        edit: function(categoryId, subcategoryId, serviceToEdit){
+          openModal(categoryId, subcategoryId, serviceToEdit)
         },
-        remove: function(serviceToRemove){
-          CatalogService.removeService(serviceToRemove)
+        remove: function(serviceId){
+          CatalogService.removeService(serviceId)
         }
       }
     })();
