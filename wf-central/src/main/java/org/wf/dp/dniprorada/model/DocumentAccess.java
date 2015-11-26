@@ -1,146 +1,166 @@
 package org.wf.dp.dniprorada.model;
+
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import net.sf.brunneng.jom.annotations.Identifier;
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.wf.dp.dniprorada.base.util.JsonDateTimeDeserializer;
+import org.wf.dp.dniprorada.base.util.JsonDateTimeSerializer;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
 import javax.persistence.Table;
 
-import net.sf.brunneng.jom.annotations.Identifier;
-
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import java.util.Date;
-
 @Entity
-@Table(name="DocumentAccess")
-public class DocumentAccess {
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name="nID")
-	private Long nID;
-	
-	@Column(name="nID_Document")
-	private Long nID_Document;
-	
-	@Column(name="sDateCreate")
-	private String sDateCreate;
-	
-	@Column(name="nMS")
-	private Long nMS;
-	
-	@Column(name="sFIO")
-	private String sFIO;
-	
-	@Column(name="sTarget")
-	private String sTarget;
-	
-	@Column(name="sTelephone")
-	private String sTelephone;
-	
-	@Column(name="sMail")
-	private String sMail;
-	
-	@Column(name="sSecret")
-	private String sSecret;
-	
-	@Column(name="sAnswer")
-	private String sAnswer;
-	
-	@Column(name="sDateAnswerExpire")
-	private String sDateAnswerExpire;
-        
-	@Identifier
-	public Long getID_Document() {
-		return nID_Document;
-	}
+@Table(name = "DocumentAccess")
+public class DocumentAccess extends org.wf.dp.dniprorada.base.model.Entity {
 
-	public void setID_Document(Long nID_Document) {
-		this.nID_Document = nID_Document;
-	}
+    @Column
+    private Long nID_Document;
 
-	public String getDateCreate() {
-		return sDateCreate;
-	}
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    @Type(type = DATETIME_TYPE)
+    @Column
+    private DateTime sDateCreate;
 
-	public void setDateCreate(String sDateCreate) {
-		this.sDateCreate = sDateCreate;
-	}
+    @Column
+    private Long nMS;
 
-	public Long getMS() {
-		return nMS;
-	}
+    @Column
+    private String sFIO;
 
-	public void setMS(Long n) {
-		this.nMS = n;
-	}
+    @Column
+    private String sTarget;
 
-	public String getFIO() {
-		return sFIO;
-	}
+    @Column
+    private String sTelephone;
 
-	public void setFIO(String sFIO) {
-		this.sFIO = sFIO;
-	}
+    @Column
+    private String sMail;
 
-	public String getTarget() {
-		return sTarget;
-	}
+    @Column
+    private String sSecret;
 
-	public void setTarget(String sTarget) {
-		this.sTarget = sTarget;
-	}
+    @Column
+    private String sAnswer;
 
-	public String getTelephone() {
-		return sTelephone;
-	}
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    @Type(type = DATETIME_TYPE)
+    @Column
+    private DateTime sDateAnswerExpire;
 
-	public void setTelephone(String sTelephone) {
-		this.sTelephone = sTelephone;
-	}
+    @Column
+    private String sCode;
 
-	public String getMail() {
-		return sMail;
-	}
+    @Column
+    private String sCodeType;
 
-	public void setMail(String sMail) {
-		this.sMail = sMail;
-	}
+    @Identifier
+    public Long getID_Document() {
+        return nID_Document;
+    }
 
-	public String getSecret() {
-		return sSecret;
-	}
+    public void setID_Document(Long nID_Document) {
+        this.nID_Document = nID_Document;
+    }
 
-	public void setSecret(String sSecret) {
-		this.sSecret = sSecret;
-	}
+    public DateTime getDateCreate() {
+        return sDateCreate;
+    }
 
-	public String getAnswer() {
-		return sAnswer;
-	}
+    public void setDateCreate(DateTime sDateCreate) {
+        this.sDateCreate = sDateCreate;
+    }
 
-	public void setAnswer(String s) {
-		this.sAnswer = s;
-	}
-	
+    public Long getMS() {
+        return nMS;
+    }
 
-	public String getDateAnswerExpire() {
-		return sDateAnswerExpire;
-	}
+    public void setMS(Long n) {
+        this.nMS = n;
+    }
 
-	public void setDateAnswerExpire(Date o) {
-		this.sDateAnswerExpire = o.toString();
-	}
-        
-	public Long getID() {
-		return nID;
-	}
+    public String getFIO() {
+        return sFIO;
+    }
 
-	public void setID(Long n) {
-		this.nID = n;
-	}
-	@Override
-	public String toString() {
-		return nID+nID_Document+sDateCreate+nMS+sFIO+sTarget+sTelephone+sMail+sSecret+sAnswer+sDateAnswerExpire;
-	}
+    public void setFIO(String sFIO) {
+        this.sFIO = sFIO;
+    }
+
+    public String getTarget() {
+        return sTarget;
+    }
+
+    public void setTarget(String sTarget) {
+        this.sTarget = sTarget;
+    }
+
+    public String getTelephone() {
+        return sTelephone;
+    }
+
+    public void setTelephone(String sTelephone) {
+        this.sTelephone = sTelephone;
+    }
+
+    public String getMail() {
+        return sMail;
+    }
+
+    public void setMail(String sMail) {
+        this.sMail = sMail;
+    }
+
+    public String getSecret() {
+        return sSecret;
+    }
+
+    public void setSecret(String sSecret) {
+        this.sSecret = sSecret;
+    }
+
+    public String getAnswer() {
+        return sAnswer;
+    }
+
+    public void setAnswer(String s) {
+        this.sAnswer = s;
+    }
+
+    public DateTime getDateAnswerExpire() {
+        return sDateAnswerExpire;
+    }
+
+    public void setDateAnswerExpire(DateTime sDateAnswerExpire) {
+        this.sDateAnswerExpire = sDateAnswerExpire;
+    }
+
+    public String getsCode() {
+        return sCode;
+    }
+
+    public void setsCode(String sCode) {
+        this.sCode = sCode;
+    }
+
+    public String getsCodeType() {
+        return sCodeType;
+    }
+
+    public void setsCodeType(String sCodeType) {
+        this.sCodeType = sCodeType;
+    }
+
+    @Override
+    public String toString() {
+        return "{\n" + "nID:" + getId() + "\nnID_Document:" + nID_Document + "sDateCreate:" + sDateCreate +
+                "\nnMS:" + nMS + "\nsFIO:" + sFIO + "\nsTarget:" + sTarget + "\nsTelephone:" + sTelephone +
+                "\nsMail:" + sMail + "\nsSecret:" + sSecret + "\nsAnswer:" + sAnswer + "" +
+                "\nsDateAnswerExpire:" + sDateAnswerExpire +
+                "\nsCode:" + sCode + "\nsCodeType:" + sCodeType + "}";
+    }
 }

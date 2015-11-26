@@ -14,9 +14,21 @@ angular.module('dashboardJsApp').controller('NavbarCtrl', function($scope, $loca
     return user.firstName + ' ' + user.lastName;
   };
 
+  $scope.goToServices = function() {
+    $location.path('/services');
+  };
+
   $scope.goToTasks = function() {
     $location.path('/tasks');
   };
+
+  $scope.goToEscalations = function() {
+    $location.path('/escalations');
+  };
+  
+  $scope.goToReports = function () {
+    $location.path('/reports');
+  }
 
   $scope.logout = function() {
     Auth.logout();

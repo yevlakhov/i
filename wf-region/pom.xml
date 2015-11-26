@@ -5,19 +5,21 @@
     <parent>
         <groupId>org.egov-ua</groupId>
         <artifactId>org.egov-ua</artifactId>
-        <version>1.0-SNAPSHOT</version>
+	<version>1.0-SNAPSHOT</version>
+	<!--version>${igov.wf-base.version}</version-->
     </parent>
 
 	<modelVersion>4.0.0</modelVersion>
 	<name>iGov-UA WF-Region</name> 
 	<artifactId>wf-region</artifactId>
+        <version>${igov.wf-region.version}</version>
 	<packaging>war</packaging>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<activity.version>5.17.0</activity.version>
 		<guava-version>15.0</guava-version>
-	</properties>
+        </properties>
 
 	<!-- distributionManagement>
 		<repository>
@@ -67,6 +69,7 @@
 	</repositories-->
 
 	<build>
+
 		<plugins>
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
@@ -113,11 +116,11 @@
 				<groupId>org.apache.tomcat.maven</groupId>
 				<artifactId>tomcat7-maven-plugin</artifactId>
 				<configuration>
-					<port>8080</port>
-					<path>/wf-region</path>
+					<port>8081</port>
+					<path>/wf</path>
 					<systemProperties>
 						<com.sun.management.jmxremote.port>4000</com.sun.management.jmxremote.port>
-						<spring.profiles.active>test</spring.profiles.active>
+						<spring.profiles.active>local</spring.profiles.active>
 					</systemProperties>
 				</configuration>
 			</plugin>
@@ -249,14 +252,21 @@
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>wf-base</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${igov.wf-base.version}</version>
             <classifier>lib</classifier>
             <type>jar</type>
         </dependency>
         <dependency>
             <groupId>${project.groupId}</groupId>
             <artifactId>wf-base</artifactId>
-            <version>1.0-SNAPSHOT</version>
+            <version>${igov.wf-base.version}</version>
+            <type>test-jar</type>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>${project.groupId}</groupId>
+            <artifactId>wf-base</artifactId>
+            <version>${igov.wf-base.version}</version>
             <classifier>ui-zip</classifier>
             <type>zip</type>
             <scope>provided</scope>
@@ -333,18 +343,18 @@
 		</dependency>
 
 		<!-- MONGO -->
-		<dependency>
+		<!--dependency>
 			<groupId>org.egov-ua</groupId>
-			<artifactId>org.egov-ua.storage.durable</artifactId>
-			<version>1.0-SNAPSHOT</version>
-		</dependency>
+			<artifactId>org.egov-ua.storage-static</artifactId>
+                        <version>${igov.storage-static.version}</version>
+		</dependency-->
 
 		<!-- REDIS -->
-		<dependency>
+		<!--dependency>
 			<groupId>org.activiti.redis</groupId>
 			<artifactId>wf-region-redis</artifactId>
-			<version>0.0.1-SNAPSHOT</version>
-		</dependency>
+                        <version>${igov.storage-temp.version}</version>
+		</dependency-->
 
 		<!-- Database -->
 		<dependency>
@@ -455,18 +465,15 @@
 			<artifactId>jstl</artifactId>
 			<version>1.2</version>
 		</dependency>
-                
-                
-	 <dependency>
-	  <groupId>org.springframework</groupId>
-	  <artifactId>spring-test</artifactId>
-	  <version>4.1.4.RELEASE</version>
-	  <type>jar</type>
-	 </dependency>                
-                
-                
 
-                
+
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>4.1.4.RELEASE</version>
+			<type>jar</type>
+		</dependency>
+
 	</dependencies>
 
 </project>

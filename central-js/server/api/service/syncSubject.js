@@ -3,9 +3,9 @@ var router = express.Router();
 
 router.use(function(req, res, next) {
     process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
-    var syncSubject = require('./syncSubject.controller');
+    var syncSubject = require('./syncSubject.service.js');
 
-    var config = require('../../config');
+    var config = require('../../config/environment');
     var activiti = config.activiti;
 
     var options = {

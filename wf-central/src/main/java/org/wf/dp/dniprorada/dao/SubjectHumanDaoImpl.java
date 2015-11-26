@@ -1,56 +1,36 @@
 package org.wf.dp.dniprorada.dao;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Required;
+import org.springframework.stereotype.Repository;
+import org.wf.dp.dniprorada.base.dao.GenericEntityDao;
 import org.wf.dp.dniprorada.model.Subject;
 import org.wf.dp.dniprorada.model.SubjectHuman;
 
-public class SubjectHumanDaoImpl implements SubjectHumanDao{
-	
-	private SessionFactory sessionFactory;
+@Repository
+public class SubjectHumanDaoImpl extends GenericEntityDao<SubjectHuman> implements SubjectHumanDao {
 
-	@Required
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
+    protected SubjectHumanDaoImpl() {
+        super(SubjectHuman.class);
+    }
 
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+    @Override
+    public SubjectHuman getSubjectHuman(String sINN) {
+        return findBy("sINN", sINN).orNull();
+    }
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory; 
-	}
+    @Override
+    public SubjectHuman setSubjectHuman(String sINN) {
+        SubjectHuman oSubjectHuman = new SubjectHuman();
+        oSubjectHuman.setsINN(sINN);
+        Subject oSubject = new Subject();
+        oSubjectHuman.setoSubject(oSubject);
+        return saveOrUpdateHuman(oSubjectHuman);
+    }
 
-	@Override
-	public SubjectHuman getSubjectHuman(String sINN) {
-		SubjectHuman subjectHuman = null;
-		List<SubjectHuman> subjects = (List<SubjectHuman>)getSession().createCriteria(SubjectHuman.class)
-				.add(Restrictions.eq("sINN", sINN)).list();
-		if(subjects != null && !subjects.isEmpty()){
-			subjectHuman = subjects.get(0);
-		}
-		return subjectHuman;
-	}
-
-	@Override
-	public SubjectHuman setSubjectHuman(String sINN) {
-		SubjectHuman oSubjectHuman = new SubjectHuman();
-		oSubjectHuman.setsINN(sINN);
-		Subject oSubject = new Subject();
-		oSubjectHuman.setoSubject(oSubject);
-		return saveOrUpdateHuman(oSubjectHuman);
-	}
-
-	@Override
-	public SubjectHuman saveOrUpdateHuman(SubjectHuman oSubjectHuman) {
-		oSubjectHuman.getoSubject().setsID(oSubjectHuman.getsINN());
-		getSession().saveOrUpdate(oSubjectHuman);
-		return oSubjectHuman;
-	}
+    @Override
+    public SubjectHuman saveOrUpdateHuman(SubjectHuman oSubjectHuman) {
+        oSubjectHuman.getoSubject().setsID(oSubjectHuman.getsINN());
+        saveOrUpdate(oSubjectHuman);
+        return oSubjectHuman;
+    }
 
 }

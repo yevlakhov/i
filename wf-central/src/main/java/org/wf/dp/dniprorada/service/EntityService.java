@@ -5,11 +5,11 @@ import net.sf.brunneng.jom.configuration.bean.MatchedBeanPropertyMetadata;
 import net.sf.brunneng.jom.diff.ChangeType;
 import net.sf.brunneng.jom.diff.apply.IBeanFinder;
 import org.springframework.beans.factory.InitializingBean;
-import org.springframework.beans.factory.annotation.Required;
-import org.wf.dp.dniprorada.dao.BaseEntityDao;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+import org.wf.dp.dniprorada.base.dao.BaseEntityDao;
 import org.wf.dp.dniprorada.base.model.Entity;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -18,63 +18,54 @@ import java.util.List;
  * Date: 09.05.2015
  * Time: 19:36
  */
+@Service
 public class EntityService implements InitializingBean {
 
-   private BaseEntityDao baseEntityDao;
+    @Autowired
+    private BaseEntityDao baseEntityDao;
 
-   private MergingContext updateOnlyMergingContext;
+    private MergingContext updateOnlyMergingContext;
 
-   @Required
-   public BaseEntityDao getBaseEntityDao() {
-      return baseEntityDao;
-   }
+    @Override
+    public void afterPropertiesSet() throws Exception {
+        initUpdateOnlyMergingContext();
+    }
 
-   public void setBaseEntityDao(BaseEntityDao baseEntityDao) {
-      this.baseEntityDao = baseEntityDao;
-   }
+    private void initUpdateOnlyMergingContext() {
+        updateOnlyMergingContext = new MergingContext();
+        MatchedBeanPropertyMetadata allProperties = updateOnlyMergingContext.forBeansOfClass(
+                Entity.class).forMatchedProperties().all();
 
-   @Override
+        allProperties.skipPropertyChanges(ChangeType.DELETE);
+        allProperties.skipContainerEntryChanges(ChangeType.DELETE);
 
-   public void afterPropertiesSet() throws Exception {
-      initUpdateOnlyMergingContext();
-   }
+        updateOnlyMergingContext.addBeanFinder(new IBeanFinder() {
+            @Override
+            public Class getFoundBeanSuperclass() {
+                return Entity.class;
+            }
 
-   private void initUpdateOnlyMergingContext() {
-      updateOnlyMergingContext = new MergingContext();
-      MatchedBeanPropertyMetadata allProperties = updateOnlyMergingContext.forBeansOfClass(
-              Entity.class).forMatchedProperties().all();
+            @Override
+            public Object find(Class targetBeanClass, Object identifier) {
+                return baseEntityDao.findById(targetBeanClass, (Long) identifier);
+            }
+        });
+    }
 
-      allProperties.skipPropertyChanges(ChangeType.DELETE);
-      allProperties.skipContainerEntryChanges(ChangeType.DELETE);
+    public <T extends Entity> T update(T sourceEntity) {
+        T originalEntity = (T) baseEntityDao.findById(sourceEntity.getClass(), sourceEntity.getId());
 
-      updateOnlyMergingContext.addBeanFinder(new IBeanFinder() {
-         @Override
-         public Class getFoundBeanSuperclass() {
-            return Entity.class;
-         }
+        updateOnlyMergingContext.map(sourceEntity, originalEntity);
+        return baseEntityDao.saveOrUpdate(originalEntity);
+    }
 
-         @Override
-         public Object find(Class targetBeanClass, Object identifier) {
-            return baseEntityDao.getById(targetBeanClass, (Serializable) identifier);
-         }
-      });
-   }
+    public <T extends Entity> List<T> update(List<T> entities) {
+        List<T> res = new ArrayList<>();
+        for (T entity : entities) {
+            res.add(update(entity));
+        }
 
-   public <T extends Entity> T update(T sourceEntity) {
-      T originalEntity = (T)baseEntityDao.getById(sourceEntity.getClass(), sourceEntity.getId());
-
-      updateOnlyMergingContext.map(sourceEntity, originalEntity);
-      baseEntityDao.saveOrUpdate(originalEntity);
-      return originalEntity;
-   }
-
-   public <T extends Entity> List<T> update(List<T> entities) {
-      List<T> res = new ArrayList<>();
-      for (T entity : entities) {
-         res.add(update(entity));
-      }
-
-      return res;
-   }
+        return res;
+    }
 
 }

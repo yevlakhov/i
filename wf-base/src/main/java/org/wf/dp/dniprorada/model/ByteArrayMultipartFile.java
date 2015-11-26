@@ -1,15 +1,12 @@
 package org.wf.dp.dniprorada.model;
 
-import java.io.BufferedInputStream;
-import java.io.ByteArrayInputStream;
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStream;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-
-import org.springframework.web.multipart.MultipartFile;
 
 @Deprecated
 public class ByteArrayMultipartFile implements MultipartFile {
@@ -20,29 +17,28 @@ public class ByteArrayMultipartFile implements MultipartFile {
     private String contentType;
     private String exp;
     private String originalFilename;
-    
+    private static final Logger LOG = LoggerFactory.getLogger(ByteArrayMultipartFile.class);
     public ByteArrayMultipartFile(InputStream inputStream, String name,
             String originalFilename, String contentType) {
         this.inputStream = inputStream;
         this.name = name;
         this.originalFilename = originalFilename;
-        if(contentType == null){
-        	throw new IllegalArgumentException(
-        			String.format("Content type of file [name:%s|originalName:%s] is null",
-        					name, originalFilename));
+        if (contentType == null) {
+            throw new IllegalArgumentException(
+                    String.format("Content type of file [name:%s|originalName:%s] is null",
+                            name, originalFilename));
         }
         String[] contentSplit = contentType.split(";"); //в типе контента содержится расширение файла image/jpeg;jpg
-        if(contentSplit.length == 2){
-        	this.contentType = contentSplit[0];
+        if (contentSplit.length == 2) {
+            this.contentType = contentSplit[0];
             this.exp = contentSplit[1];
-        } else if (contentType.startsWith("image")){
-        	this.contentType = contentType;
-        	this.exp = contentType.split("/")[1];
+        } else if (contentType.startsWith("image")) {
+            this.contentType = contentType;
+            this.exp = contentType.split("/")[1];
         } else {
-        	this.contentType = contentType;
-        	this.exp = null;
+            this.contentType = contentType;
+            this.exp = null;
         }
-        
 
         List<Byte> contentByteList = new ArrayList<Byte>();
         BufferedInputStream bufferedInputStream = new BufferedInputStream(inputStream);
@@ -54,9 +50,10 @@ public class ByteArrayMultipartFile implements MultipartFile {
             }
             content = new byte[contentByteList.size()];
             for (int i = 0; i < contentByteList.size(); i++) {
-                 content[i] = contentByteList.get(i);
+                content[i] = contentByteList.get(i);
             }
         } catch (IOException ex) {
+        	LOG.error(ex.getMessage(), ex);
             content = ex.getMessage().getBytes();
         }
     }
@@ -75,7 +72,7 @@ public class ByteArrayMultipartFile implements MultipartFile {
     public String getContentType() {
         return contentType;
     }
-    
+
     public String getExp() {
         return exp;
     }
@@ -90,7 +87,7 @@ public class ByteArrayMultipartFile implements MultipartFile {
         return content.length;
     }
 
-   @Override
+    @Override
     public byte[] getBytes() {
         return content;
     }

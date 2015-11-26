@@ -1,25 +1,24 @@
 package org.wf.dp.dniprorada.model;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonProperty;
-
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import java.io.Serializable;
-import java.sql.Timestamp;
+import javax.persistence.FetchType;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+
+import org.hibernate.annotations.Type;
+import org.joda.time.DateTime;
+import org.wf.dp.dniprorada.base.model.Entity;
+import org.wf.dp.dniprorada.base.util.JsonDateTimeDeserializer;
+import org.wf.dp.dniprorada.base.util.JsonDateTimeSerializer;
+
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 
 @javax.persistence.Entity
-public class SubjectMessage implements Serializable {
+public class SubjectMessage extends Entity {
 
     private static final long serialVersionUID = -5269544412868933212L;
-
-    @JsonProperty(value = "nID")
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    @Column(name = "nID")
-    private Long id;
 
     @JsonProperty(value = "sHead")
     @Column(name = "sHead", length = 200, nullable = false)
@@ -30,12 +29,14 @@ public class SubjectMessage implements Serializable {
     private String body;
 
     @JsonProperty(value = "sDate")
-    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss.SSS")
+    @JsonSerialize(using = JsonDateTimeSerializer.class)
+    @JsonDeserialize(using = JsonDateTimeDeserializer.class)
+    @Type(type = DATETIME_TYPE)
     @Column(name = "sDate", nullable = false)
-    private Timestamp date;
+    private DateTime date;
 
     @JsonProperty(value = "nID_Subject")
-    @Column(name = "nID_Subject",nullable = false, columnDefinition = "int default 0")
+    @Column(name = "nID_Subject", nullable = false, columnDefinition = "int default 0")
     private Long id_subject;
 
     @JsonProperty(value = "sMail")
@@ -47,16 +48,17 @@ public class SubjectMessage implements Serializable {
     private String contacts;
 
     @JsonProperty(value = "sData")
-    @Column(name = "sData",length = 200)
+    @Column(name = "sData", length = 200)
     private String data;
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @JsonProperty(value = "oSubjectMessageType")
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "nID_SubjectMessageType", nullable = false)
+    private SubjectMessageType subjectMessageType = SubjectMessageType.DEFAULT;
+    
+    @JsonProperty(value = "sBody_Indirectly")
+    @Column(name = "sBody_Indirectly")
+    private String sBody_Indirectly; 
 
     public String getHead() {
         return head;
@@ -74,11 +76,11 @@ public class SubjectMessage implements Serializable {
         this.body = body;
     }
 
-    public Timestamp getDate() {
+    public DateTime getDate() {
         return date;
     }
 
-    public void setDate(Timestamp date) {
+    public void setDate(DateTime date) {
         this.date = date;
     }
 
@@ -113,4 +115,21 @@ public class SubjectMessage implements Serializable {
     public void setData(String data) {
         this.data = data;
     }
+
+    public SubjectMessageType getSubjectMessageType() {
+        return subjectMessageType;
+    }
+
+    public void setSubjectMessageType(SubjectMessageType subjectMessageType) {
+        this.subjectMessageType = subjectMessageType;
+    }
+
+	public String getsBody_Indirectly() {
+		return sBody_Indirectly;
+	}
+
+	public void setsBody_Indirectly(String sBody_Indirectly) {
+		this.sBody_Indirectly = sBody_Indirectly;
+	}
+    
 }

@@ -1,102 +1,65 @@
 package org.wf.dp.dniprorada.model;
 
-import javax.persistence.Column;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.SequenceGenerator;
-
-import net.sf.brunneng.jom.annotations.Identifier;
-
 import com.fasterxml.jackson.annotation.JsonProperty;
-
 import org.hibernate.annotations.Cascade;
 import org.hibernate.annotations.CascadeType;
+import org.wf.dp.dniprorada.base.model.NamedEntity;
+
+import javax.persistence.*;
 
 @javax.persistence.Entity
-public class SubjectOrgan {
-	
-	@JsonProperty(value = "nID")
-	@Id
-	//@GeneratedValue(strategy = GenerationType.SEQUENCE, generator="subjectOrgan_id_seq")
-    //@SequenceGenerator(name="subjectOrgan_id_seq", sequenceName="subjectOrgan_id_seq", allocationSize=1)
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "nID")
-	private Long nID; 
-	 
-	@JsonProperty(value = "oSubject")
-	@OneToOne
-	@Cascade({ CascadeType.SAVE_UPDATE })
-	@JoinColumn(name = "nID_Subject", nullable = false)
-	private Subject oSubject;
-	
-	@JsonProperty(value = "sOKPO")
-	@Column(name = "sOKPO", nullable = false)
-	private String sOKPO;
-	
-	@JsonProperty(value = "sFormPrivacy")
-	@Column(name = "sFormPrivacy", nullable = true)
-	private String sFormPrivacy;
-	
-	@JsonProperty(value = "sName")
-	@Column(name = "sName", nullable = true)
-	private String sName;
-	
-	@JsonProperty(value = "sNameFull")
-	@Column(name = "sNameFull", nullable = true)
-	private String sNameFull;
+@AttributeOverrides({ @AttributeOverride(name = "name",
+        column = @Column(name = "sName", nullable = true)) })
+public class SubjectOrgan extends NamedEntity {
 
-	@Identifier
-	public Long getnID() {
-		return nID;
-	}
+    @JsonProperty(value = "oSubject")
+    @OneToOne
+    @Cascade({ CascadeType.SAVE_UPDATE })
+    @JoinColumn(name = "nID_Subject", nullable = false)
+    private Subject oSubject;
 
-	public void setnID(Long nID) {
-		this.nID = nID;
-	}
+    @JsonProperty(value = "sOKPO")
+    @Column(name = "sOKPO", nullable = false)
+    private String sOKPO;
 
-	public Subject getoSubject() {
-		return oSubject;
-	}
+    @JsonProperty(value = "sFormPrivacy")
+    @Column(name = "sFormPrivacy", nullable = true)
+    private String sFormPrivacy;
 
-	public void setoSubject(Subject oSubject) {
-		this.oSubject = oSubject;
-	}
+    @JsonProperty(value = "sNameFull")
+    @Column(name = "sNameFull", nullable = true)
+    private String sNameFull;
 
-	public String getsOKPO() {
-		return sOKPO;
-	}
+    public Subject getoSubject() {
+        return oSubject;
+    }
 
-	public void setsOKPO(String sOKPO) {
-		this.sOKPO = sOKPO;
-	}
+    public void setoSubject(Subject oSubject) {
+        this.oSubject = oSubject;
+    }
 
-	public String getsFormPrivacy() {
-		return sFormPrivacy;
-	}
+    public String getsOKPO() {
+        return sOKPO;
+    }
 
-	public void setsFormPrivacy(String sFormPrivacy) {
-		this.sFormPrivacy = sFormPrivacy;
-	}
+    public void setsOKPO(String sOKPO) {
+        this.sOKPO = sOKPO;
+    }
 
-	public String getsName() {
-		return sName;
-	}
+    public String getsFormPrivacy() {
+        return sFormPrivacy;
+    }
 
-	public void setsName(String sName) {
-		this.sName = sName;
-	}
+    public void setsFormPrivacy(String sFormPrivacy) {
+        this.sFormPrivacy = sFormPrivacy;
+    }
 
-	public String getsNameFull() {
-		return sNameFull;
-	}
+    public String getsNameFull() {
+        return sNameFull;
+    }
 
-	public void setsNameFull(String sNameFull) {
-		this.sNameFull = sNameFull;
-	}
+    public void setsNameFull(String sNameFull) {
+        this.sNameFull = sNameFull;
+    }
 
 }

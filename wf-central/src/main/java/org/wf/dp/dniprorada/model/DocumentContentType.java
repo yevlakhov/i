@@ -1,42 +1,8 @@
 package org.wf.dp.dniprorada.model;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
-
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import net.sf.brunneng.jom.annotations.Identifier;
+import org.wf.dp.dniprorada.base.model.NamedEntity;
 
 @javax.persistence.Entity
-public class DocumentContentType {
-
-	@JsonProperty(value = "nID")
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "nID")
-	private Integer id;
-
-	@JsonProperty(value = "sName")
-	@Column(name = "sName", nullable = false)
-	private String name;
-
-	@Identifier
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
+public class DocumentContentType extends NamedEntity {
 
 }

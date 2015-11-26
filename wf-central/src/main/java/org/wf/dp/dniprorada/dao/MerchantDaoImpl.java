@@ -1,41 +1,24 @@
 package org.wf.dp.dniprorada.dao;
-import java.util.List;
 
-import javax.sql.DataSource;
-
-import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.stereotype.Repository;
+import org.wf.dp.dniprorada.base.dao.GenericEntityDao;
 import org.wf.dp.dniprorada.model.Merchant;
 
+@Repository
+public class MerchantDaoImpl extends GenericEntityDao<Merchant> implements MerchantDao {
 
+    public static final String S_ID = "sID";
 
-public class MerchantDaoImpl implements MerchantDao{
-	
-    private JdbcTemplate jdbcTemplate;
-    
-    public void setDataSource(DataSource dataSource){
-    	this.jdbcTemplate = new JdbcTemplate(dataSource);
+    protected MerchantDaoImpl() {
+        super(Merchant.class);
     }
-	
-	public List<Merchant> getMerchants() {
-		return jdbcTemplate.query("SELECT sIdOwner, sOwnerName, sId FROM MERCHANTS", new MerchantRowMapper());
-	}
 
-	public void removeMerchant(String idOwner, String id) {
-		if(idOwner == null){
-			jdbcTemplate.update("DELETE FROM merchants WHERE sId=?", id);
-		} else {
-			jdbcTemplate.update("DELETE FROM merchants WHERE sIdOwner=?", idOwner);
-		}		
-	}
+    @Override
+    public Merchant getMerchant(String sID) {
+        return findBy(S_ID, sID).orNull();
+    }
 
-	public void updateMerchant(Merchant merchant) {
-		jdbcTemplate.update("UPDATE merchants SET sIdOwner=?, sOwnerName=? WHERE sId=?",
-				merchant.getIdOwner(), merchant.getOwnerName(), merchant.getId());
-	}
-
-	public void addMerchant(Merchant merchant) {
-		jdbcTemplate.update("INSERT INTO merchants (sIdOwner, sOwnerName, sId) VALUES (?,?,?)",
-				merchant.getIdOwner(), merchant.getOwnerName(), merchant.getId());
-	}
-
+    public boolean deleteMerchant(String sID) {
+        return deleteBy(S_ID, sID) > 0;
+    }
 }

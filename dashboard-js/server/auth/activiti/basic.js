@@ -14,7 +14,7 @@ var guid = function guid() {
 };
 
 var expiresUserInMs = function() {
-	return new Date(Date.now() + 1000 * 60 * 60);
+	return new Date(Date.now() + 1000 * 60 * 60 * 10);
 }
 
 exports.ping = function(req, res) {
@@ -53,10 +53,12 @@ exports.authenticate = function(req, res) {
 	};
 
 	activiti.post(checkLogin, function(error, statusCode, result, headers) {
-		res.statusCode = statusCode;
+    if(statusCode){
+      res.statusCode = statusCode;
+    }
 
 		if (error) {
-			res.send(error);
+			res.status(500).send(error);
 			return;
 		}
 

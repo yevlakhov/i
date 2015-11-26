@@ -1,66 +1,71 @@
 package org.wf.dp.dniprorada.dao;
 
-import java.util.List;
-
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
+import org.hibernate.Criteria;
 import org.hibernate.criterion.Restrictions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Required;
-import org.springframework.transaction.annotation.Transactional;
-import org.wf.dp.dniprorada.model.Document;
+import org.springframework.stereotype.Repository;
+import org.wf.dp.dniprorada.base.dao.EntityNotFoundException;
+import org.wf.dp.dniprorada.base.dao.GenericEntityDao;
 import org.wf.dp.dniprorada.model.DocumentContentType;
 
-import ua.org.egov.utils.storage.durable.impl.GridFSBytesDataStorage;
+import java.util.List;
 
-public class DocumentContentTypeDaoImpl implements DocumentContentTypeDao {
+@Repository
+public class DocumentContentTypeDaoImpl extends GenericEntityDao<DocumentContentType>
+        implements DocumentContentTypeDao {
 
-	private SessionFactory sessionFactory;
+    protected DocumentContentTypeDaoImpl() {
+        super(DocumentContentType.class);
+    }
 
-	@Autowired
-	private GridFSBytesDataStorage durableBytesDataStorage;
+    @Override
+    public DocumentContentType getDocumentContentType(String name) {
+        DocumentContentType documentContentType = null;
+        List<DocumentContentType> documentsContentType = (List<DocumentContentType>) getSession()
+                .createCriteria(DocumentContentType.class)
+                .add(Restrictions.eq("name", name)).list();
+        if (documentsContentType != null && !documentsContentType.isEmpty()) {
+            documentContentType = documentsContentType.get(0);
+        }
+        return documentContentType;
+    }
 
-	@Required
-	public SessionFactory getSessionFactory() {
-		return sessionFactory;
-	}
+    @Override
+    public Long setDocumentContent(DocumentContentType documentContentType) {
+        getSession().save(documentContentType);
+        return documentContentType.getId();
+    }
 
-	private Session getSession() {
-		return sessionFactory.getCurrentSession();
-	}
+    @SuppressWarnings("unchecked")
+    @Override
+    public List<DocumentContentType> getDocumentContentTypes() {
+        return (List<DocumentContentType>) getSession()
+                .createCriteria(DocumentContentType.class).list();
+    }
 
-	public void setSessionFactory(SessionFactory sessionFactory) {
-		this.sessionFactory = sessionFactory;
-	}
+    @Override
+    public DocumentContentType setDocumentContentType(Long nID, String sName) {
+        DocumentContentType type = getDocumentContentType(nID);
+        if (type == null) {
+            type = new DocumentContentType();
+        }
+        type.setName(sName);
+        getSession().saveOrUpdate(type);
+        return type;
+    }
 
-	@Override
-	public DocumentContentType getDocumentContentType(String name) {
-		/*DocumentContentType documentContentType;
-		List<DocumentContentType> documentsContentType = (List<DocumentContentType>) getSession()
-				.createCriteria(DocumentContentType.class)
-				.add(Restrictions.eq("name", name)).list();
-		if (documentsContentType == null || documentsContentType.isEmpty()) {
-			documentContentType = new DocumentContentType();
-			documentContentType.setName(name);
-			documentContentType.setId(setDocumentContent(documentContentType));
-		} else{
-			documentContentType = documentsContentType.get(0);
-		}
-		return documentContentType;*/
-		DocumentContentType documentContentType = null;
-		List<DocumentContentType> documentsContentType = (List<DocumentContentType>) getSession()
-				.createCriteria(DocumentContentType.class)
-				.add(Restrictions.eq("name", name)).list();
-		if (documentsContentType != null && !documentsContentType.isEmpty()) {
-			documentContentType = documentsContentType.get(0);
-		}
-		return documentContentType;
-	}
+    @Override
+    public DocumentContentType getDocumentContentType(Long nID) {
+        Criteria criteria = getSession().createCriteria(DocumentContentType.class);
+        criteria.add(Restrictions.eq("id", nID));
+        return (DocumentContentType) criteria.uniqueResult();
+    }
 
-	@Override
-	public Integer setDocumentContent(DocumentContentType documentContentType) {
-		getSession().save(documentContentType);
-		return documentContentType.getId();
-	}
+    @Override
+    public void removeDocumentContentType(Long nID) {
+        DocumentContentType type = getDocumentContentType(nID);
+        if (type == null)
+            throw new EntityNotFoundException("Record not found");
+        getSession().delete(type);
+    }
 
 }

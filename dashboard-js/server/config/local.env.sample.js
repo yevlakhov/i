@@ -6,17 +6,23 @@
 //
 module.exports = {
   DEBUG: false,
-  DOMAIN: 'http://localhost:9000',
+   DOMAIN: 'http://localhost:9001',
   SESSION_SECRET: 'dashboardjs-secret',
 
+  SERVER_PROTOCOL: 'http',
+  SERVER_PORT: '9001',
+  SERVER_KEY: '/sybase/cert/server.key',
+  SERVER_CERT: '/sybase/cert/server.crt',
+
   ACTIVITI_PROT: 'https',
-  ACTIVITI_HOST: 'test.igov.org.ua',
-  ACTIVITI_PORT: 8080,
-  ACTIVITI_REST: 'wf-region/service',
-  ACTIVITI_AUTH_BASIC: 'Basic YWN0aXZpdGktbWFzdGVyOlVqaHRKbkV2ZiE=',
-  ACTIVITI_SESSION_IDLE: '3000',
-  ACTIVITI_SESSION_TIMEOUT: '3000',
-  ACTIVITI_SESSION_INTERVAL: '1000',
+  ACTIVITI_HOST: 'test.region.igov.org.ua',
+  ACTIVITI_PORT: 443,
+  ACTIVITI_REST: 'wf/service',
+  ACTIVITI_USER: 'activiti-master',
+  ACTIVITI_PASSWORD: 'UjhtJnEvf!',
+  ACTIVITI_SESSION_IDLE: 3000,
+  ACTIVITI_SESSION_TIMEOUT: 3000,
+  ACTIVITI_SESSION_INTERVAL: 1000,
 
   PRIVATE_KEY: 'path to [sslcert/server.key]', //works only with SSL_PORT
   CERTIFICATE: 'path to [sslcert/server.crt]' //works only with SSL_PORT

@@ -1,42 +1,22 @@
 package org.wf.dp.dniprorada.model;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import org.wf.dp.dniprorada.base.model.NamedEntity;
 
 import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-
-import net.sf.brunneng.jom.annotations.Identifier;
 
 @javax.persistence.Entity
-public class DocumentType {
+public class DocumentType extends NamedEntity {
 
-	@JsonProperty(value = "nID")
-	@Id
-	@GeneratedValue(strategy = GenerationType.AUTO)
-	@Column(name = "nID")
-	private Integer id;
+    @JsonProperty("bHidden")
+    @Column
+    private boolean bHidden;
 
-	@JsonProperty(value = "sName")
-	@Column(name = "sName", nullable = false)
-	private String name;
+    public boolean isbHidden() {
+        return bHidden;
+    }
 
-	@Identifier
-	public Integer getId() {
-		return id;
-	}
-
-	public void setId(Integer id) {
-		this.id = id;
-	}
-
-	public String getName() {
-		return name;
-	}
-
-	public void setName(String name) {
-		this.name = name;
-	}
-
+    public void setbHidden(boolean bHidden) {
+        this.bHidden = bHidden;
+    }
 }
