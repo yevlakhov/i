@@ -1,0 +1,3114 @@
+<?xml version="1.0" encoding="ISO-8859-1" standalone="no" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+    "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1" />
+<title>REST API 1.0.0a-SNAPSHOT</title>
+<link rel='stylesheet' type='text/css' href=' ./stylesheet.css'/>
+</head>
+<body>
+<div id="wrapper">
+<div id="container">
+<h1>REST API 1.0.0a-SNAPSHOT</h1>
+<hr />
+<div id='PlaceController'>
+<h3>PlaceController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/getPlacesTree</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_PlaceType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bArea</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bRoot</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nDeep (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/getPlace</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bTree (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/setPlace</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sName</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_PlaceType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sNameOriginal</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/getPlaceEntity</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/removePlace</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/getPlaceTypes</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">bArea (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bRoot (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/getPlaceType</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/setPlaceType</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sName</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nOrder</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bArea (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bRoot (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/removePlaceType</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestSubjectMessageController'>
+<h3>ActivitiRestSubjectMessageController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/messages/setMessage</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sHead (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sBody</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sMail</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sContacts</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sData</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_SubjectMessageType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Order</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Protected</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Rate</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/messages/setMessageFeedback</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sHead (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sBody</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">warnSignal</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sMail</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sContacts</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sData</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_SubjectMessageType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Order</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Protected</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Rate</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/messages/setMessageRate</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sHead (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sBody</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">warnSignal</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sMail</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sContacts</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sData</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_SubjectMessageType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Order</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Protected</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Rate</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/messages/getMessageTest</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/messages/getMessages</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Produces</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">application/json</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/messages/getMessage</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Produces</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">application/json</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/messages/setMessageFeedback_Indirectly</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Protected (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Proccess_Feedback (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sBody_Indirectly (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Rate_Indirectly (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestSubjectController'>
+<h3>ActivitiRestSubjectController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/subject/syncSubject</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sINN</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sOKPO</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/subject/setSubjectHuman</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/subject/setSubjectOrgan</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestServicesController'>
+<h3>ActivitiRestServicesController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getService</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/services/setService</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">DELETE</td>
+<td class="field_format">/services/removeService</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bRecursive</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">DELETE</td>
+<td class="field_format">/services/removeServiceData</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bRecursive</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">DELETE</td>
+<td class="field_format">/services/removeSubcategory</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bRecursive</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">DELETE</td>
+<td class="field_format">/services/removeCategory</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bRecursive</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">DELETE</td>
+<td class="field_format">/services/removeServicesTree</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getPlaces</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/services/setPlaces</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getServicesTree</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sFind</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">asID_Place_UA</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bShowEmptyFolders</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/services/setServicesTree</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getServicesAndPlacesTables</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/services/setServicesAndPlacesTables</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/downloadServicesAndPlacesTables</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/services/uploadServicesAndPlacesTables</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">file (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestServerController'>
+<h3>ActivitiRestServerController</h3>
+<div class="bean_description">User: goodg_000
+ Date: 29.10.2015
+ Time: 22:07</div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/server/getServer</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestMerchantController'>
+<h3>ActivitiRestMerchantController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/merchant/getMerchants</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/merchant/getMerchant</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">DELETE</td>
+<td class="field_format">/merchant/removeMerchant</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/merchant/setMerchant</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sName</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sPrivateKey</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_SubjectOrgan</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sURL_CallbackStatusNew</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sURL_CallbackPaySuccess</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestHistoryEventController'>
+<h3>ActivitiRestHistoryEventController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getHistoryEvent_Service</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sID_Order</td>
+<td class="descr_format">-- ??????-?? ??????? ?? ??????, ? ??????? XXX-XXXXXX = nID_Server-nID_Protected (???????????, ???? ???? ?????? ?????????)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Protected</td>
+<td class="descr_format">-- ???????????? ?? ??????, nID ?????? + ??????????? ????? ?? ????????? ???? (???????????, ???? ????? sID_Order)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Process</td>
+<td class="descr_format">-- ?? ?????? (???????????, ???? ????? ???? ?? ?????????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format">-- ?? ???????, ??? ??????????? ?????? (???????????, ?? ????????? 0)</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">???????? ?????? ??????? ?? ??????, ?? ????? ?? ????????? ?????????? ??????????:
+ - ?????? sID_Order, ??????-?? ??????? ?? ??????, ?????? XXX-XXXXXX, ??? ?????? ????? -- ?? ???????, ??? ??????????? ??????,
+ ?????? ????? -- nID_Protected, ?.?.</div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/addHistoryEvent_Service</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Process (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format">- ?? ???????, ??? ??????????? ?????? (???????????, ?? ????????? 0)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Status (required)</td>
+<td class="descr_format">- ??????-??????</td>
+</tr>
+<tr>
+<td class="code_format">sProcessInstanceName (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Service</td>
+<td class="descr_format">-- ?? ?????? (long, ???????????)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Region</td>
+<td class="descr_format">-- ?? ??????? (long, ???????????)</td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format">-- ?? ?????? (??????, ???????????)</td>
+</tr>
+<tr>
+<td class="code_format">soData</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sToken</td>
+<td class="descr_format">- ??????-?????? (???????????, ??? ????????? ?????????? ?????? ?? ??????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">sHead</td>
+<td class="descr_format">- ?????? ???????? ????????? (???????????, ??? ????????? ?????????? ?????? ?? ??????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">sBody</td>
+<td class="descr_format">- ?????? ???? ????????? (???????????, ??? ????????? ?????????? ?????? ?? ??????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Proccess_Feedback</td>
+<td class="descr_format">- ?? ??????????? ???????? ??? ????????? ???????? (issue 962)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Proccess_Escalation</td>
+<td class="descr_format">- ???? ?? ??????????? ??? ?????????? ?? ?? ?????????</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">add the object of HistoryEvent_Service to db
+ with record to My journal</div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/updateHistoryEvent_Service</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sID_Order</td>
+<td class="descr_format">-- ??????-?? ??????? ?? ??????, ? ??????? XXX-XXXXXX = nID_Server-nID_Protected(???????????, ???? ????? sID_Order ??? nID_Process ?/??? nID_Server)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Protected</td>
+<td class="descr_format">-- ???????????? ?? ??????, nID ?????? + ??????????? ????? ?? ????????? ???? (???????????, ???? ????? sID_Order ??? nID_Process ?/??? nID_Server)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Process</td>
+<td class="descr_format">- ?? ?????? (???????????, ???? ????? sID_Order ??? nID_Protected ?/??? nID_Server)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format">-- ?? ???????, ??? ??????????? ?????? (???????????, ?? ????????? 0)</td>
+</tr>
+<tr>
+<td class="code_format">sID_Status (required)</td>
+<td class="descr_format">- ??????-??????</td>
+</tr>
+<tr>
+<td class="code_format">soData</td>
+<td class="descr_format">- ??????-?????? ? ??????? (???????????, ??? ????????? ?????????? ?????? ?? ??????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">sToken</td>
+<td class="descr_format">- ??????-?????? (???????????, ??? ????????? ?????????? ?????? ?? ??????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">sHead</td>
+<td class="descr_format">- ?????? ???????? ????????? (???????????, ??? ????????? ?????????? ?????? ?? ??????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">sBody</td>
+<td class="descr_format">- ?????? ???? ????????? (???????????, ??? ????????? ?????????? ?????? ?? ??????? ??????????)</td>
+</tr>
+<tr>
+<td class="code_format">nTimeHours</td>
+<td class="descr_format">- ????? ????????? ?????? (? ?????, ???????????)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Proccess_Feedback</td>
+<td class="descr_format">- ?? ??????????? ???????? ??? ????????? ???????? (issue 962)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Proccess_Escalation</td>
+<td class="descr_format">- ???? ?? ??????????? ??? ?????????? ?? ?? ?????????</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">????????? ?????? ??????? ?? ??????, ? ??????? ? ??? ??????</div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getLastTaskHistory</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format">- ?????-?? ????????</td>
+</tr>
+<tr>
+<td class="code_format">nID_Service (required)</td>
+<td class="descr_format">- ?????-?? ???????</td>
+</tr>
+<tr>
+<td class="code_format">sID_UA (required)</td>
+<td class="descr_format">- ??????-?? ????? ??????</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/services/setHistoryEvent</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_HistoryEventType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sEventName</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sMessage (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getHistoryEvent</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getHistoryEvents</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getStatisticServiceCounts</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Service (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Produces</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">application/json;charset=UTF-8</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getStartFormByTask</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Server</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Service (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Produces</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">application/json;charset=UTF-8</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestDocumentController'>
+<h3>ActivitiRestDocumentController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocument</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocumentAccessByHandler</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sCode_DocumentAccess (required)</td>
+<td class="descr_format">- ????????? ??? ??????? ? ?????????</td>
+</tr>
+<tr>
+<td class="code_format">nID_DocumentOperator_SubjectOrgan (required)</td>
+<td class="descr_format">- ?????-??? ????????-?????? ????????? ?????????</td>
+</tr>
+<tr>
+<td class="code_format">nID_DocumentType</td>
+<td class="descr_format">- ?????-??? ???? ????????? (???????????)</td>
+</tr>
+<tr>
+<td class="code_format">sPass</td>
+<td class="descr_format">- ??????-?????? (???????????)</td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocumentOperators</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocumentContent</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocumentFile</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocumentAbstract</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_DocumentOperator_SubjectOrgan</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_DocumentType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sPass</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocuments</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getPayButtonHTML_LiqPay</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sID_Merchant (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sSum (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">oID_Currency (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">oLanguage (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sDescription (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Order (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sURL_CallbackStatusNew</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sURL_CallbackPaySuccess</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Subject (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bTest (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/setDocument</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Subject_Upload (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sSubjectName_Upload (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sName (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_DocumentType (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sDocumentContentType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">soDocumentContent (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">POST</td>
+<td class="field_format">/services/setDocumentFile</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Subject</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Subject_Upload (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sSubjectName_Upload (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sName (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sFileExtension</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_DocumentType (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_DocumentContentType</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">oFile</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">file</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getSubjectOrganJoins</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_SubjectOrgan (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Region</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_City</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/setSubjectOrganJoin</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_SubjectOrgan (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sNameUa (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sNameRu (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Privat (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Public (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sGeoLongitude (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sGeoLatitude (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_UA (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_Region</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_City</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/removeSubjectOrganJoins</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_SubjectOrgan (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">asID_Public (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocumentTypes</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/setDocumentType</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sName (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">bHidden</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/removeDocumentType</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getDocumentContentTypes</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/setDocumentContentType</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sName (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/removeDocumentContentType</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestCurrencyController'>
+<h3>ActivitiRestCurrencyController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getCurrencies</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format">(????????????)</td>
+</tr>
+<tr>
+<td class="code_format">sName_UA</td>
+<td class="descr_format">(????????????)</td>
+</tr>
+<tr>
+<td class="code_format">sName_EN</td>
+<td class="descr_format">(????????????)</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">?????? ?????? ???????? ????????, ??????????? ??? ???????? ?????????.</div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/setCurrency</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sName_UA</td>
+<td class="descr_format">(????????????, ???? nID ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sName_EN</td>
+<td class="descr_format">(????????????, ???? nID ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">????????? ??????? (???? ????? ???? ?? ??????????-??????) ???
+ ????????? (???? ?? ????? nID), ? ?????? ????????? ?????? ???????.</div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/removeCurrency</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sID_UA</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">??????? ??????? (?? ??????????? ???????? ?????? ?? ??????????-??????).</div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiRestCountryController'>
+<h3>ActivitiRestCountryController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getCountries</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getCountry</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nID_UA</td>
+<td class="descr_format">(????????????)</td>
+</tr>
+<tr>
+<td class="code_format">sID_Two</td>
+<td class="descr_format">(????????????)</td>
+</tr>
+<tr>
+<td class="code_format">sID_Three</td>
+<td class="descr_format">(????????????)</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">?????? ???????(?? ??????? ?????????? ?? ??????????-??????)</div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/setCountry</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">nID_UA</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sID_Two</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sID_Three</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sNameShort_UA</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sNameShort_EN</td>
+<td class="descr_format">(????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????)</td>
+</tr>
+<tr>
+<td class="code_format">sReference_LocalISO</td>
+<td class="descr_format">(????????????)</td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">???????? ???????(???? ????? ???? ?? ??????????-??????)
+ ??? ????????? (???? ?? ????? nID), ? ?????? ????????? ?????? ???????</div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/removeCountry</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID</td>
+<td class="descr_format">-- ????????????, ???? ?????? ??????????-???? ????? ? ?? ???? ??????? ??????</td>
+</tr>
+<tr>
+<td class="code_format">nID_UA</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Two</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sID_Three</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text">??????? ???????(?? ????? ?? ?????????? ??????)</div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiPaymentLiqpayController'>
+<h3>ActivitiPaymentLiqpayController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/setPaymentNewStatus_Liqpay</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sID_Order (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sHost (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='ActivitiDocumentAccessController'>
+<h3>ActivitiDocumentAccessController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/setDocumentLink</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Document (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sFIO</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sTarget</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sTelephone</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">nMS (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sMail</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/getDocumentLink</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Access (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sSecret (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/getDocumentAccess</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Access (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sSecret (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+<table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/setDocumentAccess</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">nID_Access (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sSecret (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sAnswer (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+<div id='AccessController'>
+<h3>AccessController</h3>
+<div class="bean_description"></div><table class="endpoint">
+<colgroup>
+<col style="width: 10%;" />
+<col style="width: 90%;" />
+</colgroup>
+<tr>
+<th>Method</th>
+<th>Path</th>
+</tr>
+<tr>
+<td class="field_format">GET</td>
+<td class="field_format">/services/getAccessKey</td>
+</tr>
+<tr>
+<th colspan="2">REST Point Information</th>
+</tr>
+<tr>
+<td colspan="2">
+<div class="info_title">Query Parameters</div>
+<table width="100%" class="list">
+<tr>
+<td class="code_format">sAccessLogin (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sAccessContract (required)</td>
+<td class="descr_format"></td>
+</tr>
+<tr>
+<td class="code_format">sData (required)</td>
+<td class="descr_format"></td>
+</tr>
+</table>
+<div class="info_title">Description</div>
+<div class="info_text"></div>
+</td>
+</tr>
+</table>
+</div>
+<hr />
+</div>
+</div>
+</body>
+</html>
