@@ -24,6 +24,7 @@ import org.wf.dp.dniprorada.constant.Currency;
 import org.wf.dp.dniprorada.constant.Language;
 import org.wf.dp.dniprorada.exchange.AccessCover;
 import org.wf.dp.dniprorada.liqPay.LiqBuy;
+import org.wf.dp.dniprorada.resources.MailDataResource;
 import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.util.Mail;
 import org.wf.dp.dniprorada.util.Util;
@@ -92,8 +93,6 @@ public abstract class Abstract_MailTaskCustom implements JavaDelegate {
     AccessCover accessCover;
     @Autowired
     GeneralConfig generalConfig;
-    @Autowired
-    Mail oMail;
     @Autowired
     AccessDataDao accessDataDao;
     @Autowired
@@ -471,23 +470,33 @@ public abstract class Abstract_MailTaskCustom implements JavaDelegate {
     public Mail Mail_BaseFromTask(DelegateExecution oExecution)
             throws Exception {
 
+        Mail oMail = new Mail();
+
         String sFromMail = getStringFromFieldExpression(this.from, oExecution);
         String saToMail = getStringFromFieldExpression(this.to, oExecution);
         String sHead = getStringFromFieldExpression(this.subject, oExecution);
         String sBodySource = getStringFromFieldExpression(this.text, oExecution);
         String sBody = replaceTags(sBodySource, oExecution);
 
-        oMail.reset();
+        MailDataResource mailDataResource = createMailDataresourceInstance();
 
-        oMail._From(mailAddressNoreplay)._To(saToMail)._Head(sHead)
-                ._Body(sBody)._AuthUser(mailServerUsername)
-                ._AuthPassword(mailServerPassword)._Host(mailServerHost)
-                ._Port(Integer.valueOf(mailServerPort))
-                ._SSL(bSSL)
-                ._TLS(bTLS)
-                ;
+        oMail.reset();
+        oMail.setMailDataResource(mailDataResource);
+        oMail._Head(sHead)._Body(sBody)._To(saToMail);
 
         return oMail;
+    }
+
+    private MailDataResource createMailDataresourceInstance() {
+        MailDataResource mailDataResource = new MailDataResource();
+        mailDataResource.setSender(mailAddressNoreplay);
+        mailDataResource.setUsername(mailServerUsername);
+        mailDataResource.setPassword(mailServerPassword);
+        mailDataResource.setHostname(mailServerHost);
+        mailDataResource.setPort(Integer.valueOf(mailServerPort));
+        mailDataResource.setSSLEnable(bSSL);
+        mailDataResource.setTLSEnable(bTLS);
+        return mailDataResource;
     }
 
     /*

@@ -11,33 +11,13 @@ public abstract class Abstract_Mail {
     private static final String DEFAULT_HEADER_VALUE = "Subject";
     private static final String DEFAULT_BODY_VALUE = "Text";
 
-    @Autowired
-    private MailDataResource mailDataResource;
-
     private String header;
     private String body;
+    private String to;
 
     public Abstract_Mail() {
         header = DEFAULT_HEADER_VALUE;
         body = DEFAULT_BODY_VALUE;
-    }
-
-    public String getFrom() {
-        return mailDataResource.getSender();
-    }
-
-    public Abstract_Mail _From(String sFrom) {
-        mailDataResource.setSender(sFrom);
-        return this;
-    }
-
-    public String getTo() {
-        return mailDataResource.getRecipient();
-    }
-
-    public Abstract_Mail _To(String saTo) {
-        mailDataResource.setRecipient(saTo);
-        return this;
     }
 
     public String getHead() {
@@ -58,57 +38,12 @@ public abstract class Abstract_Mail {
         return this;
     }
 
-    public String getAuthUser() {
-        return mailDataResource.getUsername();
+    public String getTo() {
+        return to;
     }
 
-    public Abstract_Mail _AuthUser(String sAuthUser) {
-        mailDataResource.setUsername(sAuthUser);
-        return this;
-    }
-
-    public String getAuthPassword() {
-        return mailDataResource.getPassword();
-    }
-
-    public Abstract_Mail _AuthPassword(String sAuthPassword) {
-        mailDataResource.setPassword(sAuthPassword);
-        return this;
-    }
-
-    public String getHost() {
-        return mailDataResource.getHostname();
-    }
-
-    public Abstract_Mail _Host(String sHost) {
-        mailDataResource.setHostname(sHost);
-        return this;
-    }
-
-    public Integer getPort() {
-        return mailDataResource.getPort();
-    }
-
-    public Abstract_Mail _Port(Integer nPort) {
-        mailDataResource.setPort(nPort);
-        return this;
-    }
-
-    public boolean isSSL() {
-        return mailDataResource.isSSLEnable();
-    }
-
-    public Abstract_Mail _SSL(boolean bSSL) {
-        mailDataResource.setSSLEnable(bSSL);
-        return this;
-    }
-
-    public boolean isTLS() {
-        return mailDataResource.isTLSEnable();
-    }
-
-    public Abstract_Mail _TLS(boolean bTLS) {
-        mailDataResource.setTLSEnable(bTLS);
+    public Abstract_Mail _To(String to) {
+        this.to = to;
         return this;
     }
 

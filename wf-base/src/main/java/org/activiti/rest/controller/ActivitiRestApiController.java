@@ -2190,12 +2190,12 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
 
         LOG.info("oMail.getHead()=" + oMail.getHead());
         LOG.info("oMail.getBody()=" + oMail.getBody());
-        LOG.info("oMail.getAuthUser()=" + oMail.getAuthUser());
-        LOG.info("oMail.getAuthPassword()=" + oMail.getAuthPassword());
-        LOG.info("oMail.getFrom()=" + oMail.getFrom());
+        LOG.info("oMail.getAuthUser()=" + oMail.getMailDataResource().getUsername());
+        LOG.info("oMail.getAuthPassword()=" + oMail.getMailDataResource().getPassword());
+        LOG.info("oMail.getFrom()=" + oMail.getMailDataResource().getSender());
         LOG.info("oMail.getTo()=" + oMail.getTo());
-        LOG.info("oMail.getHost()=" + oMail.getHost());
-        LOG.info("oMail.getPort()=" + oMail.getPort());
+        LOG.info("oMail.getHost()=" + oMail.getMailDataResource().getHostname());
+        LOG.info("oMail.getPort()=" + oMail.getMailDataResource().getPort());
 
         if (snaID_Attachment != null) {
             String[] ansID_Attachment = snaID_Attachment.split(",");
