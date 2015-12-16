@@ -483,8 +483,6 @@ public abstract class Abstract_MailTaskCustom implements JavaDelegate {
                 ._Body(sBody)._AuthUser(mailServerUsername)
                 ._AuthPassword(mailServerPassword)._Host(mailServerHost)
                 ._Port(Integer.valueOf(mailServerPort))
-                //._SSL(true)
-                //._TLS(true)
                 ._SSL(bSSL)
                 ._TLS(bTLS)
                 ;
@@ -504,37 +502,3 @@ public abstract class Abstract_MailTaskCustom implements JavaDelegate {
         return res;
     }
 }
-
-
-
-/*if (textWithoutTags.contains(TAG_sURL_SERVICE_MESSAGE)) {
-         String URI = Util.deleteContextFromURL(URL_SERVICE_MESSAGE);
-         ProcessDefinition processDefinition = execution.getEngineServices()
-         .getRepositoryService().createProcessDefinitionQuery()
-         .processDefinitionId(execution.getProcessDefinitionId())
-         .singleResult();
-
-         String queryParamPattern = "?sHead=Отзыв"
-         + "&sData="
-         + (processDefinition != null
-         && processDefinition.getName() != null ? processDefinition
-         .getName().trim() : "") + "&sMail= "
-         + "&nID_SubjectMessageType=1" + "&nID_Protected="
-         + nID_Protected;
-
-         String queryParam = String.format(queryParamPattern);
-         if (nID_Subject != null) {
-         queryParam = queryParam + "&nID_Subject=" + nID_Subject;
-         }
-         LOG.info("[setAccessData] URL: " + URI + queryParam);
-         //String accessKey = accessDataDao.setAccessData(URI + queryParam);
-         String sAccessKey = accessCover.getAccessKeyCentral(URI + queryParam);
-         String replacemet = URL_SERVICE_MESSAGE + queryParam
-         //+ String.format(accessKeyPattern, accessKey)
-         + "&" + AuthenticationTokenSelector.ACCESS_CONTRACT + "="
-         + AuthenticationTokenSelector.ACCESS_CONTRACT_REQUEST_AND_LOGIN
-         + "&" + AuthenticationTokenSelector.ACCESS_KEY + "=" + sAccessKey;
-         LOG.info("replacemet URL: " + replacemet);
-         textWithoutTags = StringUtils.replace(textWithoutTags,
-         TAG_sURL_SERVICE_MESSAGE, replacemet);
-         }*/

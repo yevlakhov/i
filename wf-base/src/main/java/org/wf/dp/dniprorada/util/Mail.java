@@ -1,6 +1,5 @@
 package org.wf.dp.dniprorada.util;
 
-import com.google.common.base.Charsets;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
@@ -9,34 +8,20 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Scope;
 import org.springframework.stereotype.Service;
+import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
 import org.wf.dp.dniprorada.util.unisender.UniResponse;
 import org.wf.dp.dniprorada.util.unisender.UniSender;
 import org.wf.dp.dniprorada.util.unisender.requests.CreateCampaignRequest;
 import org.wf.dp.dniprorada.util.unisender.requests.CreateEmailMessageRequest;
 
-import javax.activation.DataHandler;
-import javax.activation.DataSource;
-import javax.activation.FileDataSource;
-import javax.activation.URLDataSource;
 import javax.mail.*;
-import javax.mail.internet.*;
-import java.io.File;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import javax.mail.internet.MimeMultipart;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.UnsupportedEncodingException;
-import java.net.URL;
-import java.nio.charset.Charset;
 import java.util.Collections;
 import java.util.Map;
-import java.util.Properties;
-import java.util.logging.Level;
-import org.springframework.context.annotation.ScopedProxyMode;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 
 /**
  * @author Belyavtsev Vladimir Vladimirovich (BW)
@@ -46,21 +31,28 @@ import org.springframework.context.annotation.ScopedProxyMode;
 @Scope("prototype")
 public class Mail extends Abstract_Mail {
 
-    @Autowired
-    GeneralConfig generalConfig;
-
     private final static Logger log = LoggerFactory.getLogger(Mail.class);
-    Properties oProps = new Properties();
-    String DEFAULT_ENCODING = "UTF-8";
-    private Session oSession = null;
-    //private String sContext="";
-    private Multipart oMultiparts = new MimeMultipart();
 
-    public Mail() {
+    private static final String DEFAULT_ENCODING = "UTF-8";
+
+    @Autowired
+    private GeneralConfig generalConfig;
+
+    private Session oSession = null;
+
+    private MimeMultipart attachments;
+
+    public Mail() {}
+
+    public void setAttachments(MimeMultipart attachments) {
+        this.attachments = attachments;
     }
 
-    public void reset() throws EmailException {
-        oMultiparts = new MimeMultipart();
+    public MimeMultipart getAttachments() {
+        if (attachments == null) {
+            attachments = MimeMultipartBuilder.newInstance().build();
+        }
+        return attachments;
     }
 
     @Override
@@ -122,9 +114,7 @@ public class Mail extends Abstract_Mail {
 
             oMimeMessage.setSubject(getHead(), DEFAULT_ENCODING);
 
-            _AttachBody(getBody());
-
-            oMimeMessage.setContent(oMultiparts);
+            oMimeMessage.setContent(MimeMultipartBuilder.newInstance()._AttachBody(getBody()).build());
 
             //            oMimeMessage.getRecipients(Message.RecipientType.CC);
             Transport.send(oMimeMessage);
@@ -133,85 +123,6 @@ public class Mail extends Abstract_Mail {
             log.error("[send]", exc);
             throw new EmailException("Error happened when sending email", exc);
         }
-    }
-
-    public Mail _AttachBody(String sBody) {
-        try {
-            MimeBodyPart oMimeBodyPart = new MimeBodyPart();
-            //oMimeBodyPart.setText(sBody,DEFAULT_ENCODING,"Content-Type: text/html;");
-            oMimeBodyPart.setText(sBody, DEFAULT_ENCODING);
-            //         oMimeBodyPart.setHeader("Content-Type", "text/html");
-            oMimeBodyPart.setHeader("Content-Type", "text/html;charset=utf-8");
-            oMultiparts.addBodyPart(oMimeBodyPart);
-            log.info("[_Attach:sBody]:sBody=" + sBody);
-        } catch (Exception oException) {
-            log.error("[_Attach:sBody]", oException);
-        }
-        return this;
-    }
-
-    public Mail _Attach(File oFile) {
-        _Attach(new FileDataSource(oFile), oFile.getName(), "");
-        return this;
-    }
-
-    public Mail _Attach(File[] aFile) {
-        log.info("[_Attach:aoFile]:aFile.length=" + aFile.length);
-        for (File oFile : aFile) {
-            _Attach(oFile);
-        }
-        return this;
-    }
-
-    public Mail _Attach(DataSource oDataSource, String sFileName, String sDescription) {
-        try {
-            MimeBodyPart oMimeBodyPart = new MimeBodyPart();
-            oMimeBodyPart.setHeader("Content-Type", "multipart/mixed");
-            oMimeBodyPart.setDataHandler(new DataHandler(oDataSource));
-            oMimeBodyPart.setFileName(MimeUtility.encodeText(sFileName));
-            oMultiparts.addBodyPart(oMimeBodyPart);
-            log.info("[_Attach:oFile]:sFileName=" + sFileName + ",sDescription=" + sDescription);
-        } catch (Exception oException) {
-            log.error("[_Attach:oFile]sFileName=" + sFileName + ",sDescription=" + sDescription, oException);
-        }
-        return this;
-    }
-
-    public Mail _Attach(URL[] aoURL) {
-        return _Attach(aoURL, null);
-    }
-
-    public Mail _Attach(URL[] aoURL, String[] asName) {
-        log.info("[_Attach:aoURL]:asName=" + asName);
-        for (int n = 0; n < aoURL.length; n++) {
-            try {
-                if (asName == null) {
-                    _Attach(aoURL[n], null);
-                } else {
-                    _Attach(aoURL[n], asName[n]);
-                }
-            } catch (Exception oException) {
-                log.error("[_Attach:aoURL]", oException);
-            }
-        }
-        return this;
-    }
-
-    public Mail _Attach(URL oURL, String sName) {
-        try {
-            MimeBodyPart oMimeBodyPart = new MimeBodyPart();//javax.activation
-            oMimeBodyPart.setHeader("Content-Type", "multipart/mixed");
-            DataSource oDataSource = new URLDataSource(oURL);
-            oMimeBodyPart.setDataHandler(new DataHandler(oDataSource));
-            //oPart.setFileName(MimeUtility.encodeText(source.getName()));
-            oMimeBodyPart.setFileName(
-                    MimeUtility.encodeText(sName == null || "".equals(sName) ? oDataSource.getName() : sName));
-            oMultiparts.addBodyPart(oMimeBodyPart);
-            log.info("[_Attach:oURL]:sName=" + sName);
-        } catch (Exception oException) {
-            log.error("[_Attach:oURL]:sName=" + sName, oException);
-        }
-        return this;
     }
 
     public void sendWithUniSender() throws EmailException{
@@ -242,9 +153,9 @@ public class Mail extends Abstract_Mail {
                 .setListId(String.valueOf(nID_Sender));
 
             try {
-                int nAttachments = oMultiparts.getCount();
+                int nAttachments = attachments.getCount();
                 for(int i = 0; i< nAttachments; i++){
-                    BodyPart oBodyPart = oMultiparts.getBodyPart(i);
+                    BodyPart oBodyPart = attachments.getBodyPart(i);
                     String sFileName = oBodyPart.getFileName();
                     InputStream oInputStream = oBodyPart.getInputStream();
                     oBuilder.setAttachment(sFileName, oInputStream);
@@ -279,5 +190,7 @@ public class Mail extends Abstract_Mail {
         }
     }
 
-
+    public void reset() {
+        attachments = new MimeMultipart();
+    }
 }

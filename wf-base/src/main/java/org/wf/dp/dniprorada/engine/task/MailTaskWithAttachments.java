@@ -8,6 +8,7 @@ import org.apache.commons.mail.ByteArrayDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
 import org.wf.dp.dniprorada.util.Mail;
 
 import javax.activation.DataSource;
@@ -56,6 +57,7 @@ public class MailTaskWithAttachments extends Abstract_MailTaskCustom {
             String sFileName = "document";
             String sFileExt = "txt";
             String sDescription = "";
+            MimeMultipartBuilder attachmentsBuilder = MimeMultipartBuilder.newInstance();
             for (Attachment oAttachment : aAttachment) {
                 sFileName = oAttachment.getName();
                 sFileExt = oAttachment.getType().split(";")[0];
@@ -80,17 +82,16 @@ public class MailTaskWithAttachments extends Abstract_MailTaskCustom {
                 }
 
                 //oMail._Attach(oDataSource, sFileName + "." + sFileExt, sDescription);
-                oMail._Attach(oDataSource, sFileName, sDescription);
+                attachmentsBuilder._Attach(oDataSource, sFileName, sDescription);
 
                 log.info("oMultiPartEmail.attach: Ok!");
             }
+            oMail.setAttachments(attachmentsBuilder.build());
         } else {
             log.error("aAttachment has nothing!");
             throw new ActivitiObjectNotFoundException("add the file to send");
         }
 
-        // send the email
-        //oMultiPartEmail.send();
         oMail.send();
     }
 

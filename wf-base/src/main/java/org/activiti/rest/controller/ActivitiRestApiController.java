@@ -53,6 +53,7 @@ import org.wf.dp.dniprorada.base.util.JSExpressionUtil;
 import org.wf.dp.dniprorada.engine.task.FileTaskUpload;
 import org.wf.dp.dniprorada.model.BuilderAttachModel;
 import org.wf.dp.dniprorada.model.ByteArrayMultipartFileOld;
+import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
 import org.wf.dp.dniprorada.util.*;
 import org.wf.dp.dniprorada.util.luna.AlgorithmLuna;
 import org.wf.dp.dniprorada.util.luna.CRCInvalidException;
@@ -2198,6 +2199,7 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
 
         if (snaID_Attachment != null) {
             String[] ansID_Attachment = snaID_Attachment.split(",");
+			MimeMultipartBuilder attachmentsBuilder = MimeMultipartBuilder.newInstance();
             for (String snID_Attachment : ansID_Attachment) {
                 Attachment oAttachment = taskService
                         .getAttachment(snID_Attachment);
@@ -2212,11 +2214,11 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
                 DataSource oDataSource = new ByteArrayDataSource(oInputStream,
                         sFileExt);
 
-                oMail._Attach(oDataSource, sFileName + "." + sFileExt,
+                attachmentsBuilder._Attach(oDataSource, sFileName + "." + sFileExt,
                         sDescription);
             }
+			oMail.setAttachments(attachmentsBuilder.build());
         }
-        
         if(bUnisender!=null && bUnisender){
             oMail.sendWithUniSender();
         }else{
