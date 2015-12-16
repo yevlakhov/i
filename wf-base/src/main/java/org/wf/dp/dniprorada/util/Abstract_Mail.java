@@ -1,133 +1,116 @@
 package org.wf.dp.dniprorada.util;
 
-import org.springframework.beans.factory.annotation.Value;
-//import org.slf4j.Logger;
-//import org.slf4j.LoggerFactory;
-
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
+import org.springframework.beans.factory.annotation.Autowired;
+import org.wf.dp.dniprorada.resources.MailDataResource;
 
 /**
  * @author Belyavtsev Vladimir Vladimirovich (BW)
  */
 public abstract class Abstract_Mail {
 
-    @Value("${mailServerDefaultFrom}")
-    private String sFrom; //"noreplay@gmail.com";
-    @Value("${mailAddressNoreply}")
-    private String saTo; //"noreplay@gmail.com";
-    private String sHead = "Subject";
-    private String sBody = "Text";
-    @Value("${mailServerUsername}")
-    private String sAuthUser; //"user";
-    @Value("${mailServerPassword}")
-    private String sAuthPassword; //"password";
-    @Value("${mailServerHost}")
-    private String sHost; //"gmail.com";
-    @Value("${mailServerPort}")
-    private Integer nPort = 465; //Integer.valueOf(mailServerPort);
-    @Value("${mailServerUseSSL}")
-    private boolean bSSL;
-    @Value("${mailServerUseTLS}")
-    private boolean bTLS;
+    private static final String DEFAULT_HEADER_VALUE = "Subject";
+    private static final String DEFAULT_BODY_VALUE = "Text";
+
+    @Autowired
+    private MailDataResource mailDataResource;
+
+    private String header;
+    private String body;
+
     public Abstract_Mail() {
+        header = DEFAULT_HEADER_VALUE;
+        body = DEFAULT_BODY_VALUE;
     }
 
     public String getFrom() {
-        return sFrom;
+        return mailDataResource.getSender();
     }
 
     public Abstract_Mail _From(String sFrom) {
-        this.sFrom = sFrom;
+        mailDataResource.setSender(sFrom);
         return this;
     }
 
     public String getTo() {
-        return saTo;
+        return mailDataResource.getRecipient();
     }
 
     public Abstract_Mail _To(String saTo) {
-        this.saTo = saTo;
+        mailDataResource.setRecipient(saTo);
         return this;
     }
 
     public String getHead() {
-        return sHead;
+        return header;
     }
 
     public Abstract_Mail _Head(String sHead) {
-        this.sHead = sHead;
+        this.header = sHead;
         return this;
     }
 
     public String getBody() {
-        return sBody;
+        return body;
     }
 
     public Abstract_Mail _Body(String sBody) {
-        this.sBody = sBody;
+        this.body = sBody;
         return this;
     }
 
     public String getAuthUser() {
-        return sAuthUser;
+        return mailDataResource.getUsername();
     }
 
     public Abstract_Mail _AuthUser(String sAuthUser) {
-        this.sAuthUser = sAuthUser;
+        mailDataResource.setUsername(sAuthUser);
         return this;
     }
 
     public String getAuthPassword() {
-        return sAuthPassword;
+        return mailDataResource.getPassword();
     }
 
     public Abstract_Mail _AuthPassword(String sAuthPassword) {
-        this.sAuthPassword = sAuthPassword;
+        mailDataResource.setPassword(sAuthPassword);
         return this;
     }
 
     public String getHost() {
-        return sHost;
+        return mailDataResource.getHostname();
     }
 
     public Abstract_Mail _Host(String sHost) {
-        this.sHost = sHost;
+        mailDataResource.setHostname(sHost);
         return this;
     }
 
     public Integer getPort() {
-        return nPort;
+        return mailDataResource.getPort();
     }
 
     public Abstract_Mail _Port(Integer nPort) {
-        this.nPort = nPort;
+        mailDataResource.setPort(nPort);
         return this;
     }
 
     public boolean isSSL() {
-        return bSSL;
+        return mailDataResource.isSSL();
     }
 
     public Abstract_Mail _SSL(boolean bSSL) {
-        this.bSSL = bSSL;
+        mailDataResource.setSSL(bSSL);
         return this;
     }
 
     public boolean isTLS() {
-        return bTLS;
+        return mailDataResource.isTLS();
     }
 
     public Abstract_Mail _TLS(boolean bTLS) {
-        this.bTLS = bTLS;
+        mailDataResource.setTLS(bTLS);
         return this;
     }
 
-    //abstract public void init() throws Exception;
-
     abstract public void send() throws Exception;
-
 }
