@@ -93,7 +93,7 @@ public class MimeMultipartBuilder {
         return this;
     }
 
-    public MimeMultipartBuilder _AttachBody(String sBody) {
+    public MimeMultipartBuilder withBody(String sBody) {
         try {
             MimeBodyPart oMimeBodyPart = new MimeBodyPart();
             //oMimeBodyPart.setText(sBody,DEFAULT_ENCODING,"Content-Type: text/html;");

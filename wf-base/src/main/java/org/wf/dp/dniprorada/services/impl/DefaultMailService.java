@@ -31,16 +31,17 @@ import java.util.Map;
 @Service("mail")
 public class DefaultMailService implements MailService {
 
-    private final static Logger log = LoggerFactory.getLogger(DefaultMailService.class);
+    private final static Logger LOG = LoggerFactory.getLogger(DefaultMailService.class);
 
+    private static final String UNISENDER_ENABLE_MODE_VALUE = "true";
     private static final String DEFAULT_ENCODING = "UTF-8";
+    private static final String RECEIVER = "receiver";
+    private static final String RECIPIENT = "recipient";
 
     @Autowired
     private MailDataResource mailDataResource;
     @Autowired
     private GeneralConfig generalConfig;
-
-    private Session oSession = null;
 
     public DefaultMailService() {}
 
@@ -53,77 +54,93 @@ public class DefaultMailService implements MailService {
     }
 
     @Override
-    public void send(MessageModel messageModel) throws EmailException {
-        if("true".equals(generalConfig.getUseUniSender())){
-            sendWithUniSender(messageModel);
+    public void send(MessageModel message) throws EmailException {
+        if(isUniSenderModeEnable()){
+            sendWithUniSender(message);
         } else {
-            sendOld(messageModel);
+            sendWithJavaMail(message);
         }
     }
 
-    public void sendOld(MessageModel messageModel) throws EmailException {
+    private boolean isUniSenderModeEnable() {
+        return UNISENDER_ENABLE_MODE_VALUE.equals(generalConfig.getUseUniSender());
+    }
 
+    public void sendWithJavaMail(MessageModel model) throws EmailException {
+        LOG.info("Send message with standard 'Java' mail client ...");
         try {
-            String hostname = mailDataResource.getHostname();
-            String sender = mailDataResource.getSender();
-            String username = mailDataResource.getUsername();
-            String password = mailDataResource.getPassword();
-            Integer port = mailDataResource.getPort();
-            boolean isSSLEnable = mailDataResource.isSSLEnable();
-            boolean isTLSEnable = mailDataResource.isTLSEnable();
-
-            log.info("init");
-            MultiPartEmail oMultiPartEmail = new MultiPartEmail();
-            oMultiPartEmail.setHostName(hostname);
-            log.info("getHost()=" + hostname);
-            log.info("getTo()=" + messageModel.getRecipient());
-            String sTo = messageModel.getRecipient();
-            sTo=sTo.replace("\"", "");
-            sTo=sTo.replace("\"", "");
-            //sTo=sTo.replaceAll("\"", "");
-            oMultiPartEmail.addTo(sTo, "receiver");
-            log.info("getTo()=" + sTo);
-            //oMultiPartEmail.addTo(getTo(), "receiver");
-            //log.info("getTo()=" + getTo());
-            oMultiPartEmail.setFrom(sender, sender);//"iGov"
-            log.info("getFrom()=" + sender);
-            oMultiPartEmail.setSubject(messageModel.getSubject());
-            log.info("getHead()=" + messageModel.getSubject());
-
-            if(username != null && !"".equals(username.trim()) ){
-                oMultiPartEmail.setAuthentication(username, password);
-                log.info("withAuth");
+            MultiPartEmail multiPartEmail = createMultiPartEmailInstance(model);
+            printMailDataAndMessageModelParameters(model);
+            if(isMultiPartEmailAuthenticationEnable()) {
+                enableMultiPartEmailAuthentication(multiPartEmail);
+                LOG.info("Multipart email sender work with authentication");
             }else{
-                log.info("withoutAuth");
+                LOG.info("Multipart email sender work without authentication");
             }
-            //oMultiPartEmail.setAuthentication(getAuthUser(), getAuthPassword());
-            log.info("getAuthUser()=" + username);
-            log.info("getAuthPassword()=" + password);
-            oMultiPartEmail.setSmtpPort(port);
-            log.info("getPort()=" + port);
-            oMultiPartEmail.setSSL(isSSLEnable);
-            log.info("isSSL()=" + isSSLEnable);
-            oMultiPartEmail.setTLS(isTLSEnable);
-            log.info("isTLS()=" + isTLSEnable);
-
-            oSession = oMultiPartEmail.getMailSession();
-            MimeMessage oMimeMessage = new MimeMessage(oSession);
-
-            oMimeMessage.setFrom(new InternetAddress(sender, sender));
-
-            oMimeMessage.addRecipient(Message.RecipientType.TO,
-                    new InternetAddress(sTo, "recipient", DEFAULT_ENCODING));
-
-            oMimeMessage.setSubject(messageModel.getSubject(), DEFAULT_ENCODING);
-
-            oMimeMessage.setContent(MimeMultipartBuilder.newInstance()._AttachBody(messageModel.getBody()).build());
-
-            Transport.send(oMimeMessage);
-            log.info("[send]:Transport.send!");
+            Transport.send(createMimeMessageInstance(multiPartEmail, model));
+            LOG.info("[send]:Transport.send!");
         } catch (Exception exc) {
-            log.error("[send]", exc);
+            LOG.error("[send]", exc);
             throw new EmailException("Error happened when sending email", exc);
         }
+    }
+
+    private MimeMessage createMimeMessageInstance(MultiPartEmail multiPartEmail, MessageModel model) throws Exception {
+        Session session = multiPartEmail.getMailSession();
+        MimeMessage mimeMessage = new MimeMessage(session);
+        mimeMessage.setFrom(createSenderInternetAddress());
+        mimeMessage.setSubject(model.getSubject(), DEFAULT_ENCODING);
+        mimeMessage.addRecipient(Message.RecipientType.TO,createRecipientInternetAddress(model));
+        mimeMessage.setContent(MimeMultipartBuilder.newInstance().withBody(model.getBody()).build());
+        return mimeMessage;
+    }
+
+    private Address createRecipientInternetAddress(MessageModel model) throws Exception {
+        return new InternetAddress(clearRecipientFormat(model.getRecipient()), RECIPIENT, DEFAULT_ENCODING);
+    }
+
+    private InternetAddress createSenderInternetAddress() throws Exception {
+        return new InternetAddress(mailDataResource.getSender(), mailDataResource.getSender());
+    }
+
+    private void enableMultiPartEmailAuthentication(MultiPartEmail multiPartEmail) {
+        String username = mailDataResource.getUsername();
+        String password = mailDataResource.getPassword();
+        multiPartEmail.setAuthentication(username, password);
+    }
+
+    private boolean isMultiPartEmailAuthenticationEnable() {
+        return StringUtils.isNotBlank(mailDataResource.getUsername());
+    }
+
+    private void printMailDataAndMessageModelParameters(MessageModel model) {
+        LOG.info("init");
+        LOG.info("getHost()=" + mailDataResource.getHostname());
+        LOG.info("getTo()=" + clearRecipientFormat(model.getRecipient()));
+        LOG.info("getFrom()=" + mailDataResource.getSender());
+        LOG.info("getHead()=" + model.getSubject());
+        LOG.info("getAuthUser()=" + mailDataResource.getUsername());
+        LOG.info("getAuthPassword()=" + mailDataResource.getPassword());
+        LOG.info("getPort()=" + mailDataResource.getPort());
+        LOG.info("isSSL()=" + mailDataResource.isSSLEnable());
+        LOG.info("isTLS()=" + mailDataResource.isTLSEnable());
+    }
+
+    private MultiPartEmail createMultiPartEmailInstance(MessageModel model) throws EmailException {
+        MultiPartEmail multiPartEmail = new MultiPartEmail();
+        multiPartEmail.setFrom(mailDataResource.getSender(), mailDataResource.getSender());
+        multiPartEmail.setSubject(model.getSubject());
+        multiPartEmail.addTo(clearRecipientFormat(model.getRecipient()), RECEIVER);
+        multiPartEmail.setHostName(mailDataResource.getHostname());
+        multiPartEmail.setSmtpPort(mailDataResource.getPort());
+        multiPartEmail.setSSL(mailDataResource.isSSLEnable());
+        multiPartEmail.setTLS(mailDataResource.isTLSEnable());
+        return multiPartEmail;
+    }
+
+    private String clearRecipientFormat(String recipient) {
+        recipient = recipient.replace("\"", "");
+        return recipient.replace("\"", "");
     }
 
     public void sendWithUniSender(MessageModel messageModel) throws EmailException {
@@ -142,7 +159,7 @@ public class DefaultMailService implements MailService {
                 Collections.singletonList(String.valueOf(nID_Sender)),
                 messageModel.getRecipient());
 
-        log.info("oUniResponse_Subscribe: {}", oUniResponse_Subscribe);
+        LOG.info("oUniResponse_Subscribe: {}", oUniResponse_Subscribe);
 
         String sBody = messageModel.getBody();
 
@@ -172,20 +189,20 @@ public class DefaultMailService implements MailService {
         CreateEmailMessageRequest oCreateEmailMessageRequest = oBuilder.build();
 
         UniResponse oUniResponse_CreateEmailMessage = oUniSender.createEmailMessage(oCreateEmailMessageRequest);
-        log.info("oUniResponse_CreateEmailMessage: {}", oUniResponse_CreateEmailMessage);
+        LOG.info("oUniResponse_CreateEmailMessage: {}", oUniResponse_CreateEmailMessage);
 
         if (oUniResponse_CreateEmailMessage != null && oUniResponse_CreateEmailMessage.getResult() != null) {
             Map<String, Object> mParam = oUniResponse_CreateEmailMessage.getResult();
-            log.info("RESULT: {}", mParam);
+            LOG.info("RESULT: {}", mParam);
             Object oID_Message = mParam.get("message_id");
             if (oID_Message != null) {
-                log.info("id: {}", oID_Message);
+                LOG.info("id: {}", oID_Message);
                 CreateCampaignRequest oCreateCampaignRequest = CreateCampaignRequest.getBuilder(sKey_Sender, "en")
                         .setMessageId(oID_Message.toString())
                         .build();
 
                 UniResponse oUniResponse_CreateCampaign = oUniSender.createCampaign(oCreateCampaignRequest, messageModel.getRecipient());
-                log.info("oUniResponse_CreateCampaign: {}", oUniResponse_CreateCampaign);
+                LOG.info("oUniResponse_CreateCampaign: {}", oUniResponse_CreateCampaign);
 
             } else {
                 throw new EmailException("error while email cration " + oUniResponse_CreateEmailMessage.getError());
