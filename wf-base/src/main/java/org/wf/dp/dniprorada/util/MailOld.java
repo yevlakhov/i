@@ -6,7 +6,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.wf.dp.dniprorada.model.MessageModel;
 import org.wf.dp.dniprorada.resources.MailDataResource;
+import org.wf.dp.dniprorada.services.MailService;
 
 import javax.activation.DataSource;
 import javax.mail.BodyPart;
@@ -25,7 +27,7 @@ import java.util.List;
  * @author Belyavtsev Vladimir Vladimirovich (BW)
  */
 @Component("mailOld")
-public class MailOld extends Abstract_Mail {
+public class MailOld implements MailService {
 
     private final static Logger log = LoggerFactory.getLogger(Mail.class);
 
@@ -37,7 +39,7 @@ public class MailOld extends Abstract_Mail {
     public MailOld() {
     }
 
-    public void init() throws EmailException {
+    public void init(MessageModel messageModel) throws EmailException {
 
         String hostname = mailDataResource.getHostname();
         String sender = mailDataResource.getSender();
@@ -46,43 +48,43 @@ public class MailOld extends Abstract_Mail {
         oMultiPartEmail = new MultiPartEmail();
         oMultiPartEmail.setHostName(hostname);
         log.info("getHost()=" + hostname);
-        oMultiPartEmail.addTo(getTo(), "receiver");
-        log.info("getTo()=" + getTo());
+        oMultiPartEmail.addTo(messageModel.getRecipient(), "receiver");
+        log.info("getTo()=" + messageModel.getRecipient());
         oMultiPartEmail.setFrom(sender, sender);//"iGov"
         log.info("getFrom()=" + sender);
-        oMultiPartEmail.setSubject(getHead());
-        log.info("getHead()=" + getHead());
+        oMultiPartEmail.setSubject(messageModel.getSubject());
+        log.info("getHead()=" + messageModel.getSubject());
     }
 
-    public MailOld _BodyAsText() throws EmailException {
+    public MailOld _BodyAsText(MessageModel messageModel) throws EmailException {
         //        init();
         log.info("_BodyAsText");
-        oMultiPartEmail.setMsg(getBody());
+        oMultiPartEmail.setMsg(messageModel.getBody());
         //oMultiPartEmail.setContent(sBody, "text/html; charset=\"utf-8\"");
-        log.info("getBody()=" + getBody());
+        log.info("getBody()=" + messageModel.getBody());
         return this;
     }
 
-    public MailOld _BodyAsHTML() throws EmailException {
+    public MailOld _BodyAsHTML(MessageModel messageModel) throws EmailException {
         //        init();
         log.info("_BodyAsHTML");
         //oMultiPartEmail.setMsg(sBody);
-        oMultiPartEmail.setContent(getBody(), "text/html");
+        oMultiPartEmail.setContent(messageModel.getBody(), "text/html");
         oMultiPartEmail.setCharset("UTF-8");
-        log.info("getBody()=" + getBody());
+        log.info("getBody()=" + messageModel.getBody());
         return this;
     }
 
-    public MailOld _PartHTML() throws MessagingException, EmailException {
+    public MailOld _PartHTML(MessageModel messageModel) throws MessagingException, EmailException {
         //        init();
         log.info("_PartHTML");
         //oMultiPartEmail.setMsg("0");
         MimeMultipart oMimeMultipart = new MimeMultipart("related");
         BodyPart oBodyPart = new MimeBodyPart();
-        oBodyPart.setContent(getBody(), "text/html; charset=\"utf-8\"");
+        oBodyPart.setContent(messageModel.getBody(), "text/html; charset=\"utf-8\"");
         oMimeMultipart.addBodyPart(oBodyPart);
         oMultiPartEmail.setContent(oMimeMultipart);
-        log.info("getBody()=" + getBody());
+        log.info("getBody()=" + messageModel.getBody());
         return this;
     }
 
@@ -113,7 +115,7 @@ public class MailOld extends Abstract_Mail {
     }
 
     @Override
-    public void send() throws EmailException {
+    public void send(MessageModel messageModel) throws EmailException {
         String username = mailDataResource.getUsername();
         String password = mailDataResource.getPassword();
         Integer port = mailDataResource.getPort();

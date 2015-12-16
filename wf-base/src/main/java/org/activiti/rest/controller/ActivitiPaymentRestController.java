@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.wf.dp.dniprorada.base.dao.AccessDataDao;
 import org.wf.dp.dniprorada.exchange.AccessCover;
 import org.wf.dp.dniprorada.model.LiqpayCallbackModel;
+import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.util.Mail;
 
@@ -136,15 +137,9 @@ public class ActivitiPaymentRestController {
                     +
                     "(" + sURL + "&sID_Transaction=&sStatus_Payment=" + ")<br>" +
                     "<br>";
-            oMail
-                    .reset();
-            oMail
-                    //._From(mailAddressNoreplay)			
-                    ._To(saToMail)
-                    ._Head(sHead)
-                    ._Body(sBody)
-            ;
-            oMail.send();
+
+
+            oMail.send(MessageModelBuilder.newInstance().withRecipient(saToMail).withSubject(sHead).withBody(sBody).build());
             throw oException;
         }
         return sData;

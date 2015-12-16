@@ -8,7 +8,9 @@ import org.apache.commons.mail.ByteArrayDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
+import org.wf.dp.dniprorada.resources.MailDataResource;
 import org.wf.dp.dniprorada.util.Mail;
 
 import javax.activation.DataSource;
@@ -30,8 +32,11 @@ public class MailTaskWithAttachments extends Abstract_MailTaskCustom {
     public void execute(DelegateExecution oExecution) throws Exception {
         System.setProperty("mail.mime.address.strict", "false");
 
-        //MultiPartEmail oMultiPartEmail = MultiPartEmail_BaseFromTask(oExecution);
-        Mail oMail = Mail_BaseFromTask(oExecution);
+        Mail oMail = new Mail();
+
+        MailDataResource mailDataResource = createMailDataresourceInstance();
+
+        oMail.setMailDataResource(mailDataResource);
 
         String sAttachmentsForSend = getStringFromFieldExpression(this.saAttachmentsForSend, oExecution);
         sAttachmentsForSend = sAttachmentsForSend == null ? "" : sAttachmentsForSend;
@@ -51,7 +56,7 @@ public class MailTaskWithAttachments extends Abstract_MailTaskCustom {
                 log.warn("sID_Attachment=" + sID_Attachment);
             }
         }
-
+        MessageModelBuilder messageModelBuilder = MessageModelBuilder.newInstance();
         if (aAttachment != null && !aAttachment.isEmpty()) {
             InputStream oInputStream_Attachment = null;
             String sFileName = "document";
@@ -86,13 +91,14 @@ public class MailTaskWithAttachments extends Abstract_MailTaskCustom {
 
                 log.info("oMultiPartEmail.attach: Ok!");
             }
-            oMail.setAttachments(attachmentsBuilder.build());
+
+            messageModelBuilder.withAttachments(attachmentsBuilder.build());
         } else {
             log.error("aAttachment has nothing!");
             throw new ActivitiObjectNotFoundException("add the file to send");
         }
 
-        oMail.send();
+        oMail.send(messageModelBuilder.build());
     }
 
 }

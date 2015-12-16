@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.wf.dp.dniprorada.base.dao.GenericEntityDao;
 import org.wf.dp.dniprorada.model.*;
+import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.util.Mail;
 import org.wf.dp.dniprorada.util.SecurityUtils;
@@ -90,9 +91,7 @@ public class DocumentAccessDaoImpl extends GenericEntityDao<DocumentAccess> impl
                     "<br>" +
                     "З повагою,<br>" +
                     "команда порталу державних послу iGov";
-            oMail.reset();
-            oMail._To(saToMail)._Head(sHead)._Body(sBody);
-            oMail.send();
+            oMail.send(MessageModelBuilder.newInstance().withRecipient(saToMail).withSubject(sHead).withBody(sBody).build());
         }
 
         return id;

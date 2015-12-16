@@ -53,6 +53,8 @@ import org.wf.dp.dniprorada.base.util.JSExpressionUtil;
 import org.wf.dp.dniprorada.engine.task.FileTaskUpload;
 import org.wf.dp.dniprorada.model.BuilderAttachModel;
 import org.wf.dp.dniprorada.model.ByteArrayMultipartFileOld;
+import org.wf.dp.dniprorada.model.MessageModel;
+import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
 import org.wf.dp.dniprorada.util.*;
 import org.wf.dp.dniprorada.util.luna.AlgorithmLuna;
@@ -2184,18 +2186,10 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
             @RequestParam(value = "bUnisender", required = false) Boolean bUnisender)
             throws IOException, MessagingException, EmailException {
 
-        oMail._To("bvv4ik@gmail.com");
-        oMail._Body(sBody == null ? "<a href=\"http:\\\\google.com\">Google</a> It's test Проверка ! ��� ��������!"
+		MessageModelBuilder messageModelBuilder = MessageModelBuilder.newInstance()
+				.withRecipient("bvv4ik@gmail.com")
+        		.withBody(sBody == null ? "<a href=\"http:\\\\google.com\">Google</a> It's test Проверка ! ��� ��������!"
                 : sBody);
-
-        LOG.info("oMail.getHead()=" + oMail.getHead());
-        LOG.info("oMail.getBody()=" + oMail.getBody());
-        LOG.info("oMail.getAuthUser()=" + oMail.getMailDataResource().getUsername());
-        LOG.info("oMail.getAuthPassword()=" + oMail.getMailDataResource().getPassword());
-        LOG.info("oMail.getFrom()=" + oMail.getMailDataResource().getSender());
-        LOG.info("oMail.getTo()=" + oMail.getTo());
-        LOG.info("oMail.getHost()=" + oMail.getMailDataResource().getHostname());
-        LOG.info("oMail.getPort()=" + oMail.getMailDataResource().getPort());
 
         if (snaID_Attachment != null) {
             String[] ansID_Attachment = snaID_Attachment.split(",");
@@ -2217,12 +2211,24 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
                 attachmentsBuilder._Attach(oDataSource, sFileName + "." + sFileExt,
                         sDescription);
             }
-			oMail.setAttachments(attachmentsBuilder.build());
+			messageModelBuilder.withAttachments(attachmentsBuilder.build());
         }
+
+		MessageModel messageModel = messageModelBuilder.build();
+
+		LOG.info("oMail.getHead()=" + messageModel.getSubject());
+		LOG.info("oMail.getBody()=" + messageModel.getBody());
+		LOG.info("oMail.getAuthUser()=" + oMail.getMailDataResource().getUsername());
+		LOG.info("oMail.getAuthPassword()=" + oMail.getMailDataResource().getPassword());
+		LOG.info("oMail.getFrom()=" + oMail.getMailDataResource().getSender());
+		LOG.info("oMail.getTo()=" + messageModel.getRecipient());
+		LOG.info("oMail.getHost()=" + oMail.getMailDataResource().getHostname());
+		LOG.info("oMail.getPort()=" + oMail.getMailDataResource().getPort());
+
         if(bUnisender!=null && bUnisender){
-            oMail.sendWithUniSender();
+            oMail.sendWithUniSender(messageModel);
         }else{
-            oMail.send();
+            oMail.send(messageModel);
         }
     }
 
@@ -2329,30 +2335,9 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
         return emailBody.toString();
     }
 
-	// private Long getProcessId(String sID_Order, Long nID_Protected, Long
-    // nID_Process) {
-    // Long result = null;
-    // if (nID_Process != null) {
-    // result = nID_Process;
-    // } else if (nID_Protected != null) {
-    // result = AlgorithmLuna.getOriginalNumber(nID_Protected);
-    // } else if (sID_Order != null && !sID_Order.isEmpty()) {
-    // Long protectedId;
-    // if (sID_Order.contains("-")) {
-    // int dash_position = sID_Order.indexOf("-");
-    // protectedId = Long.valueOf(sID_Order.substring(dash_position + 1));
-    // } else {
-    // protectedId = Long.valueOf(sID_Order);
-    // }
-    // result = AlgorithmLuna.getOriginalNumber(protectedId);
-    // }
-    // return result;
-    // }
     private void sendEmail(String sHead, String sBody, String recipient)
             throws EmailException {
-        oMail.reset();
-        oMail._To(recipient)._Head(sHead)._Body(sBody);
-        oMail.send();
+        oMail.send(MessageModelBuilder.newInstance().withRecipient(recipient).withSubject(sHead).withBody(sBody).build());
     }
 
     private String createTable(String soData)

@@ -10,8 +10,6 @@ public class MailDataResource {
 
     @Value("${mailServerDefaultFrom}")
     private String sender;
-    @Value("${mailAddressNoreply}")
-    private String recipient;
     @Value("${mailServerUsername}")
     private String username;
     @Value("${mailServerPassword}")
@@ -31,14 +29,6 @@ public class MailDataResource {
 
     public void setSender(String sender) {
         this.sender = sender;
-    }
-
-    public String getRecipient() {
-        return recipient;
-    }
-
-    public void setRecipient(String recipient) {
-        this.recipient = recipient;
     }
 
     public String getUsername() {

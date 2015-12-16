@@ -8,7 +8,9 @@ import org.apache.commons.mail.ByteArrayDataSource;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
+import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
+import org.wf.dp.dniprorada.resources.MailDataResource;
 import org.wf.dp.dniprorada.util.Mail;
 
 import javax.activation.DataSource;
@@ -28,8 +30,17 @@ public class MailTaskWithAttachment extends Abstract_MailTaskCustom {
     @Override
     public void execute(DelegateExecution oExecution) throws Exception {
 
-        //MultiPartEmail oMultiPartEmail = MultiPartEmail_BaseFromTask(oExecution);
-        Mail oMail = Mail_BaseFromTask(oExecution);
+        Mail oMail = new Mail();
+
+        String sFromMail = getStringFromFieldExpression(this.from, oExecution);
+        String saToMail = getStringFromFieldExpression(this.to, oExecution);
+        String sHead = getStringFromFieldExpression(this.subject, oExecution);
+        String sBodySource = getStringFromFieldExpression(this.text, oExecution);
+        String sBody = replaceTags(sBodySource, oExecution);
+
+        MailDataResource mailDataResource = createMailDataresourceInstance();
+
+        oMail.setMailDataResource(mailDataResource);
 
         List<Attachment> aAttachment = oExecution.getEngineServices().getTaskService()
                 .getProcessInstanceAttachments(oExecution.getProcessInstanceId());
@@ -64,10 +75,12 @@ public class MailTaskWithAttachment extends Abstract_MailTaskCustom {
             throw new ActivitiObjectNotFoundException("add the file to send");
         }
 
-        // send the email
-        //oMultiPartEmail.send();
-        oMail.setAttachments(attachmentsBuilder.build());
-        oMail.send();
+        oMail.send(MessageModelBuilder.newInstance().
+                withAttachments(attachmentsBuilder.build()).
+                withRecipient(saToMail).
+                withSubject(sHead).
+                withBody(sBody).
+                build());
     }
 
 }

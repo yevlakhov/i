@@ -467,27 +467,7 @@ public abstract class Abstract_MailTaskCustom implements JavaDelegate {
         return outputTextBuffer.toString();
     }
 
-    public Mail Mail_BaseFromTask(DelegateExecution oExecution)
-            throws Exception {
-
-        Mail oMail = new Mail();
-
-        String sFromMail = getStringFromFieldExpression(this.from, oExecution);
-        String saToMail = getStringFromFieldExpression(this.to, oExecution);
-        String sHead = getStringFromFieldExpression(this.subject, oExecution);
-        String sBodySource = getStringFromFieldExpression(this.text, oExecution);
-        String sBody = replaceTags(sBodySource, oExecution);
-
-        MailDataResource mailDataResource = createMailDataresourceInstance();
-
-        oMail.reset();
-        oMail.setMailDataResource(mailDataResource);
-        oMail._Head(sHead)._Body(sBody)._To(saToMail);
-
-        return oMail;
-    }
-
-    private MailDataResource createMailDataresourceInstance() {
+    protected MailDataResource createMailDataresourceInstance() {
         MailDataResource mailDataResource = new MailDataResource();
         mailDataResource.setSender(mailAddressNoreplay);
         mailDataResource.setUsername(mailServerUsername);

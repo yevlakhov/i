@@ -2,6 +2,7 @@ package org.wf.dp.dniprorada.base.service.notification;
 
 import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.util.Mail;
 
@@ -36,10 +37,6 @@ public class NotificationService {
         String sBody = String.format("Ваша заявка %s прийнята!", nID_Protected) +
                 "<br>Ви завжди зможете переглянути її поточний статус у розділі <a href=\""+generalConfig.sHostCentral() + "/order/search?nID=" + nID_Protected+"\">\"Статуси\"</a>. Також на кожному етапі Ви будете отримувати email-повідомлення.	";
 
-        mail.reset();
-
-        mail._To(receiverEmail)._Head(sHead)._Body(sBody);
-
-        mail.send();
+        mail.send(MessageModelBuilder.newInstance().withRecipient(receiverEmail).withSubject(sHead).withBody(sBody).build());
     }
 }

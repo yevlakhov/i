@@ -4,6 +4,7 @@ import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.util.Mail;
 import org.wf.dp.dniprorada.util.Util;
@@ -77,12 +78,6 @@ public class EscalationHandler_SendMailAlert implements EscalationHandler {
     }
 
     private void sendEmail(String sHead, String sBody, String recipient) throws EmailException {
-
-        oMail.reset();
-        oMail
-                ._To(recipient)
-                ._Head(sHead)
-                ._Body(sBody);
-        oMail.send();
+        oMail.send(MessageModelBuilder.newInstance().withSubject(sHead).withBody(sBody).withRecipient(recipient).build());
     }
 }
