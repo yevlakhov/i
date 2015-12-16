@@ -21,9 +21,9 @@ public class MailDataResource {
     @Value("${mailServerPort}")
     private Integer port;
     @Value("${mailServerUseSSL}")
-    private boolean isSSL;
+    private boolean isSSLEnable;
     @Value("${mailServerUseTLS}")
-    private boolean isTLS;
+    private boolean isTLSEnable;
 
     public String getSender() {
         return sender;
@@ -73,19 +73,19 @@ public class MailDataResource {
         this.port = port;
     }
 
-    public boolean isSSL() {
-        return isSSL;
+    public boolean isSSLEnable() {
+        return isSSLEnable;
     }
 
-    public void setSSL(boolean isSSL) {
-        this.isSSL = isSSL;
+    public void setSSLEnable(boolean isSSL) {
+        this.isSSLEnable = isSSL;
     }
 
-    public boolean isTLS() {
-        return isTLS;
+    public boolean isTLSEnable() {
+        return isTLSEnable;
     }
 
-    public void setTLS(boolean isTLS) {
-        this.isTLS = isTLS;
+    public void setTLSEnable(boolean isTLS) {
+        this.isTLSEnable = isTLS;
     }
 }

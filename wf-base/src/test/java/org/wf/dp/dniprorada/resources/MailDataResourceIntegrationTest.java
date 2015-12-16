@@ -36,8 +36,8 @@ public class MailDataResourceIntegrationTest {
         assertEquals(VALID_PASSWORD, mailDataResource.getPassword());
         assertEquals(VALID_HOSTNAME, mailDataResource.getHostname());
         assertEquals(VALID_PORT, mailDataResource.getPort());
-        assertFalse(mailDataResource.isSSL());
-        assertTrue(mailDataResource.isTLS());
+        assertFalse(mailDataResource.isSSLEnable());
+        assertTrue(mailDataResource.isTLSEnable());
     }
 
     @Test

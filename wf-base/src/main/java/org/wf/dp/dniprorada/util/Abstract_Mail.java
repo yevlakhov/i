@@ -95,20 +95,20 @@ public abstract class Abstract_Mail {
     }
 
     public boolean isSSL() {
-        return mailDataResource.isSSL();
+        return mailDataResource.isSSLEnable();
     }
 
     public Abstract_Mail _SSL(boolean bSSL) {
-        mailDataResource.setSSL(bSSL);
+        mailDataResource.setSSLEnable(bSSL);
         return this;
     }
 
     public boolean isTLS() {
-        return mailDataResource.isTLS();
+        return mailDataResource.isTLSEnable();
     }
 
     public Abstract_Mail _TLS(boolean bTLS) {
-        mailDataResource.setTLS(bTLS);
+        mailDataResource.setTLSEnable(bTLS);
         return this;
     }
 
