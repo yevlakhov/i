@@ -30,7 +30,7 @@ public class MailDataResourceIntegrationTest {
     private MailDataResource mailDataResource;
 
     @Test
-    public void shouldSuccessfullyReadInformationFromPeroptyFile() {
+    public void shouldSuccessfullyReadInformationFromPropertyFile() {
         assertEquals(VALID_SENDER, mailDataResource.getSender());
         assertEquals(VALID_USERNAME, mailDataResource.getUsername());
         assertEquals(VALID_PASSWORD, mailDataResource.getPassword());
