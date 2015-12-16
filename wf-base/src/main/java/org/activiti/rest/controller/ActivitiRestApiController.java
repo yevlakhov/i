@@ -50,9 +50,12 @@ import org.wf.dp.dniprorada.base.dao.EntityNotFoundException;
 import org.wf.dp.dniprorada.base.model.AbstractModelTask;
 import org.wf.dp.dniprorada.base.util.FieldsSummaryUtil;
 import org.wf.dp.dniprorada.base.util.JSExpressionUtil;
+import org.wf.dp.dniprorada.converters.Converter;
 import org.wf.dp.dniprorada.engine.task.FileTaskUpload;
 import org.wf.dp.dniprorada.model.BuilderAttachModel;
 import org.wf.dp.dniprorada.model.ByteArrayMultipartFileOld;
+import org.wf.dp.dniprorada.model.MessageModel;
+import org.wf.dp.dniprorada.service.MailService;
 import org.wf.dp.dniprorada.util.*;
 import org.wf.dp.dniprorada.util.luna.AlgorithmLuna;
 import org.wf.dp.dniprorada.util.luna.CRCInvalidException;
@@ -70,7 +73,6 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.wf.dp.dniprorada.base.model.AbstractModelTask.getByteArrayMultipartFileFromRedis;
-//import com.google.common.base.Optional;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -597,7 +599,9 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
     @Autowired
     private FormService formService;
     @Autowired
-    private Mail oMail;
+    private MailService mailService;
+
+	private Converter<Da>
     @Autowired
     private GeneralConfig generalConfig;
     @Autowired
@@ -2183,18 +2187,10 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
             @RequestParam(value = "bUnisender", required = false) Boolean bUnisender)
             throws IOException, MessagingException, EmailException {
 
-        oMail._To("bvv4ik@gmail.com");
-        oMail._Body(sBody == null ? "<a href=\"http:\\\\google.com\">Google</a> It's test Проверка ! ��� ��������!"
+		MessageModel.Builder messageModelBuilder = MessageModel.Builder.newInstance();
+        messageModelBuilder.withRecipient("bvv4ik@gmail.com");
+        messageModelBuilder.withBody(sBody == null ? "<a href=\"http:\\\\google.com\">Google</a> It's test Проверка! Стандартное тело письма!"
                 : sBody);
-
-        LOG.info("oMail.getHead()=" + oMail.getHead());
-        LOG.info("oMail.getBody()=" + oMail.getBody());
-        LOG.info("oMail.getAuthUser()=" + oMail.getAuthUser());
-        LOG.info("oMail.getAuthPassword()=" + oMail.getAuthPassword());
-        LOG.info("oMail.getFrom()=" + oMail.getFrom());
-        LOG.info("oMail.getTo()=" + oMail.getTo());
-        LOG.info("oMail.getHost()=" + oMail.getHost());
-        LOG.info("oMail.getPort()=" + oMail.getPort());
 
         if (snaID_Attachment != null) {
             String[] ansID_Attachment = snaID_Attachment.split(",");
@@ -2212,17 +2208,22 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
                 DataSource oDataSource = new ByteArrayDataSource(oInputStream,
                         sFileExt);
 
-                oMail._Attach(oDataSource, sFileName + "." + sFileExt,
-                        sDescription);
+                messageModelBuilder.withAttache(oDataSource, sFileName + "." + sFileExt, sDescription);
             }
         }
-        
-        if(bUnisender!=null && bUnisender){
-            oMail.sendWithUniSender();
+
+		MessageModel messageModel = messageModelBuilder.build();
+
+		if(isUniSenderActivated(bUnisender)){
+            mailService.sendWithUniSender(messageModel);
         }else{
-            oMail.send();
+            mailService.sendWithMailClient(messageModel);
         }
     }
+
+	private boolean isUniSenderActivated(Boolean uniSenderState) {
+		return uniSenderState != null && uniSenderState;
+	}
 
     /**
      * @param sPathFile полный путь к файлу, например: folder/file.html.
@@ -2325,32 +2326,6 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
                 .append("&sToken=").append(sToken)).toString();
         emailBody.append(link).append("<br/>");
         return emailBody.toString();
-    }
-
-	// private Long getProcessId(String sID_Order, Long nID_Protected, Long
-    // nID_Process) {
-    // Long result = null;
-    // if (nID_Process != null) {
-    // result = nID_Process;
-    // } else if (nID_Protected != null) {
-    // result = AlgorithmLuna.getOriginalNumber(nID_Protected);
-    // } else if (sID_Order != null && !sID_Order.isEmpty()) {
-    // Long protectedId;
-    // if (sID_Order.contains("-")) {
-    // int dash_position = sID_Order.indexOf("-");
-    // protectedId = Long.valueOf(sID_Order.substring(dash_position + 1));
-    // } else {
-    // protectedId = Long.valueOf(sID_Order);
-    // }
-    // result = AlgorithmLuna.getOriginalNumber(protectedId);
-    // }
-    // return result;
-    // }
-    private void sendEmail(String sHead, String sBody, String recipient)
-            throws EmailException {
-        oMail.reset();
-        oMail._To(recipient)._Head(sHead)._Body(sBody);
-        oMail.send();
     }
 
     private String createTable(String soData)
