@@ -4,7 +4,7 @@ import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
-import org.wf.dp.dniprorada.util.Mail;
+import org.wf.dp.dniprorada.services.impl.DefaultMailService;
 
 /**
  * User: goodg_000
@@ -17,7 +17,7 @@ public class NotificationService {
     GeneralConfig generalConfig;
 
     @Autowired
-    Mail mail;
+    DefaultMailService mail;
 
     public void sendTaskCreatedInfoEmail(String receiverEmail, Long nID_Protected) throws EmailException {
 

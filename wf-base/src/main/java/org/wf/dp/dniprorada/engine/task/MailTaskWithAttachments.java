@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
 import org.wf.dp.dniprorada.resources.MailDataResource;
-import org.wf.dp.dniprorada.util.Mail;
+import org.wf.dp.dniprorada.services.impl.DefaultMailService;
 
 import javax.activation.DataSource;
 import java.io.InputStream;
@@ -32,7 +32,7 @@ public class MailTaskWithAttachments extends Abstract_MailTaskCustom {
     public void execute(DelegateExecution oExecution) throws Exception {
         System.setProperty("mail.mime.address.strict", "false");
 
-        Mail oMail = new Mail();
+        DefaultMailService oMail = new DefaultMailService();
 
         MailDataResource mailDataResource = createMailDataresourceInstance();
 

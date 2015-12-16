@@ -11,7 +11,7 @@ import org.springframework.stereotype.Component;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
 import org.wf.dp.dniprorada.resources.MailDataResource;
-import org.wf.dp.dniprorada.util.Mail;
+import org.wf.dp.dniprorada.services.impl.DefaultMailService;
 
 import javax.activation.DataSource;
 import java.io.InputStream;
@@ -30,7 +30,7 @@ public class MailTaskWithAttachment extends Abstract_MailTaskCustom {
     @Override
     public void execute(DelegateExecution oExecution) throws Exception {
 
-        Mail oMail = new Mail();
+        DefaultMailService oMail = new DefaultMailService();
 
         String sFromMail = getStringFromFieldExpression(this.from, oExecution);
         String saToMail = getStringFromFieldExpression(this.to, oExecution);

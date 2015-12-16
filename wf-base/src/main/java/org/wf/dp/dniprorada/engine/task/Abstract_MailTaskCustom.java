@@ -26,7 +26,6 @@ import org.wf.dp.dniprorada.exchange.AccessCover;
 import org.wf.dp.dniprorada.liqPay.LiqBuy;
 import org.wf.dp.dniprorada.resources.MailDataResource;
 import org.wf.dp.dniprorada.util.GeneralConfig;
-import org.wf.dp.dniprorada.util.Mail;
 import org.wf.dp.dniprorada.util.Util;
 
 import java.io.IOException;

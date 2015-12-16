@@ -1,10 +1,7 @@
 package org.activiti.rest.controller;
 
 import com.google.gson.Gson;
-import org.activiti.engine.HistoryService;
 import org.activiti.engine.RuntimeService;
-import org.activiti.engine.TaskService;
-import org.activiti.engine.history.HistoricVariableInstance;
 import org.activity.rest.security.AuthenticationTokenSelector;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
@@ -19,7 +16,7 @@ import org.wf.dp.dniprorada.exchange.AccessCover;
 import org.wf.dp.dniprorada.model.LiqpayCallbackModel;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
-import org.wf.dp.dniprorada.util.Mail;
+import org.wf.dp.dniprorada.services.impl.DefaultMailService;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -38,7 +35,7 @@ public class ActivitiPaymentRestController {
     @Autowired
     AccessCover accessCover;
     @Autowired
-    Mail oMail;
+    DefaultMailService oMail;
     @Autowired
     AccessDataDao accessDataDao;
     @Autowired

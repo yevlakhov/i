@@ -56,6 +56,7 @@ import org.wf.dp.dniprorada.model.ByteArrayMultipartFileOld;
 import org.wf.dp.dniprorada.model.MessageModel;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
+import org.wf.dp.dniprorada.services.impl.DefaultMailService;
 import org.wf.dp.dniprorada.util.*;
 import org.wf.dp.dniprorada.util.luna.AlgorithmLuna;
 import org.wf.dp.dniprorada.util.luna.CRCInvalidException;
@@ -600,7 +601,7 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
     @Autowired
     private FormService formService;
     @Autowired
-    private Mail oMail;
+    private DefaultMailService oMail;
     @Autowired
     private GeneralConfig generalConfig;
     @Autowired

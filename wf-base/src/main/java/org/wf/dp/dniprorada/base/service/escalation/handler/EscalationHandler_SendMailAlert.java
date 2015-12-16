@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
-import org.wf.dp.dniprorada.util.Mail;
+import org.wf.dp.dniprorada.services.impl.DefaultMailService;
 import org.wf.dp.dniprorada.util.Util;
 
 import java.io.IOException;
@@ -19,7 +19,7 @@ public class EscalationHandler_SendMailAlert implements EscalationHandler {
     @Autowired
     GeneralConfig oGeneralConfig;
     @Autowired
-    private Mail oMail;
+    private DefaultMailService oMail;
 
     @Override
     public void execute(Map<String, Object> mParam, String[] asRecipientMail, String sPatternFile) {
@@ -65,7 +65,7 @@ public class EscalationHandler_SendMailAlert implements EscalationHandler {
             }
         }
         LOG.info("@Autowired oMail=" + oMail);
-        oMail = oMail == null ? new Mail() : oMail;
+        oMail = oMail == null ? new DefaultMailService() : oMail;
         LOG.info("oMail=" + oMail);
         for (String recipient : asRecipientMail) {
             try {

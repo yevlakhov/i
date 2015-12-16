@@ -1,4 +1,4 @@
-package org.wf.dp.dniprorada.util;
+package org.wf.dp.dniprorada.services.impl;
 
 import org.apache.commons.mail.EmailException;
 import org.apache.commons.mail.MultiPartEmail;
@@ -27,16 +27,16 @@ import java.util.List;
  * @author Belyavtsev Vladimir Vladimirovich (BW)
  */
 @Component("mailOld")
-public class MailOld implements MailService {
+public class LegacyMailService implements MailService {
 
-    private final static Logger log = LoggerFactory.getLogger(Mail.class);
+    private final static Logger log = LoggerFactory.getLogger(DefaultMailService.class);
 
     private MultiPartEmail oMultiPartEmail = null;
 
     @Autowired
     private MailDataResource mailDataResource;
 
-    public MailOld() {
+    public LegacyMailService() {
     }
 
     public void init(MessageModel messageModel) throws EmailException {
@@ -56,7 +56,7 @@ public class MailOld implements MailService {
         log.info("getHead()=" + messageModel.getSubject());
     }
 
-    public MailOld _BodyAsText(MessageModel messageModel) throws EmailException {
+    public LegacyMailService _BodyAsText(MessageModel messageModel) throws EmailException {
         //        init();
         log.info("_BodyAsText");
         oMultiPartEmail.setMsg(messageModel.getBody());
@@ -65,7 +65,7 @@ public class MailOld implements MailService {
         return this;
     }
 
-    public MailOld _BodyAsHTML(MessageModel messageModel) throws EmailException {
+    public LegacyMailService _BodyAsHTML(MessageModel messageModel) throws EmailException {
         //        init();
         log.info("_BodyAsHTML");
         //oMultiPartEmail.setMsg(sBody);
@@ -75,7 +75,7 @@ public class MailOld implements MailService {
         return this;
     }
 
-    public MailOld _PartHTML(MessageModel messageModel) throws MessagingException, EmailException {
+    public LegacyMailService _PartHTML(MessageModel messageModel) throws MessagingException, EmailException {
         //        init();
         log.info("_PartHTML");
         //oMultiPartEmail.setMsg("0");
@@ -88,7 +88,7 @@ public class MailOld implements MailService {
         return this;
     }
 
-    public MailOld _Part(DataSource oDataSource) throws MessagingException, EmailException {
+    public LegacyMailService _Part(DataSource oDataSource) throws MessagingException, EmailException {
         //        init();
         log.info("_Part");
         MimeMultipart oMimeMultipart = new MimeMultipart("related");
@@ -98,7 +98,7 @@ public class MailOld implements MailService {
         return this;
     }
 
-    public MailOld _Attach(DataSource oDataSource, String sName, String sNote)
+    public LegacyMailService _Attach(DataSource oDataSource, String sName, String sNote)
             throws MessagingException, EmailException {
         //        init();
         log.info("1)oMultiPartEmail.isBoolHasAttachments()=" + oMultiPartEmail.isBoolHasAttachments());
@@ -110,7 +110,7 @@ public class MailOld implements MailService {
         return this;
     }
 
-    private MailOld _Parts(List<DataSource> aDataSource) throws MessagingException {
+    private LegacyMailService _Parts(List<DataSource> aDataSource) throws MessagingException {
         return this;
     }
 

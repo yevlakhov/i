@@ -13,7 +13,7 @@ import org.wf.dp.dniprorada.base.dao.GenericEntityDao;
 import org.wf.dp.dniprorada.model.*;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
-import org.wf.dp.dniprorada.util.Mail;
+import org.wf.dp.dniprorada.services.impl.DefaultMailService;
 import org.wf.dp.dniprorada.util.SecurityUtils;
 
 import java.io.*;
@@ -22,7 +22,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
-import java.util.Random;
 
 @Repository
 public class DocumentAccessDaoImpl extends GenericEntityDao<DocumentAccess> implements DocumentAccessDao {
@@ -32,7 +31,7 @@ public class DocumentAccessDaoImpl extends GenericEntityDao<DocumentAccess> impl
     @Autowired
     GeneralConfig generalConfig;
     @Autowired
-    Mail oMail;
+    DefaultMailService oMail;
     private SessionFactory sessionFactory;
 
     public DocumentAccessDaoImpl() {

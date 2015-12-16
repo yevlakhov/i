@@ -1,4 +1,4 @@
-package org.wf.dp.dniprorada.util;
+package org.wf.dp.dniprorada.services.impl;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.mail.EmailException;
@@ -11,6 +11,7 @@ import org.wf.dp.dniprorada.model.MessageModel;
 import org.wf.dp.dniprorada.model.builders.MimeMultipartBuilder;
 import org.wf.dp.dniprorada.resources.MailDataResource;
 import org.wf.dp.dniprorada.services.MailService;
+import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.util.unisender.UniResponse;
 import org.wf.dp.dniprorada.util.unisender.UniSender;
 import org.wf.dp.dniprorada.util.unisender.requests.CreateCampaignRequest;
@@ -28,9 +29,9 @@ import java.util.Map;
  * @author Belyavtsev Vladimir Vladimirovich (BW)
  */
 @Service("mail")
-public class Mail implements MailService {
+public class DefaultMailService implements MailService {
 
-    private final static Logger log = LoggerFactory.getLogger(Mail.class);
+    private final static Logger log = LoggerFactory.getLogger(DefaultMailService.class);
 
     private static final String DEFAULT_ENCODING = "UTF-8";
 
@@ -41,7 +42,7 @@ public class Mail implements MailService {
 
     private Session oSession = null;
 
-    public Mail() {}
+    public DefaultMailService() {}
 
     public void setMailDataResource(MailDataResource mailDataResource) {
         this.mailDataResource = mailDataResource;
