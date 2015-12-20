@@ -3,6 +3,7 @@ package org.wf.dp.dniprorada.base.service.escalation.handler;
 import org.apache.commons.mail.EmailException;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Component;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
@@ -19,6 +20,7 @@ public class EscalationHandler_SendMailAlert implements EscalationHandler {
     @Autowired
     GeneralConfig oGeneralConfig;
     @Autowired
+    @Qualifier("mail")
     private DefaultMailService oMail;
 
     @Override

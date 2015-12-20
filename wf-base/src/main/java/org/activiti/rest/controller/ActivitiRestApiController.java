@@ -39,6 +39,7 @@ import org.json.simple.JSONValue;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -601,6 +602,7 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
     @Autowired
     private FormService formService;
     @Autowired
+	@Qualifier("mail")
     private DefaultMailService oMail;
     @Autowired
     private GeneralConfig generalConfig;

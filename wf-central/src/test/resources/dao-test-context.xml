@@ -8,6 +8,8 @@
     <import resource="classpath:/context-dao.xml" />
     <import resource="classpath:/context-dao_local.xml" />
 
+    <context:component-scan base-package="org.wf.dp.dniprorada.resources"/>
+
     <bean id="dataSource"
           class="org.springframework.jdbc.datasource.SimpleDriverDataSource">
         <property name="driverClass" value="org.h2.Driver"/>
@@ -29,7 +31,7 @@
     </bean>
 
     <bean id="mail" class="org.mockito.Mockito" factory-method="mock">
-        <constructor-arg value="org.wf.dp.dniprorada.util.Mail" />
+        <constructor-arg value="org.wf.dp.dniprorada.services.impl.DefaultMailService" />
     </bean>
 
     <context:property-placeholder location="classpath:email.properties" ignore-unresolvable="true"/>

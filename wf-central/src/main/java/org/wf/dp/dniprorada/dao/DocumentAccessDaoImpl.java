@@ -8,6 +8,7 @@ import org.hibernate.SessionFactory;
 import org.hibernate.criterion.Restrictions;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Repository;
 import org.wf.dp.dniprorada.base.dao.GenericEntityDao;
 import org.wf.dp.dniprorada.model.*;
@@ -30,8 +31,8 @@ public class DocumentAccessDaoImpl extends GenericEntityDao<DocumentAccess> impl
     private final String urlConn = "https://sms-inner.siteheart.com/api/otp_create_api.cgi";
     @Autowired
     GeneralConfig generalConfig;
-    @Autowired
-    DefaultMailService oMail;
+    @Qualifier("mail")
+    @Autowired DefaultMailService oMail;
     private SessionFactory sessionFactory;
 
     public DocumentAccessDaoImpl() {

@@ -2,6 +2,7 @@ package org.wf.dp.dniprorada.base.service.notification;
 
 import org.apache.commons.mail.EmailException;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
 import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.services.impl.DefaultMailService;
@@ -17,6 +18,7 @@ public class NotificationService {
     GeneralConfig generalConfig;
 
     @Autowired
+    @Qualifier("mail")
     DefaultMailService mail;
 
     public void sendTaskCreatedInfoEmail(String receiverEmail, Long nID_Protected) throws EmailException {

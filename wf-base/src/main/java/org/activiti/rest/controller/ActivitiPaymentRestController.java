@@ -1,11 +1,15 @@
 package org.activiti.rest.controller;
 
 import com.google.gson.Gson;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import org.activiti.engine.RuntimeService;
 import org.activity.rest.security.AuthenticationTokenSelector;
 import org.apache.commons.codec.binary.Base64;
 import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -47,6 +51,7 @@ public class ActivitiPaymentRestController {
     @Autowired
     AccessCover accessCover;
     @Autowired
+    @Qualifier("mail")
     DefaultMailService oMail;
     @Autowired
     AccessDataDao accessDataDao;
