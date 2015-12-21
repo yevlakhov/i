@@ -19,8 +19,8 @@ import org.wf.dp.dniprorada.base.dao.AccessDataDao;
 import org.wf.dp.dniprorada.exchange.AccessCover;
 import org.wf.dp.dniprorada.model.LiqpayCallbackModel;
 import org.wf.dp.dniprorada.model.builders.MessageModelBuilder;
-import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.services.impl.DefaultMailService;
+import org.wf.dp.dniprorada.util.GeneralConfig;
 
 import javax.servlet.http.HttpServletRequest;
 
@@ -49,12 +49,12 @@ public class ActivitiPaymentRestController {
     @Autowired
     GeneralConfig generalConfig;
     @Autowired
-    AccessCover accessCover;
-    @Autowired
     @Qualifier("mail")
     DefaultMailService oMail;
     @Autowired
     AccessDataDao accessDataDao;
+    @Autowired
+    private AccessCover accessCover;
     @Autowired
     private RuntimeService runtimeService;
 
