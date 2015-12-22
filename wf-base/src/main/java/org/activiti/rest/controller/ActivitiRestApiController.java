@@ -88,7 +88,7 @@ import io.swagger.annotations.ApiParam;
  * @author BW
  */
 @Controller
-@Api(tags = { "Activiti" }, description = "ActivitiRestApiController")
+@Api(tags = { "ActivitiRestApiController" }, description = "Activiti")
 @RequestMapping(value = "/rest")
 public class ActivitiRestApiController extends ExecutionBaseResource {
 
@@ -1645,7 +1645,7 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
         if (saFields != null) {
 			// we need to check the case when this parameter is not empty.
             // when ti is empty - we will not contain custom names
-            if (saFields.contains("=")) {
+            //if (saFields.contains("=")) {
                 LOG.info("saFields has custom header names");
                 StringBuilder sb = new StringBuilder();
                 String[] fields = saFields.split(";");
@@ -1660,7 +1660,7 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
                     }
                 }
                 res = sb.toString();
-            }
+            //}
         } else {
             // need to take all fields from the tasks
             if (foundHistoricResults != null && foundHistoricResults.size() > 0) {
@@ -1683,8 +1683,8 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
 
     private String formHeader(String saFields, List<HistoricTaskInstance> foundHistoricResults, String saFieldsCalc) {
         String res = null;
-        if (saFields != null) {
-            if (saFields.contains("=")) {
+        if (saFields != null && !"".equals(saFields.trim())) {
+            //if (saFields.contains("=")) {
                 LOG.info("Fields have custom header names");
                 StringBuilder sb = new StringBuilder();
                 String[] fields = saFields.split(";");
@@ -1699,7 +1699,7 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
                     }
                 }
                 res = sb.toString();
-            }
+            //}
             res = res.replaceAll("\\$\\{", "");
             res = res.replaceAll("\\}", "");
             LOG.info("Formed header from list of fields: " + res);

@@ -1,6 +1,7 @@
 package org.activiti.rest.controller;
 
 import com.google.common.base.Optional;
+
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
@@ -9,6 +10,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -25,7 +27,11 @@ import org.wf.dp.dniprorada.model.SubjectMessage;
 import org.wf.dp.dniprorada.model.SubjectMessageType;
 import org.wf.dp.dniprorada.util.luna.CRCInvalidException;
 
+import io.swagger.annotations.ApiOperation;
+
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "/messages")
@@ -33,6 +39,40 @@ public class ActivitiRestSubjectMessageController {
 
     private static final Logger LOG = LoggerFactory.getLogger(ActivitiRestSubjectMessageController.class);
 
+    private static final String noteController = "##### ActivitiRestSubjectMessageController. ";
+    private static final String noteCODE= "\n```\n";
+    
+    private static final String noteGetMessageFeedbackExtended = noteController + "Получить сообщения-фидбека заявки #####\n\n"
+    		+ "HTTP Context: https://test.igov.org.ua/wf/service/messages/getMessageFeedbackExtended?sID_Order=XXX-XXXXXX&sToken=[TokenValue]*\n\n"
+    		+ "получает сообщение-фидбека заявки по следующим параметрам:\n\n"
+    		+ "- sID_Order, строка-ид события по услуге, формат XXX-XXXXXX, где первая часть -- ид сервера, где расположена задача, вторая часть -- nID_Protected, т.е. ид задачи + контрольная сумма по алгоритму Луна\n"
+    		+ "- sToken, токен, который сранивается со значением sToken из объекта HistoryEvent_Service\n"
+    		+ "\n"
+    		+ "Если объект не найден по sID_Order, то возвращается код 404 и сообщение \"Record Not Found\"\n"
+    		+ "Если sToken<>'' и sToken<>null и sToken не совпадет с HistoryEvent_Service.sToken то возвращается 403 статус и сообщение \"Security Error\"\n"
+    		+ "если в найденном обекте SubjectMessage sBody='', то sDate в результате возвращается как null\n"
+    		+ "Пример:\n"
+    		+ "https://test.igov.org.ua/wf/service/messages/getMessageFeedbackExtended?sID_Order=0-4446&sToken=TokenValue"
+    		+ noteCODE
+    		+ "{\n"
+    		+ "    \"sDate\":\"2015-11-10 23:23:59 001\",\n"
+    		+ "    \"sHead\":\"Получение справки о доходах\",\n"
+    		+ "    \"sID_Order\":\"0-4446\",\n"
+    		+ "}\n"
+    		+ noteCODE;
+    
+    private static final String noteSetMessageFeedbackExtended = noteController + "Сохранить сообщения-фидбека заявки #####\n\n"
+    		+ "HTTP Context: https://test.igov.org.ua/wf/service/messages/setMessageFeedbackExtended?sID_Order=XXX-XXXXXX&sToken=[TokenValue]*\n\n"
+    		+ "сохраняет сообщение-фидбек заявки по следующим параметрам:\n\n"
+    		+ "- sID_Order - строка-ид события по услуге, формат XXX-XXXXXX, где первая часть -- ид сервера, где расположена задача, вторая часть -- nID_Protected, т.е. ид задачи + контрольная сумма по алгоритму Луна\n"
+    		+ "- sToken - токен, который сранивается со значением sToken из объекта HistoryEvent_Service\n"
+    		+ "- sBody - строка фидбека \n"
+    		+ "\n"
+    		+ "Если запись успешно добавлена/обновлена то устанавливается sToken='' и sDate устанавливается в текущую.\n"
+    		+ "Если запись найдена и sBody<>'', то возвращается статус 403 и сообщение \"Already exists\"\n"
+    		+ "Если запись не найдена и sBody<>'', то возвращается 404 статус и сообщение \"Record Not Found\"\n"
+    		+ "Если sToken<>'' и sToken<>null и sToken не совпадет с HistoryEvent_Service.sToken то возвращается 403 статус и сообщение \"Security Error\"";
+    
     @Autowired
     private HistoryEvent_ServiceDao historyEventServiceDao;
     @Autowired
@@ -257,11 +297,13 @@ public class ActivitiRestSubjectMessageController {
                     String processInstanceID = "" + historyEventService.getnID_Proccess_Feedback();
                     LOG.info(String.format("set rate=%s to the nID_Proccess_Feedback=%s", nRate, processInstanceID));
                     List<Task> tasks = taskService.createTaskQuery().processInstanceId(processInstanceID).list();
-                    runtimeService.setVariable(processInstanceID, "nID_Rate", nRate);
-                    LOG.info("Found " + tasks.size() + " tasks by nID_Proccess_Feedback...");
-                    for (Task task : tasks) {
-                        LOG.info("task;" + task.getName() + "|" + task.getDescription() + "|" + task.getId());
-                        taskService.setVariable(task.getId(), "nID_Rate", nRate);
+                    if (tasks.size() > 0) {//when process is not complete
+                        runtimeService.setVariable(processInstanceID, "nID_Rate", nRate);
+                        LOG.info("Found " + tasks.size() + " tasks by nID_Proccess_Feedback...");
+                        for (Task task : tasks) {
+                            LOG.info("task;" + task.getName() + "|" + task.getDescription() + "|" + task.getId());
+                            taskService.setVariable(task.getId(), "nID_Rate", nRate);
+                        }
                     }
                 }
                 LOG.info(String.format("set rate=%s to the task=%s, nID_Protected=%s Success!",
@@ -272,6 +314,136 @@ public class ActivitiRestSubjectMessageController {
                 LOG.error("ex!", e);
             }
         }
+    }
+    
+    @ApiOperation(value = "Получить сообщение-фидбек заявки", notes = noteGetMessageFeedbackExtended )
+    @RequestMapping(value = "/getMessageFeedbackExtended", method = RequestMethod.GET)//Feedback
+    /**
+     * Получение сообщение-фидбека заявки по следующим параметрам:
+     * @param sID_Order  строка-ид события по услуге, формат XXX-XXXXXX, где первая часть -- ид сервера, где расположена задача, вторая часть -- nID_Protected, т.е. ид задачи + контрольная сумма по алгоритму Луна
+     * @param sToken токен, который сранивается со значением sToken из объекта HistoryEvent_Service
+     * @return json со значениями sDate, sHead, sID_Order
+     * @throws ActivitiRestException 
+     * 	404 ошибка и сообщение "Record Not Found" - если запись не найдена
+     * 	403 ошибка и сообщение "Security Error" - если не совпадает токен
+     */
+    public @ResponseBody
+    Map<String, Object> getMessageFeedbackExtended(
+            @RequestParam(value = "sID_Order") String sID_Order,
+            @RequestParam(value = "sToken") String sToken) throws ActivitiRestException {
+
+		Map<String, Object> res = new HashMap<String, Object>();
+
+		try {
+			HistoryEvent_Service historyEventService = historyEventServiceDao.getOrgerByID(sID_Order);
+	    	if (historyEventService != null){
+	    		if ((historyEventService.getsToken() != null && historyEventService.getsToken().equals(sToken)) ||
+	    				historyEventService.getsToken() == null){
+		    		List<SubjectMessage> subjectMessages = subjectMessagesDao.findAllBy("nID_HistoryEvent_Service", historyEventService.getId());
+		    		if (subjectMessages != null && subjectMessages.size() > 0){
+		    			for (SubjectMessage subjectMessage : subjectMessages){
+		    				if (subjectMessage.getSubjectMessageType().getId() == 1){
+		    					res.put("sHead", subjectMessage.getHead());
+		    					res.put("sID_Order", sID_Order);
+		    					if (subjectMessage.getBody() != null){
+		    						res.put("sDate", subjectMessage.getDate());
+		    					} else {
+		    						res.put("sDate", null);
+		    					}
+		    					return res;
+		    				} else {
+		    					LOG.info("Skipping subject message from processing as its ID is: " + subjectMessage.getSubjectMessageType().getId());
+		    				}
+		    			}
+		    		} else {
+		    			LOG.info("No SubjectMessage objects found with nID_HistoryEvent_Service:" + historyEventService.getId());
+		    		}
+	    		} else {
+	    			LOG.info("Skipping history event service " + historyEventService.getId() + " from processing as it contains wrong token: " + 
+	    						historyEventService.getsToken() + ":" + historyEventService.getsID_Order());
+	    			throw new ActivitiRestException(
+	                        ActivitiExceptionController.BUSINESS_ERROR_CODE,
+	                        "Security Error",
+	                        HttpStatus.FORBIDDEN);
+	    		}
+	    	}
+		} catch (CRCInvalidException e) {
+			LOG.info("Error occurred while getting message feedback:" + e.getMessage());
+		}
+        
+		throw new ActivitiRestException(
+                ActivitiExceptionController.BUSINESS_ERROR_CODE,
+                "Record Not Found",
+                HttpStatus.NOT_FOUND);
+    }
+    
+    @ApiOperation(value = "Сохранить сообщение-фидбек заявки", notes = noteSetMessageFeedbackExtended )
+    @RequestMapping(value = "/setMessageFeedbackExtended", method = RequestMethod.POST)//Feedback
+    /**
+     * Сохранение сообщение-фидбека заявки
+     * @param sID_Order  строка-ид события по услуге, формат XXX-XXXXXX, где первая часть -- ид сервера, где расположена задача, вторая часть -- nID_Protected, т.е. ид задачи + контрольная сумма по алгоритму Луна
+     * @param sToken токен, который сранивается со значением sToken из объекта HistoryEvent_Service
+     * @param sBody строка текста фидбэка
+     * 
+     * @throws ActivitiRestException 
+     * 	404 ошибка и сообщение "Record Not Found" - если запись не найдена
+     * 	403 ошибка и сообщение "Security Error" - если не совпадает токен
+     *  403 ошибка и сообщение "Already exist" - если sBody в SubjectMessage не пустое 
+     */
+    public @ResponseBody
+    String setMessageFeedbackExtended(
+            @RequestParam(value = "sID_Order") String sID_Order,
+            @RequestParam(value = "sToken") String sToken,
+            @RequestParam(value = "sBody") String sBody) throws ActivitiRestException {
+
+		try {
+			HistoryEvent_Service historyEventService = historyEventServiceDao.getOrgerByID(sID_Order);
+	    	if (historyEventService != null){
+	    		if (historyEventService.getsToken() != null && historyEventService.getsToken().equals(sToken)){
+		    		List<SubjectMessage> subjectMessages = subjectMessagesDao.findAllBy("nID_HistoryEvent_Service", historyEventService.getId());
+		    		if (subjectMessages != null && subjectMessages.size() > 0){
+		    			for (SubjectMessage subjectMessage : subjectMessages){
+		    				if (subjectMessage.getBody() != null && !subjectMessage.getBody().isEmpty()){
+		    					LOG.info("Body in Subject message does already exist");
+		    					throw new ActivitiRestException(
+		    	                        ActivitiExceptionController.BUSINESS_ERROR_CODE,
+		    	                        "Already exists",
+		    	                        HttpStatus.FORBIDDEN);
+		    				} else {
+		    					historyEventService.setsToken("");
+		    					historyEventServiceDao.saveOrUpdate(historyEventService);
+		    					
+		    					Optional<SubjectMessageType> subjectMessageType = subjectMessageTypeDao.findById(Long.valueOf(1));
+		    					
+		    					subjectMessage.setDate(new DateTime());
+		    					subjectMessage.setBody(sBody);
+		    					if (subjectMessageType.isPresent()){
+		    						subjectMessage.setSubjectMessageType(subjectMessageType.get());
+		    						LOG.info("Set SubjectMessageType with ID = 1");
+		    					}
+		    					subjectMessagesDao.saveOrUpdate(subjectMessage);
+		    				}
+		    			}
+		    		} else {
+		    			LOG.info("No SubjectMessage records found");
+    					throw new ActivitiRestException(
+    	                        ActivitiExceptionController.BUSINESS_ERROR_CODE,
+    	                        "Record Not Found",
+    	                        HttpStatus.NOT_FOUND);
+		    		}
+	    		} else {
+	    			LOG.info("Skipping history event service from processing as it contains wrong token: " + historyEventService.getsToken());
+	    			throw new ActivitiRestException(
+	                        ActivitiExceptionController.BUSINESS_ERROR_CODE,
+	                        "Security Error",
+	                        HttpStatus.FORBIDDEN);
+	    		}
+	    	}
+		} catch (CRCInvalidException e) {
+			LOG.info("Error occurred while setting message feedback:" + e.getMessage());
+		}
+        
+		return "Ok";
     }
 
 }
