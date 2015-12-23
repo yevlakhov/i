@@ -1,6 +1,9 @@
 package org.activiti.rest.controller;
 
 import com.google.common.base.Charsets;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 import liquibase.util.csv.CSVWriter;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
@@ -75,11 +78,8 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.wf.dp.dniprorada.base.model.AbstractModelTask.getByteArrayMultipartFileFromRedis;
-//import com.google.common.base.Optional;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+//import com.google.common.base.Optional;
 
 /**
  * ...wf/service/... Example:
@@ -610,6 +610,8 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
     private BankIDConfig bankIDConfig;
     @Autowired
     private ActivitiExceptionController exceptionController;
+	@Autowired
+	private SecurityUtilsService securityUtilsService;
 
     public static String parseEnumProperty(FormProperty property) {
         Object oValues = property.getType().getInformation("values");
@@ -2298,8 +2300,8 @@ public class ActivitiRestApiController extends ExecutionBaseResource {
 
         sHead = sHead == null ? "Необхідно уточнити дані" : sHead;
         sBody = EGovStringUtils.toStringWithBlankIfNull(sBody);
-        String sToken = SecurityUtils.generateSecret();
-        try {
+		String sToken = securityUtilsService.generateSecret();
+		try {
             LOG.info(
                     "try to update historyEvent_service by sID_Order=%s, nID_Protected=%s, nID_Process=%s and nID_Server=%s",
                     sID_Order, nID_Protected, nID_Process, nID_Server);
