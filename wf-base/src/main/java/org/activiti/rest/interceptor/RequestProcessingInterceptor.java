@@ -27,6 +27,7 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.wf.dp.dniprorada.base.model.EscalationHistory;
 import org.wf.dp.dniprorada.base.service.notification.NotificationService;
+import org.wf.dp.dniprorada.constant.HistoryEvent_Service_StatusType;
 import org.wf.dp.dniprorada.rest.HttpRequester;
 import org.wf.dp.dniprorada.util.GeneralConfig;
 import org.wf.dp.dniprorada.util.luna.AlgorithmLuna;
@@ -203,7 +204,8 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
         JSONObject jsonObjectResponse = (JSONObject) parser.parse(sResponseBody);
 
         String sID_Process = (String) jsonObjectResponse.get("id");
-        String taskName = "Заявка подана";
+        String taskName = "";
+        params.put("nID_StatusType", HistoryEvent_Service_StatusType.CREATED.getnID().toString());
 
         HistoricProcessInstance historicProcessInstances =
                 historyService.createHistoricProcessInstanceQuery().processInstanceId(sID_Process).singleResult();
@@ -266,7 +268,8 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
         String sID_Process = historicTaskInstance.getProcessInstanceId();
         List<Task> tasks = taskService.createTaskQuery().processInstanceId(sID_Process).list();
         boolean isProcessClosed = tasks == null || tasks.size() == 0;
-        taskName = isProcessClosed ? "Заявка виконана" : tasks.get(0).getName();
+        taskName = isProcessClosed ? "" : tasks.get(0).getName();
+        params.put("nID_StatusType", HistoryEvent_Service_StatusType.CLOSED.getnID().toString());
         params.put("nTimeMinutes", getTotalTimeOfExecution(sID_Process));
         String processName = historicTaskInstance.getProcessDefinitionId();
         LOG.info("processName=" + processName);
@@ -315,8 +318,10 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
         String processName = historicTaskInstance.getProcessDefinitionId();
 
         //        String sID_Process = (String) jsonObjectResponse.get("processInstanceId");
-        String taskName = jsonObjectResponse.get("name") + " (у роботi)";
-        historyEventService.updateHistoryEvent(sID_Process, taskName, false, null);
+        String taskName = HistoryEvent_Service_StatusType.OPENED_ASSIGNED.getsName_UA();
+        Map<String, String> params = new HashMap<>();
+        params.put("nID_StatusType", HistoryEvent_Service_StatusType.OPENED_ASSIGNED.getnID().toString());
+        historyEventService.updateHistoryEvent(sID_Process, taskName, false, params);
         //
         LOG.info("process=" + processName);
         try {

@@ -21,6 +21,7 @@ import org.wf.dp.dniprorada.base.dao.EntityNotFoundException;
 import org.wf.dp.dniprorada.base.dao.GenericEntityDao;
 import org.wf.dp.dniprorada.constant.HistoryEventMessage;
 import org.wf.dp.dniprorada.constant.HistoryEventType;
+import org.wf.dp.dniprorada.constant.HistoryEvent_Service_StatusType;
 import org.wf.dp.dniprorada.dao.HistoryEventDao;
 import org.wf.dp.dniprorada.dao.HistoryEvent_ServiceDao;
 import org.wf.dp.dniprorada.dao.ServerDao;
@@ -453,7 +454,7 @@ public class ActivitiRestHistoryEventController {
     public String updateHistoryEvent_Service_Central(String sID_Order,
             Long nID_Protected, Long nID_Process, Integer nID_Server,
             String saField, String sHead, String sBody, String sToken,
-            String sID_Status) throws Exception {
+            String sUserTaskName) throws Exception {
         Map<String, String> params = new HashMap<>();
         params.put("sID_Order", sID_Order);
         params.put("nID_Protected", nID_Protected != null ? "" + nID_Protected
@@ -465,8 +466,7 @@ public class ActivitiRestHistoryEventController {
         params.put("sHead", sHead);
         params.put("sBody", sBody);
         params.put("sToken", sToken);
-        params.put("sID_Status", sID_Status);
-        return historyEventService.updateHistoryEvent(sID_Process, sID_Status,
+        return historyEventService.updateHistoryEvent(sID_Process, sUserTaskName,
                 true, params);
     }
 
@@ -508,7 +508,7 @@ public class ActivitiRestHistoryEventController {
      * @param nID_Process-            ИД-номер задачи (long)
      * @param nID_Server              - ид сервера, где расположена задача (опционально, по умолчанию 0)
      * @param nID_Subject-            ИД-номер (long)
-     * @param sID_Status              - строка-статус
+     * @param sUserTaskName           - строка-статус
      * @param sProcessInstanceName-   название услуги (для Журнала событий)
      * @param nID_Service             -- ид услуги (long, опционально)
      * @param nID_Region              -- ид области (long, опционально)
@@ -519,6 +519,7 @@ public class ActivitiRestHistoryEventController {
      * @param sBody                   - строка тела сообщения (опционально, для поддержки дополнения заявки со стороны гражданина)
      * @param nID_Proccess_Feedback   - ид запущенного процесса для обработки фидбеков (issue 962)
      * @param nID_Proccess_Escalation - поле на перспективу для следующего тз по эскалации
+     * @param nID_StatusType          - числовой код, который соответсвует статусу (long, опционально)
      * @return created object or Exception "Cannot create event_service with the same nID_Process and nID_Server!"
      */
     @ApiOperation(value = "добавляет объект события по услуге", notes = noteAddHistoryEvent_Service)
@@ -529,7 +530,7 @@ public class ActivitiRestHistoryEventController {
             @ApiParam(value = "ИД-номер задачи", required = true) @RequestParam(value = "nID_Process") Long nID_Process,
             @ApiParam(value = "ид сервера, где расположена задача (по умолчанию 0)", required = false) @RequestParam(value = "nID_Server", required = false, defaultValue = "0") Integer nID_Server,
             @ApiParam(value = "ИД-номер", required = true) @RequestParam(value = "nID_Subject") Long nID_Subject,
-            @ApiParam(value = "строка-статус", required = true) @RequestParam(value = "sID_Status") String sID_Status,
+            @ApiParam(value = "строка-статус", required = true) @RequestParam(value = "sUserTaskName") String sUserTaskName,
             @ApiParam(value = "название услуги (для Журнала событий)", required = true) @RequestParam(value = "sProcessInstanceName") String sProcessInstanceName,
             @ApiParam(value = "ид услуги", required = false) @RequestParam(value = "nID_Service", required = false) Long nID_Service,
             @ApiParam(value = "ид области", required = false) @RequestParam(value = "nID_Region", required = false) Long nID_Region,
@@ -539,13 +540,13 @@ public class ActivitiRestHistoryEventController {
             @ApiParam(value = "строка заглавия сообщения (для поддержки дополнения заявки со стороны гражданина)", required = false) @RequestParam(value = "sHead", required = false) String sHead,
             @ApiParam(value = "строка тела сообщения (для поддержки дополнения заявки со стороны гражданина)", required = false) @RequestParam(value = "sBody", required = false) String sBody,
             @ApiParam(value = "ид запущенного процесса для обработки фидбеков (issue 962)", required = false) @RequestParam(value = "nID_Proccess_Feedback", required = false) Long nID_Proccess_Feedback,
-            @ApiParam(value = "поле на перспективу для следующего тз по эскалации", required = false) @RequestParam(value = "nID_Proccess_Escalation", required = false) Long nID_Proccess_Escalation
+            @ApiParam(value = "поле на перспективу для следующего тз по эскалации", required = false) @RequestParam(value = "nID_Proccess_Escalation", required = false) Long nID_Proccess_Escalation,
+            @ApiParam(value = "числовой код, который соответсвует статусу", required = true) @RequestParam(value = "nID_StatusType", required = true) Long nID_StatusType
     ) {
 
         HistoryEvent_Service event_service = new HistoryEvent_Service();
         event_service.setnID_Task(nID_Process);
-        event_service.setsStatus(sID_Status);
-        event_service.setsID_Status(sID_Status);
+        event_service.setsUserTaskName(sUserTaskName);
         event_service.setnID_Subject(nID_Subject);
         event_service.setnID_Region(nID_Region);
         event_service.setnID_Service(nID_Service);
@@ -558,11 +559,12 @@ public class ActivitiRestHistoryEventController {
         event_service.setnID_Server(nID_Server);
         event_service.setnID_Proccess_Feedback(nID_Proccess_Feedback);
         event_service.setnID_Proccess_Escalation(nID_Proccess_Escalation);
+        event_service.setnID_StatusType(nID_StatusType);
         event_service = historyEventServiceDao.addHistoryEvent_Service(event_service);
         //get_service history event
         Map<String, String> mParamMessage = new HashMap<>();
         mParamMessage.put(HistoryEventMessage.SERVICE_NAME, sProcessInstanceName);
-        mParamMessage.put(HistoryEventMessage.SERVICE_STATE, sID_Status);
+        mParamMessage.put(HistoryEventMessage.SERVICE_STATE, sUserTaskName);
         setHistoryEvent(HistoryEventType.GET_SERVICE, nID_Subject, mParamMessage);
         //My journal. setTaskQuestions (issue 808)
         createHistoryEventForTaskQuestions(HistoryEventType.SET_TASK_QUESTIONS, soData, soData,
@@ -577,7 +579,7 @@ public class ActivitiRestHistoryEventController {
      * @param nID_Protected           -- зашифрованое ид задачи, nID задачи + контрольная цифра по алгоритму Луна (опционально, если задан sID_Order или nID_Process с/без nID_Server)
      * @param nID_Process             - ид задачи (опционально, если задан sID_Order или nID_Protected с/без nID_Server)
      * @param nID_Server              -- ид сервера, где расположена задача (опционально, по умолчанию 0)
-     * @param sID_Status              - строка-статус
+     * @param sUserTaskName           - строка-статус
      * @param soData                  - строка-объект с данными (опционально, для поддержки дополнения заявки со стороны гражданина)
      * @param sToken                  - строка-токена (опционально, для поддержки дополнения заявки со стороны гражданина)
      * @param sHead                   - строка заглавия сообщения (опционально, для поддержки дополнения заявки со стороны гражданина)
@@ -585,6 +587,7 @@ public class ActivitiRestHistoryEventController {
      * @param nTimeMinutes            - время обработки задачи (в минутах, опционально)
      * @param nID_Proccess_Feedback   - ид запущенного процесса для обработки фидбеков (issue 962)
      * @param nID_Proccess_Escalation - поле на перспективу для следующего тз по эскалации
+     * @param nID_StatusType          - числовой код, который соответсвует статусу (long, опционально)
      * @return 200ok or "Record not found"
      * @throws ActivitiRestException
      */
@@ -597,22 +600,23 @@ public class ActivitiRestHistoryEventController {
             @ApiParam(value = "зашифрованое ид задачи, nID задачи + контрольная цифра по алгоритму Луна (опционально, если задан sID_Order или nID_Process с/без nID_Server)", required = false) @RequestParam(value = "nID_Protected", required = false) Long nID_Protected,
             @ApiParam(value = "ид задачи (опционально, если задан sID_Order или nID_Protected с/без nID_Server)", required = false) @RequestParam(value = "nID_Process", required = false) Long nID_Process,
             @ApiParam(value = "ид сервера, где расположена задача (опционально, по умолчанию 0)", required = false) @RequestParam(value = "nID_Server", required = false) Integer nID_Server,
-            @ApiParam(value = "строка-статус", required = true) @RequestParam(value = "sID_Status") String sID_Status,
+            @ApiParam(value = "строка-статус", required = true) @RequestParam(value = "sUserTaskName") String sUserTaskName,
             @ApiParam(value = "строка-объект с данными (опционально, для поддержки дополнения заявки со стороны гражданина)", required = false) @RequestParam(value = "soData", required = false) String soData,
             @ApiParam(value = "строка-токена (опционально, для поддержки дополнения заявки со стороны гражданина)", required = false) @RequestParam(value = "sToken", required = false) String sToken,
             @ApiParam(value = "строка заглавия сообщения (опционально, для поддержки дополнения заявки со стороны гражданина)", required = false) @RequestParam(value = "sHead", required = false) String sHead,
             @ApiParam(value = "строка тела сообщения (опционально, для поддержки дополнения заявки со стороны гражданина)", required = false) @RequestParam(value = "sBody", required = false) String sBody,
             @ApiParam(value = "время обработки задачи (в минутах, опционально)", required = false) @RequestParam(value = "nTimeMinutes", required = false) String nTimeMinutes,
             @ApiParam(value = "ид запущенного процесса для обработки фидбеков (issue 962)", required = false) @RequestParam(value = "nID_Proccess_Feedback", required = false) Long nID_Proccess_Feedback,
-            @ApiParam(value = "поле на перспективу для следующего тз по эскалации", required = false) @RequestParam(value = "nID_Proccess_Escalation", required = false) Long nID_Proccess_Escalation
+            @ApiParam(value = "поле на перспективу для следующего тз по эскалации", required = false) @RequestParam(value = "nID_Proccess_Escalation", required = false) Long nID_Proccess_Escalation,
+            @ApiParam(value = "числовой код, который соответсвует статусу", required = true) @RequestParam(value = "nID_StatusType", required = true) Long nID_StatusType
     ) throws ActivitiRestException {
 
         HistoryEvent_Service historyEventService = getHistoryEventService(sID_Order, nID_Protected, nID_Process,
                 nID_Server);
 
         boolean isChanged = false;
-        if (sID_Status != null && !sID_Status.equals(historyEventService.getsID_Status())) {
-            historyEventService.setsID_Status(sID_Status);
+        if (sUserTaskName != null && !sUserTaskName.equals(historyEventService.getsUserTaskName())) {
+            historyEventService.setsUserTaskName(sUserTaskName);
             isChanged = true;
         }
         if (soData != null && !soData.equals(historyEventService.getSoData())) {
@@ -654,6 +658,7 @@ public class ActivitiRestHistoryEventController {
             historyEventService.setnID_Proccess_Escalation(nID_Proccess_Escalation);
             isChanged = true;
         }
+        historyEventService.setnID_StatusType(nID_StatusType);
         //for new numeration of historyEvent_services (889)
         nID_Protected = historyEventService.getnID_Protected();
         nID_Server = nID_Server != null ? nID_Server : 0;
@@ -669,7 +674,7 @@ public class ActivitiRestHistoryEventController {
         Long nID_Subject = historyEventService.getnID_Subject();
         //My journal. change status of task
         Map<String, String> mParamMessage = new HashMap<>();
-        mParamMessage.put(HistoryEventMessage.SERVICE_STATE, sID_Status);
+        mParamMessage.put(HistoryEventMessage.SERVICE_STATE, sUserTaskName);
         mParamMessage.put(HistoryEventMessage.TASK_NUMBER, sID_Order);
         setHistoryEvent(HistoryEventType.ACTIVITY_STATUS_NEW, nID_Subject, mParamMessage);
         //My journal. setTaskQuestions (issue 808, 809)
@@ -780,10 +785,8 @@ public class ActivitiRestHistoryEventController {
         List<HistoryEvent_Service> aHistoryEvent_Service = historyEventServiceDao.getOrdersHistory(nID_Subject, nID_Service, sID_UA, nLimit);
         for(HistoryEvent_Service oHistoryEvent_Service : aHistoryEvent_Service){
             nOpened++;
-            if(bExcludeClosed && (
-                     "Заявка виконана".equals(oHistoryEvent_Service.getsID_Status())
-                     || "closed".equals(oHistoryEvent_Service.getsID_Status())
-                    )){
+            if (bExcludeClosed
+                    && oHistoryEvent_Service.getsUserTaskName().startsWith("Заявка закрита")) {
                 nOpened--;
             }
         }
@@ -977,6 +980,13 @@ public class ActivitiRestHistoryEventController {
         }
 
         return result.getBody();
+    }
+
+    @RequestMapping(value = "/getHistoryEventsService", method = RequestMethod.GET)
+    public
+    @ResponseBody
+    List<HistoryEvent_Service> getHistoryEventsService() {
+        return historyEventServiceDao.findAll();
     }
 
     private Long addSomeServicesCount(Long nCount, Long nID_Service, Region region) {
