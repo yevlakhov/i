@@ -5,7 +5,7 @@ var config = require('../../config/environment');
 var syncSubject = require('../../api/service/syncSubject.service.js');
 
 module.exports.getUser = function (accessToken, callback) {
-  var infoURL = soccardUtil.getInfoURL(config);
+  var infoURL = soccardUtil.getInfoURL();
 
   //GET /api/info HTTP/1.1
   //Host: test.kyivcard.com.ua

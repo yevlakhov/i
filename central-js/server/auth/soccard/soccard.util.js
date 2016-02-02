@@ -1,10 +1,11 @@
-var crypto = require('crypto');
-var uuid = require('node-uuid');
-var fs = require('fs');
-var _ = require('lodash');
-var url = require('url');
+var config = require('../../config/environment')
+  , crypto = require('crypto')
+  , uuid = require('node-uuid')
+  , fs = require('fs')
+  , _ = require('lodash')
+  , url = require('url');
 
-var getURL = function (config, pathname) {
+var getURL = function (pathname) {
   return url.format({
     protocol: config.soccard.socCardAPIProtocol,
     hostname: config.soccard.socCardAPIHostname,
@@ -12,16 +13,37 @@ var getURL = function (config, pathname) {
   });
 };
 
-module.exports.getInfoURL = function (config) {
-  return getURL(config, '/api/info');
+
+var baseURls = {
+  access: {
+    base: getURL(),
+    path: {
+      token: '/api/oauth/token',
+      auth: '/api/oauth'
+    }
+  },
+  resource: {
+    base: getURL(),
+    path: {
+      info: '/api/info'
+    }
+  }
 };
 
-module.exports.getTokenURL = function (config) {
-  return getURL(config, '/api/oauth/token');
+module.exports.getBaseURLs = function () {
+  return baseURls;
 };
 
-module.exports.getAuthorizationURL = function (config) {
-  return getURL(config, '/api/oauth');
+module.exports.getInfoURL = function () {
+  return getURL(baseURls.resource.path.info);
+};
+
+module.exports.getTokenURL = function () {
+  return getURL(baseURls.access.path.token);
+};
+
+module.exports.getAuthorizationURL = function () {
+  return getURL(baseURls.access.path.auth);
 };
 
 module.exports.signData = function (config, socCardAPITransactionID, method, requestUrl, postBody, contentType) {
@@ -40,10 +62,10 @@ module.exports.signData = function (config, socCardAPITransactionID, method, req
   var data = [httpMethod, httpRequestURI, host,
     port, socCardAPIVersionID, socCardAPITransactionID, contentType,
     content].reduce(function (buffer, current, index, arr) {
-      buffer = index === 1 ? buffer + separator : buffer;
-      current = index < arr.length ? current += separator : current;
-      return buffer + current;
-    });
+    buffer = index === 1 ? buffer + separator : buffer;
+    current = index < arr.length ? current += separator : current;
+    return buffer + current;
+  });
   var prk = fs.readFileSync(config.soccard.socCardAPIPrivateKey);
   var key = prk.toString('ascii');
 

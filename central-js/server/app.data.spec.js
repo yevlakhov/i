@@ -15,6 +15,15 @@ module.exports.syncedCustomer = {
   nID: 20049
 };
 
+module.exports.ccoUser = {
+  "firstName": "TEST firstName",
+  "secondName": "TEST middleName",
+  "lastName": "TEST lastName",
+  "email": "TEST@EMAIL.COM",
+  "activeCard": "2111111111111111",
+  "personNumber": "0100111111600001"
+};
+
 module.exports.customer = {
   "type": "physical",
   "clId": "111111dfdfd22222",

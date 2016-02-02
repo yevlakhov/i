@@ -20,6 +20,12 @@ module.exports = {
     privateKeyPassphrase: '1234567899'
   },
 
+  soccard: {
+    socCardAPIProtocol: 'https',
+    socCardAPIHostname: 'test.kyivcard.com.ua',
+    socCardAPIVersion: '1.0'
+  },
+
   server: {
     protocol: 'http',
     port: '9000',

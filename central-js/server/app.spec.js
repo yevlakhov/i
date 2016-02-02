@@ -8,6 +8,7 @@ var supertest = require('supertest-as-promised');
 var app = require('./app');
 var appData = require('./app.data.spec.js');
 var config = require('./config/environment');
+var soccardUtil = require('./auth/soccard/soccard.util.js');
 var bankidUtil = require('./auth/bankid/bankid.util.js');
 var testRequest = supertest(app);
 var loginAgent = superagent.agent();
@@ -31,7 +32,7 @@ var queryStringToObject = function (urlString) {
     }, {});
 };
 
-var baseUrls = bankidUtil.getBaseURLs();
+var baseUrlsBankId = bankidUtil.getBaseURLs();
 
 var testAuthResultPath = '/auth/result';
 var testAuthResultBase = 'http://localhost:9001';
@@ -49,48 +50,65 @@ var authResultMock = nock(testAuthResultBase)
     }
     return query;
   }, {
-    'content-type': 'application/json;charset=UTF-8',
+    'content-type': 'application/json;charset=UTF-8'
   });
 
-var bankidMock = nock(baseUrls.access.base)
+
+function getHeaders() {
+  return {
+    'content-type': 'application/json;charset=UTF-8',
+    'access-control-allow-origin': '*',
+    'access-control-allow-headers': 'Authorization, content-type',
+    'access-control-allow-methods': 'GET, OPTIONS, POST',
+    'access-control-allow-credentials': 'true'
+  };
+}
+
+function getRedirectURL(req, code) {
+  var query = queryStringToObject(req.path);
+  var redirect = urlencode.decode(query.redirect_uri);
+  var baseURL = pathFromURL(redirect);
+  var redirectQuery = queryStringToObject(redirect);
+  var result = baseURL + '?link=' + urlencode.encode(redirectQuery.link) + (code ? '&code=' + code : '');
+  var path = url.parse(result).path;
+  return 'http://localhost:9000' + path;
+}
+
+var baseUrlsSoccard = soccardUtil.getBaseURLs();
+var soccardMock = nock(baseUrlsSoccard.access.base)
   .persist()
   .log(console.log)
-  .get(baseUrls.access.path.auth)
+  .get(baseUrlsSoccard.access.path.auth)
   .query(true)
   .reply(302, {}, {
     'Location': function (req) {
-      var query = queryStringToObject(req.path);
-      var redirect = urlencode.decode(query.redirect_uri);
-      var baseURL = pathFromURL(redirect);
-      var redirectQuery = queryStringToObject(redirect);
-      var result = baseURL + '?link=' + urlencode.encode(redirectQuery.link) + '&code=112233';
-      var path = url.parse(result).path;
-      return 'http://localhost:9000' + path;
+      return getRedirectURL(req);
     }
   })
-  .post(baseUrls.access.path.token)
+  .post(baseUrlsSoccard.access.path.token)
   .query(true)
-  .reply(200, appData.token, {
-    'content-type': 'application/json;charset=UTF-8',
-    'access-control-allow-origin': '*',
-    'access-control-allow-headers': 'Authorization, content-type',
-    'access-control-allow-methods': 'GET, OPTIONS, POST',
-    'access-control-allow-credentials': 'true'
+  .reply(200, appData.token, getHeaders())
+  .post(baseUrlsSoccard.resource.path.info)
+  .reply(200, appData.ccoUser, getHeaders());
+
+var bankidMock = nock(baseUrlsBankId.access.base)
+  .persist()
+  .log(console.log)
+  .get(baseUrlsBankId.access.path.auth)
+  .query(true)
+  .reply(302, {}, {
+    'Location': function (req) {
+      return getRedirectURL(req, 112233);
+    }
   })
-  .post(baseUrls.resource.path.info)
+  .post(baseUrlsBankId.access.path.token)
+  .query(true)
+  .reply(200, appData.token, getHeaders())
+  .post(baseUrlsBankId.resource.path.info)
   .reply(200, {
     "state": "ok",
     "customer": appData.customer
-  }, {
-    'content-type': 'application/json;charset=UTF-8',
-    'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
-    pragma: 'no-cache',
-    expires: '0',
-    'access-control-allow-origin': '*',
-    'access-control-allow-headers': 'Authorization, content-type',
-    'access-control-allow-methods': 'GET, OPTIONS, POST',
-    'access-control-allow-credentials': 'true'
-  });
+  }, getHeaders());
 
 var centralNock = nock('https://test.igov.org.ua')
   .persist()
@@ -116,7 +134,7 @@ var regionMock = nock('http://test.region.service')
   });
 
 
-module.exports.loginWithBankID = function(callback){
+module.exports.loginWithBankID = function (callback) {
   testRequest
     .get('/auth/bankid/callback?code=11223344&?link=' + testAuthResultURL)
     .expect(302)
@@ -128,7 +146,7 @@ module.exports.loginWithBankID = function(callback){
   });
 };
 
-module.exports.loginWithEds = function(callback){
+module.exports.loginWithEds = function (callback) {
   testRequest
     .get('/auth/eds/callback?code=11223344&?link=' + testAuthResultURL)
     .expect(302)
@@ -140,8 +158,21 @@ module.exports.loginWithEds = function(callback){
   });
 };
 
+module.exports.loginWithSoccard = function (callback) {
+  testRequest
+    .get('/auth/soccard/callback?code=11223344&link=' + testAuthResultURL)
+    .expect(302)
+    .then(function (res) {
+      loginAgent.saveCookies(res);
+      callback(null, loginAgent);
+    }).catch(function (err) {
+    callback(err)
+  });
+};
+
 module.exports.app = app;
 module.exports.bankidMock = bankidMock;
+module.exports.soccardMock = soccardMock;
 module.exports.centralNock = centralNock;
 module.exports.regionMock = regionMock;
 module.exports.authResultMock = authResultMock;

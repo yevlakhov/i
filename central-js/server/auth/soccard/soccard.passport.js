@@ -51,8 +51,8 @@ exports.setup = function (config) {
   };
 
   passport.use(new KCOAuth2Strategy({
-      authorizationURL: soccardUtil.getAuthorizationURL(config),
-      tokenURL: soccardUtil.getTokenURL(config),
+      authorizationURL: soccardUtil.getAuthorizationURL(),
+      tokenURL: soccardUtil.getTokenURL(),
       clientID: config.soccard.socCardAPIClientID,
       clientSecret: config.soccard.socCardAPIClientSecret,
       customHeaders: {
