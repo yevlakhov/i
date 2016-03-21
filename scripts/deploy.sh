@@ -39,11 +39,8 @@ do
 			shift
 			;;
 		--compile)
-			saCompile=
-			saCompile[0]="$2"
-			saCompile[1]="$3"
-			saCompile[2]="$4"
-			shift 3
+			IFS=',' read -r -a saCompile <<< "$2"
+			shift
 			;;
 		*)
 			echo "bad option"
