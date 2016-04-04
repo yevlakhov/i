@@ -1390,7 +1390,9 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             @ApiParam(value = "строка-массива параметров", required = true) @RequestParam(value = "saField") String soParams,
             @ApiParam(value = "строка электронного адреса гражданина", required = true) @RequestParam(value = "sMail") String sMail,
             @ApiParam(value = "строка заголовка письма", required = false) @RequestParam(value = "sHead", required = false) String sHead,
-            @ApiParam(value = "строка тела сообщения-коммента (общего)", required = false) @RequestParam(value = "sBody", required = false) String sBody)
+            @ApiParam(value = "строка тела сообщения-коммента (общего)", required = false) @RequestParam(value = "sBody", required = false) String sBody,
+			@ApiParam(value = "строка-информация о субъекте", required = false) @RequestParam(value = "sSubjectInfo", required = false) String sSubjectInfo,
+			@ApiParam(value = "номер-ИД субъекта", required = false) @RequestParam(value = "nID_Subject", required = false) String nID_Subject)
             throws CommonServiceException, CRCInvalidException {
 
         String sToken = Tool.getGeneratedToken();

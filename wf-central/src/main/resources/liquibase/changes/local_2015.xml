@@ -1067,4 +1067,18 @@
         </addColumn>
     </changeSet>
 
+    <changeSet id="issue-1215" author="VadymBuz">
+        <addColumn tableName="SubjectMessage">
+            <column name="sSubjectInfo" type="varchar(255)">
+            </column>
+        </addColumn>
+        <addColumn tableName="HistoryEvent">
+            <column name="sSubjectInfo" type="varchar(255)">
+            </column>
+        </addColumn>
+        <addForeignKeyConstraint constraintName="FK_Subject_SubjectMessage" referencedTableName="Subject" referencedColumnNames="nID"
+                                 baseTableName="SubjectMessage" baseColumnNames="nID_subject"/>
+        <addForeignKeyConstraint constraintName="FK_Subject_HistoryEvent" referencedTableName="Subject" referencedColumnNames="nID"
+                                 baseTableName="HistoryEvent" baseColumnNames="nID_subject"/>
+    </changeSet>
 </databaseChangeLog>
