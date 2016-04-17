@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should')
-  , appTest = require('../../app.spec')
+  , appTest = require('../../api/app.spec.js')
   , region = require('./index');
 
 require('../../api/subject/subject.service.nock');

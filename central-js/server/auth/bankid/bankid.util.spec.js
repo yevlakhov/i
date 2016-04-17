@@ -1,11 +1,11 @@
 'use strict';
 
-require('../../app.spec');
+require('../../api/app.spec.js');
 
 var keypair = require('keypair')
   , fs = require('fs')
   , constants = require('constants')
-  , appData = require('../../app.data.spec')
+  , appData = require('../../api/app.data.spec.js')
   , bankidUtil = require('./bankid.util')
   , should = require('should')
   , assert = require('assert')

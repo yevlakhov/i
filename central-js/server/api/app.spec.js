@@ -5,23 +5,18 @@ var nock = require('nock')
   , urlencode = require('urlencode')
   , superagent = require('superagent')
   , supertest = require('supertest-as-promised')
-  , app = require('./app')
-  , testRequest = supertest(app)
   , async = require('async')
-  , appData = require('./app.data.spec.js')
-  , appTests = require('./app.tests.spec.js')(testRequest)
-  , config = require('./config/environment')
-  //, config = require('./config')
-  , bankidUtil = require('./auth/bankid/bankid.util.js');
+  , app = require('./../app')
+  , config = require('./../config/environment/index')
+  , testRequest = supertest(app)
+  , appTests = require('./app.tests.spec.js')(testRequest);
+
+require('./api.region.nock.js');
+require('./api.central.nock');
+require('./uploadfile/uploadfile.service.nock');
+require('./../auth/bankid/bankid.service.nock');
 
 
-var pathFromURL = function (urlString) {
-  return urlString.split(/\?/).filter(function (item, i) {
-    return i == 0
-  }).reduce(function (previous, item) {
-    return item
-  })
-};
 var queryStringToObject = function (urlString) {
   return urlString.split(/&|\?/g)
     .filter(function (item, i) {
@@ -33,7 +28,9 @@ var queryStringToObject = function (urlString) {
     }, {});
 };
 
-var baseUrls = bankidUtil.getBaseURLs();
+var headersJSON = {
+  'Content-Type': 'application/json;charset=UTF-8'
+};
 
 var testAuthResultPath = '/auth/result';
 var testAuthResultBase = 'http://localhost:9001';
@@ -50,68 +47,7 @@ var authResultMock = nock(testAuthResultBase)
       query[key] = urlencode.decode(query[key]);
     }
     return query;
-  }, {
-    'content-type': 'application/json;charset=UTF-8',
-  });
-
-var bankidMock = nock(baseUrls.access.base)
-  .persist()
-  .log(console.log)
-  .get(baseUrls.access.path.auth)
-  .query(true)
-  .reply(302, {}, {
-    'Location': function (req) {
-      var query = queryStringToObject(req.path);
-      var redirect = urlencode.decode(query.redirect_uri);
-      var baseURL = pathFromURL(redirect);
-      var redirectQuery = queryStringToObject(redirect);
-      var result = baseURL + '?link=' + urlencode.encode(redirectQuery.link) + '&code=112233';
-      var path = url.parse(result).path;
-      return 'http://localhost:9000' + path;
-    }
-  })
-  .post(baseUrls.access.path.token)
-  .query(true)
-  .reply(200, appData.token, {
-    'content-type': 'application/json;charset=UTF-8',
-    'access-control-allow-origin': '*',
-    'access-control-allow-headers': 'Authorization, content-type',
-    'access-control-allow-methods': 'GET, OPTIONS, POST',
-    'access-control-allow-credentials': 'true'
-  })
-  .post(baseUrls.resource.path.info)
-  .reply(200, {
-    "state": "ok",
-    "customer": appData.customer
-  }, {
-    'content-type': 'application/json;charset=UTF-8',
-    'cache-control': 'no-cache, no-store, max-age=0, must-revalidate',
-    pragma: 'no-cache',
-    expires: '0',
-    'access-control-allow-origin': '*',
-    'access-control-allow-headers': 'Authorization, content-type',
-    'access-control-allow-methods': 'GET, OPTIONS, POST',
-    'access-control-allow-credentials': 'true'
-  });
-
-var centralNock = nock('https://test.igov.org.ua')
-  .persist()
-  .log(console.log);
-
-var regionMock = nock('https://test.region.igov.org.ua')
-  .persist()
-  .log(console.log)
-  .get('/service/object/file/check_file_from_redis_sign')
-  .query({sID_File_Redis: 1, nID_Subject: 11})
-  .reply(200, appData.signCheck, {
-    'Content-Type': 'application/json'
-  })
-  .get('/service/object/file/check_file_from_redis_sign')
-  .query({sID_File_Redis: 2, nID_Subject: 11})
-  .reply(200, appData.signCheckError, {
-    'Content-Type': 'application/json'
-  });
-
+  }, headersJSON);
 
 function getAuth(urlWithQueryParams, agentCallback, done) {
   testRequest
@@ -211,9 +147,6 @@ module.exports.loginWithEmail = function (callback) {
 
 
 module.exports.app = app;
-module.exports.bankidMock = bankidMock;
-module.exports.centralNock = centralNock;
-module.exports.regionMock = regionMock;
 module.exports.authResultMock = authResultMock;
 module.exports.testRequest = testRequest;
 module.exports.tests = appTests;

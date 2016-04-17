@@ -1,6 +1,6 @@
 'use strict';
 
-var appTest = require('../../app.spec');
+var appTest = require('../app.spec.js');
 
 appTest.centralNock
   .get('/wf/service/document/getDocumentTypes')

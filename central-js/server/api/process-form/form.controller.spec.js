@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should')
-  , appTest = require('../../app.spec')
+  , appTest = require('../app.spec.js')
   , testRequest = appTest.testRequest;
 
 require('../subject/subject.service.nock');
@@ -56,13 +56,8 @@ describe('POST /api/process-form', function () {
 describe('GET /api/process-form/sign/check', function () {
   var agent;
   before(function (done) {
-    appTest.loginWithBankID(function (error, loginAgent) {
-      if (error) {
-        done(error)
-      } else {
-        agent = loginAgent;
-        done();
-      }
+    appTest.loginWithBankID(done, function (loginAgent) {
+      agent = loginAgent;
     });
   });
 
@@ -70,7 +65,7 @@ describe('GET /api/process-form/sign/check', function () {
     var signCheck = testRequest.get('/api/process-form/sign/check?nID_Server=1');
     agent.attachCookies(signCheck);
     signCheck.expect(400).then(function (res) {
-      assertErrorResult(res);
+      appTest.tests.assertErrorResult(res);
       done();
     }).catch(function (err) {
       done(err)
@@ -81,7 +76,7 @@ describe('GET /api/process-form/sign/check', function () {
     var signCheck = testRequest.get('/api/process-form/sign/check?fileID=1122233');
     agent.attachCookies(signCheck);
     signCheck.expect(400).then(function (res) {
-      assertErrorResult(res);
+      appTest.tests.assertErrorResult(res);
       done();
     }).catch(function (err) {
       done(err)
@@ -102,7 +97,7 @@ describe('GET /api/process-form/sign/check', function () {
     var signCheck = testRequest.get('/api/process-form/sign/check?fileID=2&nID_Server=1');
     agent.attachCookies(signCheck);
     signCheck.expect(500).then(function (res) {
-      assertErrorNestedResult(res);
+      appTest.tests.assertErrorNestedResult(res);
       done();
     }).catch(function (err) {
       done(err)

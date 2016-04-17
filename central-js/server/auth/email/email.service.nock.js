@@ -1,6 +1,6 @@
 'use strict';
 
-var appTest = require('../../app.spec');
+var appTest = require('../../api/app.spec.js');
 
 var headers = {
   'content-type': 'application/json;charset=UTF-8'

@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should');
-var appTest = require('../app.spec');
+var appTest = require('../api/app.spec.js');
 var testRequest = appTest.testRequest;
 
 describe('auth service tests', function () {

@@ -3,7 +3,7 @@
 var should = require('should');
 
 require('./documents.mock.js');
-var appTest = require('../../app.spec');
+var appTest = require('../app.spec.js');
 var testRequest = appTest.testRequest;
 
 describe('GET /api/documents/search/getDocumentTypes', function () {

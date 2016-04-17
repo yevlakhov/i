@@ -1,20 +1,18 @@
 'use strict';
 
-var appTest = require('../../app.spec')
+var regionMock = require('../api.region.nock').regionMock
   , formServiceTest = require('./form.service.test');
 
 var headers = {
   'content-type': 'application/json;charset=UTF-8'
 };
 
-appTest
-  .regionMock
+regionMock
   .get('/wf/service/form/form-data')
   .query(true)
   .reply(200, formServiceTest.testData.forms.empty, headers);
 
-appTest
-  .regionMock
+regionMock
   .post('/wf/service/form/form-data')
   .query(true)
   .reply(200, formServiceTest.testData.forms.empty, headers);

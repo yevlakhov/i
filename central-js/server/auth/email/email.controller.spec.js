@@ -4,7 +4,7 @@ require('./../../api/subject/subject.service.nock');
 require('./email.service.nock');
 
 var should = require('should')
-  , appTest = require('../../app.spec');
+  , appTest = require('../../api/app.spec.js');
 
 describe('auth with email service tests', function () {
   it('should respond with 200 and session', function (done) {

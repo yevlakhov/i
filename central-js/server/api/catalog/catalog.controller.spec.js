@@ -1,7 +1,7 @@
 'use strict';
 
 var should = require('should')
-  , appTest = require('../../app.spec')
+  , appTest = require('../app.spec.js')
   , testRequest = appTest.testRequest;
 
 require('./catalog.service.nock');
