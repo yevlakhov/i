@@ -6,12 +6,12 @@ var express = require('express')
   , endpoint = require('../../components/endpoint');
 
 router.get('/', endpoint.assertQueryParams('nID_Server', 'sID_BP_Versioned'), form.index);
-router.post('/', form.submit);
-router.get('/sign', form.signForm);
-router.use('/sign/callback', form.signFormCallback);
-router.get('/sign/check', form.signCheck);
-router.post('/save', form.saveForm);
-router.get('/load', form.loadForm);
-router.post('/scansUpload', form.scanUpload);
+router.post('/', endpoint.assertQueryParams('nID_Server'), form.submit);
+router.get('/sign', endpoint.assertQueryParams('nID_Server'), form.signForm);
+router.use('/sign/callback', endpoint.assertQueryParams('nID_Server'), form.signFormCallback);
+router.get('/sign/check', endpoint.assertQueryParams('nID_Server'), form.signCheck);
+router.post('/save', endpoint.assertQueryParams('nID_Server'), form.saveForm);
+router.get('/load', endpoint.assertQueryParams('nID_Server'), form.loadForm);
+router.post('/scansUpload', endpoint.assertQueryParams('nID_Server'), form.scanUpload);
 
 module.exports = router;

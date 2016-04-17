@@ -2,7 +2,7 @@ var url = require('url')
   , request = require('request')
   , FormData = require('form-data')
   , config = require('../../config/environment')
-  //, config = require('../../config')
+//, config = require('../../config')
   , bankIDService = require('../../auth/bankid/bankid.service.js')
   , _ = require('lodash')
   , StringDecoder = require('string_decoder').StringDecoder
@@ -31,7 +31,7 @@ module.exports.submit = function (req, res) {
 
   var properties = [];
   for (var id in formData.params) {
-    if(formData.params.hasOwnProperty(id)){
+    if (formData.params.hasOwnProperty(id)) {
       var value = formData.params[id];
       if (id === 'nID_Subject') {
         value = nID_Subject;
@@ -72,57 +72,45 @@ module.exports.submit = function (req, res) {
 };
 
 module.exports.scanUpload = function (req, res) {
+  var sHost = req.region.sHost;
   var accessToken = req.session.access.accessToken;
   var data = req.body;
 
-//  this.autoUploadScans = function (oServiceData, scans) {
-//    var data = {
-//      //url: oServiceData.sURL + 'service/object/file/upload_file_to_redis',
-//      nID_Server: oServiceData.nID_Server,
+  var sURL = sHost + '/service/object/file/upload_file_to_redis';
 
-  console.log("[scanUpload]:req.nID_Server=" + req.nID_Server);
-  var nID_Server = data.nID_Server;
-  console.log("[scanUpload]:nID_Server=" + nID_Server);
-  activiti.getServerRegionHost(nID_Server, function (sHost) {
-    var sURL = sHost + '/service/object/file/upload_file_to_redis';
-    console.log("[scanUpload]:sURL=" + sURL);
+  var uploadURL = sURL; //data.url
+  var documentScans = data.scanFields;
 
-    var uploadURL = sURL; //data.url
-    var documentScans = data.scanFields;
-    console.log("[scanUpload]:data.scanFields=" + data.scanFields);
+  var uploadResults = [];
+  var uploadScan = function (documentScan, callback) {
+    var scanContentRequest = bankIDService.prepareScanContentRequest(documentScan.scan.link, accessToken);
 
-    var uploadResults = [];
-    var uploadScan = function (documentScan, callback) {
-      var scanContentRequest = bankIDService.prepareScanContentRequest(documentScan.scan.link, accessToken);
+    var form = new FormData();
+    form.append('file', scanContentRequest, {
+      filename: documentScan.scan.type + '.' + documentScan.scan.extension
+    });
 
-      var form = new FormData();
-      form.append('file', scanContentRequest, {
-        filename: documentScan.scan.type + '.' + documentScan.scan.extension
-      });
-
-      var requestOptionsForUploadContent = {
-        url: uploadURL,
-        auth: getAuth(),
-        headers: form.getHeaders()
-      };
-
-      pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
-        uploadResults.push({
-          fileID: result.data,
-          scanField: documentScan
-        });
-        callback();
-      });
+    var requestOptionsForUploadContent = {
+      url: uploadURL,
+      auth: getAuth(),
+      headers: form.getHeaders()
     };
 
-    async.forEach(documentScans, function (documentScan, callback) {
-      uploadScan(documentScan, callback);
-    }, function (error) {
-      res.send(uploadResults);
-      res.end();
+    pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
+      uploadResults.push({
+        fileID: result.data,
+        scanField: documentScan
+      });
+      callback();
     });
-  });
+  };
 
+  async.forEach(documentScans, function (documentScan, callback) {
+    uploadScan(documentScan, callback);
+  }, function (error) {
+    res.send(uploadResults);
+    res.end();
+  });
 };
 
 module.exports.signCheck = function (req, res) {
