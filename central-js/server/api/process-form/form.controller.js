@@ -2,7 +2,6 @@ var url = require('url')
   , request = require('request')
   , FormData = require('form-data')
   , config = require('../../config/environment')
-//, config = require('../../config')
   , bankIDService = require('../../auth/bankid/bankid.service.js')
   , _ = require('lodash')
   , StringDecoder = require('string_decoder').StringDecoder
@@ -76,9 +75,7 @@ module.exports.scanUpload = function (req, res) {
   var accessToken = req.session.access.accessToken;
   var data = req.body;
 
-  var sURL = sHost + '/service/object/file/upload_file_to_redis';
-
-  var uploadURL = sURL; //data.url
+  var uploadURL = sHost + '/service/object/file/upload_file_to_redis';
   var documentScans = data.scanFields;
 
   var uploadResults = [];
@@ -157,110 +154,109 @@ module.exports.signCheck = function (req, res) {
 };
 
 module.exports.signForm = function (req, res) {
-  var formID = req.session.formID;
   var oServiceDataNID = req.query.oServiceDataNID;
+  var sName = req.query.sName;
+  var formID = req.session.formID;
+  var sHost = req.region.sHost;
 
-//  this.getSignFormPath = function (oServiceData, formID, oService) {
-//    //return '/api/process-form/sign?formID=' + formID + '&sURL=' + oServiceData.sURL;
-//    //--//return '/api/process-form/sign?formID=' + formID + '&sURL=' + oServiceData.sURL + '&sName=' + oService.sName;
-//    return '/api/process-form/sign?formID=' + formID + '&nID_Server=' + oServiceData.nID_Server + '&sName=' + oService.sName;
+  var sURL = sHost + '/';
+  console.log("sURL=" + sURL);
 
-  var nID_Server = req.query.nID_Server;
-  activiti.getServerRegionHost(nID_Server, function (sHost) {
-    var sURL = sHost + '/';
-    console.log("sURL=" + sURL);
+  if (!formID) {
+    res.status(400).send({error: 'formID should be specified'});
+  }
 
-    //  var sURL = req.query.sURL;
-    var sName = req.query.sName;
+  if (!oServiceDataNID && !sURL) {
+    res.status(400).send({error: 'Either sURL or oServiceDataNID should be specified'});
+    return;
+  }
 
+  var callbackURL = url.resolve(originalURL(req, {}), '/api/process-form/sign/callback');
+  if (oServiceDataNID) {
+    req.session.oServiceDataNID = oServiceDataNID;
+    //TODO use oServiceDataNID in callback
+    //TODO fill sURL from oServiceData to use it below
+  } else if (sURL) {
+    req.session.sURL = sURL;
+  }
 
-    if (!formID) {
-      res.status(400).send({error: 'formID should be specified'});
-    }
+  var createHtml = function (data, callback) {
+    var formData = data.formData;
 
-    if (!oServiceDataNID && !sURL) {
-      res.status(400).send({error: 'Either sURL or oServiceDataNID should be specified'});
-      return;
-    }
-
-    var callbackURL = url.resolve(originalURL(req, {}), '/api/process-form/sign/callback');
-    if (oServiceDataNID) {
-      req.session.oServiceDataNID = oServiceDataNID;
-      //TODO use oServiceDataNID in callback
-      //TODO fill sURL from oServiceData to use it below
-    } else if (sURL) {
-      req.session.sURL = sURL;
-    }
-
-    var createHtml = function (data, callback) {
-      var formData = data.formData;
-
-      var templateData = {
-        formProperties: data.activitiForm.formProperties,
-        processName: sName, //data.processName,
-        businessKey: data.businessKey,
-        creationDate: '' + new Date()
-      };
-
-      var patternFileName = null;
-
-      templateData.formProperties.forEach(function (item) {
-        var value = formData.params[item.id];
-        if (value) {
-          item.value = value;
-        }
-      });
-
-      for (var key in formData.params) {
-        if (formData.params.hasOwnProperty(key) && key.indexOf('PrintFormAutoSign_') === 0)
-          patternFileName = formData.params[key];
-      }
-
-      if (patternFileName) {
-        //var reqParams = activiti.buildRequest(req, '/wf/service/object/file/getPatternFile', {sPathFile: patternFileName.replace(/^pattern\//, '')}, config.server.sServerRegion);
-        var reqParams = activiti.buildRequest(req, 'service/object/file/getPatternFile', {sPathFile: patternFileName.replace(/^pattern\//, '')}, sURL);
-        request(reqParams, function (error, response, body) {
-          for (var key in formData.params) {
-            if (formData.params.hasOwnProperty(key)) {
-              body = body.replace('[' + key + ']', formData.params[key]);
-            }
-          }
-          callback(body);
-        });
-      } else {
-        callback(formTemplate.createHtml(templateData));
-      }
+    var templateData = {
+      formProperties: data.activitiForm.formProperties,
+      processName: sName, //data.processName,
+      businessKey: data.businessKey,
+      creationDate: '' + new Date()
     };
 
-    async.waterfall([
-      function (callback) {
-        loadForm(formID, sURL, function (error, response, body) {
+    var patternFileName = null;
+
+    templateData.formProperties.forEach(function (item) {
+      var value = formData.params[item.id];
+      if (value) {
+        item.value = value;
+      }
+    });
+
+    for (var key in formData.params) {
+      if (formData.params.hasOwnProperty(key) && key.indexOf('PrintFormAutoSign_') === 0)
+        patternFileName = formData.params[key];
+    }
+
+    if (patternFileName) {
+      var reqParams = activiti.buildRequest(req, 'service/object/file/getPatternFile', {sPathFile: patternFileName.replace(/^pattern\//, '')}, sURL);
+      request(reqParams, function (error, response, body) {
+        for (var key in formData.params) {
+          if (formData.params.hasOwnProperty(key)) {
+            body = body.replace('[' + key + ']', formData.params[key]);
+          }
+        }
+        callback(body);
+      });
+    } else {
+      callback(formTemplate.createHtml(templateData));
+    }
+  };
+
+  async.waterfall([
+    function (callback) {
+      loadForm(formID, sURL, function (error, response, body) {
+        if (error) {
+          callback(error, null);
+        } else {
+          callback(null, body);
+        }
+      });
+    },
+    function (formData, callback) {
+      var accessToken = req.session.access.accessToken;
+      createHtml(formData, function (formToUpload) {
+        //TODO prepare requests for files from redis
+        //TODO send html form + files that have been uploaded
+        var filesToSign = {
+          file: {
+            stream: formToUpload,
+            options: {
+              contentType: 'text/html'
+            }
+          }
+        };
+        bankIDService.signFiles(accessToken, callbackURL, filesToSign, function (error, result) {
           if (error) {
             callback(error, null);
           } else {
-            callback(null, body);
+            callback(null, result)
           }
         });
-      },
-      function (formData, callback) {
-        var accessToken = req.session.access.accessToken;
-        createHtml(formData, function (formToUpload) {
-          bankIDService.signHtmlForm(accessToken, callbackURL, formToUpload, function (error, result) {
-            if (error) {
-              callback(error, null);
-            } else {
-              callback(null, result)
-            }
-          });
-        });
-      }
-    ], function (error, result) {
-      if (error) {
-        res.status(500).send(error);
-      } else {
-        res.redirect(result.desc);
-      }
-    });
+      });
+    }
+  ], function (error, result) {
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.redirect(result.desc);
+    }
   });
 };
 
@@ -275,6 +271,11 @@ module.exports.signFormCallback = function (req, res) {
     sURL = '';
   }
 
+  //TODO we can get multiple files in one zip file or like multipart
+  //TODO parse result in case if multiple files
+  //TODO get signed html file and leave it as it is
+  //TODO get each signed attached file and replace id from initial form
+  //TODO to new uploaded to redis signed files
   var signedFormForUpload = bankIDService
     .prepareSignedContentRequest(req.session.access.accessToken, codeValue);
 

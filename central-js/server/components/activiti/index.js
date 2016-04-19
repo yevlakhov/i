@@ -99,7 +99,7 @@ module.exports.getRequestUrl = function (apiURL, sHost) {
   return (sHost !== null && sHost !== undefined ? sHost : options.protocol + '://' + options.hostname + options.path) + apiURL;
 };
 
-module.exports.buildGET = function (apiURL, params, sHost, session) {
+module.exports.buildGET = function (apiURL, params, sHost, session, isCustomAuth) {
   var sURL = this.getRequestUrl(apiURL, sHost);
   var qs = params;
 
@@ -107,12 +107,17 @@ module.exports.buildGET = function (apiURL, params, sHost, session) {
     qs = _.extend(params, {nID_Subject: session.subject.nID});
   }
 
-  return {
-    'url': sURL,
-    'auth': this.getAuth(),
-    'json': true,
-    'qs': qs
+  var reqObj = {
+    url: sURL,
+    json: true,
+    qs: qs
+  };
+
+  if(!isCustomAuth){
+    _.extend(reqObj, {auth: this.getAuth()})
   }
+
+  return reqObj;
 };
 
 module.exports.buildRequest = function (req, apiURL, params, sHost) {
@@ -157,22 +162,47 @@ module.exports.post = function (apiURL, params, body, callback, sHost, session) 
   request.post(prepared, callback);
 };
 
-module.exports.upload = function (apiURL, params, fileName, content, callback, sHost, session) {
+module.exports.upload = function (apiURL, params, content, callback, sHost, session) {
   var form = new FormData();
-  form.append('file', content, {
-    filename: fileName
-  });
 
-  var uploadRequest = this.buildGET(apiURL, params, sHost, session);
-  _.extend(uploadRequest, { headers: form.getHeaders()});
+  for(var multipartName in content){
+    if(content.hasOwnProperty(multipartName)){
+      appendFormContent(form, multipartName, content[multipartName]);
+    }
+  }
+
+  var uploadRequest;
+  if(params.qs || params.headers){
+    //params is object with query string and/or headers
+    var hasCustomAuth = params.headers && params.headers.Authorization ? true : false;
+    var qs = params.qs ? params.qs : {};
+    uploadRequest = this.buildGET(apiURL, qs, sHost, session, hasCustomAuth);
+    if(params.headers){
+      if(!uploadRequest.headers){
+        uploadRequest.headers = {};
+      }
+      _.extend(uploadRequest.headers, params.headers);
+    }
+  } else {
+    //params are query string
+    uploadRequest = this.buildGET(apiURL, params, sHost, session);
+  }
+
+  if(!uploadRequest.headers){
+    uploadRequest.headers = {};
+  }
+  _.extend(uploadRequest.headers, form.getHeaders());
   _.extend(uploadRequest.headers, {'Accept': 'application/json'});
-
 
   pipeFormDataToRequest(form, uploadRequest, function (result) {
     //TODO handle errors
     callback(null, result.reponse, result.data);
   });
 };
+
+function appendFormContent(form, multipartName, contentItem){
+  form.append(multipartName, contentItem.stream, contentItem.options);
+}
 
 function pipeFormDataToRequest(form, uploadRequest, callback) {
   var decoder = new StringDecoder('utf8');

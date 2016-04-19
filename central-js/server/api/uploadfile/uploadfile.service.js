@@ -5,16 +5,30 @@ var url = require('url')
   , config = require('../../config/environment');
 
 var apiURLS = {
-  upload : 'object/file/upload_file_to_redis',
-  download : 'object/file/download_file_from_redis_bytes'
+  upload: '/object/file/upload_file_to_redis',
+  download: '/object/file/download_file_from_redis_bytes'
 };
 
-module.exports.getAPIEndpoints = function(){
+module.exports.getAPIEndpoints = function () {
   return apiURLS;
 };
 
-module.exports.upload = function(fileName, contentToUpload, callback, sHost){
-  activiti.upload(apiURLS.upload, {}, fileName, contentToUpload, callback, sHost);
+module.exports.upload = function (contentToUpload, callback, sHost) {
+  activiti.upload(apiURLS.upload, {}, contentToUpload, function (error, response, body) {
+
+    var object;
+    try {
+      object = JSON.parse(body)
+    } catch (e) {
+      if(e.name.indexOf('SyntaxError') !== -1){
+        object = {fileID: body};
+      } else {
+        throw e;
+      }
+    }
+
+    callback(error, response, object);
+  }, sHost);
 };
 
 module.exports.download = function (fileID, callback, sHost, session) {

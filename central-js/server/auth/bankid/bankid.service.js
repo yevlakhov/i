@@ -3,10 +3,10 @@ var request = require('request')
   , async = require('async')
   , _ = require('lodash')
   , config = require('../../config/environment')
-  //, config = require('../../config')
   , syncSubject = require('../../api/subject/subject.service.js')
   , Admin = require('../../components/admin/index')
   , url = require('url')
+  , uploadFileService = require('../../api/uploadfile/uploadfile.service')
   , bankidUtil = require('./bankid.util.js')
   , activiti = require('../../components/activiti');
 
@@ -35,7 +35,7 @@ module.exports.index = function (accessToken, callback, disableDecryption) {
 
   var resultCallback;
 
-  if(disableDecryption){
+  if (disableDecryption) {
     resultCallback = adminCheckCallback;
   } else {
     resultCallback = bankidUtil.decryptCallback(adminCheckCallback);
@@ -115,8 +115,14 @@ module.exports.prepareScanContentRequest = function (documentScanLink, accessTok
 };
 
 module.exports.cacheCustomer = function (customer, callback) {
-  var url = '/object/file/upload_file_to_redis';
-  activiti.upload(url, {}, 'customerData.json', JSON.stringify(customer), callback);
+  uploadFileService.upload({
+    file: {
+      stream: JSON.stringify(customer),
+      options: {
+        filename: 'customerData.json'
+      }
+    }
+  }, callback);
 };
 
 module.exports.syncWithSubject = function (accessToken, done) {
@@ -148,23 +154,23 @@ module.exports.syncWithSubject = function (accessToken, done) {
       });
     },
 
-    function(result, callback){
-      self.cacheCustomer(result, function(error, reponse, body){
+    function (result, callback) {
+      self.cacheCustomer(result, function (error, response, body) {
         if (error || body.code) {
           callback(createError(body, 'error while caching data. ' + body.message, response), null);
         } else {
-          result.usercacheid = body;
+          result.usercacheid = body.fileID;
 
-          if(result.customer.inn){
+          if (result.customer.inn) {
             result.customer.inn = bankidUtil.decryptField(result.customer.inn);
           }
-          if(result.customer.firstName){
+          if (result.customer.firstName) {
             result.customer.firstName = bankidUtil.decryptField(result.customer.firstName);
           }
-          if(result.customer.middleName){
+          if (result.customer.middleName) {
             result.customer.middleName = bankidUtil.decryptField(result.customer.middleName);
           }
-          if(result.customer.lastName){
+          if (result.customer.lastName) {
             result.customer.lastName = bankidUtil.decryptField(result.customer.lastName);
           }
 
@@ -175,6 +181,27 @@ module.exports.syncWithSubject = function (accessToken, done) {
   ], function (err, result) {
     done(err, result);
   });
+};
+
+module.exports.signFiles = function (accessToken, acceptKeyUrl, content, callback) {
+  var bankIDURLs = bankidUtil.getBaseURLs();
+  var params = {
+    headers: {
+      Authorization: bankidUtil.getAuth(accessToken),
+      acceptKeyUrl: acceptKeyUrl,
+      fileType: 'html'
+    }
+  };
+
+  activiti.upload(bankIDURLs.resource.path.sign, params, content, function (error, response, body) {
+    if (!body) {
+      callback('Unable to sign a file. bankid.privatbank.ua return an empty response', null);
+    } else if (error || (error = body.error)) {
+      callback(error, null);
+    } else {
+      callback(null, body);
+    }
+  }, bankIDURLs.resource.base);
 };
 
 /**
