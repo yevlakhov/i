@@ -101,6 +101,7 @@ module.exports.loginWithEmail = function (callback) {
     request
       .expect(302)
       .then(function (res) {
+        var loginAgent = superagent.agent();
         loginAgent.saveCookies(res);
         asyncCallback(null, loginAgent);
       })

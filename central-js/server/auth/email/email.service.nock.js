@@ -1,13 +1,12 @@
 'use strict';
 
-var appTest = require('../../api/app.spec.js');
+var centralMock = require('../../api/api.central.nock.js').centralMock;
 
 var headers = {
   'content-type': 'application/json;charset=UTF-8'
 };
 
-appTest
-  .centralNock
+centralMock
   .get('/wf/service/access/verifyContactEmail')
   .query(true)
   .reply(200, {

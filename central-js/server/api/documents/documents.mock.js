@@ -1,8 +1,8 @@
 'use strict';
 
-var appTest = require('../app.spec.js');
+var centralMock = require('../api.central.nock.js').centralMock;
 
-appTest.centralNock
+centralMock
   .get('/wf/service/document/getDocumentTypes')
   .query(true)
   .reply(200, [{"bHidden": false, "nID": 21087, "sName": "test"}, {

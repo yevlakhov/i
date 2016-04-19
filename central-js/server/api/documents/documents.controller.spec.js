@@ -21,13 +21,8 @@ describe('GET /api/documents/search/getDocumentTypes', function () {
 describe('GET /api/documents', function () {
   var agent;
   before(function (done) {
-    appTest.loginWithBankID(function (error, loginAgent) {
-      if (error) {
-        done(error)
-      } else {
-        agent = loginAgent;
-        done();
-      }
+    appTest.loginWithBankID(done, function (loginAgent) {
+      agent = loginAgent;
     });
   });
 

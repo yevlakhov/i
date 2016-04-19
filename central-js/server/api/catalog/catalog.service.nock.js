@@ -1,6 +1,6 @@
 'use strict';
 
-var appTest = require('../app.spec.js');
+var centralMock = require('../api.central.nock.js').centralMock;
 
 var headers = {
   'content-type': 'application/json;charset=UTF-8'
@@ -14,8 +14,7 @@ var headers = {
 //  connection: 'close',
 //  'strict-transport-security': 'max-age=31536000'
 //}https://test.igov.org.ua/wf/service/action/item/getServicesTree
-appTest
-  .centralNock
+centralMock
   .get('/wf/service/action/item/getServicesTree')
   .query(true)
   .reply(200, [{
