@@ -1,7 +1,6 @@
 package org.igov.service.business.action.task.listener.doc;
 
 import java.nio.charset.StandardCharsets;
-import java.util.HashMap;
 import java.util.logging.Level;
 
 import org.activiti.engine.RuntimeService;
@@ -26,6 +25,7 @@ import org.springframework.stereotype.Component;
 import org.activiti.engine.impl.util.json.JSONObject;
 import static org.igov.service.business.action.task.core.AbstractModelTask.contentStringToByte;
 import static org.igov.service.business.action.task.core.AbstractModelTask.getStringFromFieldExpression;
+import org.springframework.http.ResponseEntity;
 
 @Component("GetDocument_UkrDoc")
 public class GetDocument_UkrDoc extends AbstractModelTask implements TaskListener {
@@ -61,8 +61,9 @@ public class GetDocument_UkrDoc extends AbstractModelTask implements TaskListene
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "promin.privatbank.ua/EXCL " + sessionId);
+            headers.set("Content-Type", "application/json; charset=utf-8");
 
-            String resp = new RestRequest().get(generalConfig.getsUkrDocServerAddress() + url, MediaType.APPLICATION_JSON, StandardCharsets.UTF_8, String.class, headers);
+            String resp = new RestRequest().get(generalConfig.getsUkrDocServerAddress() + url, null, StandardCharsets.UTF_8, String.class, headers);
 
             LOG.info("Ukrdoc response getDocument:" + resp);
             JSONObject respJson = new JSONObject(resp);
@@ -87,16 +88,16 @@ public class GetDocument_UkrDoc extends AbstractModelTask implements TaskListene
                             String fileName = file.getString("name");
 
                             LOG.info("view_url:" + generalConfig.getsUkrDocServerAddress() + view_url + " fileName: " + fileName);
-                            resp = new RestRequest().get(generalConfig.getsUkrDocServerAddress() + view_url, MediaType.APPLICATION_JSON,
+                            ResponseEntity responseEntity = new RestRequest().getResponseEntity(generalConfig.getsUkrDocServerAddress() + view_url, MediaType.APPLICATION_JSON,
                                     StandardCharsets.UTF_8, String.class, headers);
-                            LOG.info("Ukrdoc response getContentFile:" + resp);
+                            LOG.info("Ukrdoc response getContentFile getBody: " + responseEntity.getBody() 
+                                    + " getHeaders: " + responseEntity.getHeaders().entrySet());
                             try {
+                                //ByteArrayMultipartFile oByteArrayMultipartFile
+                                //        = new ByteArrayMultipartFile(contentStringToByte(resp), fileName, fileNameOrigin, "application/octet-stream");
                                 ByteArrayMultipartFile oByteArrayMultipartFile
-                                        = new ByteArrayMultipartFile(contentStringToByte(resp), fileName, fileNameOrigin, "application/octet-stream");
-                                //Attachment attachment = createAttachment(oByteArrayMultipartFile, delegateTask, fileName);
-                                //Attachment attachment = ((org.igov.service.conf.TaskServiceImpl) taskService)
-                                //        .createAttachment("application/octet-stream", delegateTask.getId(), execution.getProcessInstanceId(),
-                                //                fileNameOrigin, fileName, oByteArrayMultipartFile.getInputStream());
+                                        = new ByteArrayMultipartFile(contentStringToByte(resp), fileName, fileNameOrigin, responseEntity.getHeaders().getContentType().toString());
+                                
                                 Attachment attachment = taskService.createAttachment(oByteArrayMultipartFile.getContentType() + ";" + oByteArrayMultipartFile.getExp(), 
                                         delegateTask.getId(), execution.getProcessInstanceId(), 
                                         fileNameOrigin, fileName, oByteArrayMultipartFile.getInputStream());
@@ -110,8 +111,9 @@ public class GetDocument_UkrDoc extends AbstractModelTask implements TaskListene
                             }
                         }
                         if (anID_Attach_UkrDoc.length() > 0) {
-                            runtimeService.setVariable(execution.getProcessInstanceId(), "anID_Attach_UkrDoc",
-                                    anID_Attach_UkrDoc.deleteCharAt(anID_Attach_UkrDoc.length() - 1).toString());
+                            String sID_Attach_UkrDoc = anID_Attach_UkrDoc.deleteCharAt(anID_Attach_UkrDoc.length() - 1).toString();
+                            runtimeService.setVariable(execution.getProcessInstanceId(), "anID_Attach_UkrDoc", sID_Attach_UkrDoc);
+                            taskService.setVariable(delegateTask.getId(), "anID_Attach_UkrDoc", sID_Attach_UkrDoc);
                         }
                     }
                 } catch (Exception ex) {

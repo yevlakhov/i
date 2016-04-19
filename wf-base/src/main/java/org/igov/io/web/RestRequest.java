@@ -11,6 +11,7 @@ import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.nio.charset.Charset;
 import java.util.Arrays;
+import org.springframework.http.converter.StringHttpMessageConverter;
 
 /**
  * Created by Dmytro Tsapko on 8/23/2015.
@@ -28,6 +29,7 @@ public class RestRequest {
         T xmlResponse = null;
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setErrorHandler(new ResponseErrHandler());
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 
         httpHeaders = httpHeaders == null ? new HttpHeaders() : httpHeaders;
         if (contentType != null) {
@@ -46,13 +48,17 @@ public class RestRequest {
 
     public <T> T get(String url, MediaType contentType, Charset charset,
             Class<T> clazz, HttpHeaders httpHeaders) throws RestClientException {
+        return (T)getResponseEntity(url, contentType, charset, clazz, httpHeaders).getBody();
+    }
+    
+    public ResponseEntity getResponseEntity(String url, MediaType contentType, Charset charset,
+            Class clazz, HttpHeaders httpHeaders) throws RestClientException {
 
         if ("".equals(url) || url == null || clazz == null) {//todo add convertors
             LOG.error("url:{}, clazz:{}", url, clazz);
             throw new IllegalArgumentException("url: " + url + " clazz: " + clazz);
         }
 
-        T response = null;
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory() {
             @Override
             protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
@@ -64,6 +70,7 @@ public class RestRequest {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(factory);
         restTemplate.setErrorHandler(new ResponseErrHandler());
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 
         httpHeaders = httpHeaders == null ? new HttpHeaders() : httpHeaders;
 
@@ -76,7 +83,7 @@ public class RestRequest {
         HttpEntity<String> httpEntity = new HttpEntity<String>(httpHeaders);
 
         LOG.info("Sending GET to rest resource: {}, HttpEntity:{}", url, httpEntity);
-        ResponseEntity<T> entity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, clazz);
+        ResponseEntity entity = restTemplate.exchange(url, HttpMethod.GET, httpEntity, clazz);
         LOG.info("we got: {}",  entity);
         if (entity.getStatusCode().is3xxRedirection()) {
             LOG.info("Sending GET agter redirect to rest resource: {}, HttpEntity:{}",  url, httpEntity);
@@ -84,7 +91,7 @@ public class RestRequest {
                     HttpMethod.GET, httpEntity, clazz);
         }
 
-        return (T) entity.getBody();
+        return entity;
 
     }
 
@@ -96,7 +103,6 @@ public class RestRequest {
             throw new IllegalArgumentException("url: " + url + " clazz: " + clazz);
         }
 
-        T response = null;
         SimpleClientHttpRequestFactory factory = new SimpleClientHttpRequestFactory() {
             @Override
             protected void prepareConnection(HttpURLConnection connection, String httpMethod) throws IOException {
@@ -108,6 +114,7 @@ public class RestRequest {
         RestTemplate restTemplate = new RestTemplate();
         restTemplate.setRequestFactory(factory);
         restTemplate.setErrorHandler(new ResponseErrHandler());
+        restTemplate.getMessageConverters().add(0, new StringHttpMessageConverter(Charset.forName("UTF-8")));
 
         httpHeaders = httpHeaders == null ? new HttpHeaders() : httpHeaders;
 
