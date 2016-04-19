@@ -194,6 +194,16 @@ module.exports.signFiles = function (accessToken, acceptKeyUrl, content, callbac
   };
 
   activiti.upload(bankIDURLs.resource.path.sign, params, content, function (error, response, body) {
+    try {
+      body = JSON.parse(body)
+    } catch (e) {
+      if(e.name.indexOf('SyntaxError') !== -1){
+        body = {fileID: body};
+      } else {
+        throw e;
+      }
+    }
+
     if (!body) {
       callback('Unable to sign a file. bankid.privatbank.ua return an empty response', null);
     } else if (error || (error = body.error)) {
