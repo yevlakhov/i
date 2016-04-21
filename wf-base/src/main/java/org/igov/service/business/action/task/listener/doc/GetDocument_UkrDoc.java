@@ -74,7 +74,7 @@ public class GetDocument_UkrDoc extends AbstractModelTask implements TaskListene
                 String name = (String) ((JSONObject) content).get("name");
                 runtimeService.setVariable(execution.getProcessInstanceId(), "sHead_Document_UkrDoc", name);
                 String text = (String) ((JSONObject) content).get("text");
-                runtimeService.setVariable(execution.getProcessInstanceId(), "sBody_Document_UkrDoc", text);
+                runtimeService.setVariable(execution.getProcessInstanceId(), "sDocument_Body_UkrDoc", text);
                 try {
                     LOG.info("class: " + ((JSONObject) ((JSONObject) content).get("extensions")).get("files").getClass());
                     JSONArray files = (JSONArray) ((JSONObject) ((JSONObject) content).get("extensions")).get("files");
@@ -95,8 +95,11 @@ public class GetDocument_UkrDoc extends AbstractModelTask implements TaskListene
                             try {
                                 //ByteArrayMultipartFile oByteArrayMultipartFile
                                 //        = new ByteArrayMultipartFile(contentStringToByte(resp), fileName, fileNameOrigin, "application/octet-stream");
+                                //ByteArrayMultipartFile oByteArrayMultipartFile
+                                //        = new ByteArrayMultipartFile(contentStringToByte(resp), fileName, fileNameOrigin, responseEntity.getHeaders().getContentType().toString());
+                                
                                 ByteArrayMultipartFile oByteArrayMultipartFile
-                                        = new ByteArrayMultipartFile(contentStringToByte(resp), fileName, fileNameOrigin, responseEntity.getHeaders().getContentType().toString());
+                                        = new ByteArrayMultipartFile(resp.getBytes(), fileName, fileNameOrigin, responseEntity.getHeaders().getContentType().toString());
                                 
                                 Attachment attachment = taskService.createAttachment(oByteArrayMultipartFile.getContentType() + ";" + oByteArrayMultipartFile.getExp(), 
                                         delegateTask.getId(), execution.getProcessInstanceId(), 
