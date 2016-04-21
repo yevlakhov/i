@@ -31,6 +31,10 @@ module.exports.upload = function (contentToUpload, callback, sHost) {
   }, sHost);
 };
 
+module.exports.prepareDownload = function(fileID, sHost, session){
+  return activiti.buildGET(apiURLS.download, {key: fileID}, sHost, session);
+};
+
 module.exports.download = function (fileID, callback, sHost, session) {
   activiti.get(apiURLS.download, {key: fileID}, callback, sHost, session);
 };

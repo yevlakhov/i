@@ -7,6 +7,7 @@ var url = require('url')
   , StringDecoder = require('string_decoder').StringDecoder
   , async = require('async')
   , formTemplate = require('./form.template')
+  , uploadFileService = require('../uploadfile/uploadfile.service')
   , activiti = require('../../components/activiti')
   , region = require('../../components/region')
   , errors = require('../../components/errors');
@@ -180,7 +181,24 @@ module.exports.signForm = function (req, res) {
     req.session.sURL = sURL;
   }
 
-  var createHtml = function (data, callback) {
+  function findFiles(formData){
+    var fileFields = formData.activitiForm.formProperties.filter(function(property){
+      return property.type === 'file';
+    });
+    fileFields.forEach(function(fileField){
+      if(formData.formData.params[fileField.id]){
+        fileField.value = formData.formData.params[fileField.id];
+      }
+    });
+
+    fileFields = fileFields.filter(function(fileField){
+      return fileField.value;
+    });
+
+    return fileFields;
+  }
+
+  function createHtml(data, callback) {
     var formData = data.formData;
 
     var templateData = {
@@ -217,7 +235,7 @@ module.exports.signForm = function (req, res) {
     } else {
       callback(formTemplate.createHtml(templateData));
     }
-  };
+  }
 
   async.waterfall([
     function (callback) {
@@ -242,6 +260,12 @@ module.exports.signForm = function (req, res) {
             }
           }
         };
+        findFiles(formData).forEach(function(property){
+          filesToSign[property.name] = {
+            stream: uploadFileService.prepareDownload(property.value, sHost)
+          };
+        });
+
         bankIDService.signFiles(accessToken, callbackURL, filesToSign, function (error, result) {
           if (error) {
             callback(error, null);
