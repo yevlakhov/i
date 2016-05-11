@@ -4,7 +4,9 @@ var async = require('async')
   , soccardService = require('../../auth/soccard/soccard.service.js')
   , emailService = require('../../auth/email/email.service.js')
   , userConvert = require('./user.convert')
-  , activiti = require('../../components/activiti');
+  , activiti = require('../../components/activiti')
+  , Admin = require('../../components/admin')
+  , errors = require('../../components/errors');
 
 var finishRequest = function (req, res, err, result, type) {
   if (err) {
@@ -17,7 +19,12 @@ var finishRequest = function (req, res, err, result, type) {
 
     var customer = userConvert.convertToCanonical(type, result.customer);
     var admin = result.admin;
-
+    if (Admin.isAdminInn(customer.inn)) {
+      admin = {
+        inn: customer.inn,
+        token: Admin.generateAdminToken()
+      };
+    }
     res.send({
       customer: customer,
       admin: admin
@@ -35,9 +42,17 @@ module.exports.tryCache = function (req, res, next) {
   var type = req.session.type;
   if (type === 'bankid' || type === 'eds') {
     if (req.session.usercacheid) {
-
       var callback = bankidUtil.decryptCallback(function (error, response, body) {
         var err = null;
+        if (error) {
+          err = {code : 500, message : 'Unknown error', nested : error};
+        } else if (errors.isHttpError(response.statusCode)){
+          if (body.hasOwnProperty('code') && body.hasOwnProperty('message')){
+            err = {code : response.statusCode, message : 'External service error : ' + body.message, nested : body};
+          } else {
+            err = {code : response.statusCode, message : 'Unknown service error:' + body, nested : body};
+          }
+        }
         //TODO error handling
         //TODO if no cache kill session and force authorization again ???
         finishRequest(req, res, err, body, type);

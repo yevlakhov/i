@@ -162,6 +162,9 @@ module.exports.signForm = function (req, res) {
 
   var sURL = sHost + '/';
   console.log("sURL=" + sURL);
+  //  var sURL = req.query.sURL;
+  var sName = req.query.sName;
+
 
   if (!formID) {
     res.status(400).send({error: 'formID should be specified'});
@@ -172,7 +175,7 @@ module.exports.signForm = function (req, res) {
     return;
   }
 
-  var callbackURL = url.resolve(originalURL(req, {}), '/api/process-form/sign/callback');
+  var callbackURL = url.resolve(originalURL(req, {}), '/api/process-form/sign/callback?nID_Server=' + nID_Server);
   if (oServiceDataNID) {
     req.session.oServiceDataNID = oServiceDataNID;
     //TODO use oServiceDataNID in callback
@@ -181,17 +184,17 @@ module.exports.signForm = function (req, res) {
     req.session.sURL = sURL;
   }
 
-  function findFiles(formData){
-    var fileFields = formData.activitiForm.formProperties.filter(function(property){
+  function findFiles(formData) {
+    var fileFields = formData.activitiForm.formProperties.filter(function (property) {
       return property.type === 'file';
     });
-    fileFields.forEach(function(fileField){
-      if(formData.formData.params[fileField.id]){
+    fileFields.forEach(function (fileField) {
+      if (formData.formData.params[fileField.id]) {
         fileField.value = formData.formData.params[fileField.id];
       }
     });
 
-    fileFields = fileFields.filter(function(fileField){
+    fileFields = fileFields.filter(function (fileField) {
       return fileField.value;
     });
 
@@ -260,7 +263,7 @@ module.exports.signForm = function (req, res) {
             }
           }
         };
-        findFiles(formData).forEach(function(property){
+        findFiles(formData).forEach(function (property) {
           filesToSign[property.name] = {
             stream: uploadFileService.prepareDownload(property.value, sHost)
           };
@@ -285,10 +288,15 @@ module.exports.signForm = function (req, res) {
 };
 
 module.exports.signFormCallback = function (req, res) {
-  var sURL = req.session.sURL;
+  var sHost = req.region.sHost;
+  var sURL = sHost + '/';
   var formID = req.session.formID;
   var oServiceDataNID = req.session.oServiceDataNID;
   var codeValue = req.query.code;
+
+  if (!codeValue) {
+    codeValue = req.query['amp;code'];
+  }
 
   if (oServiceDataNID) {
     //TODO fill sURL from oServiceData to use it below

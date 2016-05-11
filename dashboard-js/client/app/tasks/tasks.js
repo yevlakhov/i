@@ -14,7 +14,6 @@
         access: {
           requiresLogin: true
         },
-        templateUrl: 'app/tasks/base.html',
         resolve: {
           tasksStateModel: function () {
             return {};
@@ -32,21 +31,19 @@
             function (processes) {
               return processes.list();
             }
-          ],
-          userProcesses: [
-            'taskFilterService',
-            function (taskFilterService) {
-              return taskFilterService.getProcesses();
-            }
           ]
         }
       })
       .state('tasks.typeof', {
         url: '/:type',
-        templateUrl: 'app/tasks/tasks.html',
-        controller: 'TasksCtrl',
         access: {
           requiresLogin: true
+        },
+        views: {
+          '@': {
+            templateUrl: 'app/tasks/tasks.html',
+            controller: 'TasksCtrl'
+          }
         }
       })
       .state('tasks.typeof.view', {
@@ -95,7 +92,7 @@
                 }, defer.reject)
               } else {
                 tasks.taskForm(oTask.id).then(function (result) {
-                  defer.resolve(JSON.parse(result).formProperties);
+                  defer.resolve(result.formProperties);
                 }, defer.reject);
               }
               return defer.promise;

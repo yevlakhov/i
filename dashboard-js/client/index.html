@@ -69,11 +69,17 @@
     <!-- endbuild -->
     <script src="bower_components/moment/locale/uk.js"></script>
 
-        <!-- build:js({.tmp,client}) app/app.js -->
+        <!-- build:js({.tmp,client,..}) app/app.js -->
         <script src="app/app.js"></script>
           <!-- injector:js -->
+          <script src="public-js/markers/module.js"></script>
+          <script src="public-js/markers/defaults.js"></script>
+          <script src="public-js/markers/factory.js"></script>
+          <script src="public-js/markers/field.motion.service.js"></script>
+          <script src="public-js/markers/validation.service.js"></script>
           <script src="app/account/account.js"></script>
           <script src="app/account/login/login.controller.js"></script>
+          <script src="app/deploy/deploy.controller.js"></script>
           <script src="app/deploy/deploy.js"></script>
           <script src="app/escalations/escalations.controller.js"></script>
           <script src="app/escalations/escalations.js"></script>
@@ -85,6 +91,7 @@
           <script src="app/main/error.directive.js"></script>
           <script src="app/main/main.controller.js"></script>
           <script src="app/main/main.js"></script>
+          <script src="app/profile/profile.controller.js"></script>
           <script src="app/profile/profile.js"></script>
           <script src="app/reports/reports.controller.js"></script>
           <script src="app/reports/reports.js"></script>
@@ -121,6 +128,7 @@
           <script src="components/auth/base64.js"></script>
           <script src="components/auth/user.service.js"></script>
           <script src="components/defaultErrorHandler/defaultErrorHandler.service.js"></script>
+          <script src="components/deploy/deploy.service.js"></script>
           <script src="components/directives/igovFocusIf.js"></script>
           <script src="components/env/env.config.service.js"></script>
           <script src="components/escalations/escalations.service.js"></script>
@@ -131,9 +139,8 @@
           <script src="components/print/PrintModal.directive.js"></script>
           <script src="components/print/PrintTemplateProcessor.js"></script>
           <script src="components/print/PrintTemplateService.js"></script>
-          <script src="components/print/field.motion.service.js"></script>
-          <script src="components/print/markers.factory.js"></script>
           <script src="components/process/process.service.js"></script>
+          <script src="components/profile/profile.service.js"></script>
           <script src="components/report/reports.service.js"></script>
           <script src="components/services/bp_schedule.service.js"></script>
           <script src="components/services/schedule.service.js"></script>
