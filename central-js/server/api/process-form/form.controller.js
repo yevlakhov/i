@@ -72,35 +72,27 @@ module.exports.submit = function (req, res) {
 };
 
 module.exports.scanUpload = function (req, res) {
-  var sHost = req.region.sHost;
+  var sHost = req.region.sHost + '/service';
   var accessToken = req.session.access.accessToken;
   var data = req.body;
-
-  var uploadURL = sHost + '/service/object/file/upload_file_to_redis';
   var documentScans = data.scanFields;
 
   var uploadResults = [];
   var uploadScan = function (documentScan, callback) {
     var scanContentRequest = bankIDService.prepareScanContentRequest(documentScan.scan.link, accessToken);
-
-    var form = new FormData();
-    form.append('file', scanContentRequest, {
-      filename: documentScan.scan.type + '.' + documentScan.scan.extension
-    });
-
-    var requestOptionsForUploadContent = {
-      url: uploadURL,
-      auth: getAuth(),
-      headers: form.getHeaders()
-    };
-
-    pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
+    uploadFileService.upload([{
+      name : 'file',
+      stream: scanContentRequest,
+      options: {
+        filename: documentScan.scan.type + '.' + documentScan.scan.extension
+      }
+    }], function(error, response, body){
       uploadResults.push({
-        fileID: result.data,
+        fileID: body.data,
         scanField: documentScan
       });
       callback();
-    });
+    }, sHost);
   };
 
   async.forEach(documentScans, function (documentScan, callback) {
@@ -157,6 +149,7 @@ module.exports.signCheck = function (req, res) {
 module.exports.signForm = function (req, res) {
   var oServiceDataNID = req.query.oServiceDataNID;
   var sName = req.query.sName;
+  var nID_Server = req.query.nID_Server;
   var formID = req.session.formID;
   var sHost = req.region.sHost;
 
@@ -255,18 +248,18 @@ module.exports.signForm = function (req, res) {
       createHtml(formData, function (formToUpload) {
         //TODO prepare requests for files from redis
         //TODO send html form + files that have been uploaded
-        var filesToSign = {
-          file: {
+        var filesToSign = [{
+            name : 'file',
             stream: formToUpload,
             options: {
               contentType: 'text/html'
             }
-          }
-        };
+        }];
         findFiles(formData).forEach(function (property) {
-          filesToSign[property.name] = {
-            stream: uploadFileService.prepareDownload(property.value, sHost)
-          };
+          filesToSign.push({
+            name: property.id,
+            stream: request.post(uploadFileService.prepareDownload(property.value, sHost))
+          });
         });
 
         bankIDService.signFiles(accessToken, callbackURL, filesToSign, function (error, result) {

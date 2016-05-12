@@ -194,10 +194,9 @@ angular.module('app').service('ActivitiService', function ($q, $http, $location,
     var oFuncNote = {sHead:"Завантаженя файлу", sFunc:"autoUploadScans"};
     ErrorsFactory.init(oFuncNote, {asParam: ['nID_ServiceData: '+oServiceData.nID, 'scans: '+scans]});
     var oData = {
-      nID_Server: oServiceData.nID_Server,
       scanFields: scans
     };
-    return $http.post('./api/process-form/scansUpload', oData).then(function (oResponse) {
+    return $http.post('./api/process-form/scansUpload?nID_Server=' + oServiceData.nID_Server, oData).then(function (oResponse) {
         if(ErrorsFactory.bSuccessResponse(oResponse.data)){
             return oResponse.data;
         }

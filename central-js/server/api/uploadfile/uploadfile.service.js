@@ -15,19 +15,9 @@ module.exports.getAPIEndpoints = function () {
 
 module.exports.upload = function (contentToUpload, callback, sHost) {
   activiti.upload(apiURLS.upload, {}, contentToUpload, function (error, response, body) {
-
-    var object;
-    try {
-      object = JSON.parse(body)
-    } catch (e) {
-      if(e.name.indexOf('SyntaxError') !== -1){
-        object = {fileID: body};
-      } else {
-        throw e;
-      }
-    }
-
-    callback(error, response, object);
+//code = "SYSTEM_ERR"
+//message = "Could not parse multipart servlet request; nested exception is org.apache.commons.fileupload.FileUploadBase$IOFileUploadException: Processing of multipart/form-data request failed. Stream ended unexpectedly"
+    callback(error, response, body);
   }, sHost);
 };
 

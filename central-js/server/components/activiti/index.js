@@ -162,16 +162,23 @@ module.exports.post = function (apiURL, params, body, callback, sHost, session) 
   request.post(prepared, callback);
 };
 
+/**
+ * General method to upload different content
+ *
+ * @param apiURL url where to upload content
+ * @param params parameters for URL
+ * @param content array of content that should be uploaded
+ * @param callback here will be result, pass function there
+ * @param sHost optional, for adding it in the beginning of the apiURL
+ * @param session optional, to get nID from it
+ */
 module.exports.upload = function (apiURL, params, content, callback, sHost, session) {
-  var form = new FormData();
-
-  for(var multipartName in content){
-    if(content.hasOwnProperty(multipartName)){
-      appendFormContent(form, multipartName, content[multipartName]);
-    }
+  if(!content || content.length < 0){
+    throw Error('There is nothing to upload to ' + apiURL + '. Content shouldn\'t be empty array');
   }
 
   var uploadRequest;
+
   if(params.qs || params.headers){
     //params is object with query string and/or headers
     var hasCustomAuth = params.headers && params.headers.Authorization ? true : false;
@@ -191,18 +198,35 @@ module.exports.upload = function (apiURL, params, content, callback, sHost, sess
   if(!uploadRequest.headers){
     uploadRequest.headers = {};
   }
-  _.extend(uploadRequest.headers, form.getHeaders());
-  _.extend(uploadRequest.headers, {'Accept': 'application/json'});
+  _.merge(uploadRequest.headers, {'Accept': 'application/json'});
 
-  pipeFormDataToRequest(form, uploadRequest, function (result) {
-    //TODO handle errors
-    callback(null, result.reponse, result.data);
+  var formData = new FormData();
+  content.forEach(function(formContent){
+    if(formContent.options){
+      formData.append(formContent.name, formContent.stream, formContent.options);
+    } else {
+      formData.append(formContent.name, formContent.stream);
+    }
   });
+
+  _.merge(uploadRequest.headers, formData.getHeaders());
+
+  var r = request.post(uploadRequest, callback);
+  var form = r.form();
+  content.forEach(function(formContent){
+    if(formContent.options){
+      form.append(formContent.name, formContent.stream, formContent.options);
+    } else {
+      form.append(formContent.name, formContent.stream);
+    }
+  });
+  //
+  //pipeFormDataToRequest(form, uploadRequest, function (result) {
+  //  //TODO handle errors
+  //  callback(null, result.reponse, result.data);
+  //});
 };
 
-function appendFormContent(form, multipartName, contentItem){
-  form.append(multipartName, contentItem.stream, contentItem.options);
-}
 
 function pipeFormDataToRequest(form, uploadRequest, callback) {
   var decoder = new StringDecoder('utf8');

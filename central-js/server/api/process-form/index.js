@@ -6,7 +6,7 @@ var express = require('express')
   , endpoint = require('../../components/endpoint');
 
 router.get('/', endpoint.assertQueryParams('nID_Server', 'sID_BP_Versioned'), form.index);
-router.post('/', endpoint.assertQueryParams('nID_Server'), form.submit);
+router.post('/', endpoint.assertBodyParams('nID_Server'), form.submit);
 router.get('/sign', endpoint.assertQueryParams('nID_Server'), form.signForm);
 router.use('/sign/callback', endpoint.assertQueryParams('nID_Server'), form.signFormCallback);
 router.get('/sign/check', endpoint.assertQueryParams('nID_Server'), form.signCheck);

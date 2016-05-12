@@ -8,7 +8,8 @@ var request = require('request')
   , url = require('url')
   , uploadFileService = require('../../api/uploadfile/uploadfile.service')
   , bankidUtil = require('./bankid.util.js')
-  , activiti = require('../../components/activiti');
+  , activiti = require('../../components/activiti')
+  , errors = require('../../components/errors');
 
 var createError = function (error, error_description, response) {
   return {
@@ -129,14 +130,13 @@ module.exports.prepareScanContentRequest = function (documentScanLink, accessTok
 };
 
 module.exports.cacheCustomer = function (customer, callback) {
-  uploadFileService.upload({
-    file: {
+  uploadFileService.upload([{
+      name: 'file',
       stream: JSON.stringify(customer),
       options: {
         filename: 'customerData.json'
       }
-    }
-  }, callback);
+    }], callback);
 };
 
 module.exports.syncWithSubject = function (accessToken, done) {
@@ -202,26 +202,17 @@ module.exports.signFiles = function (accessToken, acceptKeyUrl, content, callbac
   var params = {
     headers: {
       Authorization: bankidUtil.getAuth(accessToken),
-      acceptKeyUrl: acceptKeyUrl,
-      fileType: 'html'
+      acceptKeyUrl: acceptKeyUrl
     }
   };
 
-  activiti.upload(bankIDURLs.resource.path.sign, params, content, function (error, response, body) {
-    try {
-      body = JSON.parse(body)
-    } catch (e) {
-      if(e.name.indexOf('SyntaxError') !== -1){
-        body = {fileID: body};
-      } else {
-        throw e;
-      }
-    }
-
+  activiti.upload(bankIDURLs.resource.path.signFiles, params, content, function (error, response, body) {
     if (!body) {
       callback('Unable to sign a file. bankid.privatbank.ua return an empty response', null);
     } else if (error || (error = body.error)) {
       callback(error, null);
+    } else if (body.state && body.state === 'err'){
+      callback(errors.createExternalServiceError(body.desc, body), null);
     } else {
       callback(null, body);
     }
