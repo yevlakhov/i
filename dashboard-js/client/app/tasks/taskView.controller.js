@@ -239,8 +239,7 @@
 
         $scope.isFormPropertyDisabled = isItemFormPropertyDisabled;
 
-        $scope.print = function (form) {
-          $scope.validateForm(form);
+        $scope.print = function () {
           if ($scope.selectedTask && $scope.taskForm) {
             if ($scope.hasUnPopulatedFields()) {
               Modal.inform.error()('Не всі поля заповнені!');
@@ -327,6 +326,7 @@
                   $scope.lightweightRefreshAfterSubmit();
                 })(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
 
+                $scope.$emit('task-submitted', $scope.selectedTask);
               })
               .catch(defaultErrorHandler);
           }
