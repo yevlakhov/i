@@ -136,7 +136,7 @@ module.exports.prepareScanContentRequest = function (documentScanLink, accessTok
 module.exports.cacheCustomer = function (customer, callback) {
   uploadFileService.upload([{
       name: 'file',
-      stream: JSON.stringify(customer),
+      text: JSON.stringify(customer),
       options: {
         filename: 'customerData.json'
       }

@@ -9,10 +9,23 @@ var apiURLS = {
   download: '/object/file/download_file_from_redis_bytes'
 };
 
+function fixHost(sHost){
+  if(sHost){
+    sHost = sHost + '/service'
+  }
+  return sHost;
+}
+
 module.exports.getAPIEndpoints = function () {
   return apiURLS;
 };
 
+/**
+ * Method can upload either request, or text, or file to redis
+ * @param contentToUpload object {name, request|text|file, [options : {filename, contentType}]}
+ * @param callback is called on response
+ * @param sHost [optional]. If it's not specified, url from central host is used
+ */
 module.exports.upload = function (contentToUpload, callback, sHost) {
   activiti.upload(apiURLS.upload, {}, contentToUpload, function (error, response, body) {
 //code = "SYSTEM_ERR"
@@ -21,12 +34,13 @@ module.exports.upload = function (contentToUpload, callback, sHost) {
   }, sHost);
 };
 
+//https://test.region.igov.org.ua/wf/service/object/file/download_file_from_redis_bytes?key=2fad23b1-8ee7-445f-8677-54c0764bc80f
 module.exports.prepareDownload = function(fileID, sHost, session){
-  return activiti.buildGET(apiURLS.download, {key: fileID}, sHost, session);
+  return activiti.buildGET(apiURLS.download, {key: fileID}, fixHost(sHost), session);
 };
 
 module.exports.download = function (fileID, callback, sHost, session) {
-  activiti.get(apiURLS.download, {key: fileID}, callback, sHost, session);
+  activiti.get(apiURLS.download, {key: fileID}, callback, fixHost(sHost), session);
 };
 
 module.exports.uploadHTMLForm = function (fullUploadURL, formToUpload, headers, callback) {

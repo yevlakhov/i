@@ -1,5 +1,6 @@
 var url = require('url')
   , request = require('request')
+  , fs = require('fs')
   , FormData = require('form-data')
   , config = require('../../config/environment')
   , bankIDService = require('../../auth/bankid/bankid.service.js')
@@ -81,14 +82,14 @@ module.exports.scanUpload = function (req, res) {
   var uploadScan = function (documentScan, callback) {
     var scanContentRequest = bankIDService.prepareScanContentRequest(documentScan.scan.link, accessToken);
     uploadFileService.upload([{
-      name : 'file',
-      stream: scanContentRequest,
+      name: 'file',
+      request: scanContentRequest,
       options: {
         filename: documentScan.scan.type + '.' + documentScan.scan.extension
       }
-    }], function(error, response, body){
+    }], function (error, response, body) {
       uploadResults.push({
-        fileID: body.data,
+        fileID: body,
         scanField: documentScan
       });
       callback();
@@ -248,17 +249,18 @@ module.exports.signForm = function (req, res) {
       createHtml(formData, function (formToUpload) {
         //TODO prepare requests for files from redis
         //TODO send html form + files that have been uploaded
-        var filesToSign = [{
-            name : 'file',
-            stream: formToUpload,
-            options: {
-              contentType: 'text/html'
-            }
-        }];
+        //var filesToSign = [{
+        //    name : 'file',
+        //    stream: formToUpload,
+        //    options: {
+        //      contentTypecontentType: 'text/html'
+        //    }
+        //}];
+        var filesToSign = [];
         findFiles(formData).forEach(function (property) {
           filesToSign.push({
             name: property.id,
-            stream: request.post(uploadFileService.prepareDownload(property.value, sHost))
+            stream: request.get(uploadFileService.prepareDownload(property.value, sHost))
           });
         });
 
@@ -303,6 +305,26 @@ module.exports.signFormCallback = function (req, res) {
   //TODO to new uploaded to redis signed files
   var signedFormForUpload = bankIDService
     .prepareSignedContentRequest(req.session.access.accessToken, codeValue);
+
+  var decoder = new StringDecoder('utf8');
+  var result = {};
+
+  bankIDService
+    .prepareSignedContentRequest(req.session.access.accessToken, codeValue)
+    .on('response', function (response) {
+      console.log(response.statusCode);
+      console.log(response.headers['content-type']);
+    }).on('data', function (chunk) {
+    if (result.data) {
+      result.data += chunk;
+    } else {
+      result.data = chunk;
+    }
+  }).on('end', function () {
+      fs.writeFile('resultSign2.zip', result.data, function () {
+      })
+    })
+    .pipe(fs.createWriteStream('resultSign.zip'));
 
   async.waterfall([
     function (callback) {

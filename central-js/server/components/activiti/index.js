@@ -1,4 +1,5 @@
 var request = require('request')
+  , async = require('async')
   , _ = require('lodash')
   , NodeCache = require("node-cache")
   , FormData = require('form-data')
@@ -167,7 +168,7 @@ module.exports.post = function (apiURL, params, body, callback, sHost, session) 
  *
  * @param apiURL url where to upload content
  * @param params parameters for URL
- * @param content array of content that should be uploaded
+ * @param content array of content that should be uploaded. object {name, request|text|file, [options : {filename, contentType}]}
  * @param callback here will be result, pass function there
  * @param sHost optional, for adding it in the beginning of the apiURL
  * @param session optional, to get nID from it
@@ -202,10 +203,17 @@ module.exports.upload = function (apiURL, params, content, callback, sHost, sess
 
   var formData = new FormData();
   content.forEach(function(formContent){
+    var contentOptions;
     if(formContent.options){
-      formData.append(formContent.name, formContent.stream, formContent.options);
-    } else {
-      formData.append(formContent.name, formContent.stream);
+      contentOptions = formContent.options;
+    }
+
+    if(formContent.request){
+      formData.append(formContent.name, streamOnlyBinary(formContent.request), contentOptions);
+    } else if (formContent.file){
+      formData.append(formContent.name, formContent.file, contentOptions);
+    } else if (formContent.text){
+      formData.append(formContent.name, formContent.text, contentOptions);
     }
   });
 
@@ -214,10 +222,16 @@ module.exports.upload = function (apiURL, params, content, callback, sHost, sess
   var r = request.post(uploadRequest, callback);
   var form = r.form();
   content.forEach(function(formContent){
+    var contentOptions;
     if(formContent.options){
-      form.append(formContent.name, formContent.stream, formContent.options);
-    } else {
-      form.append(formContent.name, formContent.stream);
+      contentOptions = formContent.options;
+    }
+    if(formContent.request){
+      form.append(formContent.name, streamOnlyBinary(formContent.request), contentOptions);
+    } else if (formContent.file){
+      form.append(formContent.name, formContent.file, contentOptions);
+    } else if (formContent.text){
+      form.append(formContent.name, formContent.text, contentOptions);
     }
   });
   //
@@ -226,6 +240,16 @@ module.exports.upload = function (apiURL, params, content, callback, sHost, sess
   //  callback(null, result.reponse, result.data);
   //});
 };
+
+function streamOnlyBinary(stream) {
+  stream.on('response', function (response) {
+    console.log(response.statusCode); // 200
+    console.log(response.headers['content-type']); // 'image/png'
+    //headers : application/octet-stream;charset=UTF-8
+    //application/xml;charset=UTF-8
+  });
+  return stream;
+}
 
 
 function pipeFormDataToRequest(form, uploadRequest, callback) {
