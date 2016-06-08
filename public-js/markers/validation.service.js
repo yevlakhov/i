@@ -75,11 +75,27 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     }
 
     angular.forEach(markers.validate, function (marker, markerName) {
-
+      /*
+      var isOrganJoinInclude = false;
+      var isOrganNoInclude = true;
+      for(var nFieldID = 0; nFieldID < marker.aField_ID.length; nFieldID++){
+        if (marker.aField_ID[nFieldID] === "sID_Public_SubjectOrganJoin"){
+          isOrganJoinInclude = true;
+        }
+        if (marker.aField_ID[nFieldID] === "organ"){
+          isOrganNoInclude = false;
+        }
+      }
+      if(isOrganJoinInclude && isOrganNoInclude){
+        marker.aField_ID.push("organ");
+        if(self.oFormDataParams.sID_Public_SubjectOrganJoin){
+          marker.original = self.oFormDataParams.sID_Public_SubjectOrganJoin;
+        }
+      }
+*/
       angular.forEach(form, function (formField) {
 
         self.setValidatorByMarker(marker, markerName, formField, immediateValidation);
-
       });
     });
   };
@@ -90,6 +106,9 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     if (markerName.indexOf('FileExtensions_') == 0) {
       markerName = 'FileExtensions';
     }
+    /*if (markerName.indexOf('FieldNotEmptyAndNonZero_') == 0) {
+      markerName = 'FieldNotEmptyAndNonZero';
+    }*/
 
     var keyByMarkerName = self.validatorNameByMarkerName[markerName];
     var fieldNameIsListedInMarker = formField && formField.$name && _.indexOf(marker.aField_ID, formField.$name) !== -1;
@@ -101,6 +120,11 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       // запам'ятовуємо опції маркера щоб передати параметри типу sMessage, sFormat, bFuture, bLess, nDays ітн.
       var markerOptions = angular.copy(marker) || {};
       markerOptions.key = keyByMarkerName;
+
+      // TODO на бете иногда не передается $validators из-за чего форма виснет, хардкод
+      if(!formField.$validators) {
+        return true
+      }
 
       formField.$validators[keyByMarkerName] = self.getValidatorByName(markerName, markerOptions, formField);
 
@@ -140,7 +164,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     DateElapsed_1: 'dateofbirth',
     CustomFormat: 'CustomFormat',
     FileSign: 'FileSign',
-    FileExtensions: 'FileExtensions'
+    FileExtensions: 'FileExtensions',
+    FieldNotEmptyAndNonZero: 'FieldNotEmptyAndNonZero'
   };
 
   /**
@@ -725,7 +750,40 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
         options.lastError = self.interpolateMarkerMessage(options, "{", "}") || 'Недопустимий формат файлу! Повинно бути: ' + options.saExtension + '!';
       }
       return bValid;
+    },
+    
+    
+    /**
+     Логика: Не ипустота и не ноль
+     */
+    'FieldNotEmptyAndNonZero': function (modelValue, options) {
+      var sValue = modelValue;
+      var oSubjectOrganJoin = this.oFormDataParams.sID_Public_SubjectOrganJoin;
+
+      // if(options.original){
+      sValue = oSubjectOrganJoin.value;
+
+      if(modelValue == null || modelValue == "" && !oSubjectOrganJoin.required){
+        return true
+      }
+      // }
+      //debugger;
+      //console.log("[FieldNotEmptyAndNonZero]sValue=" + sValue);
+      if (!sValue) {
+        return false;
+      }
+
+      var bValid = true;
+      bValid = bValid && (sValue !== null);
+      //console.log("[FieldNotEmptyAndNonZero](1)bValid=" + bValid);
+      bValid = bValid && (sValue!==null && sValue.trim() !== "");
+      //console.log("[FieldNotEmptyAndNonZero](2)bValid=" + bValid);
+      bValid = bValid && (sValue!==null && sValue.trim() !== "0");
+      //console.log("[FieldNotEmptyAndNonZero](3)bValid=" + bValid);
+      return bValid;
     }
+    
+    
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////

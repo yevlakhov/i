@@ -157,6 +157,7 @@
           var sClientFIO = null;
           var sClientName = null;
           var sClientSurname = null;
+          var bCheckGeneralComment = false;
 
           angular.forEach($scope.taskForm, function (item) {
             if (angular.isDefined($scope.clarifyFields[item.id]) && $scope.clarifyFields[item.id].clarify)
@@ -166,7 +167,8 @@
                 sType: item.type,
                 sValue: item.value,
                 sValueNew: item.value,
-                sNotify: $scope.clarifyFields[item.id].text
+                sNotify: $scope.clarifyFields[item.id].text,
+                sGeneralComment: $scope.clarifyModel.sBody
               });
 
             if (item.id === 'email') {
@@ -182,6 +184,15 @@
             }
           });
 
+          if(aFields.length === 0){
+            bCheckGeneralComment = true;
+          }
+          if(bCheckGeneralComment && $scope.clarifyModel.sBody !== ''){
+            aFields.push({
+              sType: 'string',
+              sGeneralComment: $scope.clarifyModel.sBody
+            });
+          }
           if ($scope.clarifyModel.sBody.trim().length === 0 && aFields.length === 0) {
             Modal.inform.warning()('Треба ввести коментар або обрати поле/ля');
             return;
@@ -463,10 +474,14 @@
                   $scope.taskForm[i].value = $scope.originalTaskForm[i].enumValues[j].name;
                 }
               }
-              $scope.taskForm.taskData.aField[i].sType = "string";
-              var keyCandidate = $scope.originalTaskForm.taskData.aField[i].sValue;
-              var objCandidate = $scope.originalTaskForm.taskData.aField[i].mEnum;
-              $scope.taskForm.taskData.aField[i].sValue = objCandidate[keyCandidate];
+              try {
+                $scope.taskForm.taskData.aField[i].sType = "string";
+                var keyCandidate = $scope.originalTaskForm.taskData.aField[i].sValue;
+                var objCandidate = $scope.originalTaskForm.taskData.aField[i].mEnum;
+                $scope.taskForm.taskData.aField[i].sValue = objCandidate[keyCandidate];
+              } catch (e) {
+                Modal.inform.error()($scope.taskForm.taskData.message)
+              }
             }
           }
         };
@@ -475,12 +490,16 @@
             if ($scope.originalTaskForm[i].type === "enum" && isItemFormPropertyDisabled($scope.originalTaskForm[i])) {
               $scope.taskForm[i].type = "enum";
               $scope.taskForm[i].value = $scope.originalTaskForm[i].value;
-              $scope.taskForm.taskData.aField[i].sType = $scope.originalTaskForm.taskData.aField[i].sType;
-              $scope.taskForm.taskData.aField[i].sValue = $scope.originalTaskForm.taskData.aField[i].sValue;
+              try {
+                $scope.taskForm.taskData.aField[i].sType = "string";
+                $scope.taskForm.taskData.aField[i].sType = $scope.originalTaskForm.taskData.aField[i].sType;
+                $scope.taskForm.taskData.aField[i].sValue = $scope.originalTaskForm.taskData.aField[i].sValue;
+              } catch (e) {
+                Modal.inform.error()($scope.taskForm.taskData.message)
+              }
             }
           }
         }
-
         $scope.convertDisabledEnumFiedsToReadonlySimpleText();
       }
     ]);

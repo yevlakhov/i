@@ -1,4 +1,5 @@
 var url = require('url')
+  , StringDecoder = require('string_decoder').StringDecoder
   , request = require('request')
   , fs = require('fs')
   , FormData = require('form-data')
@@ -73,35 +74,56 @@ module.exports.submit = function (req, res) {
 };
 
 module.exports.scanUpload = function (req, res) {
-  var sHost = req.region.sHost + '/service';
+  var sHost = req.region.sHost;
   var accessToken = req.session.access.accessToken;
   var data = req.body;
+
+  var sURL = sHost + '/service/object/file/upload_file_to_redis';
+  console.log("[scanUpload]:sURL=" + sURL);
+
+  var uploadURL = sURL; //data.url
   var documentScans = data.scanFields;
+  console.log("[scanUpload]:data.scanFields=" + data.scanFields);
 
   var uploadResults = [];
   var uploadScan = function (documentScan, callback) {
-    var scanContentRequest = bankIDService.prepareScanContentRequest(documentScan.scan.link, accessToken);
-    uploadFileService.upload([{
-      name: 'file',
-      request: scanContentRequest,
-      options: {
-        filename: documentScan.scan.type + '.' + documentScan.scan.extension
+    bankIDService.scanContentRequest(documentScan.scan.type, documentScan.scan.link, accessToken, function (error, buffer) {
+      if (error) {
+        callback(error);
+      } else {
+        var form = new FormData();
+        form.append('file', buffer, {
+          filename: documentScan.scan.type + '.' + documentScan.scan.extension
+        });
+
+        var requestOptionsForUploadContent = {
+          url: uploadURL,
+          auth: getAuth(),
+          headers: form.getHeaders()
+        };
+
+        pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
+          console.log('[scanUpload]:scan redis id ' + result.data);
+          uploadResults.push({
+            fileID: result.data,
+            scanField: documentScan
+          });
+          callback();
+        });
       }
-    }], function (error, response, body) {
-      uploadResults.push({
-        fileID: body,
-        scanField: documentScan
-      });
-      callback();
-    }, sHost);
+    });
   };
 
   async.forEach(documentScans, function (documentScan, callback) {
     uploadScan(documentScan, callback);
   }, function (error) {
-    res.send(uploadResults);
-    res.end();
+    if (error) {
+      res.status(500).send(error);
+    } else {
+      res.send(uploadResults);
+    }
   });
+
 };
 
 module.exports.signCheck = function (req, res) {
