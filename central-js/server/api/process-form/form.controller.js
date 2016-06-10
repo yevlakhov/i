@@ -179,7 +179,6 @@ module.exports.signForm = function (req, res) {
   var sURL = sHost + '/';
   console.log("sURL=" + sURL);
   //  var sURL = req.query.sURL;
-  var sName = req.query.sName;
 
 
   if (!formID) {

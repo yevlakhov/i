@@ -30,7 +30,16 @@ module.exports.upload = function (contentToUpload, callback, sHost) {
   activiti.upload(apiURLS.upload, {}, contentToUpload, function (error, response, body) {
 //code = "SYSTEM_ERR"
 //message = "Could not parse multipart servlet request; nested exception is org.apache.commons.fileupload.FileUploadBase$IOFileUploadException: Processing of multipart/form-data request failed. Stream ended unexpectedly"
-    callback(error, response, body);
+    var object;
+
+    var fileID = body.match(/^([\d\w]{8}-[\d\w]{4}-[\d\w]{4}-[\d\w]{4}-[\d\w]{12})/);
+    if(fileID){
+      object = {fileID: body};
+    } else {
+      object = JSON.parse(body)
+    }
+
+    callback(error, response, object);
   }, sHost);
 };
 
