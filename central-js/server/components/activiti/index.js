@@ -209,7 +209,7 @@ module.exports.upload = function (apiURL, params, content, callback, sHost, sess
     }
 
     if(formContent.request){
-      formData.append(formContent.name, streamOnlyBinary(formContent.request), contentOptions);
+      formData.append(formContent.name, formContent.request, contentOptions);
     } else if (formContent.file){
       formData.append(formContent.name, formContent.file, contentOptions);
     } else if (formContent.text){
@@ -227,48 +227,14 @@ module.exports.upload = function (apiURL, params, content, callback, sHost, sess
       contentOptions = formContent.options;
     }
     if(formContent.request){
-      form.append(formContent.name, streamOnlyBinary(formContent.request), contentOptions);
+      form.append(formContent.name, formContent.request, contentOptions);
     } else if (formContent.file){
       form.append(formContent.name, formContent.file, contentOptions);
     } else if (formContent.text){
       form.append(formContent.name, formContent.text, contentOptions);
     }
   });
-  //
-  //pipeFormDataToRequest(form, uploadRequest, function (result) {
-  //  //TODO handle errors
-  //  callback(null, result.reponse, result.data);
-  //});
 };
-
-function streamOnlyBinary(stream) {
-  stream.on('response', function (response) {
-    console.log(response.statusCode); // 200
-    console.log(response.headers['content-type']); // 'image/png'
-    //headers : application/octet-stream;charset=UTF-8
-    //application/xml;charset=UTF-8
-  });
-  return stream;
-}
-
-
-function pipeFormDataToRequest(form, uploadRequest, callback) {
-  var decoder = new StringDecoder('utf8');
-  var result = {};
-  form.pipe(request.post(uploadRequest))
-    .on('response', function (response) {
-      result.reponse = response;
-    }).on('data', function (chunk) {
-    if (result.data) {
-      result.data += decoder.write(chunk);
-    } else {
-      result.data = decoder.write(chunk);
-    }
-  }).on('end', function () {
-    callback(result);
-  });
-}
-
 
 module.exports.sendPostRequest = function (req, res, apiURL, params, callback, sHost) {
   var apiReq = this.buildRequest(req, apiURL, params, sHost);

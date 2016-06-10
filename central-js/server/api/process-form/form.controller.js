@@ -281,7 +281,7 @@ module.exports.signForm = function (req, res) {
         findFiles(formData).forEach(function (property) {
           filesToSign.push({
             name: property.id,
-            stream: request.get(uploadFileService.prepareDownload(property.value, sHost))
+            request: request.get(uploadFileService.prepareDownload(property.value, sHost))
           });
         });
 
