@@ -1,5 +1,4 @@
 var url = require('url')
-  , StringDecoder = require('string_decoder').StringDecoder
   , request = require('request')
   , fs = require('fs')
   , FormData = require('form-data')
@@ -175,11 +174,7 @@ module.exports.signForm = function (req, res) {
   var nID_Server = req.query.nID_Server;
   var formID = req.session.formID;
   var sHost = req.region.sHost;
-
   var sURL = sHost + '/';
-  console.log("sURL=" + sURL);
-  //  var sURL = req.query.sURL;
-
 
   if (!formID) {
     res.status(400).send({error: 'formID should be specified'});
@@ -221,7 +216,7 @@ module.exports.signForm = function (req, res) {
 
     var templateData = {
       formProperties: data.activitiForm.formProperties,
-      processName: sName, //data.processName,
+      processName: sName,
       businessKey: data.businessKey,
       creationDate: '' + new Date()
     };
@@ -255,45 +250,67 @@ module.exports.signForm = function (req, res) {
     }
   }
 
-  async.waterfall([
-    function (callback) {
-      loadForm(formID, sURL, function (error, response, body) {
-        if (error) {
-          callback(error, null);
-        } else {
-          callback(null, body);
+  function getFormAsync(callbackAsync){
+    loadForm(formID, sURL, function (error, response, body) {
+      if (error) {
+        callbackAsync(error, null);
+      } else {
+        callbackAsync(null, body);
+      }
+    });
+  }
+
+  var objectsToSign = [];
+
+  function getHtmlAsync(formData, callbackAsync){
+    createHtml(formData, function (formToUpload) {
+      objectsToSign.push({
+        name: 'file',
+        text: formToUpload,
+        options: {
+          contentType: 'text/html'
         }
       });
-    },
-    function (formData, callback) {
-      var accessToken = req.session.access.accessToken;
-      createHtml(formData, function (formToUpload) {
-        //TODO prepare requests for files from redis
-        //TODO send html form + files that have been uploaded
-        //var filesToSign = [{
-        //    name : 'file',
-        //    stream: formToUpload,
-        //    options: {
-        //      contentTypecontentType: 'text/html'
-        //    }
-        //}];
-        var filesToSign = [];
-        findFiles(formData).forEach(function (property) {
-          filesToSign.push({
-            name: property.id,
-            request: request.get(uploadFileService.prepareDownload(property.value, sHost))
-          });
-        });
+      callbackAsync(null, formData);
+    });
+  }
 
-        bankIDService.signFiles(accessToken, callbackURL, filesToSign, function (error, result) {
-          if (error) {
-            callback(error, null);
-          } else {
-            callback(null, result)
-          }
+  function getFileBuffersAsync(formData, callbackAsync){
+    var filesToSign = [];
+    async.forEach(findFiles(formData), function(fileField, callbackEach){
+      uploadFileService.downloadBuffer(fileField.value, function(error, response, buffer){
+        filesToSign.push({
+          name: fileField.id,
+          buffer: buffer
         });
-      });
-    }
+        callbackEach();
+      },sHost)
+    }, function(error){
+      if(error){
+        callbackAsync(error, null);
+      } else {
+        objectsToSign = objectsToSign.concat(filesToSign);
+        callbackAsync(null, formData);
+      }
+    });
+  }
+
+  function signFilesAsync(formData, callbackAsync){
+    var accessToken = req.session.access.accessToken;
+    bankIDService.signFiles(accessToken, callbackURL, objectsToSign, function (error, result) {
+      if (error) {
+        callbackAsync(error, null);
+      } else {
+        callbackAsync(null, result)
+      }
+    });
+  }
+
+  async.waterfall([
+    getFormAsync,
+    getHtmlAsync,
+    getFileBuffersAsync,
+    signFilesAsync
   ], function (error, result) {
     if (error) {
       res.status(500).send(error);
@@ -329,23 +346,6 @@ module.exports.signFormCallback = function (req, res) {
 
   var decoder = new StringDecoder('utf8');
   var result = {};
-
-  bankIDService
-    .prepareSignedContentRequest(req.session.access.accessToken, codeValue)
-    .on('response', function (response) {
-      console.log(response.statusCode);
-      console.log(response.headers['content-type']);
-    }).on('data', function (chunk) {
-    if (result.data) {
-      result.data += chunk;
-    } else {
-      result.data = chunk;
-    }
-  }).on('end', function () {
-      fs.writeFile('resultSign2.zip', result.data, function () {
-      })
-    })
-    .pipe(fs.createWriteStream('resultSign.zip'));
 
   async.waterfall([
     function (callback) {
@@ -392,17 +392,6 @@ module.exports.saveForm = function (req, res) {
   var data = req.body;
   var oServiceDataNID = req.query.oServiceDataNID;
 
-//    var params = {
-//      //sURL : oServiceData.sURL
-//      nID_Server : nID_Server
-//    };
-//    data = angular.extend(data, {
-//      restoreFormUrl: restoreFormUrl
-//    });
-//
-//    return $http.post('./api/process-form/save', data, {params : params}).then(function (response) {
-
-
   var nID_Server = req.query.nID_Server;
   activiti.getServerRegionHost(nID_Server, function (sHost) {
     var sURL = sHost + '/';
@@ -442,30 +431,18 @@ module.exports.saveForm = function (req, res) {
 
 module.exports.loadForm = function (req, res) {
   var formID = req.query.formID;
+  var sHost = req.region.sHost;
+  var sURL = sHost + '/';
 
-//  this.loadForm = function (oServiceData, formID) {
-//    //var data = {sURL: oServiceData.sURL, formID: formID};
-//    var data = {nID_Server: oServiceData.nID_Server, formID: formID};
-//    return $http.get('./api/process-form/load', {params: data}).then(function (response) {
+  var callback = function (error, response, body) {
+    if (error) {
+      res.status(400).send(error);
+    } else {
+      res.send(body);
+    }
+  };
 
-  var nID_Server = req.query.nID_Server;
-  activiti.getServerRegionHost(nID_Server, function (sHost) {
-    var sURL = sHost + '/';
-    console.log("sURL=" + sURL);
-
-    //  var sURL = req.query.sURL;
-
-    var callback = function (error, response, body) {
-      if (error) {
-        res.status(400).send(error);
-      } else {
-        res.send(body);
-      }
-    };
-
-    loadForm(formID, sURL, callback);
-  });
-
+  loadForm(formID, sURL, callback);
 };
 
 function loadForm(formID, sURL, callback) {

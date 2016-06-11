@@ -3,7 +3,6 @@ var request = require('request')
   , _ = require('lodash')
   , NodeCache = require("node-cache")
   , FormData = require('form-data')
-  , StringDecoder = require('string_decoder').StringDecoder
   , aServerCache = new NodeCache();
 
 var options;
@@ -100,7 +99,7 @@ module.exports.getRequestUrl = function (apiURL, sHost) {
   return (sHost !== null && sHost !== undefined ? sHost : options.protocol + '://' + options.hostname + options.path) + apiURL;
 };
 
-module.exports.buildGET = function (apiURL, params, sHost, session, isCustomAuth) {
+module.exports.buildGET = function (apiURL, params, sHost, session, isCustomAuth, buffer) {
   var sURL = this.getRequestUrl(apiURL, sHost);
   var qs = params;
 
@@ -114,6 +113,11 @@ module.exports.buildGET = function (apiURL, params, sHost, session, isCustomAuth
     qs: qs
   };
 
+  if(buffer){
+    reqObj.encoding = null;
+  }
+
+
   if(!isCustomAuth){
     _.extend(reqObj, {auth: this.getAuth()})
   }
@@ -121,9 +125,9 @@ module.exports.buildGET = function (apiURL, params, sHost, session, isCustomAuth
   return reqObj;
 };
 
-module.exports.buildRequest = function (req, apiURL, params, sHost) {
+module.exports.buildRequest = function (req, apiURL, params, sHost, buffer) {
   //var nID_Subject = req.session.subject ? req.session.subject.nID : null;
-  return this.buildGET(apiURL, params, sHost, req.session);//nID_Subject
+  return this.buildGET(apiURL, params, sHost, req.session, false, buffer);//nID_Subject
 };
 
 module.exports.getAuth = function () {
@@ -146,14 +150,14 @@ module.exports.getDefaultCallback = function (res) {
   }
 };
 
-module.exports.sendGetRequest = function (req, res, apiURL, params, callback, sHost) {
+module.exports.sendGetRequest = function (req, res, apiURL, params, callback, sHost, buffer) {
   var _callback = callback ? callback : this.getDefaultCallback(res);
-  var url = this.buildRequest(req, apiURL, params, sHost);
+  var url = this.buildRequest(req, apiURL, params, sHost, buffer);
   return request(url, _callback);
 };
 
-module.exports.get = function (apiURL, params, callback, sHost, session) {
-  var prepared = this.buildGET(apiURL, params, sHost, session);
+module.exports.get = function (apiURL, params, callback, sHost, session, buffer) {
+  var prepared = this.buildGET(apiURL, params, sHost, session, false, buffer);
   return request(prepared, callback);
 };
 
@@ -201,39 +205,31 @@ module.exports.upload = function (apiURL, params, content, callback, sHost, sess
   }
   _.merge(uploadRequest.headers, {'Accept': 'application/json'});
 
-  var formData = new FormData();
-  content.forEach(function(formContent){
-    var contentOptions;
-    if(formContent.options){
-      contentOptions = formContent.options;
-    }
+  function formAppend(formData, content){
+    content.forEach(function(formContent){
+      var contentOptions;
+      if(formContent.options){
+        contentOptions = formContent.options;
+      }
 
-    if(formContent.request){
-      formData.append(formContent.name, formContent.request, contentOptions);
-    } else if (formContent.file){
-      formData.append(formContent.name, formContent.file, contentOptions);
-    } else if (formContent.text){
-      formData.append(formContent.name, formContent.text, contentOptions);
-    }
-  });
+      if(formContent.request){
+        formData.append(formContent.name, formContent.request, contentOptions);
+      } else if (formContent.file){
+        formData.append(formContent.name, formContent.file, contentOptions);
+      } else if (formContent.text){
+        formData.append(formContent.name, formContent.text, contentOptions);
+      } else if (formContent.buffer){
+        formData.append(formContent.name, formContent.buffer, contentOptions);
+      }
+    });
+  }
 
-  _.merge(uploadRequest.headers, formData.getHeaders());
+  //var formDataForHeaders = new FormData();
+  //formAppend(formDataForHeaders, content);
+  //_.merge(uploadRequest.headers, formDataForHeaders.getHeaders());
 
   var r = request.post(uploadRequest, callback);
-  var form = r.form();
-  content.forEach(function(formContent){
-    var contentOptions;
-    if(formContent.options){
-      contentOptions = formContent.options;
-    }
-    if(formContent.request){
-      form.append(formContent.name, formContent.request, contentOptions);
-    } else if (formContent.file){
-      form.append(formContent.name, formContent.file, contentOptions);
-    } else if (formContent.text){
-      form.append(formContent.name, formContent.text, contentOptions);
-    }
-  });
+  formAppend(r.form(), content);
 };
 
 module.exports.sendPostRequest = function (req, res, apiURL, params, callback, sHost) {

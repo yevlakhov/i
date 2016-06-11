@@ -52,6 +52,10 @@ module.exports.download = function (fileID, callback, sHost, session) {
   activiti.get(apiURLS.download, {key: fileID}, callback, fixHost(sHost), session);
 };
 
+module.exports.downloadBuffer = function (fileID, callback, sHost, session) {
+  activiti.get(apiURLS.download, {key: fileID}, callback, fixHost(sHost), session, true);
+};
+
 module.exports.uploadHTMLForm = function (fullUploadURL, formToUpload, headers, callback) {
   var form = new FormData();
   form.append('file', formToUpload, {
