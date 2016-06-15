@@ -1,35 +1,33 @@
-angular.module('app').controller('ServiceBuiltInBankIDController', function(
-  $sce,
-  $state,
-  $stateParams,
-  $scope,
-  $timeout,
-  $location,
-  $window,
-  $rootScope,
-  $http,
-  FormDataFactory,
-  ActivitiService,
-  ValidationService,
-  oService,
-  oServiceData,
-  BankIDAccount,
-  activitiForm,
-  formData,
-  allowOrder,
-  countOrder,
-  selfOrdersCount,
-  AdminService,
-  PlacesService,
-  uiUploader,
-  FieldAttributesService,
-  iGovMarkers,
-  service,
-  FieldMotionService,
-  ParameterFactory,
-  $modal
-  ,ErrorsFactory
-    ) {
+angular.module('app').controller('ServiceBuiltInBankIDController', function ($sce,
+                                                                             $state,
+                                                                             $stateParams,
+                                                                             $scope,
+                                                                             $timeout,
+                                                                             $location,
+                                                                             $window,
+                                                                             $rootScope,
+                                                                             $http,
+                                                                             FormDataFactory,
+                                                                             ActivitiService,
+                                                                             ValidationService,
+                                                                             oService,
+                                                                             oServiceData,
+                                                                             BankIDAccount,
+                                                                             activitiForm,
+                                                                             formData,
+                                                                             allowOrder,
+                                                                             countOrder,
+                                                                             selfOrdersCount,
+                                                                             AdminService,
+                                                                             PlacesService,
+                                                                             uiUploader,
+                                                                             FieldAttributesService,
+                                                                             iGovMarkers,
+                                                                             service,
+                                                                             FieldMotionService,
+                                                                             ParameterFactory,
+                                                                             $modal
+  , ErrorsFactory) {
 
   'use strict';
 
@@ -51,11 +49,11 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
 
   $scope.data.formData = formData;
 
-  $scope.setFormScope = function(scope){
+  $scope.setFormScope = function (scope) {
     this.formScope = scope;
   };
 
-  var initializeFormData = function (){
+  var initializeFormData = function () {
     $scope.data.formData = new FormDataFactory();
     return $scope.data.formData.initialize($scope.activitiForm, BankIDAccount, oServiceData);
   };
@@ -84,12 +82,12 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
       }
     });
   }
-  
+
   $scope.bAdmin = AdminService.isAdmin();
   $scope.markers = ValidationService.getValidationMarkers();
   var aID_FieldPhoneUA = $scope.markers.validate.PhoneUA.aField_ID;
 
-  angular.forEach($scope.activitiForm.formProperties, function(field) {
+  angular.forEach($scope.activitiForm.formProperties, function (field) {
 
     var sFieldName = field.name || '';
 
@@ -122,7 +120,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
         console.log('markers attribute ' + field.name + ' contain bad formatted json\n' + ex.name + ', ' + ex.message + '\nfield.value: ' + field.value);
       }
       if (sourceObj !== null) {
-        _.merge(iGovMarkers.getMarkers(), sourceObj, function(destVal, sourceVal) {
+        _.merge(iGovMarkers.getMarkers(), sourceObj, function (destVal, sourceVal) {
           if (_.isArray(sourceVal)) {
             return sourceVal;
           }
@@ -133,35 +131,41 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
       angular.extend($scope.data.formData.params.bReferent, field);
       $scope.visibleBReferent = true;
       switch ($scope.data.formData.params.bReferent.value) {
-        case 'true': $scope.data.formData.params.bReferent.value = true; break;
-        case 'false': $scope.data.formData.params.bReferent.value = false; break;
+        case 'true':
+          $scope.data.formData.params.bReferent.value = true;
+          break;
+        case 'false':
+          $scope.data.formData.params.bReferent.value = false;
+          break;
       }
     }
   });
   iGovMarkers.validateMarkers();
   //save values for each property
   $scope.persistValues = JSON.parse(JSON.stringify($scope.data.formData.params));
-  $scope.getSignFieldID = function(){
+  $scope.getSignFieldID = function () {
     return data.formData.getSignField().id;
   };
 
   $scope.isSignNeeded = $scope.data.formData.isSignNeeded();
   $scope.isSignNeededRequired = $scope.data.formData.isSignNeededRequired();
   //$scope.sign = {checked : false };
-  $scope.sign = {checked : $scope.data.formData.isSignNeededRequired() };
+  $scope.sign = {checked: $scope.data.formData.isSignNeededRequired()};
 
   $scope.signForm = function () {
-    if($scope.data.formData.isSignNeeded){
+    if ($scope.data.formData.isSignNeeded) {
       ActivitiService.saveForm(oService, oServiceData,
         'some business key 111',
         'process name here', $scope.activitiForm, $scope.data.formData)
         .then(function (result) {
           var signPath = ActivitiService.getSignFormPath(oServiceData, result.formID, oService);
           $window.location.href = $location.protocol() + '://' + $location.host() + ':' + $location.port() + signPath;
-          //$window.location.href = $location.absUrl()
-          //  + '?formID=' + result.formID
-          //  + '&signedFileID=' + 1122333;
-        })
+        }).catch(function (error) {
+        $scope.isSending = false;
+        var oFuncNote = {sHead: "Збереження форми послуги", sFunc: "saveForm(UI)"};
+        ErrorsFactory.init(oFuncNote, {asParam: ['nID_Service: ' + oService.nID, 'nID_ServiceData: ' + oServiceData.nID, 'processDefinitionId: ' + oServiceData.oData.processDefinitionId]});
+        ErrorsFactory.logFail({sBody: error.message});
+      });
     } else {
       $window.alert('No sign is needed');
     }
@@ -183,139 +187,142 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
     }
   };
 
-  $scope.validateForm = function(form) {
+  $scope.validateForm = function (form) {
     var bValid = true;
     ValidationService.validateByMarkers(form, null, true, this.data);
     return form.$valid && bValid;
   };
 
-  $scope.fixForm = function(form, aFormProperties) {
-      try{
-        if(aFormProperties && aFormProperties!==null){
-            angular.forEach(aFormProperties, function(oProperty){
-                if((oProperty.id === "sVarLastName_0001" || oProperty.id === "sVarLastName_0002" || oProperty.id === "sVarLastName_0003")
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdlastName"].value;
-                }
-                if((oProperty.id === "sVarFirstName_0001" || oProperty.id === "sVarFirstName_0002" || oProperty.id === "sVarFirstName_0003")
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdfirstName"].value;
-                }
-                if((oProperty.id === "sVarMiddleName_0001" || oProperty.id === "sVarMiddleName_0002" || oProperty.id === "sVarMiddleName_0003")
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdmiddleName"].value;
-                }
-                if((oProperty.id === "sVarDatDenN_0001" || oProperty.id === "sVarDatDenN_0002" || oProperty.id === "sVarDatDenN_0003")
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdbirthDay"].value;
-                }
-                if((oProperty.id === "sReestrNum_0001" || oProperty.id === "sReestrNum_0002" || oProperty.id === "sReestrNum_0003")
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdinn"].value;
-                }
+  $scope.fixForm = function (form, aFormProperties) {
+    try {
+      if (aFormProperties && aFormProperties !== null) {
+        angular.forEach(aFormProperties, function (oProperty) {
+          if ((oProperty.id === "sVarLastName_0001" || oProperty.id === "sVarLastName_0002" || oProperty.id === "sVarLastName_0003")
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdlastName"].value;
+          }
+          if ((oProperty.id === "sVarFirstName_0001" || oProperty.id === "sVarFirstName_0002" || oProperty.id === "sVarFirstName_0003")
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdfirstName"].value;
+          }
+          if ((oProperty.id === "sVarMiddleName_0001" || oProperty.id === "sVarMiddleName_0002" || oProperty.id === "sVarMiddleName_0003")
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdmiddleName"].value;
+          }
+          if ((oProperty.id === "sVarDatDenN_0001" || oProperty.id === "sVarDatDenN_0002" || oProperty.id === "sVarDatDenN_0003")
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdbirthDay"].value;
+          }
+          if ((oProperty.id === "sReestrNum_0001" || oProperty.id === "sReestrNum_0002" || oProperty.id === "sReestrNum_0003")
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params["bankIdinn"].value;
+          }
 
-                var s="";
+          var s = "";
 
-                s="sVarPostIndex";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarPostIndex";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarOblNam";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarOblNam";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarRajOblNam";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarRajOblNam";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarPlaceNam";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarPlaceNam";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarRajCityNam";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarRajCityNam";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarVulNam";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarVulNam";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarBudNum";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarBudNum";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarKvNum";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarKvNum";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarTypePom";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarTypePom";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
-                s="sVarPomNum";
-                if((oProperty.id === (s+"_0001") || oProperty.id === (s+"_0002") || oProperty.id === (s+"_0003"))
-                        && ($scope.data.formData.params[oProperty.id].value===null || $scope.data.formData.params[oProperty.id].value==="")){//oProperty.id === attr.sName &&
-                    $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
-                }
+          s = "sVarPomNum";
+          if ((oProperty.id === (s + "_0001") || oProperty.id === (s + "_0002") || oProperty.id === (s + "_0003"))
+            && ($scope.data.formData.params[oProperty.id].value === null || $scope.data.formData.params[oProperty.id].value === "")) {//oProperty.id === attr.sName &&
+            $scope.data.formData.params[oProperty.id].value = $scope.data.formData.params[s].value;
+          }
 
 
-            });
-        }
-      }catch(sError){
-        console.log('[submitForm.fixForm]sError='+ sError);
+        });
       }
+    } catch (sError) {
+      console.log('[submitForm.fixForm]sError=' + sError);
+    }
 
   };
 
-  $scope.submitForm = function(form, aFormProperties) {
-    if(form){
+  $scope.submitForm = function (form, aFormProperties) {
+    if (form) {
       form.$setSubmitted();
     }
 
     $scope.fixForm(form, aFormProperties);
-    if(aFormProperties && aFormProperties!==null){
-        angular.forEach(aFormProperties, function(oProperty){
-            if(oProperty.type === "enum" && oProperty.bVariable && oProperty.bVariable !== null && oProperty.bVariable === true){//oProperty.id === attr.sName &&
-                $scope.data.formData.params[oProperty.id].value=null;
-            }
-        });
+    if (aFormProperties && aFormProperties !== null) {
+      angular.forEach(aFormProperties, function (oProperty) {
+        if (oProperty.type === "enum" && oProperty.bVariable && oProperty.bVariable !== null && oProperty.bVariable === true) {//oProperty.id === attr.sName &&
+          $scope.data.formData.params[oProperty.id].value = null;
+        }
+      });
     }
 
     ActivitiService
       .submitForm(oService, oServiceData, $scope.data.formData, aFormProperties)//$scope.activitiForm
-      .then(function(oReturn) {
+      .then(function (oReturn) {
         $scope.isSending = false;
         var state = $state.$current;
         var submitted = $state.get(state.name + '.submitted');
 
-        var oFuncNote = {sHead:"Сабміт форми послуги", sFunc:"submitForm(UI)"};
-        ErrorsFactory.init(oFuncNote, {asParam: ['nID_Service: '+oService.nID, 'nID_ServiceData: '+oServiceData.nID, 'processDefinitionId: '+oServiceData.oData.processDefinitionId]});
+        var oFuncNote = {sHead: "Сабміт форми послуги", sFunc: "submitForm(UI)"};
+        ErrorsFactory.init(oFuncNote, {asParam: ['nID_Service: ' + oService.nID, 'nID_ServiceData: ' + oServiceData.nID, 'processDefinitionId: ' + oServiceData.oData.processDefinitionId]});
 
-        if(!oReturn){
-            ErrorsFactory.logFail({sBody:"Повернен пустий об'ект!"});
-            return;
+        if (!oReturn) {
+          ErrorsFactory.logFail({sBody: "Повернен пустий об'ект!"});
+          return;
         }
-        if(!oReturn.id){
-            ErrorsFactory.logFail({sBody:"У поверненому об'єкті немає номера створеної заявки!",asParam:["soReturn: "+JSON.stringify(oReturn)]});
-            return;
+        if (!oReturn.id) {
+          ErrorsFactory.logFail({
+            sBody: "У поверненому об'єкті немає номера створеної заявки!",
+            asParam: ["soReturn: " + JSON.stringify(oReturn)]
+          });
+          return;
         }
 
         var nCRC = ValidationService.getLunaValue(oReturn.id);
@@ -326,23 +333,23 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
         $scope.isSending = false;
         $scope.$root.data = $scope.data;
 
-        try{
+        try {
 //            ErrorsFactory.logInfoSendHide({sType:"success", sBody:"Створена заявка!",asParam:["sID_Order: "+sID_Order]});
-        }catch(sError){
-            console.log('[submitForm.ActivitiService]sID_Order='+sID_Order+',sError='+ sError);
+        } catch (sError) {
+          console.log('[submitForm.ActivitiService]sID_Order=' + sID_Order + ',sError=' + sError);
         }
 
-        return $state.go(submitted, angular.extend($stateParams, {formID: null, signedFileID : null}));
+        return $state.go(submitted, angular.extend($stateParams, {formID: null, signedFileID: null}));
       });
   };
 
-  $scope.cantSubmit = function(form) {
+  $scope.cantSubmit = function (form) {
     return $scope.isSending
       || ($scope.isUploading && !form.$valid)
       || ($scope.isSignNeeded && !$scope.sign.checked);
   };
 
-  $scope.bSending = function(form) {
+  $scope.bSending = function (form) {
     return $scope.isSending;
   };
 
@@ -350,7 +357,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
   $scope.isSending = false;
 
   function getFieldProps(property) {
-    if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')){
+    if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')) {
       return {
         mentionedInWritable: true,
         fieldES: 1, //EDITABLE
@@ -364,29 +371,29 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
     };
   }
 
-  $scope.onReferent = function (oldV, newV){
-    if ($scope.data.formData.params.bReferent.value){
+  $scope.onReferent = function (oldV, newV) {
+    if ($scope.data.formData.params.bReferent.value) {
 
-      angular.forEach($scope.activitiForm.formProperties, function (field){
+      angular.forEach($scope.activitiForm.formProperties, function (field) {
         //if (field.id.startsWith('bankId') && field.type !== 'file'){
-        if (field.id.startsWith('bankId')){
-          $scope.data.formData.params[field.id].value="";
-            /*if (field.type === 'file'){
-                $scope.data.formData.params[field.id].upload = true;
-                $scope.data.formData.params[field.id].scan = null;
-            }*/
+        if (field.id.startsWith('bankId')) {
+          $scope.data.formData.params[field.id].value = "";
+          /*if (field.type === 'file'){
+           $scope.data.formData.params[field.id].upload = true;
+           $scope.data.formData.params[field.id].scan = null;
+           }*/
         }
-        if (field.type === 'file'){
-            $scope.data.formData.params[field.id].value="";
-            //$scope.data.formData.params[field.id].upload = true;
-            $scope.data.formData.params[field.id].scan = null;
+        if (field.type === 'file') {
+          $scope.data.formData.params[field.id].value = "";
+          //$scope.data.formData.params[field.id].upload = true;
+          $scope.data.formData.params[field.id].scan = null;
         }
       });
 
       /*if ($scope.data.formData.params['bankId_scan_passport']){
-        $scope.data.formData.params['bankId_scan_passport'].upload = true;
-        $scope.data.formData.params['bankId_scan_passport'].scan = null;
-      }*/
+       $scope.data.formData.params['bankId_scan_passport'].upload = true;
+       $scope.data.formData.params['bankId_scan_passport'].scan = null;
+       }*/
 
       $scope.data.formData.initializeParamsOnly($scope.activitiForm);
 
@@ -395,9 +402,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
     }
   };
 
-  $scope.showFormField = function(property) {
+  $scope.showFormField = function (property) {
     var p = getFieldProps(property);
-    if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')){
+    if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')) {
       return true;
     }
     if (p.mentionedInWritable)
@@ -410,8 +417,8 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
       && p.fieldES === p.ES.NOT_SET ) || p.fieldES === p.ES.EDITABLE;
   };
 
-  $scope.renderAsLabel = function(property) {
-    if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')){
+  $scope.renderAsLabel = function (property) {
+    if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')) {
       return false;
     }
     var p = getFieldProps(property);
@@ -419,20 +426,20 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
       return !FieldMotionService.isFieldWritable(property.id, $scope.data.formData.params);
     //property.type !== 'file'
     return (
-      $scope.data.formData.fields[property.id] && p.fieldES === p.ES.NOT_SET
-      ) || p.fieldES === p.ES.READ_ONLY ;
+        $scope.data.formData.fields[property.id] && p.fieldES === p.ES.NOT_SET
+      ) || p.fieldES === p.ES.READ_ONLY;
   };
 
-  $scope.isFieldVisible = function(property) {
+  $scope.isFieldVisible = function (property) {
     return property.id !== 'processName' && (FieldMotionService.FieldMentioned.inShow(property.id) ?
-      FieldMotionService.isFieldVisible(property.id, $scope.data.formData.params) : true);
+        FieldMotionService.isFieldVisible(property.id, $scope.data.formData.params) : true);
   };
 
-  $scope.isFieldRequired = function(property) {
-    if ($scope.data.formData.params.bReferent.value && property.id == 'bankId_scan_passport'){
+  $scope.isFieldRequired = function (property) {
+    if ($scope.data.formData.params.bReferent.value && property.id == 'bankId_scan_passport') {
       return true;
     }
-    var b=FieldMotionService.FieldMentioned.inRequired(property.id) ?
+    var b = FieldMotionService.FieldMentioned.inRequired(property.id) ?
       FieldMotionService.isFieldRequired(property.id, $scope.data.formData.params) : property.required;
     return b;
   };
@@ -441,7 +448,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
   function watchToSetDefaultValues() {
     var calcFields = FieldMotionService.getCalcFieldsIds();
     var pars = $scope.data.formData.params;
-    calcFields.forEach(function(key) {
+    calcFields.forEach(function (key) {
       if (_.has(pars, key)) {
         var data = FieldMotionService.calcFieldValue(key, pars);
         if (data.value && data.differentTriggered) pars[key].value = data.value;
@@ -471,23 +478,23 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
     }
   };
 
-  $scope.getHtml = function(html) {
+  $scope.getHtml = function (html) {
     return $sce.trustAsHtml(html);
   };
 
-  if($scope.data.formData.isAlreadySigned() && $stateParams.signedFileID){
+  if ($scope.data.formData.isAlreadySigned() && $stateParams.signedFileID) {
     var state = $state.$current;
     //TODO remove ugly hack for not calling submit after submit
-    if(!state.name.endsWith('submitted')){
+    if (!state.name.endsWith('submitted')) {
       $scope.submitForm();
     }
   }
 
-  $scope.isFormDataEmpty = function() {
-    for (var param in $scope.data.formData.params ) {
+  $scope.isFormDataEmpty = function () {
+    for (var param in $scope.data.formData.params) {
       if ($scope.data.formData.params.hasOwnProperty(param) &&
-          $scope.data.formData.params[param].hasOwnProperty('value') &&
-          $scope.data.formData.params[param]['value'] != null) {
+        $scope.data.formData.params[param].hasOwnProperty('value') &&
+        $scope.data.formData.params[param]['value'] != null) {
         return false;
       }
     }
@@ -503,62 +510,62 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
       }
     }).then(function (response) {
       var bFilled = $scope.bFilledSelfPrevious();
-      if(!bFilled){
+      if (!bFilled) {
         $scope.paramsBackup = {};
       }
-      angular.forEach($scope.activitiForm.formProperties, function (oField){
+      angular.forEach($scope.activitiForm.formProperties, function (oField) {
         //if (field.type === 'file'){
         //    $scope.data.formData.params[field.id].value="";
-        try{
-            console.log("SET:oField.id="+oField.id+",oField.type="+oField.type+",oField.value="+oField.value);
-            var key = oField.id;
-            var property = $scope.data.formData.params[key];
-            console.log("SET:property="+property);
+        try {
+          console.log("SET:oField.id=" + oField.id + ",oField.type=" + oField.type + ",oField.value=" + oField.value);
+          var key = oField.id;
+          var property = $scope.data.formData.params[key];
+          console.log("SET:property=" + property);
           //angular.forEach($scope.data.formData.params, function (property, key) {
-            if (key && key !== null && key.indexOf("bankId") !== 0 && response.data.hasOwnProperty(key)){
-             //&& property.value && property.value!==null && property.value !== undefined
-                //var oFormProperty = $scope.activitiForm.formProperties[key];
-                if(oField && oField!==null
-                    && oField.type !== "file"
-                    && oField.type !== "label"
-                    && oField.type !== "invisible"
-                    && oField.type !== "markers"
-                    && oField.type !== "queueData"
-                    && oField.type !== "select"
-                    ){
-                    if(!bFilled){
-                          //angular.forEach($scope.activitiForm.formProperties, function(field) {
-                            $scope.paramsBackup[key] = property.value;
-                        //console.log("SET(BACKUP):paramsBackup["+key+"]="+$scope.paramsBackup[key]);
-                    }
-                    property.value = response.data[key];
-                }
-            //console.log("SET:property.value="+property.value);
+          if (key && key !== null && key.indexOf("bankId") !== 0 && response.data.hasOwnProperty(key)) {
+            //&& property.value && property.value!==null && property.value !== undefined
+            //var oFormProperty = $scope.activitiForm.formProperties[key];
+            if (oField && oField !== null
+              && oField.type !== "file"
+              && oField.type !== "label"
+              && oField.type !== "invisible"
+              && oField.type !== "markers"
+              && oField.type !== "queueData"
+              && oField.type !== "select"
+            ) {
+              if (!bFilled) {
+                //angular.forEach($scope.activitiForm.formProperties, function(field) {
+                $scope.paramsBackup[key] = property.value;
+                //console.log("SET(BACKUP):paramsBackup["+key+"]="+$scope.paramsBackup[key]);
+              }
+              property.value = response.data[key];
             }
-        }catch(_){
-            console.log("[fillSelfPrevious]["+key+"]ERROR:"+_);
+            //console.log("SET:property.value="+property.value);
+          }
+        } catch (_) {
+          console.log("[fillSelfPrevious][" + key + "]ERROR:" + _);
         }
       });
     });
   };
 
   $scope.bFilledSelfPrevious = function () {
-      return $scope.paramsBackup !== null;
+    return $scope.paramsBackup !== null;
 
   };
 
   $scope.fillSelfPreviousBack = function () {
-      if($scope.bFilledSelfPrevious()){
-        angular.forEach($scope.data.formData.params, function (property, key) {
-            // && $scope.paramsBackup[key] && $scope.paramsBackup[key]!==null && $scope.paramsBackup[key] !== undefined
-            if (key && key !== null && key.indexOf("bankId") !== 0 && $scope.paramsBackup.hasOwnProperty(key)){
-                //console.log("RESTORE:property.value="+property.value);
-                property.value = $scope.paramsBackup[key];
-                //console.log("RESTORE:paramsBackup["+key+"]="+$scope.paramsBackup[key]);
-            }
-        });
-        $scope.paramsBackup = null;
-      }
+    if ($scope.bFilledSelfPrevious()) {
+      angular.forEach($scope.data.formData.params, function (property, key) {
+        // && $scope.paramsBackup[key] && $scope.paramsBackup[key]!==null && $scope.paramsBackup[key] !== undefined
+        if (key && key !== null && key.indexOf("bankId") !== 0 && $scope.paramsBackup.hasOwnProperty(key)) {
+          //console.log("RESTORE:property.value="+property.value);
+          property.value = $scope.paramsBackup[key];
+          //console.log("RESTORE:paramsBackup["+key+"]="+$scope.paramsBackup[key]);
+        }
+      });
+      $scope.paramsBackup = null;
+    }
   };
 
 
@@ -567,7 +574,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController', function(
     bState: false
   };
 
-  $rootScope.switchProcessUploadingState = function(){
+  $rootScope.switchProcessUploadingState = function () {
     $rootScope.isFileProcessUploading.bState = !$rootScope.isFileProcessUploading.bState;
     console.log("Switch $rootScope.isFileProcessUploading to " + $rootScope.isFileProcessUploading.bState);
   };

@@ -31,16 +31,18 @@ module.exports.upload = function (contentToUpload, callback, sHost) {
 //code = "SYSTEM_ERR"
 //message = "Could not parse multipart servlet request; nested exception is org.apache.commons.fileupload.FileUploadBase$IOFileUploadException: Processing of multipart/form-data request failed. Stream ended unexpectedly"
     var object;
-
-    var fileID = body.match(/^([\d\w]{8}-[\d\w]{4}-[\d\w]{4}-[\d\w]{4}-[\d\w]{12})/);
-    if(fileID){
-      object = {fileID: body};
-    } else {
-      object = JSON.parse(body)
+    if(body){
+      if(body.match){
+        var fileID = body.match(/^([\d\w]{8}-[\d\w]{4}-[\d\w]{4}-[\d\w]{4}-[\d\w]{12})/);
+        if(fileID){
+          object = {fileID: body};
+        }
+      } else {
+        object = body;
+      }
     }
-
     callback(error, response, object);
-  }, sHost);
+  }, fixHost(sHost));
 };
 
 //https://test.region.igov.org.ua/wf/service/object/file/download_file_from_redis_bytes?key=2fad23b1-8ee7-445f-8677-54c0764bc80f

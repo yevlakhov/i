@@ -252,6 +252,40 @@ module.exports.signFiles = function (accessToken, acceptKeyUrl, content, callbac
 };
 
 /**
+ *
+ * @param accessToken
+ * @param codeValue
+ * @param callback function(error, content)
+ */
+module.exports.downloadSignedContent = function (accessToken, codeValue, callback) {
+  var r = {
+    url: bankidUtil.getClientPdfClaim(codeValue),
+    headers: {
+      Authorization: bankidUtil.getAuth(accessToken)
+    },
+    encoding: null
+  };
+
+  request.get(r, function (error, response, buffer) {
+    callback(null, {
+      buffer: buffer,
+      contentType: response.headers['content-type'],
+      fileName: response.headers['content-disposition'].split('filename=')[1]
+    });
+  })
+};
+/**
+ * После отработки п.3 (подписание), BankID делает редирект на https://{PI:port}/URL_callback?code=code_value с передачей
+ * параметра авторизационного ключа code, тем самым заканчивая фазу п.4.
+ * https://{PI:port}/ResourceService/checked/claim/code_value/clientPdfClaim
+ * @param accessToken
+ * @param codeValue
+ */
+module.exports.prepareSignedContentRequest = function (accessToken, codeValue) {
+  return module.exports.getScanContentRequest(bankidUtil.getClientPdfClaim(codeValue), accessToken);
+};
+
+/**
  *  Content-Type = "multipart/form-data"
  * Authorization = "Bearer access_token, Id client_id" - (последовательность не важна)
  * Accept = "application/json"
@@ -296,15 +330,3 @@ module.exports.signHtmlForm = function (accessToken, acceptKeyUrl, formToUpload,
     }
   });
 };
-
-/**
- * После отработки п.3 (подписание), BankID делает редирект на https://{PI:port}/URL_callback?code=code_value с передачей
- * параметра авторизационного ключа code, тем самым заканчивая фазу п.4.
- * https://{PI:port}/ResourceService/checked/claim/code_value/clientPdfClaim
- * @param accessToken
- * @param codeValue
- */
-module.exports.prepareSignedContentRequest = function (accessToken, codeValue) {
-  return module.exports.getScanContentRequest(bankidUtil.getClientPdfClaim(codeValue), accessToken);
-};
-

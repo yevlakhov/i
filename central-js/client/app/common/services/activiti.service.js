@@ -21,7 +21,7 @@ angular.module('app').service('ActivitiService', function ($q, $http, $location,
         });
     }
     return aField;
-  }
+  };
 
   var prepareFormData = function (oService, oServiceData, formData, nID_Server) {//url
     var data = {

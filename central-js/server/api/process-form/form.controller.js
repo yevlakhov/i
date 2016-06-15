@@ -186,15 +186,7 @@ module.exports.signForm = function (req, res) {
   }
 
   var callbackURL = url.resolve(originalURL(req, {}), '/api/process-form/sign/callback?nID_Server=' + nID_Server);
-  if (oServiceDataNID) {
-    req.session.oServiceDataNID = oServiceDataNID;
-    //TODO use oServiceDataNID in callback
-    //TODO fill sURL from oServiceData to use it below
-  } else if (sURL) {
-    req.session.sURL = sURL;
-  }
-
-  function findFiles(formData) {
+  function findFileFields(formData) {
     var fileFields = formData.activitiForm.formProperties.filter(function (property) {
       return property.type === 'file';
     });
@@ -250,7 +242,7 @@ module.exports.signForm = function (req, res) {
     }
   }
 
-  function getFormAsync(callbackAsync){
+  function getFormAsync(callbackAsync) {
     loadForm(formID, sURL, function (error, response, body) {
       if (error) {
         callbackAsync(error, null);
@@ -262,7 +254,7 @@ module.exports.signForm = function (req, res) {
 
   var objectsToSign = [];
 
-  function getHtmlAsync(formData, callbackAsync){
+  function getHtmlAsync(formData, callbackAsync) {
     createHtml(formData, function (formToUpload) {
       objectsToSign.push({
         name: 'file',
@@ -275,18 +267,21 @@ module.exports.signForm = function (req, res) {
     });
   }
 
-  function getFileBuffersAsync(formData, callbackAsync){
+  function getFileBuffersAsync(formData, callbackAsync) {
     var filesToSign = [];
-    async.forEach(findFiles(formData), function(fileField, callbackEach){
-      uploadFileService.downloadBuffer(fileField.value, function(error, response, buffer){
+    async.forEach(findFileFields(formData), function (fileField, callbackEach) {
+      uploadFileService.downloadBuffer(fileField.value, function (error, response, buffer) {
         filesToSign.push({
           name: fileField.id,
+          options: {
+            filename: formData.formData.files[fileField.id]
+          },
           buffer: buffer
         });
         callbackEach();
-      },sHost)
-    }, function(error){
-      if(error){
+      }, sHost)
+    }, function (error) {
+      if (error) {
         callbackAsync(error, null);
       } else {
         objectsToSign = objectsToSign.concat(filesToSign);
@@ -295,7 +290,7 @@ module.exports.signForm = function (req, res) {
     });
   }
 
-  function signFilesAsync(formData, callbackAsync){
+  function signFilesAsync(formData, callbackAsync) {
     var accessToken = req.session.access.accessToken;
     bankIDService.signFiles(accessToken, callbackURL, objectsToSign, function (error, result) {
       if (error) {
@@ -324,16 +319,11 @@ module.exports.signFormCallback = function (req, res) {
   var sHost = req.region.sHost;
   var sURL = sHost + '/';
   var formID = req.session.formID;
-  var oServiceDataNID = req.session.oServiceDataNID;
   var codeValue = req.query.code;
+  var accessToken = req.session.access.accessToken;
 
   if (!codeValue) {
     codeValue = req.query['amp;code'];
-  }
-
-  if (oServiceDataNID) {
-    //TODO fill sURL from oServiceData to use it below
-    sURL = '';
   }
 
   //TODO we can get multiple files in one zip file or like multipart
@@ -341,12 +331,7 @@ module.exports.signFormCallback = function (req, res) {
   //TODO get signed html file and leave it as it is
   //TODO get each signed attached file and replace id from initial form
   //TODO to new uploaded to redis signed files
-  var signedFormForUpload = bankIDService
-    .prepareSignedContentRequest(req.session.access.accessToken, codeValue);
-
-  var decoder = new StringDecoder('utf8');
-  var result = {};
-
+  
   async.waterfall([
     function (callback) {
       loadForm(formID, sURL, function (error, response, body) {
@@ -358,21 +343,27 @@ module.exports.signFormCallback = function (req, res) {
       });
     },
     function (formData, callback) {
-      var signedFormUpload = sURL + 'service/object/file/upload_file_to_redis';
-      var form = new FormData();
-      form.append('file', signedFormForUpload, {
-        filename: 'signedForm.pdf'
+      bankIDService.downloadSignedContent(accessToken, codeValue, function (error, result) {
+        callback(error, {signedContent : result, formData: formData});
       });
-
-      var requestOptionsForUploadContent = {
-        url: signedFormUpload,
-        auth: getAuth(),
-        headers: form.getHeaders()
-      };
-
-      pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
-        callback(null, {formData: formData, signedFormID: result.data});
-      });
+    },
+    function (result, callback) {
+      uploadFileService.upload([{
+        name: 'file',
+        options: {
+          filename: result.signedContent.fileName
+        },
+        buffer: result.signedContent.buffer
+      }], function (error, response, body) {
+        if (!body) {
+          callback(errors.createExternalServiceError('Can\'t save signed content. Unknown error', error), null);
+        } else if (body.code && body.message) {
+          callback(errors.createExternalServiceError('Can\'t save content. ' + body.message, body), null);
+        } else if (body.fileID) {
+          result.signedFileID = body.fileID;
+          callback(null, result);
+        }
+      }, sHost);
     }
   ], function (err, result) {
     if (err) {
@@ -382,51 +373,31 @@ module.exports.signFormCallback = function (req, res) {
     } else {
       res.redirect(result.formData.restoreFormUrl
         + '?formID=' + formID
-        + '&signedFileID=' + result.signedFormID);
+        + '&signedFileID=' + result.signedFileID);
     }
   });
-
 };
 
 module.exports.saveForm = function (req, res) {
+  var sHost = req.region.sHost;
   var data = req.body;
-  var oServiceDataNID = req.query.oServiceDataNID;
 
-  var nID_Server = req.query.nID_Server;
-  activiti.getServerRegionHost(nID_Server, function (sHost) {
-    var sURL = sHost + '/';
-    console.log("sURL=" + sURL);
-
-    //var sURL = req.query.sURL;
-
-    if (oServiceDataNID) {
-      //TODO fill sURL from oServiceData to use it below
-      sURL = '';
-    }
-
-    var uploadURL = sURL + 'service/object/file/upload_file_to_redis';
-
-    var form = new FormData();
-    form.append('file', JSON.stringify(data), {
+  uploadFileService.upload([{
+    name: 'file',
+    options: {
       filename: 'formData.json'
-    });
-
-    var requestOptionsForUploadContent = {
-      url: uploadURL,
-      auth: getAuth(),
-      headers: form.getHeaders()
-    };
-
-    pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
-      req.session.formID = result.data;
-      if (oServiceDataNID) {
-        req.session.oServiceDataNID = oServiceDataNID;
-      } else {
-        req.session.sURL = sURL;
-      }
-      res.send({formID: result.data});
-    });
-  });
+    },
+    text: JSON.stringify(data)
+  }], function (error, response, body) {
+    if (!body) {
+      res.status(500).send(errors.createExternalServiceError('Can\'t save form. Unknown error', error));
+    } else if (body.code && body.message) {
+      res.status(500).send(errors.createExternalServiceError('Can\'t save form. ' + body.message, body));
+    } else if (body.fileID) {
+      req.session.formID = body.fileID;
+      res.send({formID: body.fileID});
+    }
+  }, sHost);
 };
 
 module.exports.loadForm = function (req, res) {
