@@ -260,7 +260,8 @@ module.exports.signForm = function (req, res) {
         name: 'file',
         text: formToUpload,
         options: {
-          contentType: 'text/html'
+          filename: 'signedForm.html',
+          contentType: 'text/html;charset=utf-8'
         }
       });
       callbackAsync(null, formData);
@@ -326,12 +327,6 @@ module.exports.signFormCallback = function (req, res) {
     codeValue = req.query['amp;code'];
   }
 
-  //TODO we can get multiple files in one zip file or like multipart
-  //TODO parse result in case if multiple files
-  //TODO get signed html file and leave it as it is
-  //TODO get each signed attached file and replace id from initial form
-  //TODO to new uploaded to redis signed files
-  
   async.waterfall([
     function (callback) {
       loadForm(formID, sURL, function (error, response, body) {
