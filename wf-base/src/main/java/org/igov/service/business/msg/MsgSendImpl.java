@@ -265,7 +265,21 @@ public class MsgSendImpl implements MsgSend {
 	return this;
     }
     
-    public MsgSend addasParam(HashMap<String, Object> mParam) {
+    public <T> MsgSend addasParam(HashMap<String, T > mParam) {
+	if ( mParam != null ) {
+	    this.asParam = new LinkedList<String>();
+
+	    for ( String key : mParam.keySet())
+	    {
+		this.asParam.add(key + ": " + mParam.get(key).toString());
+	    }
+	}
+	LOG.debug("set asParam={}", this.asParam);
+
+	return this;
+    }
+
+    public <T> MsgSend addasParam(Map<String, T > mParam) {
 	if ( mParam != null ) {
 	    this.asParam = new LinkedList<String>();
 
@@ -438,7 +452,8 @@ public class MsgSendImpl implements MsgSend {
 
 	LOG.debug("filter:\n{}", filter);
 
-	return Msg.getMsg(filter);
+	//return Msg.getMsg(filter);
+        return null;
     }
 
 }
