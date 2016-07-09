@@ -43,7 +43,16 @@ var finishRequest = function (req, res, err, result, type) {
 
 module.exports.fio = function (req, res) {
   var account = req.session.account;
-  res.send({firstName: account.firstName, middleName: account.middleName, lastName: account.lastName});
+  res.send(
+    {
+      firstName: account.firstName,
+      middleName: account.middleName,
+      lastName: account.lastName,
+      phone: account.phone,
+      email: account.email,
+      id: req.session.subject.sID,
+    }
+  );
 };
 
 module.exports.tryCache = function (req, res, next) {
