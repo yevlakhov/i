@@ -15,10 +15,10 @@ angular.module('app')
               capitalize(res.middleName)
               + ' ' +
               capitalize(res.lastName);
-
+              console.log('session data' + JSON.stringify(res))
               var jsonData = {
                 name: userPIP,
-                id: res.id,
+                id: '' + res.nID,
                 data: [
                   {
                     title: res.phone,
@@ -34,6 +34,7 @@ angular.module('app')
                   }
                 ],
               };
+            console.log('data for sender' + JSON.stringify(jsonData))
               var time = Math.floor(new Date().getTime() / 1000);
               var secret = 'eyJpZCI6IjEyMyIsIm5';  // TODO: move to config
 
@@ -51,20 +52,25 @@ angular.module('app')
 
               var auth = userBase64 + '_' + time + '_' + sign;
 
-              SenderWidget.init({
-                auth: auth,
-                companyId: 'i5472912406',  // TODO: move to config
-                lang: 'uk',
-                location: $location.absUrl(),
-              });
+              if(typeof SenderWidget !== 'undefined') {
+                SenderWidget.init({
+                  auth: auth,
+                  companyId: 'i5472912406',  // TODO: move to config
+                  lang: 'uk',
+                  location: $location.absUrl(),
+                });
+              }
+
           });
         }, function () {
           // Init anonymous sender when user is not logged in
-          SenderWidget.init({
-            companyId: 'i5472912406',
-            lang: 'uk',
-            location: $location.absUrl(),
-          });
+          if(typeof SenderWidget !== 'undefined') {
+            SenderWidget.init({
+              companyId: 'i5472912406',
+              lang: 'uk',
+              location: $location.absUrl(),
+            });
+          }
         });
 
         function capitalize(string) {

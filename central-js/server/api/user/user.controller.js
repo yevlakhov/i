@@ -50,7 +50,7 @@ module.exports.fio = function (req, res) {
       lastName: account.lastName,
       phone: account.phone,
       email: account.email,
-      id: req.session.subject.sID,
+      nID: req.session.subject.nID || 0,
     }
   );
 };
