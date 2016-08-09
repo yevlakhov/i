@@ -22,11 +22,17 @@ import org.activiti.engine.impl.form.FormPropertyImpl;
 import org.activiti.engine.task.Attachment;
 import org.activiti.engine.task.IdentityLink;
 import org.activiti.engine.task.Task;
+import org.apache.commons.lang3.StringUtils;
 import org.igov.io.GeneralConfig;
+import org.igov.io.web.HttpRequester;
 import org.igov.io.web.RestRequest;
 import org.igov.service.business.action.task.core.AbstractModelTask;
+
 import static org.igov.service.business.action.task.core.AbstractModelTask.getStringFromFieldExpression;
+
+import org.igov.service.business.action.task.systemtask.ProcessCountTaskListener;
 import org.igov.service.business.action.task.systemtask.doc.util.UkrDocUtil;
+import org.igov.service.controller.interceptor.ActionProcessCountUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,6 +74,9 @@ public class CreateDocument_UkrDoc extends AbstractModelTask implements TaskList
 
     @Autowired
     TaskService taskService;
+    
+    @Autowired
+    HttpRequester httpRequester;
 
     @Override
     public void notify(DelegateTask delegateTask) {
@@ -76,9 +85,9 @@ public class CreateDocument_UkrDoc extends AbstractModelTask implements TaskList
         String sID_DocumentValue = getStringFromFieldExpression(this.sID_Document, execution);
         try {
             if (sID_DocumentValue == null || "".equals(sID_DocumentValue.trim())) {
+                String sID_Order = generalConfig.getOrderId_ByProcess(Long.valueOf(execution.getProcessInstanceId()));
                 String sLoginAuthorValue = getStringFromFieldExpression(this.sLoginAuthor, execution);
-                String sHeadValue = getStringFromFieldExpression(this.sHead, execution)
-                        + " (" + generalConfig.getOrderId_ByProcess(Long.valueOf(execution.getProcessInstanceId())) + ")";
+                String sHeadValue = getStringFromFieldExpression(this.sHead, execution) + " (" + sID_Order + ")";
                 String sBodyValue = getStringFromFieldExpression(this.sBody, execution);
                 String nID_PatternValue = getStringFromFieldExpression(this.nID_Pattern, execution);
                 String sID_Order_GovPublicValue = getStringFromFieldExpression(this.sID_Order_GovPublic, execution);
@@ -93,6 +102,8 @@ public class CreateDocument_UkrDoc extends AbstractModelTask implements TaskList
                 String bankIdmiddleName = getStringFromFieldExpression(this.bankIdmiddleName, execution);
                 String sDateAppealValue = getStringFromFieldExpression(this.sDateAppeal, execution);;
                 String shortFIO = "_", fullIO = "_";
+                sID_Order_GovPublicValue = runtimeService.hasVariable(execution.getProcessInstanceId(), ProcessCountTaskListener.S_ID_ORDER_GOV_PUBLIC)?
+                		 (String)runtimeService.getVariable(execution.getProcessInstanceId(), ProcessCountTaskListener.S_ID_ORDER_GOV_PUBLIC):"";
                 LOG.info("Parameters of the task sLogin:{}, sHead:{}, sBody:{}, nId_PatternValue:{}, bankIdlastName:{}, bankIdfirstName:{}, bankIdmiddleName:{}", sLoginAuthorValue, sHeadValue, sBodyValue, nID_PatternValue, bankIdlastName, bankIdfirstName, bankIdmiddleName);
 
                 if (bankIdlastName != null && bankIdfirstName != null && bankIdmiddleName != null
@@ -169,6 +180,7 @@ public class CreateDocument_UkrDoc extends AbstractModelTask implements TaskList
                             + ((org.activiti.engine.impl.util.json.JSONObject) details).get("year");
                     runtimeService.setVariable(execution.getProcessInstanceId(), UKRDOC_ID_DOCUMENT_VARIABLE_NAME, documentId);
                     runtimeService.setVariable(execution.getProcessInstanceId(), "sID_Document_UkrDoc", documentId);
+                    runtimeService.setVariable(execution.getProcessInstanceId(), "sID_Order_GovPublic", sID_Order_GovPublicValue);
                     LOG.info("Set variable to runtime process:{}", documentId);
 
                     LOG.info("Looking for a new task to set form properties");

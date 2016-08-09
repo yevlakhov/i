@@ -15,12 +15,13 @@ public class SubjectMessageFeedbackDaoImpl extends GenericEntityDao<Long, Subjec
     }
 
     @Override
-    public void setMessage(SubjectMessageFeedback subjectMessageFeedback) {
-        saveOrUpdate(subjectMessageFeedback);
+    public SubjectMessageFeedback save(SubjectMessageFeedback subjectMessageFeedback) {
+        getSession().save(subjectMessageFeedback);
+        return subjectMessageFeedback;
     }
 
     @Override
-    public SubjectMessageFeedback getFeedbackExternalById(Long nId) {
+    public SubjectMessageFeedback getSubjectMessageFeedbackById(Long nId) {
         Optional<SubjectMessageFeedback> feedback = findById(nId);
         if (feedback.isPresent()) {
           return feedback.get();
@@ -31,5 +32,11 @@ public class SubjectMessageFeedbackDaoImpl extends GenericEntityDao<Long, Subjec
     @Override
     public List<SubjectMessageFeedback> getAllSubjectMessageFeedbackBynID_Service(Long nID_service) {
         return findAllBy("nID_Service", nID_service);
+    }
+
+    @Override
+    public SubjectMessageFeedback update(SubjectMessageFeedback subjectMessageFeedback) {
+        getSession().update(subjectMessageFeedback);
+        return subjectMessageFeedback;
     }
 }

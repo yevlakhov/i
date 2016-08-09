@@ -21,7 +21,7 @@
         <activiti:formProperty id="sChildPOB" name="Місце народження дитини; Країна, область, район і населений пункт" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sChildDoc" name="Свідоцтво про народження дитини; Серія та номер документу, дата і орган, що його видав" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sChildCitizenship" name="Громадянство дитини" type="string" default="Україна" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sID_Public_SubjectOrganJoin" name="Оберіть відповідальний підрозділ або ЦНАП району (міста), до якого належить нове місце реєстрації дитини" type="select" default="0" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sID_Public_SubjectOrganJoin" name="Оберіть район або ЦНАП району (міста), до якого належить поточне місце реєстрації дитини" type="select" default="0" required="true"></activiti:formProperty>
         <activiti:formProperty id="sRegistrationAddress" name="Поточна адреса реєстрації дитини;Область, Населений пункт, Вулиця, Будинок, Корпус, Квартира" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sNewAddress" name="Нова адреса реєстрації;Область, Населений пункт, Вулиця, Будинок, Корпус, Квартира" type="string" default=" "></activiti:formProperty>
         <activiti:formProperty id="warning3" name="Зверніть увагу" type="label" default="Якщо батьки дитини зареєстровані за різними адресами, при реєстрації повинні бути присутні обидва батьки або Вам буде потрібна нотаріально завірена згода другого батька на реєстрацію місця проживання дитини"></activiti:formProperty>
@@ -257,6 +257,7 @@ execution.setVariable('sMaxPay', maxpay)
 										&lt;b&gt;Необхідні документи, які треба принести до ${sOrganType} при знятті з реєстрації місця проживання:&lt;/b&gt;&lt;br /&gt;
 										&lt;ul&gt;
 										&lt;li&gt;оригінал та копію паспорту одного з батьків (того, хто подавав заяву);&lt;/li&gt;
+										&lt;li&gt;квитанцію про сплату адміністративного збору з мокрою печаткою банку;&lt;/li&gt;
 										&lt;li&gt;оригінал та копію свідоцтва про народження або свідоцтва про належність до громадянства України;&lt;/li&gt;	
 										&lt;li&gt;заяву про зняття з реєстрації місця проживання, що знаходиться у додатках до листа;&lt;/li&gt;									
 									&lt;/ul&gt;
@@ -332,6 +333,7 @@ execution.setVariable('sMaxPay', maxpay)
 										&lt;b&gt;Необхідні документи, які треба принести до ${sOrganType} при знятті з реєстрації місця проживання:&lt;/b&gt;&lt;br /&gt;
 										&lt;ul&gt;
 										&lt;li&gt;оригінал та копію паспорту одного з батьків (того, хто подавав заяву);&lt;/li&gt;
+										&lt;li&gt;квитанцію про сплату адміністративного збору з мокрою печаткою банку;&lt;/li&gt;
 										&lt;li&gt;оригінал та копію свідоцтва про народження або свідоцтва про належність до громадянства України;&lt;/li&gt;										
 									&lt;/ul&gt;
 									&lt;/p&gt;

@@ -109,12 +109,21 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     if (markerName.indexOf('FieldNotEmptyAndNonZero_') == 0) {
       markerName = 'FieldNotEmptyAndNonZero';
     }
+    if (markerName.indexOf('NumberBetween_') == 0) {
+      markerName = 'NumberBetween';
+    }
+    if (markerName.indexOf('NumberFractionalBetween_') == 0) {
+      markerName = 'NumberFractionalBetween';
+    }
+    if (markerName.indexOf('Numbers_Accounts_') == 0) {
+      markerName = 'Numbers_Accounts';
+    }
     return markerName;
   };
 
   self.setValidatorByMarker = function (marker, markerName, formField, immediateValidation, forceValidation) {
 
-    self.trimMarkerName(markerName);
+    markerName = self.trimMarkerName(markerName);
 
     var keyByMarkerName = self.validatorNameByMarkerName[markerName];
     var fieldNameIsListedInMarker = formField && formField.$name && _.indexOf(marker.aField_ID, formField.$name) !== -1;
@@ -726,8 +735,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var sFileName = "";
 
       var params = self.oFormDataParams;
-      for(var paramObj in params){
-        if(params[paramObj].value.id && params[paramObj].fileName){
+      for(var paramObj in params) if (params.hasOwnProperty(paramObj)){
+        if(params[paramObj].value && params[paramObj].value.id && params[paramObj].fileName){
           if(modelValue.id === params[paramObj].value.id){
             sFileName = params[paramObj].fileName;
             break;

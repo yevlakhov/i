@@ -20,7 +20,7 @@
         <activiti:formProperty id="sAreabirth" name="Місце народження; Країна, область, район і населений пункт" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sNationality" name="Громадянство" type="string" default="Україна" required="true"></activiti:formProperty>
         <activiti:formProperty id="sRegistrationAddress" name="Стара адреса реєстрації;Область, Населений пункт, Вулиця, Будинок, Корпус, Квартира" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sID_Public_SubjectOrganJoin" name="Оберіть відповідальний підрозділ або ЦНАП району (міста), до якого належить Ваше нове місце реєстрації" type="select" default="0" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sID_Public_SubjectOrganJoin" name="Оберіть район або ЦНАП району (міста), до якого належить Ваше нове місце реєстрації" type="select" default="0" required="true"></activiti:formProperty>
         <activiti:formProperty id="sNewAddress" name="Нова адреса реєстрації;Область, Населений пункт, Вулиця, Будинок, Корпус, Квартира" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="asRegistrationType" name="Реєстрація здійснюється Вами" type="enum" required="true">
           <activiti:value id="sOwner" name="до власного житлового приміщення"></activiti:value>
@@ -397,7 +397,7 @@ execution.setVariable('sMaxPay', maxpay)
 										&lt;b&gt;Необхідні документи, які треба принести до ${sOrganType} при реєстраціі місця проживання:&lt;/b&gt;&lt;br&gt;
 										&lt;ul&gt;
 										&lt;li&gt;оригінал та копію документа, до якого вносяться відомості про місце проживання;&lt;/li&gt;
-										&lt;li&gt;квитанцію про сплату адміністративного збору;&lt;/li&gt;
+										&lt;li&gt;квитанцію про сплату адміністративного збору з мокрою печаткою банку;&lt;/li&gt;
 										&lt;li&gt;оригінал та копію одного з трьох документів, який підтверджує право на проживання за новим місцем реєстрації:
 										&lt;ul&gt;
 											&lt;li&gt;право на проживання в житлі (ордер, свідоцтво про право власності, договір найму (піднайму, оренди) або інші документи. У разі відсутності зазначених документів реєстрація здійснюється за згодою власника/співвласників житла, наймача та членів його сім’ї на реєстрацію місця проживання&lt;/li&gt;

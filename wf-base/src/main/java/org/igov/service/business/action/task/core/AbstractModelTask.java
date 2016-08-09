@@ -111,7 +111,20 @@ public abstract class AbstractModelTask {
         return getVariableValues(execution.getEngineServices().getRuntimeService(), execution.getProcessInstanceId(),
                 formFieldIds);
     }
+    public static String getVariableValue(DelegateExecution execution, String sID) {
+        RuntimeService runtimeService = execution.getEngineServices().getRuntimeService();
+        if(runtimeService!=null){
+            Map<String, Object> variables = runtimeService.getVariables(execution.getProcessInstanceId());
+            if(variables!=null){
+                if (variables.containsKey(sID)) {
+                    return String.valueOf(variables.get(sID));
+                }
+            }
+        }
+        return null;
+    }
 
+    
     public static List<String> getVariableValues(RuntimeService runtimeService, String processInstanceId,
             List<String> formFieldIds) {
         List<String> listValueKeys = new ArrayList<String>();
@@ -305,6 +318,10 @@ public abstract class AbstractModelTask {
                         if (!asFieldName.isEmpty() && n < asFieldName.size()) {
                             //String sDescription = asFieldName.get((asFieldName.size() - 1) - n);
                             String sDescription = asFieldName.get(n);
+                            if(sDescription!=null&&sDescription.contains(";")){
+                                LOG.info("BEFORE:(sDescription={})", sDescription);
+                                sDescription=sDescription.split(";")[0];
+                            }
                             LOG.info("(sDescription={})", sDescription);
                             String sID_Field = asFieldID.get(n);
                             LOG.info("(sID_Field={})", sID_Field);
@@ -394,6 +411,7 @@ public abstract class AbstractModelTask {
         LOG.info("(asFieldValue={})", asFieldValue.toString());
         if (!asFieldValue.isEmpty()) {
             String sValue = asFieldValue.get(0);
+            String sID = asFieldID.get(0);
             LOG.info("(sValue={})", sValue);
             if(sValue!=null && !"".equals(sValue.trim()) && !"null".equals(sValue.trim())){
                 LOG.info("sValue is present, so queue is filled");
@@ -403,7 +421,9 @@ public abstract class AbstractModelTask {
                 LOG.info("(nID_FlowSlotTicket={})", nID_FlowSlotTicket);
                 String sDate = (String) m.get(QueueDataFormType.sDate);
                 LOG.info("(sDate={})", sDate);
-                int nSlots = QueueDataFormType.get_nSlots(m);
+                //int nSlots = QueueDataFormType.get_nSlots(m);
+                String snSlots = getVariableValue(oExecution, "nSlots_"+sID);
+                int nSlots = snSlots!=null?Integer.valueOf(snSlots):1;
 
                 try {
 

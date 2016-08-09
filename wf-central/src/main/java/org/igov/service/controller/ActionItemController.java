@@ -1,6 +1,8 @@
 package org.igov.service.controller;
 
 import io.swagger.annotations.*;
+import org.apache.commons.lang3.BooleanUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.igov.io.GeneralConfig;
 import org.igov.model.action.item.Category;
 import org.igov.model.action.item.Service;
@@ -10,6 +12,9 @@ import org.igov.model.core.BaseEntityDao;
 import org.igov.model.core.AbstractEntity;
 import org.igov.model.object.place.Place;
 import org.igov.model.object.place.PlaceDao;
+import org.igov.service.business.action.item.ServiceTagService;
+import org.igov.service.business.action.item.ServiceTagTreeNodeVO;
+import org.igov.service.business.action.item.ServiceTagTreeVO;
 import org.igov.service.business.core.EntityService;
 import org.igov.service.business.core.TableData;
 import org.igov.service.business.core.TableDataService;
@@ -30,13 +35,15 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.*;
+import java.util.stream.Collectors;
+
 import org.igov.model.action.item.ServiceTag;
 import org.igov.model.action.item.ServiceTagLink;
-import org.igov.model.action.item.ServiceTagRelation;
 
 import static org.igov.util.Tool.bFoundText;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import springfox.documentation.spring.web.json.Json;
 
 @Controller
 @Api(tags = {"ActionItemController - Предметы действий (каталог сервисов)"})
@@ -69,6 +76,8 @@ public class ActionItemController {
     private MethodCacheInterceptor methodCacheInterceptor;
     @Autowired
     private PlaceDao placeDao;
+    @Autowired
+    private ServiceTagService serviceTagService;
 
     static boolean checkIdPlacesContainsIdUA(PlaceDao placeDao, Place place, List<String> asID_Place_UA) {
         boolean res = false;
@@ -449,32 +458,59 @@ public class ActionItemController {
     }
 
     private ResponseEntity regionsToJsonResponse(Service oService) {
-        return JsonRestUtils.toJsonResponse(getService(oService));
+        return JsonRestUtils.toJsonResponse(prepareServiceToView(oService, true));
     }
 
-    private Service getService(Service oService) {
-        oService.setSubcategory(null);
+    private Service prepareServiceToView(Service oService, boolean withServiceData) {
+        Service preparedService = new Service();
+        preparedService.setId(oService.getId());
+        preparedService.setName(oService.getName());
+        preparedService.setFaq(oService.getFaq());
+        preparedService.setInfo(oService.getInfo());
+        preparedService.setLaw(oService.getLaw());
+        preparedService.setOpenedLimit(oService.getOpenedLimit());
+        preparedService.setOrder(oService.getOrder());
+        preparedService.setSub(oService.getSub());
+        preparedService.setStatus(oService.getStatusID());
+        preparedService.setSubjectOperatorName(oService.getSubjectOperatorName());
 
-        List<ServiceData> aServiceData = oService.getServiceDataFiltered(generalConfig.isSelfTest());
-        for (ServiceData oServiceData : aServiceData) {
-            oServiceData.setService(null);
+        if (withServiceData) {
+            List<ServiceData> dataList = new ArrayList<>();
+            for (ServiceData serviceData : oService.getServiceDataList()) {
+                ServiceData preparedData = new ServiceData();
+                preparedData.setId(serviceData.getId());
+                preparedData.setData(serviceData.getData());
+                preparedData.setAsAuth(serviceData.getAsAuth());
 
-            Place place = oServiceData.getoPlace();
-            if (place != null) {
-                Place root = placeDao.getRoot(place);
-                oServiceData.setoPlaceRoot(root);
+                final Place place = serviceData.getoPlace();
+                preparedData.setoPlace(place);
+                if (place != null) {
+                    Place root = placeDao.getRoot(place);
+                    preparedData.setoPlaceRoot(root);
+                }
+
+                preparedData.setCity(serviceData.getCity());
+                preparedData.setRegion(serviceData.getRegion());
+                preparedData.setHidden(serviceData.isHidden());
+                preparedData.setNote(serviceData.getNote());
+                preparedData.setnID_Server(serviceData.getnID_Server());
+                preparedData.setTest(serviceData.isTest());
+                preparedData.setServiceType(serviceData.getServiceType());
+                preparedData.setUrl(serviceData.getUrl());
+                preparedData.setSubject_Operator(serviceData.getSubject_Operator());
+
+                // TODO remove if below after migration to new approach (via Place)
+                if (preparedData.getCity() != null) {
+                    preparedData.getCity().getRegion().setCities(null);
+                } else if (preparedData.getRegion() != null) {
+                    preparedData.getRegion().setCities(null);
+                }
+                dataList.add(preparedData);
             }
-
-            // TODO remove if below after migration to new approach (via Place)
-            if (oServiceData.getCity() != null) {
-                oServiceData.getCity().getRegion().setCities(null);
-            } else if (oServiceData.getRegion() != null) {
-                oServiceData.getRegion().setCities(null);
-            }
+            preparedService.setServiceDataList(dataList);
         }
 
-        oService.setServiceDataList(aServiceData);
-        return oService;
+        return preparedService;
     }
 
     @ApiOperation(value = "Получение дерева сервисов", notes = "Дополнительно:\n"
@@ -943,60 +979,22 @@ public class ActionItemController {
                     + "Если указан другой ID, фильтр не применяется.", required = false)
             @RequestParam(value = "asID_Place_UA", required = false) final List<String> asID_Place_UA, @ApiParam(value = "булевый флаг. Возвращать или нет пустые категории и подкатегории (по умолчанию false)", required = true)
             @RequestParam(value = "bShowEmptyFolders", required = false, defaultValue = "false") final boolean bShowEmptyFolders, @ApiParam(value = "ID категории", required = true)
-            @RequestParam(value = "nID_Category", required = true) final Long nID_Category
+            @RequestParam(value = "nID_Category", required = true) final Long nID_Category, @ApiParam(value = "Новый формат ответа", required = false)
+            @RequestParam(value = "bNew", required = false) Boolean bNew
     ) {
+        final boolean includeServices = StringUtils.isNotBlank(sFind);
+        List<ServiceTagTreeNodeVO> res = serviceTagService.getCatalogTreeTag(nID_Category, sFind, asID_Place_UA,
+                bShowEmptyFolders, includeServices, null, null);
+        if (includeServices) {
+            res.forEach(n -> n.setaService(n.getaService().stream().map(
+                        s -> prepareServiceToView(s, false)).collect(Collectors.toList())));
+        }
 
-        final boolean bTest = generalConfig.isSelfTest();
-
-        SerializableResponseEntity<String> entity = cachedInvocationBean
-                .invokeUsingCache(new CachedInvocationBean.Callback<SerializableResponseEntity<String>>(
-                                GET_CATALOG_TREE_TAG, sFind, asID_Place_UA, bTest, nID_Category) {
-                                    @Override
-                                    public SerializableResponseEntity<String> execute() {
-
-                                        List<Map> aReturn = new LinkedList();
-
-                                        try {
-                                            System.out.println("!!!!!!!!!!");
-                                            List<ServiceTagRelation> aServiceTagRelation = new ArrayList<>(baseEntityDao.findAll(ServiceTagRelation.class));
-                                            List<ServiceTagLink> aServiceTagLink = new ArrayList<>(baseEntityDao.findAll(ServiceTagLink.class));
-                                            List<ServiceTag> aServiceTag_Selected = new ArrayList();
-                                            LOG.info("aServiceTagRelation.size: " + aServiceTagRelation.size());
-
-                                            for (ServiceTagRelation oServiceTagRelation : aServiceTagRelation) {
-
-                                                Long nID_ServiceTag_Root = oServiceTagRelation.getServiceTag_Child().getId();
-                                                if (oServiceTagRelation.getServiceTag_Parent().getId() == 0) {
-                                                    LOG.info("oServiceTagRelation.getServiceTag_Parent().getId(): " 
-                                                            + oServiceTagRelation.getServiceTag_Parent().getId());
-                                                    Map<String, Object> mReturn = new LinkedHashMap();
-                                                    mReturn.put("oServiceTag_Root", oServiceTagRelation.getServiceTag_Child());
-                                                    List<ServiceTag> aServiceTagChild = new ArrayList();
-                                                    for (ServiceTagRelation oServiceTagRelationChild : aServiceTagRelation) {
-                                                        if (Objects.equals(oServiceTagRelationChild.getServiceTag_Parent().getId(), nID_ServiceTag_Root)) {
-                                                            aServiceTagChild.add(oServiceTagRelationChild.getServiceTag_Child());
-                                                            aServiceTag_Selected.add(oServiceTagRelationChild.getServiceTag_Child());
-                                                        }
-                                                    }
-                                                    mReturn.put("aServiceTag_Child", aServiceTagChild);
-                                                    //List<Service> aService_Selected = filterCategory(aServiceTagLink, aServiceTag_Selected, nID_Category);
-                                                    //if (aService_Selected.size() > 0) {
-                                                        aReturn.add(mReturn);
-                                                    //}
-                                                }
-                                            }
-
-                                        } catch (Exception ex) {
-                                            System.err.println(ex);
-                                            ex.printStackTrace();
-                                        }
-
-                                        return new SerializableResponseEntity<>(JsonRestUtils.toJsonResponse(aReturn));
-
-                                    }
-                                });
-
-        return entity.toResponseEntity();
+        if (BooleanUtils.isTrue(bNew)) {
+            return JsonRestUtils.toJsonResponse(toNewFormat(res));
+        }
+        
+        return JsonRestUtils.toJsonResponse(res);
     }
 
     @ApiOperation(value = "Получение дерева тегов и услуг", notes = "Дополнительно:\n" + "")
@@ -1007,86 +1005,42 @@ public class ActionItemController {
                     = "строка-фильтр по имени сервиса. Если задано, то производится фильтрация данных - возвращаются только сервисы, "
                     + "в имени которых встречается значение этого параметра, без учета регистра.", required = false)
             @RequestParam(value = "sFind", required = false) final String sFind, @ApiParam(value
-                    = "массив строк - фильтр по ID места (мест), где надается услуга. Поддерживаемие ID: 3200000000 (КИЇВСЬКА ОБЛАСТЬ/М.КИЇВ), 8000000000 (М.КИЇВ). "
+                    = "массив строк - фильтр по ID места (мест), где надается услуга. Значения ID перечисляются через запятую."
                     + "Если указан другой ID, фильтр не применяется.", required = false)
             @RequestParam(value = "asID_Place_UA", required = false) final List<String> asID_Place_UA, @ApiParam(value = "булевый флаг. Возвращать или нет пустые категории и подкатегории (по умолчанию false)", required = true)
             @RequestParam(value = "bShowEmptyFolders", required = false, defaultValue = "false") final boolean bShowEmptyFolders, @ApiParam(value = "ID категории", required = true)
-            @RequestParam(value = "nID_Category", required = true) final Long nID_Category, @ApiParam(value = "ID тэга", required = true)
-            @RequestParam(value = "nID_ServiceTag", required = true) final Long nID_ServiceTag, @ApiParam(value = "булевый флаг. корневой или не корневой тэг", required = true)
-            @RequestParam(value = "bRoot ", required = true, defaultValue = "false") final boolean bRoot
+            @RequestParam(value = "nID_Category", required = true) final Long nID_Category, @ApiParam(value = "ID корневого тега", required = false)
+            @RequestParam(value = "nID_ServiceTag_Root", required = false) Long nID_ServiceTag_Root, @ApiParam(value = "ID корневого тега", required = false)
+            @RequestParam(value = "nID_ServiceTag_Child", required = false) Long nID_ServiceTag_Child, @ApiParam(value = "Новый формат ответа", required = false)
+            @RequestParam(value = "bNew", required = false) Boolean bNew
     ) {
+        List<ServiceTagTreeNodeVO> res = serviceTagService.getCatalogTreeTag(nID_Category, sFind, asID_Place_UA,
+                bShowEmptyFolders, true, nID_ServiceTag_Root, nID_ServiceTag_Child);
+        res.forEach(n -> n.setaService(n.getaService().stream().map(
+                s -> prepareServiceToView(s, false)).collect(Collectors.toList())));
 
-        final boolean bTest = generalConfig.isSelfTest();
+        if (BooleanUtils.isTrue(bNew)) {
+            return JsonRestUtils.toJsonResponse(toNewFormat(res));
+        }
 
-        SerializableResponseEntity<String> entity = cachedInvocationBean
-                .invokeUsingCache(new CachedInvocationBean.Callback<SerializableResponseEntity<String>>(
-                                GET_CATALOG_TREE_TAG_SERVICE, sFind, asID_Place_UA, bTest, nID_Category, nID_ServiceTag, bRoot) {
-                                    @Override
-                                    public SerializableResponseEntity<String> execute() {
-
-                                        List<Map> aReturn = new LinkedList();
-                                        List<ServiceTagRelation> aServiceTagRelation = new ArrayList<>(baseEntityDao.findAll(ServiceTagRelation.class));
-                                        List<ServiceTagLink> aServiceTagLink = new ArrayList<>(baseEntityDao.findAll(ServiceTagLink.class));
-                                        
-                                        //List<Service> aService_Selected = filterCategory(aServiceTagLink, aServiceTag_Selected, nID_Category);
-                                        for(ServiceTagLink oServiceTagLink : aServiceTagLink){
-                                            oServiceTagLink.getService().setServiceDataList(new LinkedList());
-                                        }
-                                        
-                                        List<ServiceTag> aServiceTag_Selected = new ArrayList();
-
-                                        Map<String, Object> mReturn = new LinkedHashMap();
-                                        ServiceTag oServiceTag = baseEntityDao.findById(ServiceTag.class, nID_ServiceTag);
-
-                                        List<ServiceTag> aServiceTagChild = new ArrayList();
-                                        if (bRoot) {
-                                            mReturn.put("oServiceTag_Root", oServiceTag);
-                                            for (ServiceTagRelation oServiceTagRelationChild : aServiceTagRelation) {
-                                                if (Objects.equals(oServiceTagRelationChild.getServiceTag_Parent().getId(), nID_ServiceTag)) {
-                                                    aServiceTagChild.add(oServiceTagRelationChild.getServiceTag_Child());
-                                                    aServiceTag_Selected.add(oServiceTagRelationChild.getServiceTag_Child());
-                                                }
-                                            }
-                                        } else {
-                                            for (ServiceTagRelation oServiceTagRelationChild : aServiceTagRelation) {
-                                                if (Objects.equals(oServiceTagRelationChild.getServiceTag_Child().getId(), nID_ServiceTag)) {
-                                                    mReturn.put("oServiceTag_Root", oServiceTagRelationChild.getServiceTag_Parent());
-                                                    break;
-                                                }
-                                            }
-                                            aServiceTagChild.add(oServiceTag);
-                                            aServiceTag_Selected.add(oServiceTag);
-                                        }
-                                        mReturn.put("aServiceTag_Child", aServiceTagChild);
-                                        
-                                        List<Service> aService_Selected = filterCategory(aServiceTagLink, aServiceTag_Selected, nID_Category);
-                                        /*for(Service oService : aService_Selected){
-                                            oService.setServiceDataList(new LinkedList());
-                                        }*/
-                                        mReturn.put("aService", aService_Selected);
-                                        //if (aService_Selected.size() > 0) {
-                                            aReturn.add(mReturn);
-                                        //}
-                                        return new SerializableResponseEntity<>(JsonRestUtils.toJsonResponse(aReturn));
-                                    }
-                                });
-
-        return entity.toResponseEntity();
+        return JsonRestUtils.toJsonResponse(res);
     }
 
-    private List<Service> filterCategory(List<ServiceTagLink> aServiceTagLink, List<ServiceTag> aServiceTag_Selected,
-            Long nID_Category) {
-        List<Service> aService_Selected = new ArrayList();
-        for (ServiceTagLink oServiceTagLink : aServiceTagLink) {
-            for (ServiceTag oServiceTag_Selected : aServiceTag_Selected) {
-                if (Objects.equals(oServiceTagLink.getServiceTag().getId(), oServiceTag_Selected.getId())
-                        && nID_Category.equals(oServiceTagLink.getService().getSubcategory().getCategory().getId())) {
-                    aService_Selected.add(getService(oServiceTagLink.getService()));
-                    break;
-                }
+    private ServiceTagTreeVO toNewFormat(List<ServiceTagTreeNodeVO> nodes) {
+        ServiceTagTreeVO res = new ServiceTagTreeVO();
+
+        Set<Service> uniqueServices = new LinkedHashSet<>();
+        for (ServiceTagTreeNodeVO node : nodes) {
+            if (node.getaService() != null) {
+                uniqueServices.addAll(node.getaService());
+                node.setaService(null);
             }
         }
-        return aService_Selected;
+
+        res.setaNode(nodes);
+        res.setaService(new ArrayList<>(uniqueServices));
+
+        return res;
     }
 
 }

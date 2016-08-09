@@ -22,13 +22,10 @@ import org.springframework.stereotype.Service;
 
 import java.util.*;
 
-import javax.security.auth.Subject;
-
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Task;
 import org.igov.service.exchange.SubjectCover;
 import org.igov.model.action.event.HistoryEvent_Service_StatusType;
-import org.igov.model.core.NamedEntity;
 import org.igov.service.business.action.task.bp.BpService;
 
 /**
@@ -38,6 +35,7 @@ import org.igov.service.business.action.task.bp.BpService;
 @Service
 public class BpServiceHandler {
 
+    public static Map<String, Object> mGuideTaskParamKey = new TreeMap<>();
     public static final String PROCESS_ESCALATION = "system_escalation";
     private static final String PROCESS_FEEDBACK = "system_feedback";
     private static final String ESCALATION_FIELD_NAME = "nID_Proccess_Escalation";
@@ -132,6 +130,7 @@ public class BpServiceHandler {
             LOG.debug("FAIL:", oException);
         }
         String taskName = (String) mTaskParam.get("sTaskName");
+        LOG.info("Escalation task params: {}", mTaskParam);
         String escalationProcessId = startEscalationProcess(mTaskParam, snID_Process, processName, nID_Server);
         Map<String, String> params = new HashMap<>();
         params.put(ESCALATION_FIELD_NAME, escalationProcessId);
@@ -156,19 +155,32 @@ public class BpServiceHandler {
         mParam.put("processName", sProcessName);
         mParam.put("nID_Protected", "" + ToolLuna.getProtectedNumber(Long.valueOf(sID_Process)));
         mParam.put("bankIdfirstName", mTaskParam.get("bankIdfirstName"));
+        mGuideTaskParamKey.put("bankIdfirstName", "Имя"); 
         mParam.put("bankIdmiddleName", mTaskParam.get("bankIdmiddleName"));
+        mGuideTaskParamKey.put("bankIdmiddleName", "Отчество");
         mParam.put("bankIdlastName", mTaskParam.get("bankIdlastName"));
+        mGuideTaskParamKey.put("bankIdlastName", "Фамилия");
         mParam.put("phone", "" + mTaskParam.get("phone"));
+        mGuideTaskParamKey.put("phone", "Телефон");
         mParam.put("email", mTaskParam.get("email"));
-        Set<String> organ = getCandidateGroups(sProcessName, mTaskParam.get("sTaskId").toString(), null, INDIRECTLY_GROUP_PREFIX);
-        //asCandidateCroupToCheck.isEmpty() ? "" : saCandidateCroupToCheck.substring(1, asCandidateCroupToCheck.toString().length() - 1)
-        mParam.put("organ", organ.isEmpty() ? "" : organ.toString().substring(1, organ.toString().length() - 1));
-        mParam.put("saField", new JSONObject(mTaskParam).toString());
+        mGuideTaskParamKey.put("email", "Электронный адрес");
+
+        Set<String> organs = getCandidateGroups(sProcessName, mTaskParam.get("sTaskId").toString(), null, INDIRECTLY_GROUP_PREFIX);
+        mGuideTaskParamKey.put("sTaskId", "ИД таски");
+        String organ = trimGroups(organs);
+        mParam.put("organ", organ);
+        Map mTaskParamConverted = convertTaskParam(mTaskParam);
+        String sField = convertTaskParamToString(mTaskParamConverted);
+        mParam.put("saField", sField);
         mParam.put("data", mTaskParam.get("sDate_BP"));
+        mGuideTaskParamKey.put("sDate_BP", "Дата БП");
+       
         mParam.put("sNameProcess", mTaskParam.get("sServiceType"));
+        mGuideTaskParamKey.put("sServiceType", "Услуга ");
         mParam.put("sOrganName", mTaskParam.get("area"));
+        mGuideTaskParamKey.put("area", "Район");
         mParam.put("sPlace", getPlaceForProcess(sID_Process));
-        setSubjectParams(mTaskParam.get("sTaskId").toString(), sProcessName, mParam, null);
+        setSubjectParams(mTaskParam.get("sTaskId").toString(), sProcessName, mParam, null);        
         LOG.info("START PROCESS_ESCALATION={}, with mParam={}", PROCESS_ESCALATION, mParam);
         String snID_ProcessEscalation = null;
         try {
@@ -181,25 +193,49 @@ public class BpServiceHandler {
         return snID_ProcessEscalation;
     }
 
+    /**
+     * organise groups into single string
+     *
+     * @param organs
+     * @return
+     */
+    private String trimGroups(Set<String> organs) {
+        if (organs.isEmpty()) {
+            return "";
+        }
+        final String DELIMITER = ", ";
+
+        StringBuilder result = new StringBuilder();
+        for (String group : organs) {
+            result.append(group);
+            result.append(DELIMITER);
+        }
+        String res = result.toString();
+        if (res.endsWith(DELIMITER)) {
+            res = StringUtils.removeEnd(res, DELIMITER);
+        }
+        return res;
+    }
+
     private String getPlaceForProcess(String sID_Process) {
-    	Map<String, String> param = new HashMap<String, String>();
+        Map<String, String> param = new HashMap<String, String>();
         param.put("nID_Process", sID_Process);
         param.put("nID_Server", generalConfig.getSelfServerId().toString());
-    	String sURL = generalConfig.getSelfHostCentral() + "/wf/service/object/place/getOrderPlaces";
+        String sURL = generalConfig.getSelfHostCentral() + "/wf/service/object/place/getOrderPlaces";
         LOG.info("(sURL={},mParam={})", sURL, param);
         String soResponse = null;
         try {
             soResponse = httpRequester.getInside(sURL, param);
-            Map res = JsonRestUtils.readObject(soResponse, Map.class); 
+            Map res = JsonRestUtils.readObject(soResponse, Map.class);
             soResponse = (String) res.get("place");
         } catch (Exception ex) {
             LOG.error("[getPlaceForProcess]: ", ex);
         }
         LOG.info("(soResponse={})", soResponse);
         return soResponse;
-	}
+    }
 
-	private Set<String> getCurrentCadidateGroup(final String sProcessName) {
+    private Set<String> getCurrentCadidateGroup(final String sProcessName) {
         Set<String> asCandidateCroupToCheck = new HashSet<>();
         BpmnModel oBpmnModel = repositoryService.getBpmnModel(sProcessName);
         for (FlowElement oFlowElement : oBpmnModel.getMainProcess().getFlowElements()) {
@@ -294,7 +330,7 @@ public class BpServiceHandler {
         try {
             Set<String> accounts = new HashSet<>();
             Task task = taskService.createTaskQuery().taskId(taskId).singleResult();
-            if(task.getAssignee() != null){
+            if (task.getAssignee() != null) {
                 accounts.add(task.getAssignee());
             }
             accounts.addAll(getCandidateGroups(sProcessName, taskId, processVariables, ""));
@@ -306,12 +342,13 @@ public class BpServiceHandler {
                 List<Map<String, Object>> aSubjectAccount = (List<Map<String, Object>>) result.get("aSubjectAccount");
                 for (Map<String, Object> subjectAccount : aSubjectAccount) {
                     Map<String, Object> subject = (Map<String, Object>) subjectAccount.get("oSubject");
-                    String label = (String)subject.get("sLabel");
+                    String label = (String) subject.get("sLabel");
                     String accountContacts = getContact((List<Map>) subject.get("aSubjectAccountContact"));
                     sb.append(" ").append(label).append(" (").append(accountContacts).append(")");
                 }
                 LOG.info("sEmployeeContacts: " + sb.toString());
                 mParam.put("sEmployeeContacts", sb.toString());
+                
             }
         } catch (Exception ex) {
             LOG.error("[setSubjectParams]: ", ex);
@@ -324,7 +361,7 @@ public class BpServiceHandler {
         if (aSubjectAccountContact != null && !aSubjectAccountContact.isEmpty()) {
             for (Map subjectAccountContact : aSubjectAccountContact) {
                 LOG.info("!!!subjectAccountContact: " + subjectAccountContact);
-                if (subjectAccountContact != null && !subjectAccountContact.isEmpty() 
+                if (subjectAccountContact != null && !subjectAccountContact.isEmpty()
                         && subjectAccountContact.get("sValue") != null
                         && !"".equals(subjectAccountContact.get("sValue"))
                         && subjectAccountContact.get("oSubjectContactType") != null
@@ -335,5 +372,38 @@ public class BpServiceHandler {
             }
         }
         return sbContact.toString(); //
+    }
+
+    public static String convertTaskParamToString(Map<String, Object> mTaskParam) {
+
+        // Получаем набор элементов
+        Set<Map.Entry<String, Object>> aTaskParamEntrySet = mTaskParam.entrySet();
+        String result = " ";
+
+        // Отобразим набор
+        for (Map.Entry<String, Object> taskParam : aTaskParamEntrySet) {
+            result += taskParam.getKey() + ": " + taskParam.getValue() + "\n\r";
+        }
+        LOG.info(result);
+        return result;
+
+    }
+
+    public static Map<String, Object> convertTaskParam(Map<String, Object> mTaskParam) {
+        Map<String, Object> result = new LinkedHashMap<>();
+        for (Map.Entry<String, Object> taskParam : mTaskParam.entrySet()) {
+            String taskParamKey = taskParam.getKey();
+            Object taskParamValue = taskParam.getValue();
+
+            if (mGuideTaskParamKey.get(taskParamKey) != null) {
+                String newKeyTaskParam = (String) mGuideTaskParamKey.get(taskParamKey);
+                if (!"Удалить".equalsIgnoreCase(newKeyTaskParam)) {
+                    result.put(newKeyTaskParam, taskParamValue);
+                }
+            } else {
+                result.put(taskParamKey, taskParamValue);
+            }
+        }
+        return result;
     }
 }

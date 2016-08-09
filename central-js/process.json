@@ -30,13 +30,23 @@
 
     "Back_Central":{
       "sURL_Back_Central": "https://test.igov.org.ua:8080/wf/service",
-      "sLogin_Back_Central": "activiti-master",
-      "sPassword_Back_Central": "UjhtJnEvf!"
+      "sLogin_Back_Central": "system",
+      "sPassword_Back_Central": "system"
     },
 
     "Auth_BankID":{
       "sURL_Access_Auth_BankID": "https://bankid.privatbank.ua",
       "sURL_Resource_Auth_BankID": "https://bankid.privatbank.ua",
+      "sClientID_Auth_BankID": "testIgov",
+      "sClientSecret_Auth_BankID": "testIgovSecret",
+      "sPrivateKeyPath_Auth_BankID": "./iGov_sgn.pem",
+      "sPrivateKeyPassphrase_Auth_BankID": "1234567899",
+      "bCrypt_Auth_BankID": "FALSE"
+    },
+
+    "Auth_BankID_NBU" : {
+      "sURL_Access_Auth_BankID": "https://id.bank.gov.ua",
+      "sURL_Resource_Auth_BankID": "https://id.bank.gov.ua",
       "sClientID_Auth_BankID": "testIgov",
       "sClientSecret_Auth_BankID": "testIgovSecret",
       "sPrivateKeyPath_Auth_BankID": "./iGov_sgn.pem",

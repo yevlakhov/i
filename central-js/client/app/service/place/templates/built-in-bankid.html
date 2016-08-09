@@ -131,6 +131,7 @@
                                           name="{{property.id}}"
                                           ng-model="data.formData.params[property.id].value"
                                           ng-required="isFieldRequired(property)"
+                                          ng-class="getBpAndFieldID(property)"
                                           class="form-control"></textarea>
                 <label ng-switch-when="label"
                        name="{{property.id}}"
@@ -143,17 +144,30 @@
                 <dropdown-country ng-switch-when="string"
                                   ng-if="property.id==='resident' || property.id === 'sCountry'"
                                   ng-model="data.formData.params[property.id].value"
+                                  ng-class="getBpAndFieldID(property)"
                                   service-data="oServiceData"
                                   ng-required="isFieldRequired(property)"></dropdown-country>
 
                 <input ng-switch-when="string"
                        type="text"
                        name="{{property.id}}"
-                       ng-hide="property.id==='resident' || property.id === 'sCountry' || property.id.indexOf('sCurrency') === 0"
+                       ng-hide="property.id==='resident' || property.id === 'sCountry' || property.id.indexOf('sCurrency') === 0 || property.id === 'sID_Merchant' || property.id.indexOf('sID_Merchant') === 0"
                        ng-model="data.formData.params[property.id].value"
                        ng-required="isFieldRequired(property)"
+                       ng-class="getBpAndFieldID(property)"
                        class="form-control"
                        value="">
+
+                <button ng-switch-when="string"
+                        type="button"
+                        name="{{property.id}}"
+                        ng-if="property.id === 'sID_Merchant' || property.id.indexOf('sID_Merchant') === 0"
+                        ng-model="data.formData.params[property.id].value"
+                        ng-disabled="!data.formData.params[property.id].value"
+                        ng-required="isFieldRequired(property)"
+                        ng-class="getBpAndFieldID(property)"
+                        ng-click="redirectPaymentLiqpay(property.id)"
+                        class="btn btn-success">Сплатити</button>
 
                 <label style="display: none;"
                        ng-switch-when="invisible"
@@ -172,6 +186,7 @@
                        name="{{property.id}}"
                        ng-model="data.formData.params[property.id].value"
                        ng-required="isFieldRequired(property)"
+                       ng-class="getBpAndFieldID(property)"
                        class="form-control"
                        value="">
 
@@ -181,6 +196,7 @@
                        ng-model="data.formData.params[property.id].value"
                        ng-tel-field="{defaultCountry:'ua', autoFormat:true, allowExtensions:false, preferredCountries:['ua'], autoPlaceholder:true}"
                        ng-required="isFieldRequired(property)"
+                       ng-class="getBpAndFieldID(property)"
                        class="form-control"
                        value="">
 
@@ -195,6 +211,7 @@
                          ng-model="data.formData.params[property.id].value"
                          ng-required="isFieldRequired(property)"
                          ng-readonly="true"
+                         ng-class="getBpAndFieldID(property)"
                          close-text="Close"
                          class="form-control"
                          value="">
@@ -301,6 +318,7 @@
                         ng-model="data.formData.params[property.id].value"
                         ng-options="oEnumValue.id as oEnumValue.name for oEnumValue in property.enumValues"
                         ng-required="isFieldRequired(property)"
+                        ng-class="getBpAndFieldID(property)"
                         class="form-control"></select>
 
                 <p class="input-group"
@@ -316,6 +334,7 @@
                   <file-field name="{{property.id}}"
                               ng-model="data.formData.params[property.id].value"
                               ng-required="isFieldRequired(property)"
+                              ng-class="getBpAndFieldID(property)"
                               ng-if="data.formData.params[property.id].upload">Add File
                   </file-field>
                 </p>
@@ -325,10 +344,11 @@
                              service="oService"
                              service-data="oServiceData"
                              ng-model="data.formData.params[property.id].value"
+                             ng-class="getBpAndFieldID(property)"
                              form-data="data.formData"
                              property="property"
                              ng-required="isFieldRequired(property)"></slot-picker>
-                <div ng-switch-when="select">
+                <div ng-switch-when="select" ng-class="getBpAndFieldID(property)">
                   <dropdown-organ ng-if="property.id==='sID_Public_SubjectOrganJoin'"
                                   ng-model="data.formData.params[property.id].value"
                                   form-data-property="data.formData.params[property.id]"
@@ -349,39 +369,17 @@
                              on-select="onSelectDataList($item)">
 
                              <ui-select-match>
-                               {{::$select.selected[property.autocompleteData.titleProperty]}}
+                               {{$select.selected[autocompleteData.titleProperty]}}
                              </ui-select-match>
                              <ui-select-choices refresh="refreshList(property.autocompleteData.titleProperty, $select.search)"
                                                 refresh-delay="50"
-                                                repeat="item[property.autocompleteData.titleProperty] as item in items track by item.nID">
-                               <span title="{{::item[property.autocompleteData.titleProperty]}}">
-                                 {{::item[property.autocompleteData.titleProperty]}}
+                                                repeat="item[property.autocompleteData.valueProperty] as item in items track by item[property.autocompleteData.orderBy]">
+                               <span title="{{item[property.autocompleteData.titleProperty]}}">
+                                 {{item[property.autocompleteData.titleProperty]}}
                                </span>
                              </ui-select-choices>
                   </ui-select>
-                  <!--<div class="validation-message"
-                       ng-if="form.$submitted"``
-                       ng-messages="form.organ.$error"
-                       style="position: relative; left: 110%; top: -25px">
-                    <div ng-message="required">Необхідно заповнити.</div>
-                    <div ng-message="pattern">Значення має бути числом.</div>
-                    <div ng-message="email">Помилка в email.</div>
-                    <div ng-message="tel">Помилка в номері телефону.</div>
-                    <div ng-message="autovin">Помилка у VIN-номері авто.</div>
-                    <div ng-message="textua">Текст може містити тількі українські літери або мінус чи пробіл.</div>
-                    <div ng-message="textru">Текст може містити тількі російські літери або мінус чи пробіл.</div>
-                    <div ng-message="dateformat">Дата може бути тільки формату DATE_FORMAT.</div>
-                    <div ng-message="dateelapsed">З/до дати з/після сьогоднішньої, має бути більше/менше ніж х-днів,
-                      х-місяців, х-років.
-                    </div>
-                    <div ng-message="CustomFormat">{{ form[property.id].lastErrorMessage }}</div>
-                    <div ng-message="CodeKVED">Такого КВЕД не існує - (ви не можете вписувати літери)</div>
-                    <div ng-message="CodeEDRPOU">Такий код ЄДРПОУ не існує - (ви не можете вписувати літери)</div>
-                    <div ng-message="CodeMFO">Такого коду банку не існує - (ви не можете вписувати літери)</div>
-                    <div ng-message="FileSign">Підпис не валідний або відсутній</div>
-                    <div ng-message="FileExtensions">{{ form[property.id].lastErrorMessage }}</div>
-                    <div ng-message="FieldNotEmptyAndNonZero">Будь ласка, виберіть із запропонованого переліку</div>
-                  </div>-->
+
                 </div>
               </div>
 
@@ -391,12 +389,13 @@
                        name="{{property.id}}"
                        ng-model="data.formData.params[property.id].value"
                        ng-required="isFieldRequired(property)"
+                       ng-class="getBpAndFieldID(property)"
                        class="form-control"
                        value="">
               </div>
 
               <div class="col-md-4 validation-message"
-                   ng-if="form.$submitted"``
+                   ng-if="form.$submitted"
                    ng-messages="form[property.id].$error">
                 <div ng-message="required">Необхідно заповнити.</div>
                 <div ng-message="pattern">Значення має бути числом.</div>
@@ -409,6 +408,10 @@
                 <div ng-message="dateelapsed">З/до дати з/після сьогоднішньої, має бути більше/менше ніж х-днів,
                   х-місяців, х-років.
                 </div>
+                <div ng-message="numberbetween">{{ form[property.id].lastErrorMessage }}</div>
+                <div ng-message="numberfractionalbetween">{{ form[property.id].lastErrorMessage }}</div>
+                <div ng-message="numbersaccounts">{{ form[property.id].lastErrorMessage }}</div>
+                <div ng-message="dateofbirth">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="CustomFormat">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="CodeKVED">Такого КВЕД не існує - (ви не можете вписувати літери)</div>
                 <div ng-message="CodeEDRPOU">Такий код ЄДРПОУ не існує - (ви не можете вписувати літери)</div>
@@ -425,7 +428,7 @@
 
 
                   <label ng-hide="!sign.checked">Після натискання "Замовити послугу"
-                    вас буде перенаправлено на сторінку підпису вашої заявки електронно-цифровим підписом
+                    Вас буде перенаправлено на сторінку підпису вашої заявки електронно-цифровим підписом
                   </label>
                   <label  ng-if="isSignNeeded" ng-hide="isSignNeededRequired">Накласти ЕЦП :
                   <input type="checkbox"
