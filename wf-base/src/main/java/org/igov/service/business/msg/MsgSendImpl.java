@@ -346,12 +346,12 @@ public class MsgSendImpl implements IMsgSend {
 			addAttr(mAttrs, "nID_Server", nID_Server);
 			addAttr(mAttrs, "sDate", sDate);
 
-			LOG.debug("Ответ sHead:\n{}", sHead);
-			LOG.debug("Ответ sBody:\n{}", sBody);
-			LOG.debug("Ответ nID_Subject:\n{}", nID_Subject);
-			LOG.debug("Ответ nID_Server:\n{}", nID_Server);
-			LOG.debug("Ответ sDate:\n{}", sDate);
-			LOG.debug("Ответ sasParam:\n{}", asParam);
+			LOG.info("Ответttt sHead:\n{}", sHead);
+			LOG.info("Ответttt sBody:\n{}", sBody);
+			LOG.info("Ответttt nID_Subject:\n{}", nID_Subject);
+			LOG.info("Ответttt nID_Server:\n{}", nID_Server);
+			LOG.info("Отвеtttt sDate:\n{}", sDate);
+			LOG.info("Отвеtttttт sasParam:\n{}", asParam);
 
 			if (asParam != null) {
 				StringBuilder asParamSb = new StringBuilder();
@@ -384,7 +384,7 @@ public class MsgSendImpl implements IMsgSend {
 			oMFilter.setLevelFilter(oMsgLevel.name());
 			oMFilter.setMsgId(oMFilter.getMsgId());
 
-			LOG.debug("oMFilter:\n{}", oMFilter);
+			LOG.info("oMFilter:\n{}", oMFilter);
 		}catch(Exception e) {
 			LOG.info("Ответ e.getMessage():\n{}",e.getMessage());
 		}

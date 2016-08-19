@@ -235,9 +235,9 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 			try {
 				LOG.info("IC_Task\n", sType);
 				LOG.info("sURL\n", sURL);
-				LOG.info("mRequestParam\n", mRequestParam);
-				LOG.info("sRequestBody\n", sRequestBody);
-				LOG.info("sResponseBody\n", sResponseBody);
+				LOG.info("mRequestParammmmmmmmmmmmmmm\n", mRequestParam);
+				LOG.info("sRequestBodyyyyyyyyyyyyyyyyyyy\n", sRequestBody);
+				LOG.info("sResponseBodyyyyyy\n", sResponseBody);
 
 				new Log(oException, LOG)//this.getClass()
 				._Case("IC_Task"+sType)
