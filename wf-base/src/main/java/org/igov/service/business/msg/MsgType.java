@@ -6,9 +6,7 @@ public enum MsgType {
     INF_MESSAGE("IF"),
     INTERNAL_ERROR("IN"),
     VALIDATION_ERROR("VL"),
-    WARNING("WR")//,
-    //DANGER("DR")
-    ;
+    WARNING("WR");
     
     private final String abbr;
     

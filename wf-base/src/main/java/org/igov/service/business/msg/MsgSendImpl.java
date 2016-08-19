@@ -17,11 +17,11 @@ import com.pb.ksv.msgcore.data.MFilter;
 import com.pb.ksv.msgcore.data.enums.MsgAttrMode;
 import com.pb.ksv.msgcore.data.enums.MsgLevel;
 import com.pb.ksv.msgcore.user.Msg;
-//import com.pb.util.gsv.net.HTTPClient;
+import com.pb.util.gsv.net.HTTPClient;
 
 /**
  * 
- * @author kr110666kai & bw
+ * @author kr110666kai
  *
  *         Реализация Интерфеса отсылки сообщений в Сервис Хранения Ошибок http://msg.igov.org.ua/MSG
  * 
@@ -80,7 +80,7 @@ import com.pb.ksv.msgcore.user.Msg;
  *         general.Monitor.MSG.sURL=http://msg.igov.org.ua/MSG	// url Сервиса Хранения Ошибок
  *         
  */
-public class MsgSendImpl implements IMsgSend {
+public class MsgSendImpl implements MsgSend {
     private static final Logger LOG = LoggerFactory.getLogger(MsgSendImpl.class);
     
     private static final String MSG_DEFAULT = "DEFAULT";
@@ -90,17 +90,17 @@ public class MsgSendImpl implements IMsgSend {
     // Символы разрешенные в коде СООБЩЕНИЯ
     private static final String ALLOWED_CHARS_MSG_CODE = "^[a-zA-Z0-9-_]+$";
     
-    //public static final HTTPClient httpClient = new HTTPClient();
+    public static final HTTPClient httpClient = new HTTPClient();
 
-    private String sTemplateId_MSG = null;
-    private String sBusinessId_MSG = null;
-    private String sLogin_MSG = null;
-    private String sURL_MSG = null;
-    
-    private String sCode_MSG = null;
-    private MsgType oMsgType = null;
-    private MsgLevel oMsgLevel = MsgLevel.DEVELOPER;
-    private MsgLang oMsgLang = MsgLang.UKR;
+    private String sTemplateMsgId = null;
+    private String sMsgLogin = null;
+
+    private String sMsgURL = null;
+    private String sBusId = null;
+    private String sMsgCode = null;
+    private MsgType msgType = null;
+    private MsgLevel msgLevel = MsgLevel.DEVELOPER;
+    private MsgLang msgLang = MsgLang.UKR;
 
     private String sHead = null;
     private String sBody = null;
@@ -112,7 +112,7 @@ public class MsgSendImpl implements IMsgSend {
     private List<String> asParam = null;
     private String sDate = null;
 
-    //private String smDataMisc = null;
+    private String smDataMisc = null;
 
     /**
      * @param sType - тип СООБЩЕНИЯ
@@ -120,18 +120,18 @@ public class MsgSendImpl implements IMsgSend {
      * @param sFunction - строка с именем функции где произошла ошибка
      * 
      */
-    public MsgSendImpl(String sURL, String sBusId, String sType, String sFunction, String sTemplateId, String sLogin ) {
-	LOG.debug("sMsgURL={}, sBusId={}, Type={}, sFunction={}, TemplateMsgId={}, MsgLogin={}", sURL, sBusId,
-		sType, sFunction, sTemplateId, sLogin);
+    public MsgSendImpl(String sMsgURL, String sBusId, String sType, String sFunction, String sTemplateMsgId, String sMsgLogin ) {
+	LOG.debug("sMsgURL={}, sBusId={}, Type={}, Function={}, TemplateMsgId={}, MsgLogin={}", sMsgURL, sBusId,
+		sType, sFunction, sTemplateMsgId, sMsgLogin);
 
-	if (sURL ==null || sBusId == null || sType == null || sFunction == null || sTemplateId == null || sLogin == null ) {
+	if (sMsgURL ==null || sBusId == null || sType == null || sFunction == null || sTemplateMsgId == null || sMsgLogin == null ) {
 	    throw new IllegalArgumentException("parameters is null");
 	}
 
 	try {
-	    oMsgType = MsgType.valueOf(sType.trim().toUpperCase());
+	    msgType = MsgType.valueOf(sType.trim().toUpperCase());
 	} catch (final IllegalArgumentException e) {
-	    oMsgType = MsgType.INF_MESSAGE;
+	    msgType = MsgType.INF_MESSAGE;
 	}
 	
 	String sf = sFunction.trim().toUpperCase().replaceAll("[\\.\\(\\)]","_");
@@ -145,91 +145,159 @@ public class MsgSendImpl implements IMsgSend {
 	    sf = sf.substring(sf.length() - MSG_CODE_LENGTH);
 	}
 
-	this.sURL_MSG = sURL;
-	this.sBusinessId_MSG = sBusId;
-	this.sCode_MSG = oMsgType.getAbbr() + "-" + sf;
+	this.sMsgURL = sMsgURL;
+	this.sBusId = sBusId;
+	this.sMsgCode = msgType.getAbbr() + "-" + sf;
 	this.sFunction = sFunction;
-	this.sTemplateId_MSG = sTemplateId;
-	this.sLogin_MSG = sLogin;
+	this.sTemplateMsgId = sTemplateMsgId;
+	this.sMsgLogin = sMsgLogin;
 
-	LOG.debug("MsgCode={}", this.sCode_MSG);
+	LOG.debug("MsgCode={}", this.sMsgCode);
     }
 
-    @Override
-    public IMsgSend _Head(String sHead) {
+    public MsgSend addsHead(String sHead) {
 	this.sHead = sHead;
-	//LOG.debug("sHead={}", this.sHead);
+	LOG.debug("set sHead={}", this.sHead);
 	return this;
     }
 
-    @Override
-    public IMsgSend _Body(String sBody) {
+    public MsgSend addsBody(String sBody) {
 	this.sBody = sBody;
-	//LOG.debug("sBody={}", this.sBody);
+	LOG.debug("set sBody={}", this.sBody);
 	return this;
     }
 
-    @Override
-    public IMsgSend _Error(String sError) {
+    public MsgSend addsError(String sError) {
 	this.sError = sError;
-	//LOG.debug("sError={}", this.sError);
+	LOG.debug("set sError={}", this.sError);
 	return this;
     }
 
-    @Override
-    public IMsgSend _SubjectID(Long nID_Subject) {
+    public MsgSend addnID_Subject(Long nID_Subject) {
 	this.nID_Subject = nID_Subject;
-	//LOG.debug("nID_Subject={}", this.nID_Subject);
+	LOG.debug("set nID_Subject={}", this.nID_Subject);
 	return this;
     }
 
-    @Override
-    public IMsgSend _ServerID(Long nID_Server) {
+    public MsgSend addnID_Server(Long nID_Server) {
 	this.nID_Server = nID_Server;
-	//LOG.debug("nID_Server={}", this.nID_Server);
+	LOG.debug("set nID_Server={}", this.nID_Server);
 	return this;
     }
 
-    @Override
-    public <T> IMsgSend _Params(Map<String, T > mParam) {//HashMap<String, T > mParam
+    @SuppressWarnings("unchecked")
+    /**
+     * Разбирается структура smData с дополнительными данными по ошибке.
+     * Соответствующие поля структуры запоминаются в отделных переменных, для
+     * последующего сохранения в атрибутах Сервиса Хранения Ошибок
+     * 
+     * @param smData - JSON структура следующего формата:
+     *	{
+     *    "asParam": [
+     *      "par1",
+     *      "par2",
+     *      "par3"
+     *    ],
+     *    "oResponse": {
+     *      "sMessage": "value sMessage",
+     *      "sCode": "value sCode",
+     *      "soData": "value soData"
+     *    },
+     *    "sDate": "value sDate"
+     *  }            
+     */
+    public MsgSend addsmData(String smData) {
+	smData = smData.trim();
+
+	LOG.debug("set smData=[{}]", smData);
+
+	if (smData.isEmpty()) {
+	    LOG.debug("smData is Empty");
+	    return this;
+	}
+
+	String sResponseMessage = null;
+	String sResponseCode = null;
+	String soResponseData = null;
+	StringBuffer smDataMisc = new StringBuffer();
+	if (smData != null) {
+
+	    asParam = new LinkedList<String>();
+	    Map<String, Object> moData = null;
+	    try {
+		moData = JsonRestUtils.readObject(smData, Map.class);
+	    } catch (Exception e1) {
+		this.smDataMisc = "Error parse JSON smData";
+	    }
+
+	    if (moData != null) {
+		if (moData.containsKey("asParam")) {
+		    asParam = (List<String>) moData.get("asParam");
+		}
+		if (moData.containsKey("oResponse")) {
+		    Map<String, Object> moResponse = (Map<String, Object>) moData.get("oResponse");
+		    if (moResponse != null) {
+			if (moResponse.containsKey("sMessage")) {
+			    sResponseMessage = (String) moResponse.get("sMessage");
+			    smDataMisc.append(sResponseMessage);
+			    smDataMisc.append(" ");
+			}
+			if (moResponse.containsKey("sCode")) {
+			    sResponseCode = (String) moResponse.get("sCode");
+			    smDataMisc.append(sResponseCode);
+			    smDataMisc.append(" ");
+			}
+			if (moResponse.containsKey("soData")) {
+			    soResponseData = (String) moResponse.get("soData");
+			    smDataMisc.append(soResponseData);
+			    smDataMisc.append(" ");
+			}
+			this.smDataMisc = smDataMisc.toString();
+		    }
+		}
+		if (moData.containsKey("sDate")) {
+		    sDate = (String) moData.get("sDate");
+		}
+	    }
+
+	}
+
+	return this;
+    }
+    
+    public MsgSend addasParam(HashMap<String, Object> mParam) {
 	if ( mParam != null ) {
 	    this.asParam = new LinkedList<String>();
-            mParam.entrySet().stream().forEach((o) -> {
-                this.asParam.add(o.getKey() + ": " + (o.getValue()==null?"NULL":o.getValue())+"");
-            });
+
+	    for ( String key : mParam.keySet())
+	    {
+		this.asParam.add(key + ": " + mParam.get(key).toString());
+	    }
 	}
-	//LOG.debug("asParam={}", this.asParam);
+	LOG.debug("set asParam={}", this.asParam);
+
 	return this;
     }
 
-    /*@Override
-    public IMsgSend _DataMisc(String sm) {
-	this.smDataMisc = s;
-	//LOG.debug("smDataMisc={}", this.smDataMisc);
-	return this;
-    }*/
-
-    
     private void addAttr(MAttrs mAttrs, String title, Object o) {
 	if (o != null) {
 	    mAttrs.add(title, o.toString());
 	}
     }
 
-    public IMsgSend addLangFilter(String lang) {
+    public MsgSend addLangFilter(String lang) {
 	try {
-	    this.oMsgLang = MsgLang.valueOf(lang.trim().toUpperCase());
+	    this.msgLang = MsgLang.valueOf(lang.trim().toUpperCase());
 	} catch (final IllegalArgumentException e) {
-	    this.oMsgLang = MsgLang.UKR;
+	    this.msgLang = MsgLang.UKR;
 	}
-	LOG.debug("Received lang={}, set lang={}", lang, this.oMsgLang);
+	LOG.debug("Received lang={}, set lang={}", lang, this.msgLang);
 	return this;
     }
 
-    @Override
-    public IMsgSend _Level(MsgLevel msgLevel) {
-	this.oMsgLevel = msgLevel;
-	//LOG.debug("level={}", this.msgLevel);
+    public MsgSend addMsgLevel(MsgLevel msgLevel) {
+	this.msgLevel = msgLevel;
+	LOG.debug("set level={}", this.msgLevel);
 	return this;
     }
 
@@ -267,21 +335,21 @@ public class MsgSendImpl implements IMsgSend {
     private String buildJSON() {
 	StringBuilder sb = new StringBuilder(500);
 	sb.append("{\"r\":[{\"_type_comment\" : \"Создание сообщения\",\"type\":\"MSG_ADD\",\"sid\" : \"\", \"login\":\"");
-	sb.append(this.sLogin_MSG);
+	sb.append(this.sMsgLogin);
 	sb.append("\", \"s\":{\"Type\":\"");
-	sb.append(oMsgType.name());
+	sb.append(msgType.name());
 	sb.append("\",\"MsgCode\":\"");
-	sb.append(sCode_MSG);
+	sb.append(sMsgCode);
 	sb.append("\",\"BusId\":\"");
-	sb.append(sBusinessId_MSG);
+	sb.append(sBusId);
 	sb.append("\",\"Descr\":\"");
 	sb.append(sFunction);
 	sb.append("\",\"TemplateMsgId\":\"");
-	sb.append(this.sTemplateId_MSG);
+	sb.append(this.sTemplateMsgId);
 	sb.append("\", \"ext\":{\"LocalMsg\":[{\"Level\":\"");
-	sb.append(this.oMsgLevel);
+	sb.append(this.msgLevel);
 	sb.append("\",\"Lang\":\"");
-	sb.append(this.oMsgLang.name());
+	sb.append(this.msgLang.name());
 	sb.append("\",\"Text\":\"");
 	sb.append(sFunction);
 	sb.append("\",\"FullText\":\"\"}]}}}]}");
@@ -297,7 +365,7 @@ public class MsgSendImpl implements IMsgSend {
      */
     private void createMsg(  ) throws Exception {
 	MsgCreate msgCreate = new MsgCreate(buildJSON());
-	msgCreate.doReqest(this.sURL_MSG);
+	msgCreate.doReqest(this.sMsgURL);
     }
 
 //     public static void main(String[] args)  {
@@ -315,21 +383,16 @@ public class MsgSendImpl implements IMsgSend {
      */
     public IMsgObjR save() throws Exception {
 	IMsgObjR retMsg = doMsg();
+	LOG.debug("Ответ:\n{}", retMsg);
 
-	if ( retMsg != null ) {
-	    LOG.debug("Ответ:\n{}", retMsg);
+	// Создать сообщение если его не было раньше
+	if (retMsg!=null && retMsg.getMsgCode().equals(MSG_DEFAULT) && !sMsgCode.equals(MSG_DEFAULT)) {
+	    LOG.warn("Сообщение с кодом {} не найдено, попытка его создания.", this.sMsgCode);
+	    createMsg();
+	    LOG.info("Созданно сообщение с кодом : {}", this.sMsgCode);
 	    
-	    // Создать сообщение если его не было раньше
-	    if (retMsg.getMsgCode().equals(MSG_DEFAULT) && !sCode_MSG.equals(MSG_DEFAULT)) {
-		LOG.warn("Сообщение с кодом {} не найдено, попытка его создания.", this.sCode_MSG);
-		createMsg();
-		LOG.info("Созданно сообщение с кодом : {}", this.sCode_MSG);
-	    
-		// Cохранить данные во вновь созданном СООБЩЕНИИ
-		retMsg = doMsg();
-	    }
-	} else {
-	    LOG.warn("Ошибка работы с сервисом, сервис вернул ответ: null");
+	    // Cохранить данные во вновь созданном СООБЩЕНИИ
+	    retMsg = doMsg();
 	}
 
 	return retMsg;
@@ -348,7 +411,7 @@ public class MsgSendImpl implements IMsgSend {
 	addAttr(mAttrs, "sDate", sDate);
 
 	if (asParam != null) {
-	    StringBuilder asParamSb = new StringBuilder();
+	    StringBuffer asParamSb = new StringBuffer();
 	    asParamSb.append("[");
 	    boolean isNotFirst = false;
 	    for (String param : asParam) {
@@ -361,25 +424,21 @@ public class MsgSendImpl implements IMsgSend {
 	    asParamSb.append("]");
 	    addAttr(mAttrs, "asParam", asParamSb.toString());
 	}
-	//addAttr(mAttrs, "smDataMisc", smDataMisc);
+	addAttr(mAttrs, "smDataMisc", smDataMisc);
 
-	MFilter oMFilter = new MFilter();
-	oMFilter.setDTM(new Timestamp(System.currentTimeMillis()));
-	oMFilter.setPatternReplaced(true)
-                .setBusId(sBusinessId_MSG)
-                .setMsgCode(sCode_MSG)
-                .setAttrMode(MsgAttrMode.SEND)
-            ;
-	oMFilter.setLangFilter(oMsgLang.name());
-	oMFilter.setAttrs(mAttrs);
-	oMFilter.setStack(sError);
-	oMFilter.setSource(sFunction);
-	oMFilter.setLevelFilter(oMsgLevel.name());
-	oMFilter.setMsgId(oMFilter.getMsgId());
+	MFilter filter = new MFilter();
+	filter.setDTM(new Timestamp(System.currentTimeMillis()));
+	filter.setPatternReplaced(true).setBusId(sBusId).setMsgCode(sMsgCode).setAttrMode(MsgAttrMode.SEND);
+	filter.setLangFilter(msgLang.name());
+	filter.setAttrs(mAttrs);
+	filter.setStack(sError);
+	filter.setSource(sFunction);
+	filter.setLevelFilter(msgLevel.name());
+	filter.setMsgId(filter.getMsgId());
 
-	LOG.debug("oMFilter:\n{}", oMFilter);
+	LOG.debug("filter:\n{}", filter);
 
-	return Msg.getMsg(oMFilter);
+	return Msg.getMsg(filter);
         //return null;
     }
 
