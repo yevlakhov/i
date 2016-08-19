@@ -346,6 +346,13 @@ public class MsgSendImpl implements IMsgSend {
 			addAttr(mAttrs, "nID_Server", nID_Server);
 			addAttr(mAttrs, "sDate", sDate);
 
+			LOG.debug("Ответ sHead:\n{}", sHead);
+			LOG.debug("Ответ sBody:\n{}", sBody);
+			LOG.debug("Ответ nID_Subject:\n{}", nID_Subject);
+			LOG.debug("Ответ nID_Server:\n{}", nID_Server);
+			LOG.debug("Ответ sDate:\n{}", sDate);
+			LOG.debug("Ответ sasParam:\n{}", asParam);
+
 			if (asParam != null) {
 				StringBuilder asParamSb = new StringBuilder();
 				asParamSb.append("[");
@@ -362,7 +369,8 @@ public class MsgSendImpl implements IMsgSend {
 			}
 			//addAttr(mAttrs, "smDataMisc", smDataMisc);
 
-
+			LOG.debug("Ответ sassBusinessId_MSG:\n{}", sBusinessId_MSG);
+			LOG.debug("Ответ sassCode_MSG:\n{}", sCode_MSG);
 			oMFilter.setDTM(new Timestamp(System.currentTimeMillis()));
 			oMFilter.setPatternReplaced(true)
 			.setBusId(sBusinessId_MSG)
@@ -378,7 +386,7 @@ public class MsgSendImpl implements IMsgSend {
 
 			LOG.debug("oMFilter:\n{}", oMFilter);
 		}catch(Exception e) {
-			LOG.info(e.getMessage());
+			LOG.info("Ответ e.getMessage():\n{}",e.getMessage());
 		}
 
 		return Msg.getMsg(oMFilter);
