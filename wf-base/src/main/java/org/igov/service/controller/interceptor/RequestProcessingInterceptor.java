@@ -233,7 +233,8 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 			LOG_BIG.error("Can't save service-history record: {}", oException.getMessage());
 			LOG_BIG.error("FAIL:", oException);
 			try {
-				new Log(this.getClass(),oException)//this.getClass()
+				LOG.info("ERRORRRRRRRRRRRRRRRRRRR ");
+				new Log(oException, LOG)//this.getClass()
 				._Case("IC_Task"+sType)
 				._Status(Log.LogStatus.ERROR)
 				._Head("Can't save service-history record")
@@ -242,8 +243,8 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 				._Param("mRequestParam", mRequestParam)
 				._Param("sRequestBody", sRequestBody)
 				._Param("sResponseBody", sResponseBody)
-
-				._Send()
+				._LogTrace()
+				.save()
 				;
 				/*MsgService.setEventSystemWithParam("INTERNAL_ERROR", null, null, "Interceptor_protocolize", "Can't save service-history record",
 		    sResponseBody, CommonUtils.getStringStackTrace(oException), mRequestParam);*/
@@ -552,13 +553,14 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 				} catch (Exception oException) {
 					//LOG.error("Can't create escalation process: {}", oException.getMessage());
 					//LOG.trace("FAIL:", oException);
-					new Log(this.getClass(),oException)//this.getClass()
+					new Log(oException, LOG)//this.getClass()
 					._Case("IC_CreateEscalation")
 					._Status(Log.LogStatus.ERROR)
 					._Head("Can't create escalation process")
 					//                        ._Body(oException.getMessage())
 					._Param("nID_Process", nID_Process)
-					._Send()
+					._LogTrace()
+					.save()
 					;
 				}
 				try {
@@ -582,13 +584,13 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 				} catch (Exception oException) {
 					//LOG.error("Can't save service message for escalation: {}", oException.getMessage());
 					//LOG.trace("FAIL:", oException);
-					new Log(this.getClass(),oException)//this.getClass()
+					new Log(oException, LOG)//this.getClass()
 					._Case("IC_SaveEscalation")
 					._Status(Log.LogStatus.ERROR)
 					._Head("Can't save service message for escalation")
 					//                        ._Body(oException.getMessage())
 					._Param("nID_Process", nID_Process)
-					._Send()
+					.save()
 					;
 				}
 				if (bProcessClosed){
@@ -688,13 +690,14 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 		catch (Exception oException) {
 			//LOG.error("Error: {}", oException.getMessage());
 			//LOG.trace("FAIL:", oException);
-			new Log(this.getClass(),oException)//this.getClass()
+			new Log(oException, LOG)//this.getClass()
 			._Case("IC_UpdateEscalation")
 			._Status(Log.LogStatus.ERROR)
 			._Head("Can't update escalation history")
 			//                ._Body(oException.getMessage())
 			._Param("nID_Process", nID_Process)
-			._Send()
+			._LogTrace()
+			.save()
 			;
 		}
 	}
@@ -721,13 +724,14 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 		} catch (Exception oException) {
 			//LOG.error("{} (sID_Process={})", oException.getMessage(), sID_Process);
 			//LOG.trace("FAIL: ", oException);
-			new Log(this.getClass(),oException)//this.getClass()
+			new Log(oException, LOG)//this.getClass()
 			._Case("IC_TimeExecution")
 			._Status(Log.LogStatus.ERROR)
 			._Head("Can't close escalation for task")
 			//                ._Body(oException.getMessage())
 			._Param("sID_Process", sID_Process)
-			._Send()
+			._LogTrace()
+			.save()
 			;
 		}
 		return sReturn;
@@ -749,14 +753,15 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 			} catch (Exception oException) {
 				//LOG.error("{} (sID_Process={})", oException.getMessage(), sID_Process);
 				//LOG.trace("FAIL: ", oException);
-				new Log(this.getClass(),oException)//this.getClass()
+				new Log(oException, LOG)//this.getClass()
 				._Case("IC_CloseEscalation")
 				._Status(Log.LogStatus.ERROR)
 				._Head("Can't close escalation for task")
 				//                        ._Body(oException.getMessage())
 				._Param("sID_Process", sID_Process)
 				._Param("mParam", mParam)
-				._Send()
+				._LogTrace()
+				.save()
 				;
 			}
 
