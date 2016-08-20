@@ -79,6 +79,17 @@
     })(window, document, 'script', 'dataLayer', 'GTM-WXGXTJ');
 </script>
 <!-- End Google Tag Manager -->
+<!-- Sender widget -->
+<script>
+  (function(d, s, id) {
+    var js, fjs = d.getElementsByTagName(s)[0];
+    js = d.createElement(s);
+    js.id = id;
+    js.src = "https://widget.sender.mobi/build/init.js";
+    fjs.parentNode.insertBefore(js, fjs, 'sender-widget');
+  })(document, 'script');
+</script>
+<div ng-controller="senderController"></div>
 
 <div ui-view=""
      class="full-height">
@@ -131,6 +142,7 @@
 <script src="bower_components/angular-ui-router/release/angular-ui-router.js"></script>
 <script src="bower_components/angular-ui-uploader/dist/uploader.js"></script>
 <script src="bower_components/angular-ui-scroll/dist/ui-scroll.js"></script>
+<script src="bower_components/angular-md5/angular-md5.js"></script>
 <script src="bower_components/ui-select/dist/select.js"></script>
 <script src="bower_components/intl-tel-input/build/js/intlTelInput.min.js"></script>
 <script src="bower_components/intl-tel-input/lib/libphonenumber/build/utils.js"></script>
@@ -247,6 +259,7 @@
 <script src="app/order/controllers/order.controller.js"></script>
 <script src="app/order/controllers/ordersearch.controller.js"></script>
 <script src="app/order/order.js"></script>
+<script src="app/sender/sender.controller.js"></script>
 <script src="app/service/built-in/controllers/servicebuiltinbankid.controller.js"></script>
 <script src="app/service/controllers/states.js"></script>
 <script src="app/service/index/filter.capitalize.js"></script>

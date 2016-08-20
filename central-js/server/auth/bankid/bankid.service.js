@@ -214,6 +214,12 @@ module.exports.syncWithSubject = function (accessToken, done) {
           if (result.customer.lastName) {
             result.customer.lastName = bankidUtil.decryptField(result.customer.lastName);
           }
+          if (result.customer.phone) {
+            result.customer.phone = bankidUtil.decryptField(result.customer.phone);
+          }
+          if (result.customer.email) {
+            result.customer.email = bankidUtil.decryptField(result.customer.email);
+          }
 
           callback(null, result);
         }
@@ -280,4 +286,3 @@ module.exports.signHtmlForm = function (accessToken, acceptKeyUrl, formToUpload,
 module.exports.prepareSignedContentRequest = function (accessToken, codeValue) {
   return module.exports.getScanContentRequest(bankidUtil.getClientPdfClaim(codeValue), accessToken);
 };
-

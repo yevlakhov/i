@@ -69,7 +69,9 @@ function createSessionObject(type, user, access) {
     account: {
       firstName: user.customer.firstName,
       middleName: user.customer.middleName,
-      lastName: user.customer.lastName
+      lastName: user.customer.lastName,
+      phone: user.customer.phone || '',
+      email: user.customer.email || '',
     },
     subject: user.subject,
     access: access,

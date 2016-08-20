@@ -32,7 +32,8 @@ angular.module('app', [
   'journal',
   'order',
   'about',
-  'feedback'
+  'feedback',
+  'angular-md5'
 ]).config(function ($urlRouterProvider, $locationProvider, datepickerConfig, datepickerPopupConfig) {
   $urlRouterProvider.otherwise('/');
   $locationProvider.html5Mode(true);

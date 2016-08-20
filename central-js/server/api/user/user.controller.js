@@ -47,7 +47,15 @@ module.exports.fio = function (req, res) {
   var account = req.session.account;
   var subjectID = req.session.subject.nID;
   //TODO remove subject from fio object
-  res.send({firstName: account.firstName, middleName: account.middleName, lastName: account.lastName, subjectID: subjectID});
+  // keep subject here for compatibility
+  res.send(
+    {
+      firstName: account.firstName,
+      middleName: account.middleName,
+      lastName: account.lastName,
+      phone: account.phone,
+      email: account.email,
+      subjectID: subjectID});
 };
 
 module.exports.tryCache = function (req, res, next) {
