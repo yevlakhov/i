@@ -1,20 +1,32 @@
 package org.igov.service.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.List;
+
+import javax.activation.DataSource;
+import javax.mail.MessagingException;
 
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.task.Attachment;
 import org.apache.commons.mail.ByteArrayDataSource;
 import org.apache.commons.mail.EmailException;
+import org.igov.io.GeneralConfig;
 import org.igov.io.mail.Mail;
+import org.igov.model.flow.FlowServiceDataDao;
+import org.igov.model.flow.Flow_ServiceData;
 import org.igov.service.business.action.task.core.ActionTaskService;
+import org.igov.service.business.finance.PaymentProcessorService;
+import org.igov.service.business.flow.FlowService;
+import org.igov.service.business.flow.slot.Day;
+import org.igov.service.business.flow.slot.Days;
+import org.igov.service.business.flow.slot.FlowSlotVO;
 import org.igov.service.exception.CRCInvalidException;
 import org.igov.service.exception.CommonServiceException;
 import org.igov.service.exception.RecordNotFoundException;
 import org.igov.service.exception.TaskAlreadyUnboundException;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +39,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import javax.activation.DataSource;
-import javax.mail.MessagingException;
-
-import java.io.IOException;
-import java.io.InputStream;
-import java.util.List;
-
-import org.igov.io.GeneralConfig;
-import org.igov.model.flow.FlowServiceDataDao;
-import org.igov.model.flow.Flow_ServiceData;
-import org.igov.service.business.finance.PaymentProcessorService;
-import org.igov.service.business.flow.FlowService;
-import org.igov.service.business.flow.slot.Days;
-import org.igov.service.business.flow.slot.Day;
-import org.igov.service.business.flow.slot.FlowSlotVO;
-import org.joda.time.DateTime;
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
 
 /**
  * @author BW
@@ -51,284 +50,284 @@ import org.joda.time.DateTime;
 @Api(tags = {"DebugCommonController - Дебаг и тест общий"})
 public class DebugCommonController {
 
-    private static final Logger LOG = LoggerFactory
-            .getLogger(DebugCommonController.class);
+	private static final Logger LOG = LoggerFactory
+			.getLogger(DebugCommonController.class);
 
-    public static final int DAYS_IN_MONTH = 30;
-    public static final int WORK_DAYS_NEEDED = 20;
-    public static final int DAYS_IN_HALF_YEAR = 180;
-    private static final String SUFFIX_AUTO = "auto";
+	public static final int DAYS_IN_MONTH = 30;
+	public static final int WORK_DAYS_NEEDED = 20;
+	public static final int DAYS_IN_HALF_YEAR = 180;
+	private static final String SUFFIX_AUTO = "auto";
 
-    @Autowired
-    GeneralConfig generalConfig;
-    
-    @Autowired
-    private FlowService oFlowService;
+	@Autowired
+	GeneralConfig generalConfig;
 
-    @Autowired
-    private FlowServiceDataDao flowServiceDataDao;
+	@Autowired
+	private FlowService oFlowService;
 
-    @Autowired
-    private TaskService taskService;
-    @Autowired
-    private RuntimeService runtimeService;
+	@Autowired
+	private FlowServiceDataDao flowServiceDataDao;
 
-    @Autowired
-    private Mail oMail;
+	@Autowired
+	private TaskService taskService;
+	@Autowired
+	private RuntimeService runtimeService;
 
-    @Autowired
-    private ActionTaskService oActionTaskService;
-    
-    @Autowired
-    private PaymentProcessorService paymentProcessorService;
+	@Autowired
+	private Mail oMail;
 
-    @ApiOperation(value = "/test/action/task/delete-processTest", notes = "#####  DebugCommonController: описания нет\n")
-    @RequestMapping(value = "/test/action/task/delete-processTest", method = RequestMethod.GET)
-    public @ResponseBody
-    void deleteProcessTest(@RequestParam(value = "sProcessInstanceID") String processInstanceID,
-            @RequestParam(value = "sLogin", required = false) String sLogin,
-            @RequestParam(value = "sReason", required = false) String sReason
-    ) throws Exception {
-        runtimeService.deleteProcessInstance(processInstanceID, sReason);
-    }
+	@Autowired
+	private ActionTaskService oActionTaskService;
 
-    @ApiOperation(value = "/test/sendAttachmentsByMail", notes = "#####  DebugCommonController: описания нет\n")
-    @RequestMapping(value = "/test/sendAttachmentsByMail", method = RequestMethod.GET)
-    @Transactional
-    public void sendAttachmentsByMail(
-            @RequestParam(value = "sMailTo", required = false) String sMailTo,
-            @RequestParam(value = "nID_Task", required = false) String snID_Task,
-            @RequestParam(value = "sBody", required = false) String sBody,
-            @RequestParam(value = "bHTML", required = false) boolean bHTML,
-            @RequestParam(value = "naID_Attachment", required = false) String snaID_Attachment,
-            @RequestParam(value = "bUnisender", required = false) Boolean bUnisender)
-            throws IOException, MessagingException, EmailException {
+	@Autowired
+	private PaymentProcessorService paymentProcessorService;
 
-        //oMail._To("bvv4ik@gmail.com");
-        
-        oMail._To(sMailTo!=null&&generalConfig.isSelfTest()?sMailTo:"bvv4ik@gmail.com");
-        oMail._Body(sBody == null ? "<a href=\"http:\\\\google.com\">Google</a> It's test Проверка!" : sBody);
+	@ApiOperation(value = "/test/action/task/delete-processTest", notes = "#####  DebugCommonController: описания нет\n")
+	@RequestMapping(value = "/test/action/task/delete-processTest", method = RequestMethod.GET)
+	public @ResponseBody
+	void deleteProcessTest(@RequestParam(value = "sProcessInstanceID") String processInstanceID,
+			@RequestParam(value = "sLogin", required = false) String sLogin,
+			@RequestParam(value = "sReason", required = false) String sReason
+			) throws Exception {
+		runtimeService.deleteProcessInstance(processInstanceID, sReason);
+	}
 
-        LOG.info("(oMail.getHead()={})", oMail.getHead());
-        LOG.info("(oMail.getBody()={})", oMail.getBody());
-        LOG.info("(oMail.getAuthUser()={})", oMail.getAuthUser());
-        LOG.info("(oMail.getAuthPassword()={})", oMail.getAuthPassword());
-        LOG.info("(oMail.getFrom()={})", oMail.getFrom());
-        LOG.info("(oMail.getTo()={})", oMail.getTo());
-        LOG.info("(oMail.getHost()={})", oMail.getHost());
-        LOG.info("(oMail.getPort()={})", oMail.getPort());
+	@ApiOperation(value = "/test/sendAttachmentsByMail", notes = "#####  DebugCommonController: описания нет\n")
+	@RequestMapping(value = "/test/sendAttachmentsByMail", method = RequestMethod.GET)
+	@Transactional
+	public void sendAttachmentsByMail(
+			@RequestParam(value = "sMailTo", required = false) String sMailTo,
+			@RequestParam(value = "nID_Task", required = false) String snID_Task,
+			@RequestParam(value = "sBody", required = false) String sBody,
+			@RequestParam(value = "bHTML", required = false) boolean bHTML,
+			@RequestParam(value = "naID_Attachment", required = false) String snaID_Attachment,
+			@RequestParam(value = "bUnisender", required = false) Boolean bUnisender)
+					throws IOException, MessagingException, EmailException {
 
-        if (snaID_Attachment != null) {
-            String[] ansID_Attachment = snaID_Attachment.split(",");
-            for (String snID_Attachment : ansID_Attachment) {
-                Attachment oAttachment = taskService
-                        .getAttachment(snID_Attachment);
-                String sFileName = oAttachment.getName();
-                String sFileExt = oAttachment.getType().split(";")[0];
-                String sDescription = oAttachment.getDescription();
-                LOG.info("(oAttachment.getId()={}, sFileName={}, sFileExt={}, sDescription={}",
-                        oAttachment.getId(), sFileName, sFileExt, sDescription);
-                InputStream oInputStream = taskService
-                        .getAttachmentContent(oAttachment.getId());
-                DataSource oDataSource = new ByteArrayDataSource(oInputStream,
-                        sFileExt);
+		//oMail._To("bvv4ik@gmail.com");
 
-                oMail._Attach(oDataSource, sFileName + "." + sFileExt,
-                        sDescription);
-            }
-        }
+		oMail._To(sMailTo!=null&&generalConfig.isSelfTest()?sMailTo:"bvv4ik@gmail.com");
+		oMail._Body(sBody == null ? "<a href=\"http:\\\\google.com\">Google</a> It's test Проверка!" : sBody);
 
-        if (bUnisender != null && bUnisender) {
-            oMail.sendWithUniSender();
-        } else {
-            oMail.send();
-        }
-    }
+		LOG.info("(oMail.getHead()={})", oMail.getHead());
+		LOG.info("(oMail.getBody()={})", oMail.getBody());
+		LOG.info("(oMail.getAuthUser()={})", oMail.getAuthUser());
+		LOG.info("(oMail.getAuthPassword()={})", oMail.getAuthPassword());
+		LOG.info("(oMail.getFrom()={})", oMail.getFrom());
+		LOG.info("(oMail.getTo()={})", oMail.getTo());
+		LOG.info("(oMail.getHost()={})", oMail.getHost());
+		LOG.info("(oMail.getPort()={})", oMail.getPort());
 
-    @Deprecated
-    //Нужно будет удалить после недели работы продеплоеной в прод версии (для обратной временной совместимости)
-    @ApiOperation(value = "/rest/tasks/cancelTask", notes = "#####  DebugCommonController:\n")
-    @RequestMapping(value = "/rest/tasks/cancelTask", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
-    public @ResponseBody
-    ResponseEntity<String> cancelTask(
-            @ApiParam(value = "", required = true) @RequestParam(value = "nID_Protected") Long nID_Protected,
-            @ApiParam(value = "", required = false) @RequestParam(value = "sInfo", required = false) String sInfo)
-            throws CommonServiceException, TaskAlreadyUnboundException {
+		if (snaID_Attachment != null) {
+			String[] ansID_Attachment = snaID_Attachment.split(",");
+			for (String snID_Attachment : ansID_Attachment) {
+				Attachment oAttachment = taskService
+						.getAttachment(snID_Attachment);
+				String sFileName = oAttachment.getName();
+				String sFileExt = oAttachment.getType().split(";")[0];
+				String sDescription = oAttachment.getDescription();
+				LOG.info("(oAttachment.getId()={}, sFileName={}, sFileExt={}, sDescription={}",
+						oAttachment.getId(), sFileName, sFileExt, sDescription);
+				InputStream oInputStream = taskService
+						.getAttachmentContent(oAttachment.getId());
+				DataSource oDataSource = new ByteArrayDataSource(oInputStream,
+						sFileExt);
 
-        String sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.<\n<br>"
-                + "З повагою, команда порталу  iGov.org.ua";
+				oMail._Attach(oDataSource, sFileName + "." + sFileExt,
+						sDescription);
+			}
+		}
 
-        try {
-            oActionTaskService.cancelTasksInternal(nID_Protected, sInfo);
-            return new ResponseEntity<String>(sMessage, HttpStatus.OK);
-        } catch (CRCInvalidException | RecordNotFoundException e) {
-            CommonServiceException newErr = new CommonServiceException(
-                    "BUSINESS_ERR", e.getMessage(), e);
-            newErr.setHttpStatus(HttpStatus.FORBIDDEN);
-            LOG.warn("Error: {}", e.getMessage());
-            LOG.trace("FAIL:", e);
-            sMessage = "Вибачте, виникла помилка при виконанні операції. Спробуйте ще раз, будь ласка";
+		if (bUnisender != null && bUnisender) {
+			oMail.sendWithUniSender();
+		} else {
+			oMail.send();
+		}
+	}
 
-            return new ResponseEntity<String>(sMessage, HttpStatus.FORBIDDEN);
-        }
+	@Deprecated
+	//Нужно будет удалить после недели работы продеплоеной в прод версии (для обратной временной совместимости)
+	@ApiOperation(value = "/rest/tasks/cancelTask", notes = "#####  DebugCommonController:\n")
+	@RequestMapping(value = "/rest/tasks/cancelTask", method = RequestMethod.POST, produces = "text/plain;charset=UTF-8")
+	public @ResponseBody
+	ResponseEntity<String> cancelTask(
+			@ApiParam(value = "", required = true) @RequestParam(value = "nID_Protected") Long nID_Protected,
+			@ApiParam(value = "", required = false) @RequestParam(value = "sInfo", required = false) String sInfo)
+					throws CommonServiceException, TaskAlreadyUnboundException {
 
-    }
+		String sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.<\n<br>"
+				+ "З повагою, команда порталу  iGov.org.ua";
 
-    @ApiOperation(value = "/test/action/getInfo", notes = "#####  DebugCommonController: \n")
-    @RequestMapping(value = "/test/action/getInfo", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
-    public @ResponseBody
-    String getInfo(@ApiParam(value = "", required = false)
-            @RequestParam(value = "sID_TestType", required = false) String sID_TestType
-    ) {
+		try {
+			oActionTaskService.cancelTasksInternal(nID_Protected, sInfo);
+			return new ResponseEntity<>(sMessage, HttpStatus.OK);
+		} catch (CRCInvalidException | RecordNotFoundException e) {
+			CommonServiceException newErr = new CommonServiceException(
+					"BUSINESS_ERR", e.getMessage(), e);
+			newErr.setHttpStatus(HttpStatus.FORBIDDEN);
+			LOG.warn("Error: {}", e.getMessage());
+			LOG.trace("FAIL:", e);
+			sMessage = "Вибачте, виникла помилка при виконанні операції. Спробуйте ще раз, будь ласка";
 
-        return "successfull";
+			return new ResponseEntity<>(sMessage, HttpStatus.FORBIDDEN);
+		}
 
-    }
+	}
 
-    //maxline: тестирование работы получения свободных слотов getFlowSlots findFlowSlotsByFlow и в случае отсутствия 
-    //генерация новых слотов buildFlowSlots
-    @ApiOperation(value = "/test/action/testSheduleBuilderFlowSlots", notes = "#####  DebugCommonController: описания нет\n")
-    @RequestMapping(value = "/test/action/testSheduleBuilderFlowSlots", method = RequestMethod.GET)
-    public @ResponseBody
-    void testSheduleBuilderFlowSlots(
-            @RequestParam(value = "nID_Flow_ServiceData", required = false, defaultValue = "12") Long nID_Flow_ServiceData,  //12L - _test_queue_cancel
-            @RequestParam(value = "nID_ServiceData", required = false) Long nID_ServiceData,
-            @RequestParam(value = "sDateStart", required = false) String sDateStart,
-            @RequestParam(value = "sDateStop", required = false) String sDateStop,
-            @RequestParam(value = "bAll", required = false) boolean bAll,
-            @RequestParam(value = "nDays", required = false, defaultValue = "10") int nDays,
-            @RequestParam(value = "sOperation", required = false) String sOperation) throws Exception {
-        LOG.info("/test/action/testSheduleBuilderFlowSlots  - invoked");
+	@ApiOperation(value = "/test/action/getInfo", notes = "#####  DebugCommonController: \n")
+	@RequestMapping(value = "/test/action/getInfo", method = RequestMethod.GET, produces = "text/plain;charset=UTF-8")
+	public @ResponseBody
+	String getInfo(@ApiParam(value = "", required = false)
+	@RequestParam(value = "sID_TestType", required = false) String sID_TestType
+			) {
 
-        if (sOperation == null) {
-            sOperation = "";
-        }
-        DateTime oDateStart;
-        DateTime oDateEnd;
-        Flow_ServiceData flow;
-        Long nID_SubjectOrganDepartment;
+		return "successfull";
 
-        LOG.info(" sDateStart = {}", sDateStart);
-        LOG.info(" sDateStop = {}", sDateStop);
-        LOG.info(" sOperation = {}", sOperation);
+	}
 
-        switch (sOperation) {
-            case "auto":
-                List<Flow_ServiceData> aFlowServiceData = flowServiceDataDao.findAll();
-                for(Flow_ServiceData item:aFlowServiceData){
-                    if (item.getsID_BP().endsWith(SUFFIX_AUTO)){
-                        LOG.info(" Flow_ServiceData ID {}, sID_BP = {} ", item.getId(), item.getsID_BP());
-                    }
-                }
-                break;
-            case "checkAndBuild":
-                oDateStart = DateTime.now().withTimeAtStartOfDay();
-                LOG.info(" oDateStart = {}", oDateStart);
+	//maxline: тестирование работы получения свободных слотов getFlowSlots findFlowSlotsByFlow и в случае отсутствия
+	//генерация новых слотов buildFlowSlots
+	@ApiOperation(value = "/test/action/testSheduleBuilderFlowSlots", notes = "#####  DebugCommonController: описания нет\n")
+	@RequestMapping(value = "/test/action/testSheduleBuilderFlowSlots", method = RequestMethod.GET)
+	public @ResponseBody
+	void testSheduleBuilderFlowSlots(
+			@RequestParam(value = "nID_Flow_ServiceData", required = false, defaultValue = "12") Long nID_Flow_ServiceData,  //12L - _test_queue_cancel
+			@RequestParam(value = "nID_ServiceData", required = false) Long nID_ServiceData,
+			@RequestParam(value = "sDateStart", required = false) String sDateStart,
+			@RequestParam(value = "sDateStop", required = false) String sDateStop,
+			@RequestParam(value = "bAll", required = false) boolean bAll,
+			@RequestParam(value = "nDays", required = false, defaultValue = "10") int nDays,
+			@RequestParam(value = "sOperation", required = false) String sOperation) throws Exception {
+		LOG.info("/test/action/testSheduleBuilderFlowSlots  - invoked");
 
-                //Maxline: TODO добавить исключения
-                //nID_Flow_ServiceData = 12L; //_test_queue_cancel
-                flow = flowServiceDataDao.findByIdExpected(nID_Flow_ServiceData);
-                nID_ServiceData = flow.getnID_ServiceData();   //nID_ServiceData = 358  _test_queue_cancel, nID_ServiceData = 63L Видача/заміна паспорта громадянина для виїзду за кордон
-                nID_SubjectOrganDepartment = flow.getnID_SubjectOrganDepartment();
-                LOG.info(" nID_Flow_ServiceData = {}, nID_ServiceData = {}, nID_SubjectOrganDepartment = {}", 
-                        nID_Flow_ServiceData, nID_ServiceData, nID_SubjectOrganDepartment);
+		if (sOperation == null) {
+			sOperation = "";
+		}
+		DateTime oDateStart;
+		DateTime oDateEnd;
+		Flow_ServiceData flow;
+		Long nID_SubjectOrganDepartment;
 
-                int nStartDay = 0;
-                DateTime dateStart = oDateStart.plusDays(0);
-                DateTime dateEnd;
+		LOG.info(" sDateStart = {}", sDateStart);
+		LOG.info(" sDateStop = {}", sDateStop);
+		LOG.info(" sOperation = {}", sOperation);
 
-                while (!isEnoughFreeDays(nID_ServiceData, nID_SubjectOrganDepartment, oDateStart) 
-                        && nStartDay < DAYS_IN_HALF_YEAR) {
-                    dateStart = oDateStart.plusDays(nStartDay);
-                    dateEnd = oDateStart.plusDays(nStartDay + DAYS_IN_MONTH);
-                    LOG.info(" dateStart = {}, dateEnd = {}", dateStart, dateEnd);
+		switch (sOperation) {
+		case "auto":
+			List<Flow_ServiceData> aFlowServiceData = flowServiceDataDao.findAll();
+			for(Flow_ServiceData item:aFlowServiceData){
+				if (item.getsID_BP().endsWith(SUFFIX_AUTO)){
+					LOG.info(" Flow_ServiceData ID {}, sID_BP = {} ", item.getId(), item.getsID_BP());
+				}
+			}
+			break;
+		case "checkAndBuild":
+			oDateStart = DateTime.now().withTimeAtStartOfDay();
+			LOG.info(" oDateStart = {}", oDateStart);
 
-                    List<FlowSlotVO> resFlowSlotVO = oFlowService.buildFlowSlots(nID_Flow_ServiceData, 
-                            dateStart, dateEnd); // строит четко на месяц вперед независимо от рабочих или нерабочих дней
-                    LOG.info(" resFlowSlotVO.size() = {}", resFlowSlotVO.size());
+			//Maxline: TODO добавить исключения
+			//nID_Flow_ServiceData = 12L; //_test_queue_cancel
+			flow = flowServiceDataDao.findByIdExpected(nID_Flow_ServiceData);
+			nID_ServiceData = flow.getnID_ServiceData();   //nID_ServiceData = 358  _test_queue_cancel, nID_ServiceData = 63L Видача/заміна паспорта громадянина для виїзду за кордон
+			nID_SubjectOrganDepartment = flow.getnID_SubjectOrganDepartment();
+			LOG.info(" nID_Flow_ServiceData = {}, nID_ServiceData = {}, nID_SubjectOrganDepartment = {}",
+					nID_Flow_ServiceData, nID_ServiceData, nID_SubjectOrganDepartment);
 
-                    nStartDay += DAYS_IN_MONTH;
-                }
+			int nStartDay = 0;
+			DateTime dateStart = oDateStart.plusDays(0);
+			DateTime dateEnd;
 
-                boolean bEnoughFreeDays = nStartDay < DAYS_IN_HALF_YEAR;
-                break;
-            case "check":
-                oDateStart = DateTime.now().withTimeAtStartOfDay();
-                LOG.info(" oDateStart = {}", oDateStart);
+			while (!isEnoughFreeDays(nID_ServiceData, nID_SubjectOrganDepartment, oDateStart)
+					&& nStartDay < DAYS_IN_HALF_YEAR) {
+				dateStart = oDateStart.plusDays(nStartDay);
+				dateEnd = oDateStart.plusDays(nStartDay + DAYS_IN_MONTH);
+				LOG.info(" dateStart = {}, dateEnd = {}", dateStart, dateEnd);
 
-                flow = flowServiceDataDao.findByIdExpected(nID_Flow_ServiceData);
-                nID_ServiceData = flow.getnID_ServiceData();   //nID_ServiceData = 358  _test_queue_cancel, nID_ServiceData = 63L Видача/заміна паспорта громадянина для виїзду за кордон
-                nID_SubjectOrganDepartment = flow.getnID_SubjectOrganDepartment();
-                LOG.info(" nID_Flow_ServiceData = {}, nID_ServiceData = {}, nID_SubjectOrganDepartment = {}", 
-                        nID_Flow_ServiceData, nID_ServiceData, nID_SubjectOrganDepartment);
+				List<FlowSlotVO> resFlowSlotVO = oFlowService.buildFlowSlots(nID_Flow_ServiceData,
+						dateStart, dateEnd); // строит четко на месяц вперед независимо от рабочих или нерабочих дней
+				LOG.info(" resFlowSlotVO.size() = {}", resFlowSlotVO.size());
 
-                isEnoughFreeDays(nID_ServiceData, nID_SubjectOrganDepartment, oDateStart);
-                break;
-            case "build":
-                oDateStart = getoDateStart(sDateStart);
-                oDateEnd = oDateStart.plusDays(nDays);
-                LOG.info(" oDateEnd = {}", oDateEnd);
+				nStartDay += DAYS_IN_MONTH;
+			}
 
-                nID_Flow_ServiceData = (nID_Flow_ServiceData == null) ? 12L : nID_Flow_ServiceData; //_test_queue_cancel
+			boolean bEnoughFreeDays = nStartDay < DAYS_IN_HALF_YEAR;
+			break;
+		case "check":
+			oDateStart = DateTime.now().withTimeAtStartOfDay();
+			LOG.info(" oDateStart = {}", oDateStart);
 
-                List<FlowSlotVO> resFlowSlotVO = oFlowService.buildFlowSlots(nID_Flow_ServiceData, oDateStart, oDateEnd);
-                LOG.info(" resFlowSlotVO.size() = {}", resFlowSlotVO.size());
-                break;
-            case "clear":
-                oDateStart = getoDateStart(sDateStart);
-                oDateEnd = oDateStart.plusDays(nDays);
-                LOG.info(" oDateEnd = {}", oDateEnd);
+			flow = flowServiceDataDao.findByIdExpected(nID_Flow_ServiceData);
+			nID_ServiceData = flow.getnID_ServiceData();   //nID_ServiceData = 358  _test_queue_cancel, nID_ServiceData = 63L Видача/заміна паспорта громадянина для виїзду за кордон
+			nID_SubjectOrganDepartment = flow.getnID_SubjectOrganDepartment();
+			LOG.info(" nID_Flow_ServiceData = {}, nID_ServiceData = {}, nID_SubjectOrganDepartment = {}",
+					nID_Flow_ServiceData, nID_ServiceData, nID_SubjectOrganDepartment);
 
-                boolean bWithTickets = false;
-                nID_Flow_ServiceData = (nID_Flow_ServiceData == null) ? 12L : nID_Flow_ServiceData; //_test_queue_cancel
+			isEnoughFreeDays(nID_ServiceData, nID_SubjectOrganDepartment, oDateStart);
+			break;
+		case "build":
+			oDateStart = getoDateStart(sDateStart);
+			oDateEnd = oDateStart.plusDays(nDays);
+			LOG.info(" oDateEnd = {}", oDateEnd);
 
-                oFlowService.clearFlowSlots(nID_Flow_ServiceData, oDateStart, oDateEnd, bWithTickets);
-                break;
-        }
+			nID_Flow_ServiceData = (nID_Flow_ServiceData == null) ? 12L : nID_Flow_ServiceData; //_test_queue_cancel
 
-        LOG.info(" /test/action/testSheduleBuilderFlowSlots  - exit4");
-        //runtimeService.deleteProcessInstance(processInstanceID, sReason);
-    }
+			List<FlowSlotVO> resFlowSlotVO = oFlowService.buildFlowSlots(nID_Flow_ServiceData, oDateStart, oDateEnd);
+			LOG.info(" resFlowSlotVO.size() = {}", resFlowSlotVO.size());
+			break;
+		case "clear":
+			oDateStart = getoDateStart(sDateStart);
+			oDateEnd = oDateStart.plusDays(nDays);
+			LOG.info(" oDateEnd = {}", oDateEnd);
 
-    private DateTime getoDateStart(String sDateStart) {
-        DateTime oDateStart;
-        if (sDateStart == null || sDateStart.equals("")) {  //sDateStart = "2016-05-12 00:00:00.000";
-            oDateStart = DateTime.now().withTimeAtStartOfDay();
-        } else {
-            oDateStart = oFlowService.parseJsonDateTimeSerializer(sDateStart);
-        }
-        LOG.info(" oDateStart = {}", oDateStart);
-        return oDateStart;
-    }
+			boolean bWithTickets = false;
+			nID_Flow_ServiceData = (nID_Flow_ServiceData == null) ? 12L : nID_Flow_ServiceData; //_test_queue_cancel
 
-    private boolean isEnoughFreeDays(Long nID_ServiceData, Long nID_SubjectOrganDepartment, DateTime oDateStart) {
-        boolean bAll = false; //Получаем только свободные дни
-        int nFreeWorkDaysFact;
-        Long nID_Service = null; //176L;
-        String sID_BP = null;
+			oFlowService.clearFlowSlots(nID_Flow_ServiceData, oDateStart, oDateEnd, bWithTickets);
+			break;
+		}
 
-        DateTime oDateEnd = oDateStart.plusDays(DAYS_IN_HALF_YEAR);
-        LOG.info(" oDateEnd = {}", oDateEnd);
+		LOG.info(" /test/action/testSheduleBuilderFlowSlots  - exit4");
+		//runtimeService.deleteProcessInstance(processInstanceID, sReason);
+	}
 
-        Days res = oFlowService.getFlowSlots(nID_Service, nID_ServiceData, sID_BP, nID_SubjectOrganDepartment,
-                oDateStart, oDateEnd, bAll, WORK_DAYS_NEEDED, 1); //WORK_DAYS_NEEDED
-        LOG.info(" Days = {}", res);
+	private DateTime getoDateStart(String sDateStart) {
+		DateTime oDateStart;
+		if (sDateStart == null || sDateStart.equals("")) {  //sDateStart = "2016-05-12 00:00:00.000";
+			oDateStart = DateTime.now().withTimeAtStartOfDay();
+		} else {
+			oDateStart = oFlowService.parseJsonDateTimeSerializer(sDateStart);
+		}
+		LOG.info(" oDateStart = {}", oDateStart);
+		return oDateStart;
+	}
 
-        nFreeWorkDaysFact = res.getaDay().size();
-        LOG.info(" nFreeWorkDaysFact = {}, WORK_DAYS_NEEDED = {}", nFreeWorkDaysFact, WORK_DAYS_NEEDED);
-        for (Day day : res.getaDay()) {
-            LOG.info(" Day = {}, isbHasFree = {}", day.getsDate(), day.isbHasFree());
-        }
-        return nFreeWorkDaysFact >= WORK_DAYS_NEEDED;
-    }
-    
-    @ApiOperation(value = "/test/action/loadPayments", notes = "#####  DebugCommonController: \n")
+	private boolean isEnoughFreeDays(Long nID_ServiceData, Long nID_SubjectOrganDepartment, DateTime oDateStart) {
+		boolean bAll = false; //Получаем только свободные дни
+		int nFreeWorkDaysFact;
+		Long nID_Service = null; //176L;
+		String sID_BP = null;
+
+		DateTime oDateEnd = oDateStart.plusDays(DAYS_IN_HALF_YEAR);
+		LOG.info(" oDateEnd = {}", oDateEnd);
+
+		Days res = oFlowService.getFlowSlots(nID_Service, nID_ServiceData, sID_BP, nID_SubjectOrganDepartment,
+				oDateStart, oDateEnd, bAll, WORK_DAYS_NEEDED, 1); //WORK_DAYS_NEEDED
+		LOG.info(" Days = {}", res);
+
+		nFreeWorkDaysFact = res.getaDay().size();
+		LOG.info(" nFreeWorkDaysFact = {}, WORK_DAYS_NEEDED = {}", nFreeWorkDaysFact, WORK_DAYS_NEEDED);
+		for (Day day : res.getaDay()) {
+			LOG.info(" Day = {}, isbHasFree = {}", day.getsDate(), day.isbHasFree());
+		}
+		return nFreeWorkDaysFact >= WORK_DAYS_NEEDED;
+	}
+
+	/*    @ApiOperation(value = "/test/action/loadPayments", notes = "#####  DebugCommonController: \n")
     @RequestMapping(value = "/test/action/loadPayments", method = RequestMethod.GET)
     public @ResponseBody
     String loadPayments() {
     	paymentProcessorService.loadPaymentInformation();
         return "successfull";
 
-    }
+    }*/
 
 }

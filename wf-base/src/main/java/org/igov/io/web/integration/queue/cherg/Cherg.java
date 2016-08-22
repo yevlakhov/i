@@ -1,29 +1,6 @@
 package org.igov.io.web.integration.queue.cherg;
 
-import org.apache.commons.lang3.StringUtils;
-import org.igov.io.GeneralConfig;
-import org.igov.io.web.HttpEntityCover;
-import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
-import org.joda.time.format.DateTimeFormatter;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
-import org.json.simple.parser.JSONParser;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.MediaType;
-import org.springframework.security.crypto.codec.Base64;
 import org.springframework.stereotype.Component;
-import org.springframework.util.LinkedMultiValueMap;
-import org.springframework.util.MultiValueMap;
-
-import javax.annotation.PostConstruct;
-import java.nio.charset.Charset;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
-import java.util.Iterator;
 
 /**
  * Provides integration with Queue management system cherg.net
@@ -34,7 +11,7 @@ import java.util.Iterator;
 @Component
 public class Cherg {
 
-    @Autowired
+	/*  @Autowired
     GeneralConfig generalConfig;
 
     private String urlBasePart;
@@ -203,5 +180,5 @@ public class Cherg {
         LOG.info("Result:{}", dates);
         return result;
 
-    }
+    }*/
 }
