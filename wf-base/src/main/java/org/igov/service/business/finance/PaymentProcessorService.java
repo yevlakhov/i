@@ -155,11 +155,14 @@ public class PaymentProcessorService {
 			Channel oChannel = oSession.openChannel("sftp");
 			oChannel.connect();
 			ChannelSftp oChannelSftp = (ChannelSftp) oChannel;
+			//  oChannelSftp.get(generalConfig.getPathFileName_FTP_Yuzhny_Pay(), oFile.getAbsolutePath());
 			oChannelSftp.exit();
 			oSession.disconnect();
 		} catch (JSchException e) {
 			LOG.error("Exception occured while getting file from sftp {}", e.getMessage(), e);
-		} catch (IOException e) {
+		} /*catch (SftpException e) {
+			LOG.error("Exception occured while getting file from sftp {}", e.getMessage(), e);
+		}*/ catch (IOException e) {
 			LOG.error("Exception occured while getting file from sftp {}", e.getMessage(), e);
 		}
 		return oFile != null ? oFile.getAbsolutePath() : null;
