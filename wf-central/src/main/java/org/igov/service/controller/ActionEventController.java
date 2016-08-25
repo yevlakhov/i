@@ -1,23 +1,8 @@
 package org.igov.service.controller;
 
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
-import io.swagger.annotations.ApiParam;
-import io.swagger.annotations.ApiResponse;
-import io.swagger.annotations.ApiResponses;
+import com.google.common.base.Optional;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
-import java.util.HashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
-
-import javax.servlet.http.HttpServletResponse;
-
+import io.swagger.annotations.*;
 import liquibase.util.csv.CSVWriter;
 
 import org.igov.io.GeneralConfig;
@@ -28,6 +13,7 @@ import org.igov.model.action.event.HistoryEvent_Service;
 import org.igov.model.action.event.HistoryEvent_ServiceDao;
 import org.igov.model.action.task.core.entity.ActionProcessCount;
 import org.igov.model.action.task.core.entity.ActionProcessCountDao;
+import org.igov.model.action.task.core.entity.ActionTaskLinkDao;
 import org.igov.model.document.DocumentDao;
 import org.igov.model.subject.Server;
 import org.igov.model.subject.ServerDao;
@@ -53,7 +39,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import com.google.common.base.Optional;
+import javax.servlet.http.HttpServletResponse;
+
+import java.io.IOException;
+import java.util.*;
+import java.util.stream.Collectors;
 
 @Controller
 @Api(tags = { "ActionEventController -- События по действиям и статистика" })

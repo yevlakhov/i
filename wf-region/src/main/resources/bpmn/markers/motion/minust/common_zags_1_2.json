@@ -12,7 +12,7 @@
 		    "asID_Field":{
 		    "sCondit":"asMarriageType"
 		    },
-		    "sCondition":"[sCondit]=='sEnum2'"
+		    "sCondition":"[sCondit]=='sEnum3'"
 		    },
 		"ValuesFieldsOnCondition_5":{
 		    "aField_ID":["sSourceType"],

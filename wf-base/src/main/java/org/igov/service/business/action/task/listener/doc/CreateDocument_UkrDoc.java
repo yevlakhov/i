@@ -29,8 +29,8 @@ import org.igov.service.business.action.task.core.AbstractModelTask;
 
 import static org.igov.service.business.action.task.core.AbstractModelTask.getStringFromFieldExpression;
 
+import org.igov.service.business.action.task.systemtask.ProcessCountTaskListener;
 import org.igov.service.business.action.task.systemtask.doc.util.UkrDocUtil;
-import org.igov.service.controller.interceptor.ActionProcessCountUtils;
 import org.json.simple.JSONObject;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -100,8 +100,8 @@ public class CreateDocument_UkrDoc extends AbstractModelTask implements TaskList
                 String bankIdmiddleName = getStringFromFieldExpression(this.bankIdmiddleName, execution);
                 String sDateAppealValue = getStringFromFieldExpression(this.sDateAppeal, execution);;
                 String shortFIO = "_", fullIO = "_";
-                sID_Order_GovPublicValue = (bankIdlastName!=null&&bankIdlastName.length()>0?bankIdlastName.substring(0,1):"") + 
-                		"-" + getActionProcessCount(delegateTask.getExecution().getProcessDefinitionId(), null);
+                sID_Order_GovPublicValue = runtimeService.hasVariable(execution.getProcessInstanceId(), ProcessCountTaskListener.S_ID_ORDER_GOV_PUBLIC)?
+                		 (String)runtimeService.getVariable(execution.getProcessInstanceId(), ProcessCountTaskListener.S_ID_ORDER_GOV_PUBLIC):"";
                 LOG.info("Parameters of the task sLogin:{}, sHead:{}, sBody:{}, nId_PatternValue:{}, bankIdlastName:{}, bankIdfirstName:{}, bankIdmiddleName:{}", sLoginAuthorValue, sHeadValue, sBodyValue, nID_PatternValue, bankIdlastName, bankIdfirstName, bankIdmiddleName);
 
                 if (bankIdlastName != null && bankIdfirstName != null && bankIdmiddleName != null
@@ -213,11 +213,5 @@ public class CreateDocument_UkrDoc extends AbstractModelTask implements TaskList
             throw ex;
         }
     }
-
-	private String getActionProcessCount(String sID_BP, Long nID_Service) {
-		int res = ActionProcessCountUtils.callGetActionProcessCount(httpRequester, generalConfig, sID_BP, nID_Service, null);
-		LOG.info("Retrieved {} as a result");
-		return String.format("%07d", res);
-	}
 
 }

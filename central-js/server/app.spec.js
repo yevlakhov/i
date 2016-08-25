@@ -11,7 +11,7 @@ var nock = require('nock')
   , appData = require('./app.data.spec.js')
   , appTests = require('./app.tests.spec.js')(testRequest)
   , config = require('./config/environment')
-  //, config = require('./config')
+//, config = require('./config')
   , bankidUtil = require('./auth/bankid/bankid.util.js');
 
 
@@ -100,17 +100,7 @@ var centralNock = nock('https://test.igov.org.ua')
 
 var regionMock = nock('https://test.region.igov.org.ua')
   .persist()
-  .log(console.log)
-  .get('/service/object/file/check_file_from_redis_sign')
-  .query({sID_File_Redis: 1, nID_Subject: 11})
-  .reply(200, appData.signCheck, {
-    'Content-Type': 'application/json'
-  })
-  .get('/service/object/file/check_file_from_redis_sign')
-  .query({sID_File_Redis: 2, nID_Subject: 11})
-  .reply(200, appData.signCheckError, {
-    'Content-Type': 'application/json'
-  });
+  .log(console.log);
 
 
 function getAuth(urlWithQueryParams, agentCallback, done) {
@@ -132,6 +122,32 @@ function getAuth(urlWithQueryParams, agentCallback, done) {
 module.exports.loginWithBankID = function (done, agentCallback) {
   getAuth('/auth/bankid/callback?code=11223344&?link=' + testAuthResultURL, agentCallback, done);
 };
+
+module.exports.loginWithBankIDNBU = function (done, agentCallback, code) {
+  testRequest
+    .get('/auth/bankid-nbu?link=' + testAuthResultURL)
+    .expect(302)
+    .then(function (res) {
+      var loginAgent = superagent.agent();
+      loginAgent.saveCookies(res);
+
+      var tokenRequest = testRequest.get('/auth/bankid-nbu/callback?code=' + code + '&?link=' + testAuthResultURL);
+      loginAgent.attachCookies(tokenRequest);
+
+      tokenRequest
+        .expect(302)
+        .then(function (res) {
+          loginAgent.saveCookies(res);
+          if (agentCallback) {
+            agentCallback(loginAgent);
+          }
+          done();
+        }).catch(function (err) {
+        done(err)
+      });
+    });
+};
+
 
 module.exports.loginWithEds = function (done, agentCallback) {
   getAuth('/auth/eds/callback?code=11223344&link=' + testAuthResultURL, agentCallback, done);
@@ -209,6 +225,28 @@ module.exports.loginWithEmail = function (callback) {
   });
 };
 
+module.exports.runModuleInitializationTest = function (name, moduleRequireFunction) {
+  describe(name, function () {
+    var module;
+    before(function (done) {
+      try {
+        module = moduleRequireFunction();
+      } catch (e) {
+        //assert is in next test
+      } finally {
+        done();
+      }
+    });
+
+    it(name + ' should be initialized', function (done) {
+      if (module) {
+        done();
+      } else {
+        done(name + ' is undefined')
+      }
+    });
+  });
+};
 
 module.exports.app = app;
 module.exports.bankidMock = bankidMock;
