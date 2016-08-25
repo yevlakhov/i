@@ -97,7 +97,7 @@ public class MsgSendImpl implements IMsgSend {
     private String sLogin_MSG = null;
     private String sURL_MSG = null;
     
-    private String sCode_MSG = "IN-R_EXCEPTIONCOMMONCONTROLLER";
+    private String sCode_MSG = null;
     private MsgType oMsgType = null;
     private MsgLevel oMsgLevel = MsgLevel.DEVELOPER;
     private MsgLang oMsgLang = MsgLang.UKR;
@@ -147,8 +147,7 @@ public class MsgSendImpl implements IMsgSend {
 
 	this.sURL_MSG = sURL;
 	this.sBusinessId_MSG = sBusId;
-	//this.sCode_MSG = oMsgType.getAbbr() + "-" + sf;
-	this.sCode_MSG = "IN-R_EXCEPTIONCOMMONCONTROLLER";
+	this.sCode_MSG = oMsgType.getAbbr() + "-" + sf;
 	this.sFunction = sFunction;
 	this.sTemplateId_MSG = sTemplateId;
 	this.sLogin_MSG = sLogin;
@@ -368,8 +367,7 @@ public class MsgSendImpl implements IMsgSend {
 	oMFilter.setDTM(new Timestamp(System.currentTimeMillis()));
 	oMFilter.setPatternReplaced(true)
                 .setBusId(sBusinessId_MSG)
-                //.setMsgCode(sCode_MSG)
-                .setMsgCode("IN-R_EXCEPTIONCOMMONCONTROLLER")
+                .setMsgCode(sCode_MSG)
                 .setAttrMode(MsgAttrMode.SEND)
             ;
 	oMFilter.setLangFilter(oMsgLang.name());
