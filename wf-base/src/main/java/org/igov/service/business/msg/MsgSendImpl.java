@@ -296,6 +296,7 @@ public class MsgSendImpl implements IMsgSend {
      * @throws Exception 
      */
     private void createMsg(  ) throws Exception {
+    LOG.info("buildJSONNNNNNNNNNNNNN " + buildJSON());
 	MsgCreate msgCreate = new MsgCreate(buildJSON());
 	msgCreate.doReqest(this.sURL_MSG);
     }
@@ -346,6 +347,14 @@ public class MsgSendImpl implements IMsgSend {
 	addAttr(mAttrs, "nID_Subject", nID_Subject);
 	addAttr(mAttrs, "nID_Server", nID_Server);
 	addAttr(mAttrs, "sDate", sDate);
+	
+	LOG.info("sHead " + sHead);
+	LOG.info("sBody " + sBody);
+	LOG.info("nID_Subject " + nID_Subject);
+	LOG.info("nID_Server " + nID_Server);
+	LOG.info("sDate " + sDate);
+	
+	LOG.info("asParam " + asParam);
 
 	if (asParam != null) {
 	    StringBuilder asParamSb = new StringBuilder();
