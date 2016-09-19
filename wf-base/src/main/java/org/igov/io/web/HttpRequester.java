@@ -30,7 +30,6 @@ import javax.net.ssl.X509TrustManager;
 
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.lang.StringUtils;
 
 import static org.igov.util.Tool.sCut;
 
