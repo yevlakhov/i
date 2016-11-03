@@ -16,7 +16,56 @@ angular.module('app')
           $scope.getOrgan = statesRepository.getOrgan();
           $scope.isCentral = statesRepository.isCentral();
           $scope.regionList = new RegionListFactory();
-          $scope.regionList.load(null, null);
+          console.log('igovSearch = init');
+          function statesRepositoryPlaceIDs (){
+            var statesRepositoryPlaces = statesRepository.getIDPlaces();
+            debugger;
+            if(statesRepositoryPlaces.length == 0){
+              return null;
+            } else {
+              return statesRepositoryPlaces;
+            }
+          };
+          var defRegion = null;
+          var isInitRegionListProcessing = false;
+          $scope.regionList.load(null, null).then(function (regions) {
+            debugger;
+            console.log('igovSearch = $scope.regionList.load(null, null).then(function (regions) {');
+            isInitRegionListProcessing = true;
+            angular.forEach(statesRepository.getIDPlaces(), function (sStatesPlaceID) {
+              angular.forEach(regions, function(oRegion){
+                if(sStatesPlaceID === oRegion.sID_UA){
+                  if(!$scope.data.region){
+                    debugger;
+                    console.log('igovSearch = ');
+                    $scope.onSelectRegionList(oRegion, null, null, true);
+                    defRegion = oRegion;
+                    debugger;
+                    console.log('igovSearch = ');
+                    return oRegion;
+                  }
+                } else {
+                  angular.forEach(oRegion.aCity, function (oCity) {
+                    if(sStatesPlaceID === oCity.sID_UA){
+                      if(!$scope.data.city){
+                        debugger;
+                        console.log('igovSearch = ');
+                        $scope.onSelectRegionList(oRegion, null, null, true);
+                        //$scope.onSelectLocalityList(oCity, null, null, true);
+                        defRegion = oRegion;
+                        debugger;
+                        console.log('igovSearch = ');
+                        return oRegion;
+                      }
+                    }
+                  })
+                }
+              })
+            });
+            getCounts ();
+            $scope.search();
+            isInitRegionListProcessing = false;
+          });
           $scope.localityList = new LocalityListFactory();
           $scope.operators = [];
           $scope.check = false;
@@ -30,7 +79,7 @@ angular.module('app')
             selectedStatus: -1,
             bShowExtSearch: false,
             data: {
-              region: null,
+              region: defRegion,
               city: null
             }
           };
@@ -41,6 +90,7 @@ angular.module('app')
           restoreSettings(searchSettings);
 
           function restoreSettings(settings) {
+            console.log('igovSearch = ');
             // todo: iterate over keys;
             $scope.sSearch = settings.sSearch;
             $scope.operator = settings.operator;
@@ -58,9 +108,13 @@ angular.module('app')
             } else {
               result = statesRepository.getIDPlaces();
             }
+            debugger;
+            console.log('igovSearch = ');
             return result;
           }
           function updateCatalog(ctlg) {
+            debugger;
+            console.log('igovSearch = ');
             $scope.catalog = ctlg;
             if ($scope.operator == -1) {
               // временно для старого бизнеса, после реализации тегов - удалить.
@@ -74,6 +128,8 @@ angular.module('app')
           }
           // получаем к-во услуг готовых/скоро/в работе
           function getCounts (category) {
+            debugger;
+            console.log('igovSearch = ');
             var countCategory = category && category.aService || category && category[0].aService ? category : 'business';
             if(countCategory === 'business') {
               CatalogService.getModeSpecificServices(null, "", false, countCategory).then(function (res) {
@@ -83,10 +139,16 @@ angular.module('app')
               $scope.catalogCounts = CatalogService.getCatalogCounts(countCategory)
             }
           }
-          getCounts ();
+          //getCounts ();
 
-          function isFilterActive() {
-            $rootScope.mainSearchView = !!(($state.is('index') || $state.is('index.catalog')) && $scope.data.region);
+          function isFilterActive(noChange) {
+            if(noChange){
+              $rootScope.mainSearchView = false;
+            } else {
+              $rootScope.mainSearchView = !!(($state.is('index') || $state.is('index.catalog')) && $scope.data.region);
+            }
+            console.log('igovSearch = ');
+            debugger;
           }
 
           $scope.search = function() {
@@ -100,29 +162,43 @@ angular.module('app')
             $scope.catalog = [];
             $scope.category = $stateParams.catID;
             $scope.subcategory = $stateParams.scatID;
+            debugger;
+            console.log('igovSearch = ');
             if($state.is('index.situation')){
               $scope.situation = $stateParams.sitID;
               // поиск для старого бизнеса, когда будут доработаны теги в новом - удалить.
             } else if ($state.is("index.oldbusiness") || $state.is("index.subcategory")) {
               $scope.category = 'business';
             }
+            debugger;
+            console.log('igovSearch = ');
             return CatalogService.getModeSpecificServices(getIDPlaces(), $scope.sSearch, bShowEmptyFolders, $scope.category, $scope.subcategory, $stateParams.sitID, $rootScope.mainFilterCatalog).then(function (result) {
               if(!$state.is('index')
-                  && !$state.is('index.catalog') && !$state.is("index.oldbusiness") && !$state.is("index.subcategory")) {
+                && !$state.is('index.catalog') && !$state.is("index.oldbusiness") && !$state.is("index.subcategory")) {
                 fullCatalog = result[0];
               }else if($state.is("index.oldbusiness") && result.length === 1 && result[0].aSubcategory.length > 0) {
                 fullCatalog = result[0];
               } else {
                 fullCatalog = result;
               }
+              debugger;
+              console.log('igovSearch = ');
               if ($scope.bShowExtSearch || $scope.getOrgan) {
+                debugger;
+                console.log('igovSearch = ');
                 $scope.filterByExtSearch();
               } else if ($scope.check) {
+                debugger;
+                console.log('igovSearch = ');
                 updateCatalog(angular.copy(fullCatalog));
                 $scope.check = false;
               } else {
+                debugger;
+                console.log('igovSearch = ');
                 updateCatalog(angular.copy(fullCatalog));
               }
+              debugger;
+              console.log('igovSearch = ');
               if(result.length === 0) {
                 $rootScope.wasSearched = true;
               }
@@ -131,25 +207,34 @@ angular.module('app')
             });
           };
           $scope.searching = function () {
+            debugger;
+            console.log('igovSearch = ');
             // проверка на минимальне к-во символов в поисковике (искать должно от 3 символов)
             if($scope.sSearch.length >= 3 && $state.is("index.oldbusiness")) {
+              debugger;
+              console.log('igovSearch = ');
               // после реализации тегов в бизнесе - удалить.
               $rootScope.busSpinner = true;
               $scope.overallSearch();
               $rootScope.mainSearchView = true;
               $rootScope.valid = true;
             } else if($scope.sSearch.length >= 3 && ($state.is("index") || $state.is("index.catalog"))) {
+              debugger;
+              console.log('igovSearch = ');
               $rootScope.resultsAreLoading = true;
               $rootScope.mainSearchView = true;
               $rootScope.busSpinner = true;
               $scope.search();
               $rootScope.valid = true;
             }else if($rootScope.valid) {
+              debugger;
+              console.log('igovSearch = ');
               $rootScope.resultsAreLoading = true;
               $rootScope.valid = false;
               $rootScope.mainSearchView = false;
               $scope.search();
             } else {
+              debugger;
               $rootScope.busSpinner = true;
               $scope.search();
               $rootScope.valid = true;
@@ -158,6 +243,8 @@ angular.module('app')
 
           // глобальный поиск по Гражд. и Бизн.
           $scope.overallSearch = function () {
+            debugger;
+            console.log('igovSearch = ');
             $rootScope.resultsAreLoading = true;
             if (sID_Order_RegExp.test($scope.sSearch)) return null;
             $rootScope.minSearchLength = $scope.sSearch.length < 3;
@@ -167,9 +254,15 @@ angular.module('app')
             $scope.catalog = [];
             return CatalogService.getModeSpecificServices(getIDPlaces(), $scope.sSearch, bShowEmptyFolders, 'business').then(function (result) {
               fullCatalog = result;
+              debugger;
+              console.log('igovSearch = ');
               if ($scope.bShowExtSearch || $scope.getOrgan) {
+                debugger;
+                console.log('igovSearch = ');
                 $scope.filterByExtSearch();
               } else {
+                debugger;
+                console.log('igovSearch = ');
                 updateCatalog(angular.copy(fullCatalog));
               }
               $rootScope.resultsAreLoading = false;
@@ -187,10 +280,14 @@ angular.module('app')
           // method to filter full catalog depending on current extended search parameters
           // choosen by user
           $scope.filterByExtSearch = function() {
+            debugger;
+            console.log('igovSearch = ');
             $scope.check = true;
             // сейчас джава выдает другие номера статусов, поэтому меняю для работоспособности. убрать когда теги в бизнесе будут готовы.
             // убрать когда теги в бизнесе будут готовы.
             if($state.is("index.oldbusiness") || $state.is("index.subcategory")) {
+              debugger;
+              console.log('igovSearch = ');
               var filterCriteria = {};
               var selectedStatus;
               if($scope.selectedStatus == 0) {
@@ -209,6 +306,8 @@ angular.module('app')
               }
               // create a copy of current fullCatalog
               var ctlg = angular.copy(fullCatalog);
+              debugger;
+              console.log('igovSearch = ');
               angular.forEach(ctlg, function(category) {
                 angular.forEach(category.aSubcategory, function(subCategory) {
                   // leave services that match filterCriteria
@@ -227,8 +326,12 @@ angular.module('app')
                   return true;
                 }
               });
+              debugger;
+              console.log('igovSearch = ');
               updateCatalog(ctlg);
             } else {
+              debugger;
+              console.log('igovSearch = ');
               var filterCriteria = {};
               if ($scope.selectedStatus != -1) {
                 filterCriteria.nStatus = $scope.selectedStatus;
@@ -246,25 +349,37 @@ angular.module('app')
               ctlg.aServiceTag_Child = $filter('filter')(ctlg.aServiceTag_Child, function(category) {
                 return true;
               });
+              debugger;
+              console.log('igovSearch = ');
               updateCatalog(ctlg);
             }
           };
 
           $scope.onExtSearchClick = function() {
+            debugger;
+            console.log('igovSearch = ');
             $scope.bShowExtSearch = !$scope.bShowExtSearch;
             if ($scope.bShowExtSearch) {
+              console.log('igovSearch = ');
               $scope.searching();
             }
           };
           $scope.clear = function() {
+            debugger;
+            console.log('igovSearch = ');
             restoreSettings(defaultSettings);
             if($rootScope.mainFilterCatalog) $rootScope.mainFilterCatalog = false;
             $scope.searching();
           };
           $scope.loadRegionList = function(search) {
+            debugger;
+            console.log('igovSearch = ');
             return $scope.regionList.load(null, search);
           };
-          $scope.onSelectRegionList = function($item) {
+          $scope.onSelectRegionList = function($item, $model, $label, isExcludeSearch) {
+            if(!isExcludeSearch) isExcludeSearch = false;
+            debugger;
+            console.log('igovSearch = ');
             $rootScope.resultsAreLoading = true;
             $scope.data.region = $item;
             $scope.regionList.select($item);
@@ -273,33 +388,51 @@ angular.module('app')
             if($state.is('index') || $state.is('index.catalog')){
               $rootScope.mainFilterCatalog = true;
             }
-            $scope.search();
+            if(!isExcludeSearch){
+              $scope.search();
+            }
             $scope.localityList.load(null, $item.nID, null).then(function(cities) {
               $scope.localityList.typeahead.defaultList = cities;
             });
-            isFilterActive()
+            isFilterActive(isExcludeSearch)
           };
 
           $scope.loadLocalityList = function(search) {
+            debugger;
+            console.log('igovSearch = ');
             return $scope.localityList.load(null, $scope.data.region.nID, search);
           };
 
-          $scope.onSelectLocalityList = function($item, $model, $label) {
+          $scope.onSelectLocalityList = function($item, $model, $label, isExcludeSearch) {
+            if(!isExcludeSearch) isExcludeSearch = false;
+            debugger;
+            console.log('igovSearch = ');
             $rootScope.resultsAreLoading = true;
             $scope.data.city = $item;
             $scope.localityList.select($item, $model, $label);
-            $scope.search();
-            isFilterActive()
+            if(!isExcludeSearch){
+              $scope.search();
+            }
+            isFilterActive(isExcludeSearch)
           };
-          $scope.search();
+          if(statesRepository.getIDPlaces().length == 0){
+            debugger;
+            console.log('igovSearch = ');
+            getCounts ();
+            $scope.search();
+          }
 
           var subscriberId = messageBusService.subscribe('catalog:initUpdate', function() {
+            debugger;
+            console.log('igovSearch = ');
             $scope.search();
           });
           subscriptions.push(subscriberId);
 
           // save current state on scope destroy
           $scope.$on('$destroy', function() {
+            debugger;
+            console.log('igovSearch = ');
             var state = {};
             state.sSearch = $scope.sSearch;
             state.operator = $scope.operator;
@@ -324,6 +457,7 @@ angular.module('app')
             });
           };
           $rootScope.$watch('rand', function () {
+            console.log('igovSearch = ');
             if($scope.sSearch.length >= 3) {
               setTimeout(function () {
                 $(".igov-container a").highlight($scope.sSearch, "marked-string");
@@ -332,6 +466,8 @@ angular.module('app')
           });
           $scope.$watch('data.region', function() {
             if(!$scope.data.region) {
+              debugger;
+              console.log('igovSearch = $scope.$watch(data.region');
               $rootScope.resultsAreLoading = true;
               $rootScope.mainFilterCatalog = false;
               isFilterActive();
@@ -340,6 +476,8 @@ angular.module('app')
           });
           $scope.$on('$stateChangeSuccess', function(event, toState) {
             if (toState.resolve) {
+              debugger;
+              console.log('igovSearch = $scope.$on($stateChangeSuccess');
               $scope.spinner = true;
               $scope.search();
             }
