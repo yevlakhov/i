@@ -19,7 +19,7 @@ angular.module('app')
           console.log('igovSearch = 19 init');
           function statesRepositoryPlaceIDs (){
             var statesRepositoryPlaces = statesRepository.getIDPlaces();
-            debugger;
+            //debugger;
             if(statesRepositoryPlaces.length == 0){
               return null;
             } else {
