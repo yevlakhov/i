@@ -291,7 +291,7 @@ exports.getAttachmentContentTable = function (req, res) {
   });
 };
 
-exports.submitForm = function (req, res) {
+exports.submitForm = function (req, res) { // Опрацювати
   var options = {
     path: 'form/form-data'
   };
@@ -301,7 +301,17 @@ exports.submitForm = function (req, res) {
   }, req.body);
 };
 
-exports.updateTask = function (req, res) {
+exports.saveChangesTaskForm = function (req, res) {
+  var options = {
+    path: 'form/form-data'
+  };
+  activiti.put(options, function (error, statusCode, result) {
+    res.statusCode = statusCode;
+    res.send(result);
+  }, req.body);
+};
+
+exports.updateTask = function (req, res) { // Взяти в роботу
   var options = {
     path: 'runtime/tasks/' + req.params.taskId
   };

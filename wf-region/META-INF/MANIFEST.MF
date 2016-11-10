@@ -1,0 +1,7 @@
+Manifest-Version: 1.0
+Archiver-Version: Plexus Archiver
+Created-By: Apache Maven
+Built-By: cepera
+Build-Jdk: 1.8.0_102
+PluginVersion: 1.0.0a-SNAPSHOT
+

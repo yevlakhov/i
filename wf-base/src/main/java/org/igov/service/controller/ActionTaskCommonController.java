@@ -74,6 +74,8 @@ import org.igov.service.business.action.task.systemtask.DeleteProccess;
 import org.igov.service.business.dfs.DfsService;
 import static org.igov.util.Tool.sO;
 import org.igov.util.db.queryloader.QueryLoader;
+import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 //import com.google.common.base.Optional;
 
 /**
@@ -2535,7 +2537,59 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         }
         deleteProccess.closeProcess(sID_Process_Def);
     }
+    
+    //get current values of Variables
+    @RequestMapping(value = "/getCurrentVar", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity getCurrentVar(
+            @ApiParam(value = "номер-ИД таски (обязательный)", required = true) @RequestParam(value = "nID_Task", required = true) Long nID_Task)
+            throws CRCInvalidException, CommonServiceException, RecordNotFoundException {
+        Map<String, Object> response = new HashMap<>();
+        TaskFormData data = formService.getTaskFormData(nID_Task.toString());
 
+        if (data != null) {
+            LOG.info("Found TaskFormData for task {}.", nID_Task);
+            for (FormProperty property : data.getFormProperties()) {
+                response.put(property.getId(), property.getValue());
+            }
+        } else {
+            LOG.info("Not found TaskFormData for task {}. Skipping from processing.", nID_Task);
+        }
+        return JsonRestUtils.toJsonResponse(response);
+    }
+    
+    //test LinkProcess
+    @ApiOperation(value = "saveForm", notes = "saveForm")
+    @RequestMapping(value = "/saveForm", method = RequestMethod.POST)
+    public ResponseEntity saveForm(
+            @ApiParam(value = "проперти формы", required = true) @RequestParam(value = "sParams", required = true) String sParams,
+            HttpServletRequest req) throws ParseException, CommonServiceException {
+        
+        try {
+            org.json.simple.JSONObject jsonObj = (org.json.simple.JSONObject) new JSONParser().parse(sParams);
+            String nID_Task = jsonObj.get("taskId").toString();
+            Map<String, String> values = new HashMap<>();
+            org.json.simple.JSONArray dates = (org.json.simple.JSONArray) jsonObj.get("properties");
+            org.json.simple.JSONObject result;
+            Iterator<org.json.simple.JSONObject> datesIterator = dates.iterator();
+            while (datesIterator.hasNext()) {
+                result = datesIterator.next();
+                values.put(result.get("id").toString(), (String) result.get("value"));
+            }
+            formService.saveFormData(nID_Task, values);
+            Map<String, Object> response = new HashMap<>();
+            response.put("sReturnSuccess", "OK");
+            return JsonRestUtils.toJsonResponse(response);
+        } catch (Exception e) {
+            String message = "The process of update variables fail.";
+            LOG.debug(message);
+            throw new CommonServiceException(
+                    ExceptionCommonController.BUSINESS_ERROR_CODE,
+                    message,
+                    HttpStatus.FORBIDDEN);
+        }
+        
+    }
     @ApiOperation(value = "/getAnswer_DFS", notes = "##### Получение ответов по процессам ДФС#####\n\n")
     @RequestMapping(value = "/getAnswer_DFS", method = RequestMethod.GET)
     public @ResponseBody
