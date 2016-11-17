@@ -2554,5 +2554,86 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         }
         return asID_Attach_Dfs;
     }
+    
+    //get current values of Variables
+    @RequestMapping(value = "/getCurrentVar", method = RequestMethod.GET)
+    public @ResponseBody
+    ResponseEntity getCurrentVar(
+            @ApiParam(value = "номер-ИД таски (обязательный)", required = true) @RequestParam(value = "nID_Task", required = true) Long nID_Task)
+            throws CRCInvalidException, CommonServiceException, RecordNotFoundException {
+        Map<String, Object> response = new HashMap<>();
+        TaskFormData data = formService.getTaskFormData(nID_Task.toString());
 
+        if (data != null) {
+            LOG.info("Found TaskFormData for task {}.", nID_Task);
+            for (FormProperty property : data.getFormProperties()) {
+                response.put(property.getId(), property.getValue());
+            }
+        } else {
+            LOG.info("Not found TaskFormData for task {}. Skipping from processing.", nID_Task);
+        }
+        return JsonRestUtils.toJsonResponse(response);
+    }
+
+    //test LinkProcess
+    @ApiOperation(value = "saveForm", notes = "saveForm")
+    @RequestMapping(value = "/saveForm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")    
+    public HttpServletRequest saveForm(
+                    @ApiParam(value = "проперти формы", required = false) @RequestBody String sParams, HttpServletRequest req)
+            throws ParseException, CommonServiceException, IOException {        
+        StringBuilder osRequestBody = new StringBuilder();
+        BufferedReader oReader = req.getReader();
+        String line;
+        if (oReader != null) {
+            while ((line = oReader.readLine()) != null) {
+                osRequestBody.append(line);
+            }
+        }
+        try {            
+            LOG.info("Input params - " + sParams);            
+            LOG.info("After refactoring params - " + sParams);
+            LOG.info("osRequestBody " + osRequestBody.toString());
+            org.json.simple.JSONObject jsonObj = (org.json.simple.JSONObject) new JSONParser().parse(sParams);
+            org.json.simple.JSONObject jsonObj11 = (org.json.simple.JSONObject) new JSONParser().parse(osRequestBody.toString());
+            LOG.info("Succ. parsing of input data passed");
+            String nID_Task = null;
+            if (jsonObj.containsKey("taskId")) {
+                nID_Task = jsonObj.get("taskId").toString();
+            } else {
+                LOG.error("Variable \"taskId\" not found");
+            }
+            LOG.info("taskId = " + nID_Task);
+            Map<String, String> values = new HashMap<>();
+            org.json.simple.JSONArray dates = null;
+            org.json.simple.JSONArray dates11 = null;
+            if (jsonObj.containsKey("properties")) {
+                dates = (org.json.simple.JSONArray) jsonObj.get("properties");
+                dates11 = (org.json.simple.JSONArray) jsonObj11.get("properties");
+            } else {
+                LOG.error("Variable \"properties\" not found");
+            }
+            LOG.info("properties = " + dates.toJSONString());
+            LOG.info("properties1 = " + dates11.toJSONString());
+
+            org.json.simple.JSONObject result;
+            Iterator<org.json.simple.JSONObject> datesIterator = dates11.iterator();
+            while (datesIterator.hasNext()) {
+                result = datesIterator.next();                
+                values.put(result.get("id").toString(), (String) result.get("value"));
+            }
+            formService.saveFormData(nID_Task, values);
+            Map<String, Object> response = new HashMap<>();
+            response.put("sReturnSuccess", "OK");
+            LOG.info("Process of update data finiched");
+            //return JsonRestUtils.toJsonResponse(response);
+            return req;
+        } catch (Exception e) {
+            String message = "The process of update variables fail.";
+            LOG.debug(message);
+            throw new CommonServiceException(
+                    ExceptionCommonController.BUSINESS_ERROR_CODE,
+                    message,
+                    HttpStatus.FORBIDDEN);
+        }
+    }
 }
