@@ -632,7 +632,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	var bValid = modelValue.length >= options.nMin && modelValue.length <= options.nMax;  
 
     	return bValue; 
-    }
+    },
     
     /**
      * 'LongNumber' - неподільне число 
@@ -661,7 +661,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     		options.nMin = 0; 
     	}
     	
-    	if(options.nMax === null || { options.nMin != null && options.nMin > options.nMax }) { 
+    	if(options.nMax === null || ( options.nMin != null && options.nMin > options.nMax )) { 
     		options.nMax = Number.MAX_VALUE;
     	}
     	
@@ -688,7 +688,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      */
     'DoubleNumber': function(modelValue, viewValue, options) { 
     	
-    	if(modelValue === null) || modelValue == '') {
+    	if((modelValue === null) || modelValue == '') {
     		return true;
     	}
     	
@@ -700,7 +700,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     		options.nMin = 0;
     	}
     	
-    	if(options.nMax === null || { options.nMin != null && options.nMin > options.nMax } ) { 
+    	if(options.nMax === null || ( options.nMin != null && options.nMin > options.nMax ) ) { 
     		options.nMax = 10000000;  
     	}
     	
