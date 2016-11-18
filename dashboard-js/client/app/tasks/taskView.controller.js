@@ -466,20 +466,66 @@
             rollbackReadonlyEnumFields();
             tasks.submitTaskForm($scope.selectedTask.id, $scope.taskForm, $scope.selectedTask)
               .then(function (result) {
-                var sMessage = "Форму відправлено.";
-                angular.forEach($scope.taskForm, function (oField) {
-                  if (oField.id === "sNotifyEvent_AfterSubmit") {
-                    sMessage = oField.value;
-                  }
-                });
-                $scope.convertDisabledEnumFiedsToReadonlySimpleText();
+                if(result.status == 500){
+                  var message = result.data.message;
+                  var errMsg = (message.includes("errMsg")) ? message.split(":")[1].split("=")[1] : message;
+                  $scope.taskForm.isInProcess = false;
+                  $scope.convertDisabledEnumFiedsToReadonlySimpleText();
+                  Modal.inform.error(function (result) {
+                  })(errMsg + " " + (result && result.length > 0 ? (': ' + result) : ''));
+                } else {
+                  var sMessage = "Форму відправлено.";
+                  angular.forEach($scope.taskForm, function (oField) {
+                    if (oField.id === "sNotifyEvent_AfterSubmit") {
+                      sMessage = oField.value;
+                    }
+                  });
 
+                  $scope.convertDisabledEnumFiedsToReadonlySimpleText();
 
-                Modal.inform.success(function (result) {
-                  $scope.lightweightRefreshAfterSubmit();
-                })(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
+                  Modal.inform.success(function (result) {
+                    $scope.lightweightRefreshAfterSubmit();
+                  })(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
 
-                $scope.$emit('task-submitted', $scope.selectedTask);
+                  $scope.$emit('task-submitted', $scope.selectedTask);
+                }
+              })
+              .catch(defaultErrorHandler);
+          }
+        };
+
+        $scope.submitTaskQuestion = function (form) {
+          Modal.inform.submitTaskQuestion(function() {
+            return $scope.submitTask(form);});
+        };
+
+        $scope.println = function (form) {
+          console.log("println");
+          console.log(form);
+          return true;
+        }
+        $scope.saveChangesTask = function (form) {
+
+          if ($scope.selectedTask && $scope.taskForm) {
+            $scope.taskForm.isSubmitted = true;
+            $scope.taskForm.isInProcess = true;
+
+            rollbackReadonlyEnumFields();
+            tasks.saveChangesTaskForm($scope.selectedTask.id, $scope.taskForm, $scope.selectedTask)
+              .then(function (result) {
+                $scope.taskForm.isInProcess = false;
+                if(result.status == 500 || result.status == 403){
+                  var message = result.data.message;
+                  var errMsg = (message.includes("errMsg")) ? message.split(":")[1].split("=")[1] : message;
+
+                  $scope.convertDisabledEnumFiedsToReadonlySimpleText();
+
+                  Modal.inform.error(function (result) {})(errMsg + " " + (result && result.length > 0 ? (': ' + result) : ''));
+                } else {
+                  var sMessage = "Форму збережено.";
+                  $scope.convertDisabledEnumFiedsToReadonlySimpleText();
+                  Modal.inform.success(function (result) {})(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
+                }
               })
               .catch(defaultErrorHandler);
           }
