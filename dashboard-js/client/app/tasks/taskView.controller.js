@@ -494,6 +494,12 @@
           }
         };
 
+
+        $scope.submitTaskQuestion = function (form) {
+          Modal.inform.submitTaskQuestion(function() {
+            return $scope.submitTask(form);});
+        };
+
         $scope.submitTaskQuestion = function (form) {
           Modal.inform.submitTaskQuestion(function() {
             return $scope.submitTask(form);});
