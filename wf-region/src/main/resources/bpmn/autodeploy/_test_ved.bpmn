@@ -14,7 +14,7 @@
     <userTask id="usertask1" name="крок 1" activiti:candidateGroups="sales">
       <extensionElements>
         <activiti:formProperty id="email" name="E-Mail адреса для зворотнього зв'язку" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sTable2" name="Таблиця на дашборді; ;nRowsLimit=1" type="table" default="{&quot;aField&quot;:[{&quot;id&quot;:&quot;sExecutor&quot;,&quot;name&quot;:&quot;Оберіть виконавця; ;sID_SubjectRole=Executor,sID_Group_Activiti=sID_Group_Activiti,nDeepLevel=nDeepLevel&quot;,&quot;type&quot;:&quot;select&quot;,&quot;required&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;sNameSubjectRole&quot;,&quot;name&quot;:&quot;Автокоплит&quot;,&quot;type&quot;:&quot;string&quot;,&quot;required&quot;:&quot;true&quot;}]}"></activiti:formProperty>
+        <activiti:formProperty id="sTable2" name="Таблиця на дашборді; ;nRowsLimit=1" type="table" default="{&quot;aField&quot;:[{&quot;id&quot;:&quot;sExecutor&quot;,&quot;name&quot;:&quot;Оберіть виконавця; ;sID_SubjectRole=Executor,sID_Group_Activiti=sID_Group_Activiti,nDeepLevel=nDeepLevel&quot;,&quot;type&quot;:&quot;select&quot;,&quot;required&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;sName_SubjectRole&quot;,&quot;name&quot;:&quot;Автокоплит&quot;,&quot;type&quot;:&quot;string&quot;,&quot;required&quot;:&quot;true&quot;}]}"></activiti:formProperty>
 
         <activiti:formProperty id="sID_Group_Activiti" name="sID_Group_Activiti" type="string" default="MJU_Dnipro_Top1"></activiti:formProperty>
         <activiti:formProperty id="nDeepLevel" name="nDeepLevel" type="string" default="3"></activiti:formProperty>
@@ -39,7 +39,7 @@
         <activiti:formProperty id="sBody_1" name="[pattern/print/testPrint.html]" type="invisible" default="принтформа с тейблом" writable="false"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${sTable1},${sTable2},${sTable3},${sTable9}]]></activiti:expression>
+            <activiti:expression><![CDATA[${sTable2}]]></activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
