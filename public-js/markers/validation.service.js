@@ -42,7 +42,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
   };
 
   /**
-   * Основний метод валідації. Призначає валідатори полям форми form (за назвами полів з параметру markers),
+   * Основний метод валідації. Призначає валідатори полям форми form (за назвами полів та типами з параметру markers),
    * а також проводить першу валідіацію, якщо параметр immediateValidation === true;
    *
    * Параметри:
@@ -72,7 +72,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     // поместил в проверку тк ранее при сабмите, если параметр data не передавали, formData не могла взять параметры с undefined
     // и были ошибки
     if (data) {
-      self.oFormDataParams = data.formData.params || {};
+      self.oFormDataParams = data || {};
     }
 
     angular.forEach(markers.validate, function (marker, markerName) {
@@ -96,6 +96,10 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 */
       angular.forEach(form, function (formField) {
 
+    	  console.log("test"+markerName);
+
+    	  alert(markerName); // test of service 	  
+   	  
         self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
       });
     });
@@ -660,7 +664,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	if(options.nMin === null || ( options.nMax != null && options.nMax < options.nMin )) {
     		options.nMin = 0; 
     	}
-    	
+
+
     	if(options.nMax === null || ( options.nMin != null && options.nMin > options.nMax )) { 
     		options.nMax = Number.MAX_VALUE;
     	}
@@ -704,7 +709,9 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     		options.nMax = 10000000;  
     	}
     	
-    	var bValid = (parseFloat(modelValue) - Math.floor(modelValue) != 0) && (parseFloat(modelValue) > options.nMin) && (parseFloat(modelValue < options.nMax));   
+    	var parsedFloat = parseFloat(modelValue); 
+    	
+    	var bValid = (parsedFloat - Math.floor(modelValue) != 0) && (parsedFloat > options.nMin) && (parsedFloat < options.nMax);   
 
     	if(bValid === null) { 
     		options.lastError = options.sMessage || ('Подільне число має бути між ' + options.nMin + ' та ' + options.nMax); 
@@ -895,12 +902,15 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 
       var params = self.oFormDataParams;
       for(var paramObj in params) if (params.hasOwnProperty(paramObj)){
-        if(params[paramObj].value && params[paramObj].value.id && params[paramObj].fileName){
-          if(modelValue.id === params[paramObj].value.id){
-            sFileName = params[paramObj].fileName;
-            break;
-          }
-        }
+        if(params[paramObj].value && params[paramObj].fileName){
+            if(modelValue.id === params[paramObj].value.id){
+              sFileName = params[paramObj].fileName;
+              break;
+            } else if (modelValue.id === params[paramObj].value) {
+              sFileName = params[paramObj].fileName;
+              break;
+            }
+        }      
       }
 
       var aExtensions = options.saExtension.split(',');
