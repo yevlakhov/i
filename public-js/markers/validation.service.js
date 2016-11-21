@@ -97,8 +97,6 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 */
 //      angular.forEach(form, function (formField) {
 
-    	  console.log("test"+markerName);
-
           self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
       });
     });
@@ -134,6 +132,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     var fieldTypeIsListedInMarker = formField && formField.type && (_.indexOf(marker.aField_Type, formField.type) !== -1); 
     var existingValidator = formField && formField.$validators && formField.$validators[keyByMarkerName];
 
+    console.log( markerName + " " + formField.$name + " " + formField.type + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
+    
     // для того чтобы валидация работала в таблице, нужно добраться до полей, вводится доп проверка.
     if(!fieldNameIsListedInMarker && !fieldTypeIsListedInMarker) {
       angular.forEach(formField, function (field) {
