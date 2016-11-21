@@ -75,7 +75,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       self.oFormDataParams = data || {};
     }
 
-    angular.forEach(markers.validate, function (marker, markerName) {
+    angular.forEach(form, function (formField) { 
+    	angular.forEach(markers.validate, function (marker, markerName) {
       /*
       var isOrganJoinInclude = false;
       var isOrganNoInclude = true;
@@ -94,13 +95,11 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
         }
       }
 */
-      angular.forEach(form, function (formField) {
+//      angular.forEach(form, function (formField) {
 
     	  console.log("test"+markerName);
 
-    	  alert(markerName); // test of service 	  
-   	  
-        self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
+          self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
       });
     });
   };
@@ -617,6 +616,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      */
     'StringRange': function( modelValue, viewValue, options ) {
 
+    	alert("In the StingRange"); 
+    	
     	if((modelValue === null) || modelValue === '') { 
     		return true; 
     	} 
@@ -652,6 +653,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      * } 
      */
     'LongNumber': function(modelValue, viewValue, options) { 
+
+    	alert( "In the LongNumber" );
     	
     	if(modelValue === null || modelValue === '') {
     		return true;
@@ -692,6 +695,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      * } 
      */
     'DoubleNumber': function(modelValue, viewValue, options) { 
+    	
+    	alert( "In the DoubleNumber" );
     	
     	if((modelValue === null) || modelValue == '') {
     		return true;
