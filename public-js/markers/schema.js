@@ -1,11 +1,11 @@
-/**  
- * JSON-схема для валидации маркеров
+/**
+ * JSON-СЃС…РµРјР° РґР»СЏ РІР°Р»РёРґР°С†РёРё РјР°СЂРєРµСЂРѕРІ
  *
- * Имя маркера проверяется на соответствие заданному через регулярные выражения
- * Перечень допустимых полей для маркера - находятся в свойстве properties
- * Перечень обязательных полей для маркера - перечислены в массиве свойства required
+ * РРјСЏ РјР°СЂРєРµСЂР° РїСЂРѕРІРµСЂСЏРµС‚СЃСЏ РЅР° СЃРѕРѕС‚РІРµС‚СЃС‚РІРёРµ Р·Р°РґР°РЅРЅРѕРјСѓ С‡РµСЂРµР· СЂРµРіСѓР»СЏСЂРЅС‹Рµ РІС‹СЂР°Р¶РµРЅРёСЏ
+ * РџРµСЂРµС‡РµРЅСЊ РґРѕРїСѓСЃС‚РёРјС‹С… РїРѕР»РµР№ РґР»СЏ РјР°СЂРєРµСЂР° - РЅР°С…РѕРґСЏС‚СЃСЏ РІ СЃРІРѕР№СЃС‚РІРµ properties
+ * РџРµСЂРµС‡РµРЅСЊ РѕР±СЏР·Р°С‚РµР»СЊРЅС‹С… РїРѕР»РµР№ РґР»СЏ РјР°СЂРєРµСЂР° - РїРµСЂРµС‡РёСЃР»РµРЅС‹ РІ РјР°СЃСЃРёРІРµ СЃРІРѕР№СЃС‚РІР° required
  *
- * Более подробная документация:
+ * Р‘РѕР»РµРµ РїРѕРґСЂРѕР±РЅР°СЏ РґРѕРєСѓРјРµРЅС‚Р°С†РёСЏ:
  * http://epoberezkin.github.io/ajv/
  * alpha
  */
@@ -261,6 +261,42 @@ angular.module('iGovMarkers')
                             required: ["aField_ID"],
                             additionalProperties: false
                         },
+                        "^StringRange": { 
+                        	type: "object",
+                        	properties: {
+                        		aField_ID: {"$ref": "#/definitions/stringArray"},
+                        		aField_Type: {"$ref": "#/definitions/stringArray"}, 
+                        		nMin: {type: "integer"},
+                        		nMax: {type: "integer"}, 
+                        		sMessage: {type: "string"}
+                        	},
+                        	required: ["aField_ID"],
+                        	additionalProperties: false
+                        },
+                        "^LongNumber": {
+                        	type: "object",
+                        	properties: {
+                        		aField_ID: {"$ref": "#/definitions/stringArray"},
+                        		aField_Type: {"$ref": "#/definitions/stringArray"}, 
+                        		nMin: {type: "integer"},
+                        		nMax: {type: "integer"},
+                        		sMessage: {type: "string"}
+                        	},
+                        	required: ["aField_ID"],
+                        	additionalProperties: false
+                        },
+                        "^DoubleNumber": { 
+                        	type: "object", 
+                        	properties: {
+                        		aField_ID: {"$ref": "#/definitions/stringArray"},
+                        		aField_Type: {"$ref": "#/definitions/stringArray"}, 
+                        		nMin: {type: "integer"}, 
+                        		nMax: {type: "integer"},
+                        		sMessage: {type: "string"}                     		
+                        	}, 
+                        	required: ["aField_ID"], 
+                        	additionalProperties: false
+                        }, 
                         "^NumberBetween": {
                             type: "object",
                             properties: {
@@ -334,4 +370,4 @@ angular.module('iGovMarkers')
             },
             additionalProperties: false
         }
-});
+    });
