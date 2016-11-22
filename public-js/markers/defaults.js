@@ -41,21 +41,21 @@ angular.module('iGovMarkers')
       }
       ,DateElapsed: {
         aField_ID: ['dateOrder'],
-        bFuture: true, // СЏРєС‰Рѕ true, С‚Рѕ РґР°С‚Р° modelValue РјР°С” Р±СѓС‚Рё Сѓ РјР°Р№Р±СѓС‚РЅСЊРѕРјСѓ
-        bLess: true, // СЏРєС‰Рѕ true, С‚Рѕ 'РґРµР»СЊС‚Р°' РјС–Р¶ modelValue С‚Р° Р·Р°СЂР°Р· РјР°С” Р±СѓС‚Рё 'РјРµРЅС€Рµ РЅС–Р¶' РІРєР°Р·Р°РЅР° РЅРёР¶РЅС–РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
+        bFuture: true, // якщо true, то дата modelValue має бути у майбутньому
+        bLess: true, // якщо true, то 'дельта' між modelValue та зараз має бути 'менше ніж' вказана нижніми параметрами
         nDays: 10,
         nMonths: 0,
         nYears: 0,
         sFormat: 'YYYY-MM-DD'
-        //,sDebug: 'Р”РѕРґР°С‚РєРѕРІР° РѕРїС†С–СЏ - С–РЅС„РѕСЂРјР°С†С–СЏ РґР»СЏ РґРµР±Р°РіСѓ'
-        //,bDebug: false; // РћРїС†С–СЏ РґР»СЏ РґРµР±Р°РіСѓ
+        //,sDebug: 'Додаткова опція - інформація для дебагу'
+        //,bDebug: false; // Опція для дебагу
       }
       ,DateElapsed_1: {
-        inheritedValidator: 'DateElapsed', // РЅР°СЃР»С–РґСѓС”РјРѕ С–СЃРЅСѓСЋС‡РёР№ РІР°Р»С–РґР°С‚РѕСЂ 'DateElapsed'
+        inheritedValidator: 'DateElapsed', // наслідуємо існуючий валідатор 'DateElapsed'
         aField_ID: ['date_of_birth'],
-        sFormat: 'YYYY-MM-DD',  // Р·Р°РґР°С”РјРѕ С„РѕСЂРјР°С‚ РґР°С‚Рё
-        bFuture: false,         // РґР°С‚Р° РјР°С” Р±СѓС‚Рё Сѓ РјРёРЅСѓР»РѕРјСѓ
-        sMessage: 'Р’РёР±РµСЂС–С‚СЊ РєРѕСЂРµРєС‚РЅСѓ РґР°С‚Сѓ - РґР°С‚Р° РЅРµ РјРѕР¶Рµ Р±СѓС‚Рё Р±С–Р»СЊС€Рµ РїРѕС‚РѕС‡РЅРѕС—'
+        sFormat: 'YYYY-MM-DD',  // задаємо формат дати
+        bFuture: false,         // дата має бути у минулому
+        sMessage: 'Виберіть коректну дату - дата не може бути більше поточної'
       }
       ,CodeKVED: {
         aField_ID: ['kved']
@@ -66,97 +66,50 @@ angular.module('iGovMarkers')
       ,CodeMFO: {
         aField_ID: ['mfo']
       }
-      ,StringRange: { 
-    	  aField_ID: ['string'],
-    	  aField_Type: ['string'], 
-    	  nMin: 0,
-    	  nMax: 200,
-    	  sMessage: 'РџРѕРІРёРЅРЅРѕ Р±СѓС‚Рё РІС–Рґ 0 РґРѕ 200 СЃРёРјРІРѕР»С–РІ'
-      }
-      ,LongNumber: {
-    	  aField_ID: ['long'],
-    	  aField_Type: ['long'],
-    	  nMin: 1,
-    	  nMax: 1000, 
-    	  sMessage: 'РџРѕРІРёРЅРЅРѕ Р±СѓС‚Рё РїРѕРґС–Р»СЊРЅРёРј С‡РёСЃР»РѕРј РІС–Рґ 1 РґРѕ 1000 '
-      }
-      ,DoubleNumber: {
-    	  aField_ID: ['double'],
-    	  aField_Type: ['double'],
-    	  nMin: 1, 
-    	  nMax: 10000000,
-    	  sSeparator: '.',
-    	  sMessage: 'РџРѕРІРёРЅРЅРѕ Р±СѓС‚Рё РЅРµРїРѕРґС–Р»СЊРЅРёРј С‡РёСЃР»РѕРј С‚Р° СЂРѕР·РґС–Р»РµРЅРµ "."'
-      }
-      ,NumberBetween: { //Р¦РµР»РѕС‡РёСЃР»РµРЅРЅРѕРµ РјРµР¶РґСѓ
+      ,NumberBetween: { //Целочисленное между
         aField_ID: ['numberBetween'],
         nMin: 1,
         nMax: 999,
-        sMessage: 'РџРµСЂРµРІС–СЂС‚Рµ РїСЂР°РІРёР»СЊРЅС–СЃС‚СЊ Р·Р°РїРѕРІРЅРµРЅРЅСЏ - С‡РёСЃР»Рѕ РїРѕРІРµСЂС…С–РІ СЃРєР»Р°РґР°С”С‚СЊСЃСЏ РјР°РєСЃРёРјСѓРј Р· С‚СЂСЊРѕС… С†РёС„СЂ'
+        sMessage: 'Перевірте правильність заповнення - число поверхів складається максимум з трьох цифр'
       }
-      ,NumberFractionalBetween: { //Р”СЂРѕР±РЅРѕРµ С‡РёСЃР»Рѕ РјРµР¶РґСѓ
+      ,NumberFractionalBetween: { //Дробное число между
         aField_ID: ['total_place'],
         nMin: 0,
         nMax: 99999999,
-        sMessage: 'РџРµСЂРµРІС–СЂС‚Рµ РїСЂР°РІРёР»СЊРЅС–СЃС‚СЊ Р·Р°РїРѕРІРЅРµРЅРЅСЏ РїРѕР»СЏ - РїР»РѕС‰Р° РїСЂРёРјС–С‰РµРЅРЅСЏ РјРѕР¶Рµ СЃРєР»Р°РґР°С‚РёСЃСЏ РјР°РєСЃРёРјСѓРј Р· 8 С†РёС„СЂ'
+        sMessage: 'Перевірте правильність заповнення поля - площа приміщення може складатися максимум з 8 цифр'
       }
-      ,Numbers_Accounts: { //СЂР°Р·СЂРµС€РµРЅС‹ С†РёС„СЂС‹ Рё РґРµС„РёСЃС‹, Р±СѓРєРІС‹ Р»СЋР±С‹Рµ Р·Р°РїСЂРµС‰РµРЅС‹
+      ,Numbers_Accounts: { //разрешены цифры и дефисы, буквы любые запрещены
         aField_ID: ['!', 'number_cnap'],
         //aField_ID: ['house_number', 'gas_number', 'coolwater_number', 'hotwater_number', 'waterback_number', 'warming_number', 'electricity_number', 'garbage_number'],
-        sMessage: 'РџРµСЂРµРІС–СЂС‚Рµ РїСЂР°РІРёР»СЊРЅС–СЃС‚СЊ СѓРІРµРґРµРЅРѕРіРѕ РЅРѕРјРµСЂСѓ (Р»С–С‚РµСЂРё РЅРµ РґРѕР·РІРѕР»РµРЅС– РґРѕ Р·Р°РїРѕРІРЅРµРЅРЅСЏ)'
+        sMessage: 'Перевірте правильність уведеного номеру (літери не дозволені до заповнення)'
       }
-      //,CustomFormat_NumberKadastr:  //СѓРЅРёС„РёС†РёСЂРѕРІР°РЅРЅС‹Р№ РІР°Р»РёРґР°С‚РѕСЂ РїСЂРѕРІРµСЂРєРё РєРѕРґРѕРІ/РЅРѕРјРµСЂРѕРІ(СЃ РєР°СЃС‚РѕРјРЅС‹Рј СЃРѕРѕР±С‰РµРЅРёРµРј), СЃ Р·Р°РґР°РЅРЅС‹Рј РєРѕР»РёС‡РµСЃС‚РІРѕРј Рё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊСЋ Р·РЅР°РєРѕРІ
-      ,CustomFormat_1: { //СѓРЅРёС„РёС†РёСЂРѕРІР°РЅРЅС‹Р№ РІР°Р»РёРґР°С‚РѕСЂ РїСЂРѕРІРµСЂРєРё РєРѕРґРѕРІ/РЅРѕРјРµСЂРѕРІ(СЃ РєР°СЃС‚РѕРјРЅС‹Рј СЃРѕРѕР±С‰РµРЅРёРµРј), СЃ Р·Р°РґР°РЅРЅС‹Рј РєРѕР»РёС‡РµСЃС‚РІРѕРј Рё РїРѕСЃР»РµРґРѕРІР°С‚РµР»СЊРЅРѕСЃС‚СЊСЋ Р·РЅР°РєРѕРІ
+      //,CustomFormat_NumberKadastr:  //унифицированный валидатор проверки кодов/номеров(с кастомным сообщением), с заданным количеством и последовательностью знаков
+      ,CustomFormat_1: { //унифицированный валидатор проверки кодов/номеров(с кастомным сообщением), с заданным количеством и последовательностью знаков
         aField_ID: ['landNumb'],
-        //sFormat: 'С…С…С…С…С…С…С…С…С…С…:С…С…:С…С…С…:С…С…С…С…',
+        //sFormat: 'хххххххххх:хх:ххх:хххх',
         sFormat: '##########:##:###:####',
-        sMessage: 'РќРµРІС–СЂРЅРёР№ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ, РІРІРµРґС–С‚СЊ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ Сѓ С„РѕСЂРјР°С‚С– С…С…С…С…С…С…С…С…С…С…:С…С…:С…С…С…:С…С…С…С…'
+        sMessage: 'Невірний кадастровий номер, введіть кадастровий номер у форматі хххххххххх:хх:ххх:хххх'
       }
       ,FileSign : {
         aField_ID: ['bankId_scan_inn1','bankId_scan_passport1']
       }
-      ,FileExtensions_1: { //СѓРЅРёС„РёС†РёСЂРѕРІР°РЅРЅС‹Р№ РІР°Р»РёРґР°С‚РѕСЂ СЂР°СЃС‰РёСЂРµРЅРёР№ С„Р°Р№Р»РѕРІ
+      ,FileExtensions_1: { //унифицированный валидатор расщирений файлов
         aField_ID: ['file1','file2'],
         saExtension: 'jpg,pdf,png',
-        sMessage: 'РќРµРґРѕРїСѓСЃС‚РёРјРёР№ С„РѕСЂРјР°С‚ С„Р°Р№Р»Сѓ! РџРѕРІРёРЅРЅРѕ Р±СѓС‚Рё: {saExtension}!'
+        sMessage: 'Недопустимий формат файлу! Повинно бути: {saExtension}!'
       }
       ,FieldNotEmptyAndNonZero: {
         aField_ID: ['sFieldNotEmptyAndNonZero', 'sID_Public_SubjectOrganJoin']
       }
     },
     attributes: {
-      Editable_1: {aField_ID:['sPhone_User1', 'sMail_User1', 'bankIdlastName1'], bValue: true}, 
-      ExtendLabelStyle : {
-    	  aElement_IDs : ['textUa', 'vin_code'], 
-    	  aSelectors : ["col-sm-4"], 
-    	  sCondition : "",
-    	  // Р—Р°РіР°Р»СЊРЅРёР№ СЃС‚РёР»СЊ РґР»СЏ СЃРµР»РµРєС‚РѕСЂС–РІ 
-    	  sCommonStyle : { "font-style" : "italic", "display" : "block" },
-    	  // РЎС‚РёР»СЊ РґР»СЏ Central-js | = sCommonStyle 
-    	  sCentralStyle : { "font-style": "bold", "display": "block" }, 
-    	  // РЎС‚РёР»СЊ РґР»СЏ Region  
-    	  sRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
-      }, 
-      
-      ExtendFormStyle : {
-    	  aElement_ID : ['testForm'],  	  
-    	  aSelector : ["test-form"], 
-    	  sCondition : "",
-    	  // Р—Р°РіР°Р»СЊРЅРёР№ СЃС‚РёР»СЊ РґР»СЏ СЃРµР»РµРєС‚РѕСЂС–РІ 
-    	  sCommonStyle : { "font-style": "italic", "display": "block" },
-    	  // РЎС‚РёР»СЊ РґР»СЏ Central-js | = sCommonStyle 
-    	  sCentralStyle : { "font-style": "bold", "display": "block" }, 
-    	  // РЎС‚РёР»СЊ РґР»СЏ Region  
-    	  sRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
-
-      }
-      
+      Editable_1: {aField_ID:['sPhone_User1', 'sMail_User1', 'bankIdlastName1'], bValue: true}
     },
     motion: {
       ReplaceTextSymbols_1: {
         sID_Field: "Registrationservice",
         nSymbols: 2,
-        sValueNew: "РѕРіРѕ",
+        sValueNew: "ого",
         sID_Element_sValue: "registration-service"
       }
     }

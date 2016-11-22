@@ -1,17 +1,17 @@
 /**
- * РЎРµСЂРІС–СЃ ValidationService РЅР°РґР°С” РїРѕСЃР»СѓРіРё Р· РІР°Р»С–РґР°С†С–С— С„РѕСЂРј, РІРёРєРѕСЂРёСЃС‚РѕРІСѓСЋС‡Рё РјР°СЂРєРµСЂРё РІР°Р»С–РґР°С†С–С—.
- * Р’РѕРЅРё РІС…РѕРґСЏС‚СЊ РґРѕ РѕР±`С”РєС‚Сѓ markers С– РјР°СЋС‚СЊ РїРѕСЃРёР»Р°РЅРЅСЏ РЅР° РїРѕР»СЏ, С‰Рѕ РїРѕС‚СЂРµР±СѓСЋС‚СЊ РІР°Р»С–РґР°С†С–С—, Р° С‚Р°РєРѕР¶ РїР°СЂР°РјРµС‚СЂРё РІР°Р»С–РґР°С†С–С—, РЅР°РїСЂРёРєР»Р°Рґ С„РѕСЂРјР°С‚ РґР°С‚Рё РґР»СЏ РІР°Р»С–РґР°С‚РѕСЂР° РґР°С‚Рё С– С‚.Рї.
- * РџРѕСЃРёР»Р°РЅРЅСЏ РЅР° РїРѕР»СЏ С„РѕСЂРјРё Р·Р°РїРёСЃР°РЅС– Сѓ РјР°СЃРёРІС– aField_ID РјР°СЂРєРµСЂР° СЏРє РЅР°Р·РІРё РїРѕР»С–РІ С„РѕСЂРјРё ($name). Р¦Рµ РјРѕР¶Р»РёРІС–СЃС‚СЊ РїРѕРІ'СЏР·Р°С‚Рё РјР°СЂРєРµСЂ РІР°Р»С–РґР°С†С–С— С– РІР°Р»С–РґР°С‚РѕСЂ Р· РґР°РЅРёРј РїРѕР»РµРј, РґРёРІ. @setValidatorByMarker.
- * РњР°СЂРєРµСЂ РјР°С” РѕРїС†С–РѕРЅР°Р»СЊРЅРёР№ РїР°СЂР°РјРµС‚СЂ sMessage - РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ РїСЂРѕ РїРѕРјРёР»РєСѓ РІР°Р»С–РґР°С†С–С— РґР»СЏ РєРѕСЂРёСЃС‚СѓРІР°С‡Р°. TODO: РїРµСЂРµРІС–СЂРёС‚Рё
+ * Сервіс ValidationService надає послуги з валідації форм, використовуючи маркери валідації.
+ * Вони входять до об`єкту markers і мають посилання на поля, що потребують валідації, а також параметри валідації, наприклад формат дати для валідатора дати і т.п.
+ * Посилання на поля форми записані у масиві aField_ID маркера як назви полів форми ($name). Це можливість пов'язати маркер валідації і валідатор з даним полем, див. @setValidatorByMarker.
+ * Маркер має опціональний параметр sMessage - повідомлення про помилку валідації для користувача. TODO: перевірити
  *
- * Р С–Р·РЅС– РјР°СЂРєРµСЂРё РјРѕР¶СѓС‚СЊ РїСЂРёР·РЅР°С‡Р°С‚РёСЃСЏ РѕРґРЅРёРј С– С‚РёРј Р¶Рµ РїРѕР»СЏРј С„РѕСЂРјРё.
- * Р¤Р°РєС‚РёС‡РЅР° РЅР°Р·РІР° РїРѕР»С–РІ РјРѕР¶РµС‚ Р±СѓС‚Рё РґРѕРІС–Р»СЊРЅРѕСЋ (NumberBetween_1, NumberBetween_Floor_Subs, NumberBetween_MaxBlocks С– С‚.Рґ.)
+ * Різні маркери можуть призначатися одним і тим же полям форми.
+ * Фактична назва полів может бути довільною (NumberBetween_1, NumberBetween_Floor_Subs, NumberBetween_MaxBlocks і т.д.)
  *
- * Р’Р°Р»С–РґР°С‚РѕСЂРё РјРѕР¶СѓС‚СЊ РґРѕРїРѕРІРЅСЋРІР°С‚Рё РѕРґРёРЅ РѕРґРЅРѕРіРѕ (РІ РµР»РµРјРµРЅС‚Р°С… motion С†Рµ С‚Р°РєРѕР¶ Р·СЂРѕР±Р»РµРЅРѕ). TODO: РїРµСЂРµРІС–СЂРёС‚Рё С‰Рµ СЂР°Р·.
- * РџСЂР°С†СЋС” РЅР°СЃР»С–РґСѓРІР°РЅРЅСЏ РјР°СЂРєРµСЂС–РІ (СЏРє С– РІ motion)
- * Р’Р°Р»С–РґР°С‚РѕСЂРё Р·Р° Р·Р°РјРѕРІС‡СѓРІР°РЅРЅСЏРј РІРІР°Р¶Р°СЋС‚СЊ РїСѓСЃС‚С– РїРѕР»СЏ РІР°Р»С–РґРЅРёРјРё. TODO: СѓС‚РѕС‡РЅРёС‚Рё, С‡Рё СѓСЃС– Р±РµР· РІРёРЅСЏС‚РєСѓ РІР°Р»С–РґР°С‚РѕСЂРё РјР°СЋС‚СЊ Р»РґС–СЏС‚Рё СЃР°РјРµ С‚Р°Рє.
+ * Валідатори можуть доповнювати один одного (в елементах motion це також зроблено). TODO: перевірити ще раз.
+ * Працює наслідування маркерів (як і в motion)
+ * Валідатори за замовчуванням вважають пусті поля валідними. TODO: уточнити, чи усі без винятку валідатори мають лдіяти саме так.
  *
- * Р‘С–Р»СЊС€Рµ РІРёРјРѕРі РґРѕ РІР°Р»С–РґР°С†С–С—: i/issues/375, 654 С‚Р° 685.
+ * Більше вимог до валідації: i/issues/375, 654 та 685.
  */
 
 angular.module('iGovMarkers').service('ValidationService', ['moment', 'amMoment', 'angularMomentConfig', 'iGovMarkers', ValidationService])
@@ -32,8 +32,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
   self.sFormat = 'YYYY-MM-DD';
   self.oFormDataParams = null;
 
-  // Р¦Рµ РґР»СЏ С‚РѕРіРѕ, С‰РѕР± Р±Р°С‡РёС‚Рё РґР°С‚Рё РІ СѓРєСЂР°С—РЅСЃСЊРєРѕРјСѓ С„РѕСЂРјР°С‚С–.
-  // FIXME: С…Р°СЂРґРєРѕРґ Р·РЅР°С‡РµРЅРЅСЏ locale
+  // Це для того, щоб бачити дати в українському форматі.
+  // FIXME: хардкод значення locale
   (moment.locale || moment.lang)('uk');
   amMoment.changeLocale('uk');
 
@@ -42,19 +42,19 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
   };
 
   /**
-   * РћСЃРЅРѕРІРЅРёР№ РјРµС‚РѕРґ РІР°Р»С–РґР°С†С–С—. РџСЂРёР·РЅР°С‡Р°С” РІР°Р»С–РґР°С‚РѕСЂРё РїРѕР»СЏРј С„РѕСЂРјРё form (Р·Р° РЅР°Р·РІР°РјРё РїРѕР»С–РІ С‚Р° С‚РёРїР°РјРё Р· РїР°СЂР°РјРµС‚СЂСѓ markers),
-   * Р° С‚Р°РєРѕР¶ РїСЂРѕРІРѕРґРёС‚СЊ РїРµСЂС€Сѓ РІР°Р»С–РґС–Р°С†С–СЋ, СЏРєС‰Рѕ РїР°СЂР°РјРµС‚СЂ immediateValidation === true;
+   * Основний метод валідації. Призначає валідатори полям форми form (за назвами полів з параметру markers),
+   * а також проводить першу валідіацію, якщо параметр immediateValidation === true;
    *
-   * РџР°СЂР°РјРµС‚СЂРё:
-   * @param form - С„РѕСЂРјР°, СЏРєСѓ С‚СЂРµР±Р° РІР°Р»С–РґСѓРІР°С‚Рё Р·Р° РјР°СЂРєРµСЂР°РјРё РІР°Р»С–РґР°С†С–С—. РћР±РѕРІ'СЏР·РєРѕРІРёР№ РїР°СЂР°РјРµС‚СЂ.
-   * @param {object} markers - РјР°СЂРєРµСЂРё РІР°Р»С–РґР°С†С–С—. РќРµРѕР±РѕРІ'СЏР·РєРѕРІРёР№ РїР°СЂР°РјРµС‚СЂ. РЇРєС‰Рѕ РІС–РЅ РІС–РґСЃСѓС‚РЅС–Р№, С‚Рѕ СЃРїСЂР°С†СЋСЋС‚СЊ РјР°СЂРєРµСЂРё Р·Р° Р·Р°РјРѕРІС‡СѓРІР°РЅРЅСЏРј, РґРёРІ. _resolveValidationMarkers
-   * @param {boolean} immediateValidation - РЅРµРѕР±РѕРІ'СЏР·РєРѕРІРёР№, РІРєР°Р·СѓС”, С‡Рё С‚СЂРµР±Р° РїСЂРѕРІРѕРґРёС‚Рё РїРµСЂС€Сѓ РІР°Р»С–РґР°С†С–СЋ РѕРґСЂР°Р·Сѓ РїС–СЃР»СЏ РїСЂРёР·РЅР°С‡РµРЅРЅСЏ РІР°Р»С–РґР°С‚РѕСЂС–РІ.
-   * @param (object) data - РЅРµРѕР±РѕРІ'СЏР·РєРѕРІРёР№, Р°Р»Рµ РЅРµРѕР±С…С–РґРЅРёР№, СЏРєС‰Рѕ Р·РЅР°С‡РµРЅРЅСЏ, СЏРєС– РЅРµРѕР±С…С–РґРЅРѕ РїСЂРѕРІР°Р»С‹РґСѓРІР°С‚Рё, РЅРµ РїРµСЂРµРґР°СЋС‚СЊСЃСЏ Р·Р°СЃРѕР±Р°РјРё СЃРµСЂРІС–СЃСѓ С€С‚Р°С‚РЅРѕРіРѕ РІР°Р»С–РґР°С‚РѕСЂР° РІ РїР°СЂР°РјРµС‚СЂР°С… modelValue С‚Р° viewValue
-   * @param {boolean} newRow - РЅРµРѕР±РѕРІ'СЏР·РєРѕРІРёР№, РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”С‚СЊСЃСЏ РґР»СЏ РІР°Р»С–РґР°С†С–С— С‚Р°Р±Р»РёС†i РїСЂРё РґРѕРґР°РІР°РЅРЅi РЅРѕРІРѕРіРѕ СЂСЏРґРєР°
+   * Параметри:
+   * @param form - форма, яку треба валідувати за маркерами валідації. Обов'язковий параметр.
+   * @param {object} markers - маркери валідації. Необов'язковий параметр. Якщо він відсутній, то спрацюють маркери за замовчуванням, див. _resolveValidationMarkers
+   * @param {boolean} immediateValidation - необов'язковий, вказує, чи треба проводити першу валідацію одразу після призначення валідаторів.
+   * @param (object) data - необов'язковий, але необхідний, якщо значення, які необхідно провалыдувати, не передаються засобами сервісу штатного валідатора в параметрах modelValue та viewValue
+   * @param {boolean} newRow - необов'язковий, використовується для валідації таблицi при додаваннi нового рядка
    */
   self.validateByMarkers = function (form, markers, immediateValidation, data, newRow) {
 
-    // РЇРєС‰Рѕ РјР°СЂРєРµСЂРё РІР°Р»С–РґР°С†С–С— РїСЂРёР№С€Р»Рё Р·РѕРІРЅС– - С‚Рѕ РІРёРєРѕСЂРёСЃС‚Р°С‚Рё С—С…
+    // Якщо маркери валідації прийшли зовні - то використати їх
     function _resolveValidationMarkers(markers) {
       if (markers) {
         self.markers = markers;
@@ -64,18 +64,18 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 
     markers = _resolveValidationMarkers(markers);
 
-    // РќРµРјР°С” РјР°СЂРєРµСЂС–РІ - РЅРµРјР°С” РІР°Р»С–РґР°С‚РѕСЂР°. Р’РёС…РѕРґРёРјРѕ Р· С„СѓРЅРєС†С–С—
+    // Немає маркерів - немає валідатора. Виходимо з функції
     if (!markers || !markers.validate || markers.validate.length < 1) {
       return;
     }
 
-    // РїРѕРјРµСЃС‚РёР» РІ РїСЂРѕРІРµСЂРєСѓ С‚Рє СЂР°РЅРµРµ РїСЂРё СЃР°Р±РјРёС‚Рµ, РµСЃР»Рё РїР°СЂР°РјРµС‚СЂ data РЅРµ РїРµСЂРµРґР°РІР°Р»Рё, formData РЅРµ РјРѕРіР»Р° РІР·СЏС‚СЊ РїР°СЂР°РјРµС‚СЂС‹ СЃ undefined
-    // Рё Р±С‹Р»Рё РѕС€РёР±РєРё
+    // поместил в проверку тк ранее при сабмите, если параметр data не передавали, formData не могла взять параметры с undefined
+    // и были ошибки
     if (data) {
       self.oFormDataParams = data || {};
     }
 
-    	angular.forEach(markers.validate, function (marker, markerName) {
+    angular.forEach(markers.validate, function (marker, markerName) {
       /*
       var isOrganJoinInclude = false;
       var isOrganNoInclude = true;
@@ -96,7 +96,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 */
       angular.forEach(form, function (formField) {
 
-          self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
+        self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
       });
     });
   };
@@ -127,14 +127,11 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     markerName = self.trimMarkerName(markerName);
 
     var keyByMarkerName = self.validatorNameByMarkerName[markerName];
-    var fieldNameIsListedInMarker = formField && formField.$name && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
-    var fieldTypeIsListedInMarker = formField && formField.type && (_.indexOf(marker.aField_Type, formField.type) !== -1); 
+    var fieldNameIsListedInMarker = formField && formField.$name && _.indexOf(marker.aField_ID, formField.$name) !== -1;
     var existingValidator = formField && formField.$validators && formField.$validators[keyByMarkerName];
 
-    console.log( markerName + " " + formField.$name + " " + formField.type + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
-    
-    // РґР»СЏ С‚РѕРіРѕ С‡С‚РѕР±С‹ РІР°Р»РёРґР°С†РёСЏ СЂР°Р±РѕС‚Р°Р»Р° РІ С‚Р°Р±Р»РёС†Рµ, РЅСѓР¶РЅРѕ РґРѕР±СЂР°С‚СЊСЃСЏ РґРѕ РїРѕР»РµР№, РІРІРѕРґРёС‚СЃСЏ РґРѕРї РїСЂРѕРІРµСЂРєР°.
-    if(!fieldNameIsListedInMarker && !fieldTypeIsListedInMarker) {
+    // для того чтобы валидация работала в таблице, нужно добраться до полей, вводится доп проверка.
+    if(!fieldNameIsListedInMarker) {
       angular.forEach(formField, function (field) {
         if(typeof field === 'object') {
           if(newRow) field = formField;
@@ -168,39 +165,39 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
         }
       })
     }
-    // Р’СЃС‚Р°РЅРѕРІР»СЋС”РјРѕ РІР°Р»С–РґР°С‚РѕСЂ Angular - С‚С–Р»СЊРєРё РґР»СЏ РїРѕР»СЏ, С‰Рѕ Р·РіР°РґСѓС”С‚СЊСЃСЏ Сѓ РјР°СЂРєРµСЂС– РІР°Р»С–РґР°С†С–С—, С– С‚С–Р»СЊРєРё РѕРґРёРЅ СЂР°Р·.
-    if (( (fieldNameIsListedInMarker || fieldTypeIsListedInMarker) /* || forceValidation */ ) && !existingValidator) {
+    // Встановлюємо валідатор Angular - тільки для поля, що згадується у маркері валідації, і тільки один раз.
+    if ((fieldNameIsListedInMarker /* || forceValidation */ ) && !existingValidator) {
 
-      // Р·Р°РїР°Рј'СЏС‚РѕРІСѓС”РјРѕ РѕРїС†С–С— РјР°СЂРєРµСЂР° С‰РѕР± РїРµСЂРµРґР°С‚Рё РїР°СЂР°РјРµС‚СЂРё С‚РёРїСѓ sMessage, sFormat, bFuture, bLess, nDays С–С‚РЅ.
+      // запам'ятовуємо опції маркера щоб передати параметри типу sMessage, sFormat, bFuture, bLess, nDays ітн.
       var markerOptions = angular.copy(marker) || {};
       markerOptions.key = keyByMarkerName;
 
-      // TODO РЅР° Р±РµС‚Рµ РёРЅРѕРіРґР° РЅРµ РїРµСЂРµРґР°РµС‚СЃСЏ $validators РёР·-Р·Р° С‡РµРіРѕ С„РѕСЂРјР° РІРёСЃРЅРµС‚, С…Р°СЂРґРєРѕРґ
+      // TODO на бете иногда не передается $validators из-за чего форма виснет, хардкод
       if(!formField.$validators) {
         return true
       }
 
       formField.$validators[keyByMarkerName] = self.getValidatorByName(markerName, markerOptions, formField);
 
-      // ...С– РїСЂРѕРІРѕРґРёРјРѕ РїРµСЂС€Сѓ РІР°Р»С–РґР°С†С–СЋ, СЏРєС‰Рѕ С‚СЂРµР±Р°
+      // ...і проводимо першу валідацію, якщо треба
       if (immediateValidation === true) {
         formField.$validate();
       }
 
-      // СЂРµР°Р»С–Р·Р°С†С–СЏ РЅР°СЃР»С–РґСѓРІР°РЅРЅСЏ
+      // реалізація наслідування
       if (markerOptions.inheritedValidator && typeof markerOptions.inheritedValidator === 'string') {
-        // РІРёРєРѕСЂРёСЃС‚Р°С‚Рё С–СЃРЅСѓСЋС‡РёР№ РІР°Р»С–РґР°С‚РѕСЂ
+        // використати існуючий валідатор
         self.setValidatorByMarker(marker, markerOptions.inheritedValidator, formField, immediateValidation, true);
       }
-    } else if ( ( fieldNameIsListedInMarker || fieldTypeIsListedInMarker ) && existingValidator) {
+    } else if (fieldNameIsListedInMarker && existingValidator) {
       if (immediateValidation === true) {
         formField.$validate();
       }
     }
   };
 
-  // Р¦Рµ РЅРµРѕР±С…С–РґРЅРѕ С‚Р°РєРѕР¶ РґР»СЏ РІС–РґРѕР±СЂР°Р¶РµРЅРЅСЏ РїРѕРјРёР»РѕРє РІР°Р»С–РґР°С†С–С— Сѓ UI
-  // @todo FIXME С†Рµ С…Р°СЂРґРєРѕРґ, С‚СЂРµР±Р° Р·СЂРѕР±РёС‚Рё Р№РѕРіРѕ С‡Р°СЃС‚РёРЅРѕСЋ РјР°СЂРєРµСЂС–РІ РІР°Р»С–РґР°С†С–С—
+  // Це необхідно також для відображення помилок валідації у UI
+  // @todo FIXME це хардкод, треба зробити його частиною маркерів валідації
   self.validatorNameByMarkerName = {
     Mail: 'email',
     AutoVIN: 'autovin',
@@ -219,36 +216,26 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     CustomFormat: 'CustomFormat',
     FileSign: 'FileSign',
     FileExtensions: 'FileExtensions',
-    FieldNotEmptyAndNonZero: 'FieldNotEmptyAndNonZero',
-    LongNumber: 'long',
-    DoubleNumber: 'double',
-    StringRange: 'string'
+    FieldNotEmptyAndNonZero: 'FieldNotEmptyAndNonZero'
   };
 
-  // РњР°СЃРёРІ РІР°Р»С–РґР°С‚РѕСЂС–РІ Р·Р° С‚РёРїРѕРј РїРѕР»СЏ 
-  self.validatorNameByType = { 
-		  long: 'LongNumber',
-		  double: 'DoubleNumber',
-		  string: 'StringRange'
-  }; 
-
   /**
-   * РћС‚СЂРёРјР°С‚Рё Р·Р°РјРёРєР°РЅРЅСЏ С„СѓРЅРєС†С–С—-РІР°Р»С–РґР°С‚РѕСЂР° Р·Р° РЅР°Р·РІРѕСЋ РјР°СЂРєРµСЂР° РІР°Р»С–РґР°С†С–С—
-   * @param {string} markerName РќР°Р·РІР° РјР°СЂРєРµСЂР° РІР°Р»С–РґР°С†С–С— Р· РѕР±'С”РєС‚Сѓ markers
-   * @param {object} markerOptions РћРїС†С–С— РјР°СЂРєРµСЂР° РІР°Р»С–РґР°С†С—С—, РїРµСЂРµРґР°СЋС‚СЊСЃСЏ Сѓ С„СѓРЅРєС†С–СЋ-РІР°Р»С–РґР°С‚РѕСЂ
-   * @param formField - РїРѕР»Рµ С„РѕСЂРјРё, СЏРєРµ Р±СѓРґРµРјРѕ РІР°Р»С–РґСѓРІР°С‚Рё РґР°РЅРёРј РјР°СЂРєРµСЂРѕРј, РќРµРѕР±РѕРІ`СЏР·РєРѕРІРёР№ РїР°СЂР°РјРµС‚СЂ.
-   * @returns {function|null} С„СѓРЅРєС†С–СЏ-Р·Р°РјРёРєР°РЅРЅСЏ Р°Р±Рѕ null РґР»СЏ РЅРµС–СЃРЅСѓСЋС‡РѕРіРѕ РІР°Р»С–РґР°С‚РѕСЂР° (С‚РѕР±С‚Рѕ С‚Р°РєРѕРіРѕ, С‰Рѕ РЅРµ Р·РЅР°С…РѕРґРёС‚СЊСЃСЏ Р·Р° РґР°РЅРёРј markerName).
+   * Отримати замикання функції-валідатора за назвою маркера валідації
+   * @param {string} markerName Назва маркера валідації з об'єкту markers
+   * @param {object} markerOptions Опції маркера валідацїї, передаються у функцію-валідатор
+   * @param formField - поле форми, яке будемо валідувати даним маркером, Необов`язковий параметр.
+   * @returns {function|null} функція-замикання або null для неіснуючого валідатора (тобто такого, що не знаходиться за даним markerName).
    */
   self.getValidatorByName = function (markerName, markerOptions, formField) {
     var fValidator = self.validatorFunctionsByFieldId[markerName];
-    // Р·Р°РјРёРєР°РЅРЅСЏ РґР»СЏ Р·Р±РµСЂРµР¶РµРЅРЅСЏ РѕРїС†С–Р№
+    // замикання для збереження опцій
     var validationClosure = function (modelValue, viewValue) {
       var result = null;
-      // Р·Р±РµСЂС–РіР°С”РјРѕ РѕРїС†С–С— РґР»СЏ Р·Р°РјРёРєР°РЅРЅСЏ
+      // зберігаємо опції для замикання
       var savedOptions = markerOptions || {};
       if (fValidator) {
         result = fValidator.call(self, modelValue, viewValue, savedOptions);
-        // РЇРєС‰Рѕ РІР°Р»С–РґР°С‚РѕСЂ Р·Р±РµСЂС–Рі РїРѕРјРёР»РєСѓ Сѓ savedOptions.lastError, С‚Рѕ РїСЂРёРІР»Р°СЃРЅРёС‚Рё С—С— РїРѕР»СЋ С„РѕСЂРјРё
+        // Якщо валідатор зберіг помилку у savedOptions.lastError, то привласнити її полю форми
         if (formField && formField.$error && savedOptions.lastError) {
           formField.lastErrorMessage = savedOptions.lastError;
         }
@@ -261,12 +248,12 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     return validationClosure;
   };
 
-  /** РћР±`С”РєС‚ Р· РїРµСЂРµР»С–РєРѕРј С„СѓРЅРєС†С–Р№-РІР°Р»С–РґР°С‚РѕСЂС–РІ.
-   @todo Р РѕР·РіР»СЏРЅСѓС‚Рё РјРѕР¶Р»РёРІС–СЃС‚СЊ РІРёРЅРµСЃРµРЅРЅСЏ С†РёС… С„СѓРЅРєС†С–Р№ РЅР°Р·РѕРІРЅС– (СЃС‚СЂСѓРєС‚СѓСЂР° РЅРµС‡С–С‚РєР°, С„Р°Р№Р» СЂРѕР·СЂРѕСЃС‚Р°С”С‚СЊСЃСЏ).
+  /** Об`єкт з переліком функцій-валідаторів.
+   @todo Розглянути можливість винесення цих функцій назовні (структура нечітка, файл розростається).
    */
   self.validatorFunctionsByFieldId = {
     /**
-     * 'Mail' - РїРµСЂРµРІС–СЂСЏС” Р°РґСЂРµСЃСѓ РµР»РµРєС‚СЂРѕРЅРЅРѕС— РїРѕС€С‚Рё
+     * 'Mail' - перевіряє адресу електронної пошти
      */
     'Mail': function (modelValue, viewValue) {
       var bValid = true;
@@ -276,9 +263,9 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     },
 
     /**
-     * 'AutoVIN' - Р›РѕРіРёРєР°: РЅР°Р±РѕСЂ РёР· 17 СЃРёРјРІРѕР»РѕРІ.
-     * Р Р°Р·СЂРµС€РµРЅРѕ РёСЃРїРѕР»СЊР·РѕРІР°С‚СЊ РІСЃРµ Р°СЂР°Р±СЃРєРёРµ С†РёС„СЂС‹ Рё Р»Р°С‚РёРЅСЃРєРёРµ Р±СѓРєРІС‹ (Рђ Р’ C D F Р• G Рќ J Рљ L N Рњ Р  R S Рў V W U X Y Z),
-     * Р—Р° РёСЃРєР»СЋС‡РµРЅРёРµРј Р±СѓРєРІ Q, O, I. (Р­С‚Рё Р±СѓРєРІС‹ Р·Р°РїСЂРµС‰РµРЅС‹ РґР»СЏ РёСЃРїРѕР»СЊР·РѕРІР°РЅРёСЏ, РїРѕСЃРєРѕР»СЊРєСѓ O Рё Q РїРѕС…РѕР¶Рё РјРµР¶РґСѓ СЃРѕР±РѕР№, Р° I Рё O РјРѕР¶РЅРѕ СЃРїСѓС‚Р°С‚СЊ СЃ 0 Рё 1.)
+     * 'AutoVIN' - Логика: набор из 17 символов.
+     * Разрешено использовать все арабские цифры и латинские буквы (А В C D F Е G Н J К L N М Р R S Т V W U X Y Z),
+     * За исключением букв Q, O, I. (Эти буквы запрещены для использования, поскольку O и Q похожи между собой, а I и O можно спутать с 0 и 1.)
      */
     'AutoVIN': function (sValue) {
       if (!sValue) {
@@ -297,48 +284,48 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     'PhoneUA': null,
 
     /**
-     * 'TextUA' - РЈСЃС– СѓРєСЂР°С—РЅСЃРєС– Р»С–С‚РµСЂРё, Р±РµР· С†РёС„СЂ, РјРѕР¶Р»РёРІРёР№ РјС–РЅСѓСЃ (РґРµС„С–СЃ) С‚Р° РїСЂРѕР±С–Р»
-     * РўРµРєСЃС‚ РїРѕРјРёР»РєРё: 'РўРµРєСЃС‚ РјРѕР¶Рµ РјС–СЃС‚РёС‚Рё С‚С–Р»СЊРєС– СѓРєСЂР°С—РЅСЃСЊРєС– Р»С–С‚РµСЂРё Р°Р±Рѕ РјС–РЅСѓСЃ С‡Рё РїСЂРѕР±С–Р»'
+     * 'TextUA' - Усі українскі літери, без цифр, можливий мінус (дефіс) та пробіл
+     * Текст помилки: 'Текст може містити тількі українські літери або мінус чи пробіл'
      */
     'TextUA': function (modelValue, viewValue) {
       if (modelValue === null || modelValue === '') {
         return true;
       }
-      var TEXTUA_REGEXP = /^[РђРђР‘Р’Р“ТђР”Р•Р„Р–Р—РР†Р‡Р™РљР›РњРќРћРџР РЎРўРЈР¤РҐР¦Р§РЁР©Р¬Р®РЇР°Р±РІРіТ‘РґРµС”Р¶Р·РёС–С—Р№РєР»РјРЅРѕРїСЂСЃС‚СѓС„С…С†С‡С€С‰СЊСЋСЏ`'-\s]+$/g;
-      var TEXTRU_ONLY = /[РЃС‘РЄСЉР«С‹Р­СЌ]+/g;
+      var TEXTUA_REGEXP = /^[ААБВГҐДЕЄЖЗИІЇЙКЛМНОПРСТУФХЦЧШЩЬЮЯабвгґдеєжзиіїйклмнопрстуфхцчшщьюя`'-\s]+$/g;
+      var TEXTRU_ONLY = /[ЁёЪъЫыЭэ]+/g;
       var bValid = TEXTUA_REGEXP.test(modelValue) && !TEXTRU_ONLY.test(modelValue);
       return bValid;
     },
 
     /**
-     * 'TextRU' - РЈСЃС– СЂРѕСЃС–Р№СЃСЊРєС– Р»С–С‚РµСЂРё, Р±РµР· С†РёС„СЂ, РјРѕР¶Р»РёРІРёР№ РјС–РЅСѓСЃ (РґРµС„С–СЃ) С‚Р° РїСЂРѕР±С–Р»
-     * РўРµРєСЃС‚ РїРѕРјРёР»РєРё: 'РўРµРєСЃС‚ РјРѕР¶Рµ РјС–СЃС‚РёС‚Рё С‚С–Р»СЊРєС– СЂРѕСЃС–Р№СЃСЊРєС– Р»С–С‚РµСЂРё Р°Р±Рѕ РјС–РЅСѓСЃ С‡Рµ РїСЂРѕР±С–Р»'
+     * 'TextRU' - Усі російські літери, без цифр, можливий мінус (дефіс) та пробіл
+     * Текст помилки: 'Текст може містити тількі російські літери або мінус че пробіл'
      */
     'TextRU': function (modelValue, viewValue) {
       if (modelValue === null || modelValue === '') {
         return true;
       }
-      var TEXTRU_REGEXP = /^[РђР°Р‘Р±Р’РІР“РіР”РґР•РµРЃС‘Р–Р¶Р—Р·РРёР™Р№РљРєР›Р»РњРјРќРЅРћРѕРџРїР СЂРЎСЃРўС‚РЈСѓР¤С„РҐС…Р¦С†Р§С‡РЁС€Р©С‰РЄСЉР«С‹Р¬СЊР­СЌР®СЋРЇСЏ-\s]+$/g;
-      var TEXTUA_ONLY = /[ТђР„Р†Р‡Т‘С”С–С—]+/g;
+      var TEXTRU_REGEXP = /^[АаБбВвГгДдЕеЁёЖжЗзИиЙйКкЛлМмНнОоПпРрСсТтУуФфХхЦцЧчШшЩщЪъЫыЬьЭэЮюЯя-\s]+$/g;
+      var TEXTUA_ONLY = /[ҐЄІЇґєії]+/g;
       var bValid = TEXTRU_REGEXP.test(modelValue) && !TEXTUA_ONLY.test(modelValue);
       return bValid;
     },
 
     /**
-     * 'DateFormat' - Р”Р°С‚Р° Сѓ Р·Р°РґР°РЅРѕРјСѓ С„РѕСЂРјР°С‚С– DATE_FORMAT
-     * РўРµРєСЃС‚ РїРѕРјРёР»РєРё: 'Р”Р°С‚Р° РјРѕР¶Рµ Р±СѓС‚Рё С‚С–Р»СЊРєРё С„РѕСЂРјР°С‚Сѓ DATE_FORMAT'
-     * Р”Р»СЏ РІР°Р»С–РґР°С†С–С— С„РѕСЂРјР°С‚Сѓ РІРёРєРѕСЂРёСЃС‚РѕРІСѓС”С‚СЊСЃСЏ  moment.js
+     * 'DateFormat' - Дата у заданому форматі DATE_FORMAT
+     * Текст помилки: 'Дата може бути тільки формату DATE_FORMAT'
+     * Для валідації формату використовується  moment.js
      */
     'DateFormat': function (modelValue, viewValue, options) {
       if (!options || !options.sFormat) {
         return false;
       }
 
-      // РЎС‚СЂРѕРіР° РІС–РґРїРѕРІС–РґРЅС–cС‚СЊ (РЅРµСЃС‚СЂРѕРіР° - var bValid = moment(modelValue, options.sFormat).isValid())
+      // Строга відповідніcть (нестрога - var bValid = moment(modelValue, options.sFormat).isValid())
       var bValid = (moment(modelValue, options.sFormat).format(options.sFormat) === modelValue);
 
       if (bValid === false) {
-        options.lastError = options.sMessage || ('Р”Р°С‚Р° РјРѕР¶Рµ Р±СѓС‚Рё С‚С–Р»СЊРєРё С„РѕСЂРјР°С‚Сѓ ' + options.sFormat);
+        options.lastError = options.sMessage || ('Дата може бути тільки формату ' + options.sFormat);
       }
 
       return bValid;
@@ -354,27 +341,27 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var bValid = (moment(modelValue, options.sFormat).format(options.sFormat) === modelValue);
 
       if (bValid === false) {
-        options.lastError = options.sMessage || ('Р”Р°С‚Р° РјРѕР¶Рµ Р±СѓС‚Рё С‚С–Р»СЊРєРё С„РѕСЂРјР°С‚Сѓ ' + options.sFormat);
+        options.lastError = options.sMessage || ('Дата може бути тільки формату ' + options.sFormat);
       }
 
       return bValid;
     },
 
     /**
-     * 'DateElapsed' - Р—/РґРѕ РґР°С‚Рё Сѓ РїРѕР»С– Р·/РїС–СЃР»СЏ РїРѕС‚РѕС‡РЅРѕС—, Р±С–Р»СЊС€Рµ/РјРµРЅС€Рµ РґРЅС–РІ/РјС–СЃСЏС†С–РІ/СЂРѕРєС–РІ
+     * 'DateElapsed' - З/до дати у полі з/після поточної, більше/менше днів/місяців/років
      *
-     *  РџР°СЂР°РјРµС‚СЂРё:
-     *  bFuture: false,  // СЏРєС‰Рѕ true, С‚Рѕ РґР°С‚Р° modelValue РјР°С” Р±СѓС‚Рё Сѓ РјР°Р№Р±СѓС‚РЅСЊРѕРјСѓ
-     *  bLess: true,     // СЏРєС‰Рѕ true, С‚Рѕ 'РґРµР»СЊС‚Р°' РјС–Р¶ modelValue С‚Р° Р·Р°СЂР°Р· РјР°С” Р±СѓС‚Рё 'РјРµРЅС€Рµ РЅС–Р¶' РІРєР°Р·Р°РЅР° РЅРёР¶РЅС–РјРё РїР°СЂР°РјРµС‚СЂР°РјРё
+     *  Параметри:
+     *  bFuture: false,  // якщо true, то дата modelValue має бути у майбутньому
+     *  bLess: true,     // якщо true, то 'дельта' між modelValue та зараз має бути 'менше ніж' вказана нижніми параметрами
      *  nDays: 3,
      *  nMonths: 0,
      *  nYears: 1,
      *  sFormat: 'YYYY-MM-DD'
      *
-     * РўРµРєСЃС‚ РїРѕРјРёР»РєРё: 'Р’С–Рґ/РґРѕ РґР°С‚Рё РґРѕ/РїС–СЃР»СЏ СЃСЊРѕРіРѕРґРЅС–С€РЅСЊРѕС— РјР°С” Р±СѓС‚Рё Р±С–Р»СЊС€Рµ/РјРµРЅС€Рµ РЅС–Р¶ С…-РґРЅС–РІ, С…-РјС–СЃСЏС†С–РІ, С…-СЂРѕРєС–РІ.
-     * С…-___        - РїС–РґСЃС‚Р°РІР»СЏС‚Рё С‚С–Р»СЊРєРё, СЏРєС‰Рѕ x РЅРµ РґРѕСЂС–РІРЅСЋС” 0
-     * Р—/Р”Рѕ         - РІ Р·Р°Р»РµР¶РЅРѕСЃС‚С– РІС–Рґ bFuture
-     * Р±С–Р»СЊС€Рµ/РјРµРЅС€Рµ - РІ Р·Р°Р»РµР¶РЅРѕСЃС‚С– РІС–Рґ bLess
+     * Текст помилки: 'Від/до дати до/після сьогоднішньої має бути більше/менше ніж х-днів, х-місяців, х-років.
+     * х-___        - підставляти тільки, якщо x не дорівнює 0
+     * З/До         - в залежності від bFuture
+     * більше/менше - в залежності від bLess
      */
     'DateElapsed': function (modelValue, viewValue, options) {
 
@@ -387,12 +374,12 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var modelMoment = moment(modelValue, fmt);
 
       // if (o.bDebug) {
-      //   console.log((o.sDebug ? o.sDebug : '') + ' - Р·Р°СЂР°Р·: ' + now.format(fmt) + ', РІРё СѓРІРµР»Рё: ' + modelMoment.format(fmt) + ', СЂС–Р·РЅРёС†СЏ: ' + deltaDays);
+      //   console.log((o.sDebug ? o.sDebug : '') + ' - зараз: ' + now.format(fmt) + ', ви увели: ' + modelMoment.format(fmt) + ', різниця: ' + deltaDays);
       // }
 
       options.lastError = '';
 
-      // РџРѕРІРµСЂС‚Р°С”РјРѕ РїРѕРјРёР»РєСѓ, СЏРєС‰Рѕ РѕРїС†С–С— РЅРµ РІРєР°Р·Р°РЅС– Р°Р±Рѕ РґР°С‚Р° РЅРµРІР°Р»С–РґРЅР°:
+      // Повертаємо помилку, якщо опції не вказані або дата невалідна:
       if (!o || typeof o.bFuture === 'undefined' || !modelMoment.isValid()) {
         return false;
       }
@@ -401,40 +388,40 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var nMonths = o.nMonths || 0;
       var nYears = o.nYears || 0;
 
-      // Р’РёР·РЅР°С‡Р°С”РјРѕ СЂС–Р·РЅРёС†СЋ РјС–Р¶ РґР°С‚Р°РјРё
+      // Визначаємо різницю між датами
       var deltaDays = modelMoment.diff(now, 'days');
       var deltaMonths = modelMoment.diff(now, 'months');
       var deltaYears = modelMoment.diff(now, 'years');
 
       // myLog('DateElapsed: ', o);
 
-      // РџРµСЂРµРІС–СЂРєР°, С‡Рё РІРёРєРѕРЅСѓС”С‚СЊСЃСЏ bFuture (РґР°С‚Р° РјР°С” Р±СѓС‚Рё Сѓ РјР°Р№Р±СѓС‚РЅСЊРѕРјСѓ):
+      // Перевірка, чи виконується bFuture (дата має бути у майбутньому):
       var errorSuffix;
 
       if (o.bFuture === true && deltaDays < 1) {
-        addError('Р”Р°С‚Р° РјР°С” Р±СѓС‚Рё Сѓ РјР°Р№Р±СѓС‚РЅСЊРѕРјСѓ, Р° С†СЏ вЂ” ' + (deltaDays === 0 ? 'РЅС–' : getRealDeltaStr(true)));
+        addError('Дата має бути у майбутньому, а ця — ' + (deltaDays === 0 ? 'ні' : getRealDeltaStr(true)));
         bValid = false;
       } else if (o.bFuture === false && deltaDays >= 1) {
-        addError('Р”Р°С‚Р° РјР°С” Р±СѓС‚Рё Сѓ РјРёРЅСѓР»РѕРјСѓ, Р° С†СЏ вЂ” ' + (deltaDays === 0 ? 'РЅС–' : getRealDeltaStr()));
+        addError('Дата має бути у минулому, а ця — ' + (deltaDays === 0 ? 'ні' : getRealDeltaStr()));
         bValid = false;
       }
 
       function finalize() {
-        // Р·Р±РµСЂРµРіС‚Рё РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ РїСЂРѕ РїРѕРјРёР»РєСѓ Сѓ Р·РѕРІРЅС–С‰РЅСЊРѕРјСѓ РѕР±'С”РєС‚С– РѕРїС†С–Р№ - Р·Р°РјРёРєР°РЅРЅСЏ
+        // зберегти повідомлення про помилку у зовніщньому об'єкті опцій - замикання
         for (var errorName in errors) {
           // myLog(errors[errorName], 1);
           o.lastError = o.sMessage || errors[errorName];
         }
       }
 
-      // РЇРєС‰Рѕ РІР¶Рµ С” РїРѕРјРёР»РєР° - РїРѕРІРµСЂС‚Р°С”РјРѕ РїРѕРјРёР»РєСѓ, РґР°Р»С– РїРµСЂРµРІС–СЂСЏС‚Рё РЅРµРјР°С” СЃРµРЅСЃСѓ:
+      // Якщо вже є помилка - повертаємо помилку, далі перевіряти немає сенсу:
       if (bValid === false) {
         finalize();
         // myLog('-------------break ---------------', 2);
         return bValid;
       }
 
-      // РЇРєС‰Рѕ С–РЅС€РёС… РѕРїС†С–Р№ РЅРµРјР°С” - РїРѕРІРµСЂС‚Р°С”РјРѕ СЂРµР·-С‚
+      // Якщо інших опцій немає - повертаємо рез-т
       if (typeof o.bLess === 'undefined') {
         return bValid;
       }
@@ -445,16 +432,16 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 
       return bValid;
 
-      // Р”РѕРїРѕРјС–Р¶РЅС– С„СѓРЅРєС†С–С—:
+      // Допоміжні функції:
 
-      // Р“РµРЅРµСЂСѓС”РјРѕ РїРѕРІС–РґРѕРјР»РµРЅРЅСЏ РїСЂРѕ РїРѕРјРёР»РєСѓ
+      // Генеруємо повідомлення про помилку
       function getErrorMessage() {
-        // VID_DO: Р’С–Рґ/РґРѕ
-        var sVidDo = o.bFuture ? 'Р”Рѕ' : 'Р’С–Рґ';
-        // DO_PISLYA: РґРѕ/РїС–СЃР»СЏ
-        var sDoPislya = o.bFuture ? 'РїС–СЃР»СЏ' : 'РґРѕ';
-        // BIL_MEN: Р±С–Р»СЊС€Рµ/РјРµРЅС€Рµ
-        var sBilMen = o.bLess ? 'РјРµРЅС€Рµ' : 'Р±С–Р»СЊС€Рµ';
+        // VID_DO: Від/до
+        var sVidDo = o.bFuture ? 'До' : 'Від';
+        // DO_PISLYA: до/після
+        var sDoPislya = o.bFuture ? 'після' : 'до';
+        // BIL_MEN: більше/менше
+        var sBilMen = o.bLess ? 'менше' : 'більше';
 
         var maxDelta = moment.duration({
           days: nDays,
@@ -462,9 +449,9 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
           years: nYears
         }).as('days');
 
-        var message = '{VID_DO} РґР°С‚Рё Сѓ РїРѕР»С– {DO_PISLYA} РїРѕС‚РѕС‡РЅРѕС— РјР°С” Р±СѓС‚Рё {BIL_MEN} РЅС–Р¶ {N_DAYS} {N_MONTHES} {N_YEARS}'; // - max Delta = ' + maxDelta
+        var message = '{VID_DO} дати у полі {DO_PISLYA} поточної має бути {BIL_MEN} ніж {N_DAYS} {N_MONTHES} {N_YEARS}'; // - max Delta = ' + maxDelta
 
-        // delta Р·Р°РЅР°РґС‚Рѕ РІРµР»РёРєР° - Р° o.bLess РєР°Р¶Рµ, С‰Рѕ РјР°С” Р±СѓС‚Рё РјРµРЅС€Р°:
+        // delta занадто велика - а o.bLess каже, що має бути менша:
         // TODO test it more
         if (o.bLess === true && Math.abs(deltaDays) > maxDelta || o.bLess === false && Math.abs(deltaDays) < maxDelta) {
           bValid = false;
@@ -481,14 +468,14 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
         return message;
       }
 
-      // РђР»СЊС‚РµСЂР°С‚РёРІРЅРёР№ С„РѕСЂРјР°С‚ РІС–РґРѕР±СЂР°Р¶РµРЅРЅСЏ РїРѕРјРёР»РєРё:
+      // Альтеративний формат відображення помилки:
       function getAlternativeErrorMessage() {
         return [
-          'Р”Р°С‚Р° РјР°С” Р±СѓС‚Рё Сѓ ',
-          '' + (o.bFuture ? 'РјР°Р№Р±СѓС‚РЅСЊРѕРјСѓ' : 'РјРёРЅСѓР»РѕРјСѓ'),
-          ' С‚Р° РІС–РґСЂС–Р·РЅСЏС‚РёСЃСЏ ',
-          '' + (o.bLess ? 'РјРµРЅС€Рµ' : 'Р±С–Р»СЊС€Рµ'),
-          ', РЅС–Р¶ РЅР° ' + getDeltaStr(options)
+          'Дата має бути у ',
+          '' + (o.bFuture ? 'майбутньому' : 'минулому'),
+          ' та відрізнятися ',
+          '' + (o.bLess ? 'менше' : 'більше'),
+          ', ніж на ' + getDeltaStr(options)
         ].join('');
       }
 
@@ -498,7 +485,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
         }
       }
 
-      // Р’РёРєРѕСЂРёСЃС‚РѕРІСѓС”РјРѕ Moment РґР»СЏ РѕС‚СЂРёРјР°РЅРЅСЏ СЂСЏРґРєС–РІ С‚РёРїСѓ "СЂС–Рє С‚РѕРјСѓ", "Р·Р° РґРІР° РґРЅС–" etc.
+      // Використовуємо Moment для отримання рядків типу "рік тому", "за два дні" etc.
       function getRealDeltaStr(getFrom) {
         return getFrom ? modelMoment.from(now) : modelMoment.to(now);
       }
@@ -512,7 +499,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 
       // TODO disable in release - it's dev only
       // function myLog(sMessage, l) {
-      //   // С‡РёРј Р±С–Р»СЊС€РёР№ СЂС–РІРµРЅСЊ, С‚РёРј Р±С–Р»СЊС€Рµ С–РЅС„Рё Сѓ РєРѕРЅСЃРѕР»С–
+      //   // чим більший рівень, тим більше інфи у консолі
       //   var logLevel = 1;
       //   if (l <= logLevel) {
       //     console.log('\t\t' + sMessage);
@@ -521,10 +508,10 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     },
 
     /**
-     Р›РѕРіРёРєР°: РґРІРµ С†РёС„СЂС‹ С‚РѕС‡РєР° РґРІРµ С†РёС„СЂС‹ (РїРµСЂРІС‹Рµ РґРІРµ С†РёС„СЂС‹ РЅРµ РјРѕРіСѓС‚ Р±С‹С‚СЊ 04, 34, 40, 44, 48, 54, 57, 67, 76, 83, 89)
-     РЎРѕРѕР±С‰РµРЅРёРµ: РўР°РєРѕРіРѕ РљР’Р•Р” РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)
+     Логика: две цифры точка две цифры (первые две цифры не могут быть 04, 34, 40, 44, 48, 54, 57, 67, 76, 83, 89)
+     Сообщение: Такого КВЕД не існує - (ви не можете вписувати літери)
      */
-    'CodeKVED': function (sValue) { //РІРёРґ СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё РїРѕ РљР’Р•Р”.
+    'CodeKVED': function (sValue) { //вид экономической деятельности по КВЕД.
 
       if (!sValue) {
         return false;
@@ -547,12 +534,12 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     },
 
     /**
-     11) EDRPOU //РєРѕРґ Р„Р”Р РџРћРЈ.
-     Р›РѕРіРёРєР°: Р¶РµСЃС‚РєРѕ РІРѕСЃРµРјСЊ С†РёС„СЂ, С‚РёРї СЃС‚СЂРёРЅРі(С‡С‚РѕР±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЃС‚Р°РІРёС‚СЊ default=вЂќ вЂќ)
-     РЎРѕРѕР±С‰РµРЅРёРµ: РўР°РєРёР№ РєРѕРґ Р„Р”Р РџРћРЈ РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)
-     РџРѕР»СЏ: edrpou
+     11) EDRPOU //код ЄДРПОУ.
+     Логика: жестко восемь цифр, тип стринг(чтобы можно было ставить default=” ”)
+     Сообщение: Такий код ЄДРПОУ не існує - (ви не можете вписувати літери)
+     Поля: edrpou
      */
-    'CodeEDRPOU': function (sValue) { //РІРёРґ СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё РїРѕ РљР’Р•Р”.
+    'CodeEDRPOU': function (sValue) { //вид экономической деятельности по КВЕД.
 
       if (!sValue) {
         return false;
@@ -576,12 +563,12 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     },
 
     /**
-     12) MFO //РєРѕРґ Р±Р°РЅРєР°.
-     Р›РѕРіРёРєР°: Р¶РµСЃС‚РєРѕ С€РµСЃС‚СЊ С†РёС„СЂ.С‚РёРї СЃС‚СЂРёРЅРі.(С‡С‚РѕР±С‹ РјРѕР¶РЅРѕ Р±С‹Р»Рѕ СЃС‚Р°РІРёС‚СЊ default=вЂќ вЂќ)
-     РЎРѕРѕР±С‰РµРЅРёРµ: РўР°РєРѕРіРѕ РєРѕРґСѓ Р±Р°РЅРєСѓ РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)
-     РџРѕР»СЏ: mfo
+     12) MFO //код банка.
+     Логика: жестко шесть цифр.тип стринг.(чтобы можно было ставить default=” ”)
+     Сообщение: Такого коду банку не існує - (ви не можете вписувати літери)
+     Поля: mfo
      */
-    'CodeMFO': function (sValue) { //РІРёРґ СЌРєРѕРЅРѕРјРёС‡РµСЃРєРѕР№ РґРµСЏС‚РµР»СЊРЅРѕСЃС‚Рё РїРѕ РљР’Р•Р”.
+    'CodeMFO': function (sValue) { //вид экономической деятельности по КВЕД.
 
       if (!sValue) {
         return false;
@@ -602,133 +589,12 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 
       return bValid;
     },
-    
+
     /**
-     * 'StringRange' - СЃС‚СЂРѕРєР° Р· РІРёР·РЅР°С‡РµРЅРѕСЋ РґРѕРІР¶РёРЅРѕСЋ 
-     *   
-     * StringRange: { // РќРµРїРѕРґС–Р»СЊРЅРµ РІ РґС–Р°РїР°Р·РѕРЅС– 
-     * 		aField_ID: ['long'],
-     * 		nMin: 1, 
-     * 		nMax: 3, 
-     * 		sMessage: '' 
-     * }  
-     */
-    'StringRange': function( modelValue, viewValue, options ) {
-
-    	alert("In the StingRange"); 
-    	
-    	if((modelValue === null) || modelValue === '') { 
-    		return true; 
-    	} 
-    	
-    	if(!options ) {
-    		return false; 
-    	}
-
-    	if(options.nMin === null || (options.nMax != null && options.nMin > options.nMax)) { 
-    		options.nMin = 0; 
-    	}
-
-    	if(options.nMax === null || (options.nMin != null && options.nMin > options.nMax)) { 
-    		options.nMax = 200; 
-    	}
-
-    	var bValid = modelValue.length >= options.nMin && modelValue.length <= options.nMax;  
-
-    	return bValue; 
-    },
-    
-    /**
-     * 'LongNumber' - РЅРµРїРѕРґС–Р»СЊРЅРµ С‡РёСЃР»Рѕ 
-     * РўРµРєСЃС‚ РїРѕРјРёР»РєРё: options.sMessage Р°Р±Рѕ 'Р§РёСЃР»Рѕ РјР°С” Р±СѓС‚Рё РјС–Р¶ ' + options.nMin + ' С‚Р° ' + options.nMax;  
-     * Р¤РѕСЂРјР°С‚ РјР°СЂРєРµСЂР°: 
-     * 
-     * LongNumber: { // РќРµРїРѕРґС–Р»СЊРЅРµ РІ РґС–Р°РїР°Р·РѕРЅС– 
-     * 		aField_ID: ['long'],
-     * 		aField_Type: ['long'], 
-     * 		nMin: 1, 
-     * 		nMax: 3, 
-     * 		sMessage: '' 
-     * } 
-     */
-    'LongNumber': function(modelValue, viewValue, options) { 
-
-    	alert( "In the LongNumber" );
-    	
-    	if(modelValue === null || modelValue === '') {
-    		return true;
-    	}
-    	
-    	if(!options) { 
-    		return false; 
-    	}
-    	
-    	if(options.nMin === null || ( options.nMax != null && options.nMax < options.nMin )) {
-    		options.nMin = 0; 
-    	}
-
-
-    	if(options.nMax === null || ( options.nMin != null && options.nMin > options.nMax )) { 
-    		options.nMax = Number.MAX_VALUE;
-    	}
-    	
-    	var bValid = (parseFloat(modelValue) - Math.floor(modelValue) == 0) && (parseInt(modelValue) >= options.nMin) && (parseInt(modelValue) <= options.nMax);
-    	
-    	if(bValid === false) {
-    		options.lastError = options.sMessage || ('РќРµРїРѕРґС–Р»СЊРЅРµ С‡РёСЃР»Рѕ РјС–Р¶ ' + options.nMin + ' С‚Р° ' + options.nMax); 
-    	}
-    	
-    	return bValid; 
-    }, 
-    
-    /** 
-     * 'DoubleNumber' - РїРѕРґС–Р»СЊРЅРµ С‡РёСЃР»Рѕ 
-     * РўРµРєСЃС‚ РїРѕРјРёР»РєРё: options.sMessage Р°Р±Рѕ 'РџРѕРґС–Р»СЊРЅРµ С‡РёСЃР»Рѕ РјР°С” Р±СѓС‚Рё РјС–Р¶ ' + options.nMin + ' С‚Р° ' + options.nMax;   
-     * 
-     * DoubleNumber: { // РџРѕРґС–Р»СЊРЅРµ РІ РґС–Р°РїР°Р·РѕРЅС– 
-     * 		aField_ID: ['double'],
-     * 		aFiled_Type: ['double'],
-     * 		nMin: 1, 
-     * 		nMax: 10000000, 
-     * 		sMessage: '' 
-     * } 
-     */
-    'DoubleNumber': function(modelValue, viewValue, options) { 
-    	
-    	alert( "In the DoubleNumber" );
-    	
-    	if((modelValue === null) || modelValue == '') {
-    		return true;
-    	}
-    	
-    	if(!options) {
-    		return false;
-    	}
-    	
-    	if(options.nMin === null || ( options.nMax != null && options.nMax < options.nMin ) ) { 
-    		options.nMin = 0;
-    	}
-    	
-    	if(options.nMax === null || ( options.nMin != null && options.nMin > options.nMax ) ) { 
-    		options.nMax = 10000000;  
-    	}
-    	
-    	var parsedFloat = parseFloat(modelValue); 
-    	
-    	var bValid = (parsedFloat - Math.floor(modelValue) != 0) && (parsedFloat > options.nMin) && (parsedFloat < options.nMax);   
-
-    	if(bValid === null) { 
-    		options.lastError = options.sMessage || ('РџРѕРґС–Р»СЊРЅРµ С‡РёСЃР»Рѕ РјР°С” Р±СѓС‚Рё РјС–Р¶ ' + options.nMin + ' С‚Р° ' + options.nMax); 
-    	}
-    	
-    	return bValue; 
-    }, 
-    
-    /**
-     'NumberBetween' - С‚С–Р»СЊРєРё С†РёС„СЂРё, РјР°РєСЃРёРјСѓРј 3
-     РўРµРєСЃС‚ РїРѕРјРёР»РєРё: options.sMessage Р°Р±Рѕ 'Р§РёСЃР»Рѕ РјР°С” Р±СѓС‚Рё РјС–Р¶ ' + options.nMin + ' С‚Р° ' + options.nMax;
-     Р¤РѕСЂРјР°С‚ РјР°СЂРєРµСЂР°:
-     NumberBetween: { // Р¦РµР»РѕС‡РёСЃР»РµРЅРЅРѕРµ РјРµР¶РґСѓ
+     'NumberBetween' - тільки цифри, максимум 3
+     Текст помилки: options.sMessage або 'Число має бути між ' + options.nMin + ' та ' + options.nMax;
+     Формат маркера:
+     NumberBetween: { // Целочисленное между
         aField_ID: ['floors'],
         nMin: 1,
         nMax: 3,
@@ -746,21 +612,21 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var bValid = DIGITS_REGEXP.test(modelValue) && modelValue >= options.nMin && modelValue <= options.nMax;
 
       if (bValid === false) {
-        options.lastError = options.sMessage || ('РџРµСЂРµРІС–СЂС‚Рµ РїСЂР°РІРёР»СЊРЅС–СЃС‚СЊ Р·Р°РїРѕРІРЅРµРЅРЅСЏ - С‡РёСЃР»Рѕ РјР°С” Р±СѓС‚Рё РјС–Р¶ ' + options.nMin + ' С‚Р° ' + options.nMax);
+        options.lastError = options.sMessage || ('Перевірте правильність заповнення - число має бути між ' + options.nMin + ' та ' + options.nMax);
       }
 
       return bValid;
     },
 
     /**
-     Р¤РѕСЂРјР°С‚ РјР°СЂРєРµСЂР°:
-     NumberFractionalBetween: { //Р”СЂРѕР±РЅРѕРµ С‡РёСЃР»Рѕ РјРµР¶РґСѓ
+     Формат маркера:
+     NumberFractionalBetween: { //Дробное число между
         aField_ID: ['total_place', 'warming_place'],
         nMin: 0,
         nMax: 99999999
       }
-     Р›РѕРіРёРєР°: СЂР°Р·СЂРµС€РµРЅС‹ С‚РѕР»СЊРєРѕ С†РёС„СЂС‹, РјР°РєСЃРёРјСѓРј 8
-     РЎРѕРѕР±С‰РµРЅРёРµ: РџСЂРѕРІРµСЂСЊС‚Рµ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ Р·Р°РїРѕР»РЅРµРЅРёСЏ РїРѕР»СЏ - РїР»РѕС‰Р°РґСЊ РїРѕРјРµС‰РµРЅРёСЏ РјРѕР¶РµС‚ СЃРѕСЃС‚РѕСЏС‚СЊ РјР°РєСЃРёРјСѓРј РёР· 8 С†РёС„СЂ
+     Логика: разрешены только цифры, максимум 8
+     Сообщение: Проверьте правильность заполнения поля - площадь помещения может состоять максимум из 8 цифр
      */
     'NumberFractionalBetween': function (modelValue, viewValue, options) {
       if (modelValue === null || modelValue === '') {
@@ -774,18 +640,18 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var bValid = FRACTIONAL_REGEXP.test(modelValue) && modelValue >= options.nMin && modelValue <= options.nMax;
 
       if (bValid === false) {
-        options.lastError = options.sMessage || ('РџРµСЂРµРІС–СЂС‚Рµ РїСЂР°РІРёР»СЊРЅС–СЃС‚СЊ Р·Р°РїРѕРІРЅРµРЅРЅСЏ РїРѕР»СЏ - С‡РёСЃР»Рѕ РјРѕР¶Рµ СЃРєР»Р°РґР°С‚РёСЃСЏ РјР°РєСЃРёРјСѓРј Р· ' + options.nMax + ' С†РёС„СЂ');
+        options.lastError = options.sMessage || ('Перевірте правильність заповнення поля - число може складатися максимум з ' + options.nMax + ' цифр');
       }
       return bValid;
     },
 
     /**
-     Р¤РѕСЂРјР°С‚ РјР°СЂРєРµСЂР°:
-     Numbers_Accounts: { //СЂР°Р·СЂРµС€РµРЅС‹ С†РёС„СЂС‹ Рё РґРµС„РёСЃС‹, Р±СѓРєРІС‹ Р»СЋР±С‹Рµ Р·Р°РїСЂРµС‰РµРЅС‹
+     Формат маркера:
+     Numbers_Accounts: { //разрешены цифры и дефисы, буквы любые запрещены
         aField_ID: ['house_number', 'gas_number', 'coolwater_number', 'hotwater_number', 'waterback_number', 'warming_number', 'electricity_number', 'garbage_number']
       }
-     Р›РѕРіРёРєР°: СЂР°Р·СЂРµС€РµРЅС‹ С†РёС„СЂС‹ Рё РґРµС„РёСЃС‹, Р±СѓРєРІС‹ Р»СЋР±С‹Рµ Р·Р°РїСЂРµС‰РµРЅС‹
-     РЎРѕРѕР±С‰РµРЅРёРµ: РџСЂРѕРІРµСЂСЊС‚Рµ РїСЂР°РІРёР»СЊРЅРѕСЃС‚СЊ РІРІРѕРґРёРјРѕРіРѕ РЅРѕРјРµСЂР° (Р±СѓРєРІС‹ РЅРµ СЂР°Р·СЂРµС€РµРЅС‹ Рє Р·Р°РїРѕР»РЅРµРЅРёСЋ)
+     Логика: разрешены цифры и дефисы, буквы любые запрещены
+     Сообщение: Проверьте правильность вводимого номера (буквы не разрешены к заполнению)
      */
     'Numbers_Accounts': function (modelValue, viewValue, options) {
       if (modelValue === null || modelValue === '') {
@@ -799,24 +665,24 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var bValid = DIGITS_AND_DASH_REGEXP.test(modelValue);
 
       if (bValid === false) {
-        options.lastError = options.sMessage || ('РџРµСЂРµРІС–СЂС‚Рµ РїСЂР°РІРёР»СЊРЅС–СЃС‚СЊ СѓРІРµРґРµРЅРѕРіРѕ РЅРѕРјРµСЂСѓ (РІРёРєРѕСЂРёСЃС‚РѕРІСѓРІР°С‚Рё Р»С–С‚РµСЂРё РЅРµ РјРѕР¶РЅР°)');
+        options.lastError = options.sMessage || ('Перевірте правильність уведеного номеру (використовувати літери не можна)');
       }
       return bValid;
     },
 
     /**
-     'CustomFormat' - РєР°СЃС‚РѕРјРЅС‹Р№ С„РѕСЂРјР°С‚ РЅРѕРјРµСЂР°
-     РўРµРєСЃС‚ РїРѕРјРёР»РєРё: 'РќРµРІС–СЂРЅРёР№ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ, РІРІРµРґС–С‚СЊ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ Сѓ С„РѕСЂРјР°С‚С– С…С…С…С…С…С…С…С…С…С…:С…С…:С…С…С…:С…С…С…С…'
-     Р¤РѕСЂРјР°С‚ РјР°СЂРєРµСЂР°:
+     'CustomFormat' - кастомный формат номера
+     Текст помилки: 'Невірний кадастровий номер, введіть кадастровий номер у форматі хххххххххх:хх:ххх:хххх'
+     Формат маркера:
      CustomFormat_NumberKadastr: {
         aField_ID: ['landNumb'],
-        sFormat: 'С…С…С…С…С…С…С…С…С…С…:С…С…:С…С…С…:С…С…С…С…'
-        sMessage: 'РќРµРІС–СЂРЅРёР№ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ, РІРІРµРґС–С‚СЊ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ Сѓ С„РѕСЂРјР°С‚С– С…С…С…С…С…С…С…С…С…С…:С…С…:С…С…С…:С…С…С…С…'
+        sFormat: 'хххххххххх:хх:ххх:хххх'
+        sMessage: 'Невірний кадастровий номер, введіть кадастровий номер у форматі хххххххххх:хх:ххх:хххх'
      }
-     РСЃС…РѕРґРЅР°СЏ РёРЅС„РѕСЂРјР°С†РёСЏ РїРѕ РІР°Р»РёРґР°С†РёРё РєР°РґР°СЃС‚СЂРѕРІРѕРіРѕ РЅРѕРјРµСЂР°: id: landNumb type: string С„РѕСЂРјР°С‚:
-     10 С†РёС„СЂ:2 С†РёС„СЂС‹:3 С†РёС„СЂС‹:4 С†РёС„СЂС‹ (С…С…С…С…С…С…С…С…С…С…:С…С…:С…С…С…:С…С…С…С…)
-     РџСЂРё РЅРµРїСЂР°РІРёР»СЊРЅРѕРј РІРІРµРґРµРЅРёРё РІС‹РІРѕРґРёС‚СЊ РѕС€РёР±РєСѓ "РќРµРІС–СЂРЅРёР№ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ,
-     РІРІРµРґС–С‚СЊ РєР°РґР°СЃС‚СЂРѕРІРёР№ РЅРѕРјРµСЂ Сѓ С„РѕСЂРјР°С‚С– С…С…С…С…С…С…С…С…С…С…:С…С…:С…С…С…:С…С…С…С…"
+     Исходная информация по валидации кадастрового номера: id: landNumb type: string формат:
+     10 цифр:2 цифры:3 цифры:4 цифры (хххххххххх:хх:ххх:хххх)
+     При неправильном введении выводить ошибку "Невірний кадастровий номер,
+     введіть кадастровий номер у форматі хххххххххх:хх:ххх:хххх"
      }*/
     'CustomFormat': function (modelValue, viewValue, options) {
       console.log("viewValue=" + viewValue);
@@ -848,7 +714,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
         var sF = options.sFormat.substr(n, 1);
         console.log("sF=" + sF);
         var b = false;
-        if (sF === "#") {//С…//#
+        if (sF === "#") {//х//#
           b = (s === "0" || s === "1" || s === "2" || s === "3" || s === "4" || s === "5" || s === "6" || s === "7" || s === "8" || s === "9");
         } else {
           b = (s === sF);
@@ -863,7 +729,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       console.log("bValid=" + bValid);
       //if (bValid === false) {
       if (!bValid) {
-        options.lastError = options.sMessage || ('РќРµРІС–СЂРЅРёР№ РЅРѕРјРµСЂ, РІРІРµРґС–С‚СЊ РЅРѕРјРµСЂ Сѓ С„РѕСЂРјР°С‚С– ' + options.sFormat);
+        options.lastError = options.sMessage || ('Невірний номер, введіть номер у форматі ' + options.sFormat);
       }
       return bValid;
     },
@@ -875,18 +741,18 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       }
 
       if (bValid === false) {
-        options.lastError = options.sMessage || ('РџС–РґРїРёСЃ РЅРµ РІР°Р»С–РґРЅРёР№ Р°Р±Рѕ РІС–РґСЃСѓС‚РЅС–Р№');
+        options.lastError = options.sMessage || ('Підпис не валідний або відсутній');
       }
       return bValid;
     },
 
     /**
-     * РљР°СЃС‚РѕРјРЅРёР№ РІР°Р»С–РґР°С‚РѕСЂ СЂРѕР·С€РёСЂРµРЅРЅСЏ Р·Р°РІР°РЅС‚Р°Р¶СѓС”РјРёС… С„Р°Р№Р»С–РІ
-     * Р¤РѕСЂРјР°С‚ РјР°СЂРєРµСЂСѓ:
+     * Кастомний валідатор розширення завантажуємих файлів
+     * Формат маркеру:
      * FileExtensions_ExtValue: {
         aField_ID: ['bankId_scan_inn','file1','file2'],
         saExtension: 'jpg, pdf, png',
-        sMessage: 'РќРµРґРѕРїСѓСЃС‚РёРјРёР№ С„РѕСЂРјР°С‚ С„Р°Р№Р»Сѓ! РџРѕРІРёРЅРЅРѕ Р±СѓС‚Рё: {saExtension}!'
+        sMessage: 'Недопустимий формат файлу! Повинно бути: {saExtension}!'
       }
      */
     'FileExtensions': function (modelValue, viewValue, options) {
@@ -907,14 +773,14 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       var params = self.oFormDataParams;
       for(var paramObj in params) if (params.hasOwnProperty(paramObj)){
         if(params[paramObj].value && params[paramObj].fileName){
-            if(modelValue.id === params[paramObj].value.id){
-              sFileName = params[paramObj].fileName;
-              break;
-            } else if (modelValue.id === params[paramObj].value) {
-              sFileName = params[paramObj].fileName;
-              break;
-            }
-        }      
+          if(modelValue.id === params[paramObj].value.id){
+            sFileName = params[paramObj].fileName;
+            break;
+          } else if (modelValue.id === params[paramObj].value) {
+            sFileName = params[paramObj].fileName;
+            break;
+          }
+        }
       }
 
       var aExtensions = options.saExtension.split(',');
@@ -963,7 +829,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 
       if (!bValid) {
         if (!options.sMessage || options.sMessage === null || options.sMessage === "") {
-          options.sMessage = 'РќРµРґРѕРїСѓСЃС‚РёРјРёР№ С„РѕСЂРјР°С‚ С„Р°Р№Р»Сѓ! РџРѕРІРёРЅРЅРѕ Р±СѓС‚Рё: {saExtension}!';
+          options.sMessage = 'Недопустимий формат файлу! Повинно бути: {saExtension}!';
         }
         var sMessage = MarkersFactory.interpolateString(options.sMessage, options, '{', '}');
         options.lastError = sMessage.value;
@@ -972,7 +838,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     },
     
     /**
-     Р›РѕРіРёРєР°: РќРµ РёРїСѓСЃС‚РѕС‚Р° Рё РЅРµ РЅРѕР»СЊ
+     Логика: Не ипустота и не ноль
      */
     'FieldNotEmptyAndNonZero': function (modelValue) {
       var sValue = modelValue;
@@ -997,7 +863,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
   };
 
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-  // РЈС‚РёР»С–С‚Рё
+  // Утиліти
   ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
   self.fromDateToDate = function (dateA, dateB, fmt) {
@@ -1006,30 +872,30 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
   };
 
   /**
-   * РџРµСЂРµС‚РІРѕСЂСЋС” С‡РёСЃР»Р° nUnits С‚Р° РєР»СЋС‡ sKey РЅР° СЃР»РѕРІР° С‚Р°РєС– СЏРє:
-   * - 1 РґРµРЅСЊ, 2 РґРЅС–, 5 РґРЅС–РІ,
-   * - 1 РјС–СЃСЏС†СЊ, 3 РјС–СЃСЏС†С–, 10 РјС–СЃСЏС†С–РІ
-   * - 1 СЂС–Рє, 4 СЂРѕРєРё, 5 СЂРѕРєС–РІ
-   * @param {number} nUnits РєС–Р»СЊРєС–СЃС‚СЊ РґРЅС–РІ, РјС–СЃСЏС†С–РІ С‡Рё СЂРѕРєС–РІ, СЏРєС– С‚СЂРµР±Р° РїСЂРёРІРµСЃС‚Рё РґРѕ РјРЅРѕР¶РёРЅРё
-   * @param {string} sKey РЅР°Р·РІР° РѕРґРёРЅРёС†С– РІРёРјС–СЂСѓ С‡Р°СЃСѓ: РґРµРЅСЊ, РјС–СЃСЏС†СЊ С‡Рё СЂС–Рє.
-   * @returns {string} РјРЅРѕР¶РёРЅРЅР° С„РѕСЂРјР° РЅР° РєС€С‚Р°Р»С‚ "5 РґРЅС–РІ", "2 СЂРѕРєРё" С– С‚.Рґ.
+   * Перетворює числа nUnits та ключ sKey на слова такі як:
+   * - 1 день, 2 дні, 5 днів,
+   * - 1 місяць, 3 місяці, 10 місяців
+   * - 1 рік, 4 роки, 5 років
+   * @param {number} nUnits кількість днів, місяців чи років, які треба привести до множини
+   * @param {string} sKey назва одиниці виміру часу: день, місяць чи рік.
+   * @returns {string} множинна форма на кшталт "5 днів", "2 роки" і т.д.
    */
   self.pluralize = function (nUnits, sKey) {
     var types = {
       'days': {
-        single: 'РґРµРЅСЊ',
-        about: 'РґРЅС–',
-        multiple: 'РґРЅС–РІ'
+        single: 'день',
+        about: 'дні',
+        multiple: 'днів'
       },
       'months': {
-        single: 'РјС–СЃСЏС†СЊ',
-        about: 'РјС–СЃСЏС†С–',
-        multiple: 'РјС–СЃСЏС†С–РІ'
+        single: 'місяць',
+        about: 'місяці',
+        multiple: 'місяців'
       },
       'years': {
-        single: 'СЂС–Рє',
-        about: 'СЂРѕРєРё',
-        multiple: 'СЂРѕРєС–РІ'
+        single: 'рік',
+        about: 'роки',
+        multiple: 'років'
       }
     };
     var sPluralized = nUnits === 0 ? '' : Math.abs(nUnits) === 1 ? types[sKey].single : Math.abs(nUnits) < 5 ? types[sKey].about : types[sKey].multiple;
