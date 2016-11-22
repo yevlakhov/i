@@ -75,7 +75,6 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
       self.oFormDataParams = data || {};
     }
 
-    angular.forEach(form, function (formField) { 
     	angular.forEach(markers.validate, function (marker, markerName) {
       /*
       var isOrganJoinInclude = false;
@@ -95,7 +94,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
         }
       }
 */
-//      angular.forEach(form, function (formField) {
+      angular.forEach(form, function (formField) {
 
           self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
       });
