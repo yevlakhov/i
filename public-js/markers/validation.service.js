@@ -127,8 +127,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     markerName = self.trimMarkerName(markerName);
 
     var keyByMarkerName = self.validatorNameByMarkerName[markerName];
-    var fieldNameIsListedInMarker = formField && formField.$name && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
-    var fieldTypeIsListedInMarker = formField && formField.type && (_.indexOf(marker.aField_Type, formField.type) !== -1); 
+    var fieldNameIsListedInMarker = (formField != null) && formField.$name && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
+    var fieldTypeIsListedInMarker = (formField != null) && (formField.type != null) && (_.indexOf(marker.aField_Type, formField.type) !== -1); 
     var existingValidator = formField && formField.$validators && formField.$validators[keyByMarkerName];
 
     if(formField)
