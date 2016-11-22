@@ -132,7 +132,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     var existingValidator = formField && formField.$validators && formField.$validators[keyByMarkerName];
 
     if(formField)
-    	console.log( markerName + " " + formField.$name + " " + formField.type + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
+    	console.log( markerName + " formField.$name=" + formField.$name + " formField.type=" + formField.type + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
     else
     	console.log( markerName + " formField not set " );
     
