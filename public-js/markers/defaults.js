@@ -7,7 +7,7 @@ angular.module('iGovMarkers')
       ,Mail: {
         aField_ID: ['privateMail', 'email']
       }
-      ,AutoVIN: {
+      ,AutoVIN: { 
         aField_ID: ['vin_code', 'vin_code1', 'vin']
       }
       ,TextUA: {
@@ -66,7 +66,7 @@ angular.module('iGovMarkers')
       ,CodeMFO: {
         aField_ID: ['mfo']
       }
-      ,StringRange: { 
+ /*     ,StringRange: { 
     	  aField_ID: ['string'],
     	  aField_Type: ['string'], 
     	  nMin: 0,
@@ -88,7 +88,7 @@ angular.module('iGovMarkers')
     	  sSeparator: '.',
     	  sMessage: 'Повинно бути неподільним числом та розділене "."'
       }
-      ,NumberBetween: { //Целочисленное между
+   */   ,NumberBetween: { //Целочисленное между
         aField_ID: ['numberBetween'],
         nMin: 1,
         nMax: 999,
