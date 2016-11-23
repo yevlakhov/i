@@ -149,16 +149,17 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     
     	fieldNameIsListedInMarker = (formField != null) && (formField.$name != null) && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
  	
-    	formFieldType = document.getElementsByName(formFiled.$name)[0].attributes["ng-switch-when"];  
-    	fieldTypeIsListedInMarker = (formField != null) && (formFiledType != null) && (_.indexOf(marker.aField_Type, formFiledType) !== -1); 
+    	formFieldType = document.getElementsByName(formField.$name)[0].attributes["ng-switch-when"];  
+    	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, formFieldType) !== -1); 
     	
     	existingValidator = (formField != null) && formField.$validators && formField.$validators[keyByMarkerName];
 
-        if(formField)
-        	console.log( markerName + " formField.$name=" + formField.$name + " formField.type=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
-        else
-        	console.log( markerName + " formField not set " );
     }
+    
+    if(formField)
+    	console.log( markerName + " formField.$name=" + formField.$name + " formField.type=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
+    else
+    	console.log( markerName + " formField not set " );
    
     // для того чтобы валидация работала в таблице, нужно добраться до полей, вводится доп проверка.
     if(!fieldNameIsListedInMarker && !fieldTypeIsListedInMarker) {
