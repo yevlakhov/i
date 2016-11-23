@@ -12,4 +12,6 @@ import java.util.List;
 public interface SubjectContactDao extends EntityDao<Long, SubjectContact> {
 
     List<SubjectContact> findContacts(Subject subject);
+    SubjectContact update(SubjectContact oMail);
+    
 }

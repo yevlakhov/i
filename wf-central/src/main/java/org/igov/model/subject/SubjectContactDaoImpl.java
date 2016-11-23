@@ -21,4 +21,10 @@ public class SubjectContactDaoImpl extends GenericEntityDao<Long, SubjectContact
     public List<SubjectContact> findContacts(Subject subject) {
         return findAllBy("subject", subject);
     }
+
+    @Override
+    public SubjectContact update(SubjectContact oMail) {
+        return saveOrUpdate(oMail);
+    }
+
 }

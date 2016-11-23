@@ -90,6 +90,5 @@ public static NewSubjectContact getNewSubjectContact(SubjectContact subjectConta
     public void setsDate() {
         this.sDate = new DateTime();
     }
-    
-    
+        
 }
