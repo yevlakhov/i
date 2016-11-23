@@ -125,17 +125,29 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
   self.setValidatorByMarker = function (marker, markerName, formField, immediateValidation, forceValidation, newRow) {
 
     markerName = self.trimMarkerName(markerName);
-
-    var keyByMarkerName = self.validatorNameByMarkerName[markerName];
-    var fieldNameIsListedInMarker = (formField != null) && formField.$name && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
-    var fieldTypeIsListedInMarker = (formField != null) && (formField.type != null) && (_.indexOf(marker.aField_Type, formField.type) !== -1); 
-    var existingValidator = formField && formField.$validators && formField.$validators[keyByMarkerName];
-
-    if(formField)
-    	console.log( markerName + " formField.$name=" + formField.$name + " formField.type=" + formField.type + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
-    else
-    	console.log( markerName + " formField not set " );
     
+    var formFieldType = ""; //angular.element(formField).attr("ng-switch-when"); 
+    var keyByMarkerName = self.validatorNameByMarkerName[markerName];
+
+    var fieldNameIsListedInMarker = false;
+    var fieldTypeIsListedInMarker = false;
+    var existingValidator = false; 
+    
+    if(formfiled != null) { 
+    
+    	fieldNameIsListedInMarker = (formField != null) && (formField.$name != null) && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
+    	
+    	formFieldType = angular.element(formField).attr("ng-switch-when"); 
+    	fieldTypeIsListedInMarker = (formField != null) && (formFiledType != null) && (_.indexOf(marker.aField_Type, formFiledType) !== -1); 
+    	
+    	existingValidator = (formField != null) && formField.$validators && formField.$validators[keyByMarkerName];
+
+        if(formField)
+        	console.log( markerName + " formField.$name=" + formField.$name + " formField.type=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
+        else
+        	console.log( markerName + " formField not set " );
+    }
+   
     // для того чтобы валидация работала в таблице, нужно добраться до полей, вводится доп проверка.
     if(!fieldNameIsListedInMarker && !fieldTypeIsListedInMarker) {
       angular.forEach(formField, function (field) {
