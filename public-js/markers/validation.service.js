@@ -96,7 +96,19 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 */
       angular.forEach(form, function (formField) {
 
-          self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
+    	  try { 
+    		  self.setValidatorByMarker(marker, markerName, formField, immediateValidation, false, newRow);
+    	  } 
+    	  catch(e) {
+
+    		  if(formField != null && formField.$name != null) { 
+        		  console.log("Marker " + markerName + " mistake to formField=" + formField.$name); 
+    		  }
+    		  else {
+    			  console.log("Marker " + markerName + " mistake");
+    		  } 
+    			  
+    	  }
       });
     });
   };
@@ -133,11 +145,11 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     var fieldTypeIsListedInMarker = false;
     var existingValidator = false; 
     
-    if(formfiled != null) { 
+    if((formField != null) && (formField.$name != null)) { 
     
     	fieldNameIsListedInMarker = (formField != null) && (formField.$name != null) && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
-    	
-    	formFieldType = angular.element(formField).attr("ng-switch-when"); 
+ 	
+    	formFieldType = document.getElementsByName(formFiled.$name)[0].attributes["ng-switch-when"];  
     	fieldTypeIsListedInMarker = (formField != null) && (formFiledType != null) && (_.indexOf(marker.aField_Type, formFiledType) !== -1); 
     	
     	existingValidator = (formField != null) && formField.$validators && formField.$validators[keyByMarkerName];
