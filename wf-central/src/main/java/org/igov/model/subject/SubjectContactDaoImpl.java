@@ -23,8 +23,8 @@ public class SubjectContactDaoImpl extends GenericEntityDao<Long, SubjectContact
     }
 
     @Override
-    public SubjectContact update(SubjectContact oMail) {
-        return saveOrUpdate(oMail);
+    public SubjectContact update(SubjectContact oMail) { //
+        return saveOrUpdate(oMail); //
     }
 
 }

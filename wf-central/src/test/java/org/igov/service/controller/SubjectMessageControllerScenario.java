@@ -437,9 +437,9 @@ public class SubjectMessageControllerScenario {
 		feedback.setId(1L);
 		feedback.setsID_Source("-1");
 		feedback.setsAuthorFIO("FIO");
-		feedback.setsMail("sMail");
-//		feedback.setsHead("sHead");
-//		feedback.setsBody("sBody");
+		feedback.setsMail("sMail"); 
+//		feedback.setsHead("sHead "); 
+//		feedback.setsBody("sBody ");
 		feedback.setsPlace("sPlace");
 		feedback.setnID_Rate(-1L);
 		feedback.setnID_Service(-1L);
@@ -475,7 +475,7 @@ public class SubjectMessageControllerScenario {
 		feedback.setsID_Source("-1");
 		feedback.setsAuthorFIO("FIO");
 		feedback.setsMail("sMail");
-//		feedback.setsBody("sBody");
+//		feedback.setsBody("sBody ");
 		feedback.setnID_Rate(-1L);
 		feedback.setnID_Service(-1L);
 		feedback.setsID_Token(RandomStringUtils.randomAlphanumeric(20));
@@ -485,7 +485,7 @@ public class SubjectMessageControllerScenario {
 		feedbackWithNullToken.setsID_Source("-1");
 		feedbackWithNullToken.setsAuthorFIO("FIO");
 		feedbackWithNullToken.setsMail("sMail");
-//		feedbackWithNullToken.setsBody("sBody");
+//		feedbackWithNullToken.setsBody("sBody ");
 		feedbackWithNullToken.setnID_Rate(-1L);
 		feedbackWithNullToken.setnID_Service(-1L);
 
@@ -507,7 +507,7 @@ public class SubjectMessageControllerScenario {
 		feedback.setsID_Source("-1");
 		feedback.setsAuthorFIO("FIO");
 		feedback.setsMail("sMail");
-//		feedback.setsBody("sBody");
+//		feedback.setsBody("sBody ");
 		feedback.setnID_Rate(-1L);
 		feedback.setnID_Service(-1L);
 		feedback.setsID_Token(RandomStringUtils.randomAlphanumeric(20));
@@ -517,7 +517,7 @@ public class SubjectMessageControllerScenario {
 		feedbackWithNullToken.setsID_Source("-1");
 		feedbackWithNullToken.setsAuthorFIO("FIO");
 		feedbackWithNullToken.setsMail("sMail");
-//		feedbackWithNullToken.setsBody("sBody");
+//		feedbackWithNullToken.setsBody("sBody ");
 		feedbackWithNullToken.setnID_Rate(-1L);
 		feedbackWithNullToken.setnID_Service(-1L);
 
@@ -551,8 +551,8 @@ public class SubjectMessageControllerScenario {
 		expectedFeedback.setsID_Source("-1");
 		expectedFeedback.setsAuthorFIO("FIO");
 		expectedFeedback.setsMail("sMail");
-//		expectedFeedback.setsHead("sHead");
-//		expectedFeedback.setsBody("sBody");
+//		expectedFeedback.setsHead("sHead ");
+//		expectedFeedback.setsBody("sBody ");
 		expectedFeedback.setsPlace("sPlace");
 		expectedFeedback.setnID_Rate(-1L);
 		expectedFeedback.setnID_Service(-1L);
@@ -588,8 +588,8 @@ public class SubjectMessageControllerScenario {
 		expectedFeedback.setsID_Source("-1");
 		expectedFeedback.setsAuthorFIO("FIO");
 		expectedFeedback.setsMail("sMail");
-//		expectedFeedback.setsHead("sHead");
-//		expectedFeedback.setsBody("sBody");
+//		expectedFeedback.setsHead("sHead ");
+//		expectedFeedback.setsBody("sBody ");
 		expectedFeedback.setsPlace("sPlace");
 		expectedFeedback.setnID_Rate(-1L);
 		expectedFeedback.setnID_Service(-1L);

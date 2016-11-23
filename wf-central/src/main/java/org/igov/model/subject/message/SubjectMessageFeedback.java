@@ -27,14 +27,14 @@ public class SubjectMessageFeedback extends AbstractEntity {
     @JsonProperty(value = "sMail")
     @Column(name = "sMail", nullable = false)
     private String sMail;
-
-//    @JsonProperty(value = "sHead")
-//    @Column(name = "sHead", nullable = true)
-//    private String sHead;
-
-//    @JsonProperty(value = "sBody")
-//    @Column(name = "sBody", nullable = false)
-//    private String sBody;
+//
+//    @JsonProperty(value = "sHead" )   
+//    @Column(name = "sHead", nullable = true )   
+//    private String sHead ;  
+//
+//    @JsonProperty(value = "sBody" )  
+//    @Column(name = "sBody", nullable = false )  
+//    private String sBody ;  
 
     @JsonProperty(value = "sPlace")
     @Column(name = "sPlace", nullable = true)
@@ -118,21 +118,21 @@ public class SubjectMessageFeedback extends AbstractEntity {
         this.sMail = sMail;
     }
 
-//    public String getsHead() {
-//        return sHead;
-//    }
+//    public String getsHead( ) {
+//        return  sHead;
+//     }
 //
-//    public void setsHead(String sHead) {
+//    public void setsHead(String sHead ) {
 //        this.sHead = sHead;
-//    }
+//     }
 //
-//    public String getsBody() {
-//        return sBody;
-//    }
-//
-//    public void setsBody(String sBody) {
-//        this.sBody = sBody;
-//    }
+//    public String getsBody( ) {
+//        return sBody ;
+//     }
+// 
+//    public void setsBody(String sBody ) {
+//        this.sBody = sBody ;
+//     }
 
     public String getsPlace() {
         return sPlace;

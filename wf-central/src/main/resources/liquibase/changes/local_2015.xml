@@ -1563,7 +1563,7 @@
                       tableName="HistoryEvent_Service"/>
     </changeSet>
     
-    <changeSet id="issue-1321-Droping" author="HavrylinSerhii">
+    <changeSet id="issue-1321-Drop" author="HavrylinSerhii">
         <dropColumn tableName="SubjectMessageFeedback" columnName="sHead" />
         <dropColumn tableName="SubjectMessageFeedback" columnName="sBody" />
     </changeSet>
