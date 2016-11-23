@@ -102,12 +102,12 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	  catch(e) {
 
     		  if(formField != null && formField.$name != null) { 
-        		  console.log("Marker " + markerName + " mistake to formField=" + formField.$name); 
+        		  console.log("Marker " + markerName + " mistake to formField=" + formField.$name + " - " + e.data.message); 
     		  }
     		  else {
-    			  console.log("Marker " + markerName + " mistake");
+    			  console.log("Marker " + markerName + " mistake - " + e.data.message);
     		  } 
-    			  
+
     	  }
       });
     });
