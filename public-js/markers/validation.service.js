@@ -672,7 +672,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     		console.log("StringRange verification not passed '"+ modelValue +"' : " + options.lastError );
     	}
     	
-    	return bValue; 
+    	return bValid; 
     },
     
     /**
@@ -762,11 +762,11 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     		options.lastError = options.sMessage || ('Подільне число має бути між ' + options.nMin + ' та ' + options.nMax); 
     	}
     	
-    	if(!bValue) {
+    	if(!bValid) {
     		console.log("DoubleNumber verification not passed '" + modelValue + "' : " + options.lastError); 
     	}
 
-    	return bValue; 
+    	return bValid; 
     }, 
     
     /**
