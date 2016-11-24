@@ -149,8 +149,9 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     
     	fieldNameIsListedInMarker = (formField != null) && (formField.$name != null) && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
 
-    	if( document.getElementsByName(formField.$name).length > 0 ) {
-    		formFieldType = document.getElementsByName(formField.$name)[0].attributes["ng-switch-when"].value;
+    	var element = document.getElementsByName(formField.$name); 
+    	if( element.length > 0 && element[0].attributes["ng-switch-when"] != null) {
+    		formFieldType = element[0].attributes["ng-switch-when"].value;
     	}
 
     	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, "long" /*formFieldType*/) !== -1); 
@@ -158,11 +159,9 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	existingValidator = (formField != null) && formField.$validators && formField.$validators[keyByMarkerName];
 
     }
-    
+
     if(formField && (fieldNameIsListedInMarker || fieldTypeIsListedInMarker) ) 
     	console.log( markerName + " formField.$name=" + formField.$name + " formField.attributes[ng-switch-when]=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
-    else
-    	console.log( markerName + " formField not set " );
    
     // для того чтобы валидация работала в таблице, нужно добраться до полей, вводится доп проверка.
     if(!fieldNameIsListedInMarker && !fieldTypeIsListedInMarker) {
@@ -646,7 +645,6 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      * }  
      */
     'StringRange': function( modelValue, viewValue, options ) {
-
     	
     	if((modelValue === null) || modelValue === '') { 
     		return true; 
@@ -767,7 +765,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	if(!bValue) {
     		console.log("DoubleNumber verification not passed '" + modelValue + "' : " + options.lastError); 
     	}
-    	
+
     	return bValue; 
     }, 
     

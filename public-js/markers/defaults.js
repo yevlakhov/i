@@ -73,12 +73,12 @@ angular.module('iGovMarkers')
     	  nMax: 200,
     	  sMessage: 'Повинно бути від 0 до 200 символів'
       }
-     ,LongNumber: {
+     ,LongNumber: { 
     	  aField_ID: ['long'],
     	  aField_Type: ['long'],
     	  nMin: 1,
     	  nMax: 1000, 
-    	  sMessage: 'Повинно бути подільним числом від 1 до 1000 '
+    	  sMessage: 'Повинно бути неподільним числом від 1 до 1000 '
       }
       ,DoubleNumber: { // Подільне число   
     	  aField_ID: ['double'],
@@ -86,7 +86,7 @@ angular.module('iGovMarkers')
     	  nMin: 1, 
     	  nMax: 10000000,
     	  //sSeparator: '.',
-    	  sMessage: 'Повинно бути подільним числом та розділене "."'
+    	  sMessage: 'Повинно бути подільним числом та розділене ","'
       }
       ,NumberBetween: { //Целочисленное между
         aField_ID: ['numberBetween'],
