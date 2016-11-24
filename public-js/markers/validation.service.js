@@ -153,14 +153,14 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     		formFieldType = document.getElementsByName(formField.$name)[0].attributes["ng-switch-when"].value;
     	}
 
-    	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, formFieldType) !== -1); 
+    	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, "long" /*formFieldType*/) !== -1); 
     	
     	existingValidator = (formField != null) && formField.$validators && formField.$validators[keyByMarkerName];
 
     }
     
-    if(formField)
-    	console.log( markerName + " formField.$name=" + formField.$name + " formField.type=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
+    if(formField && (fieldNameIsListedInMarker || fieldTypeIsListedInMarker) ) 
+    	console.log( markerName + " formField.$name=" + formField.$name + " formField.attributes[ng-switch-when]=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
     else
     	console.log( markerName + " formField not set " );
    
@@ -635,10 +635,11 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     },
     
     /**
-     * 'StringRange' - строка з визначеною довжиною 
+     * 'StringRange' - строка з визначеною довжиною
+     * @Author ushatel 
      *   
-     * StringRange: { // Неподільне в діапазоні 
-     * 		aField_ID: ['long'],
+     * StringRange: { // Строка з визначеною довжиною  
+     * 		aField_ID: ['string'],
      * 		nMin: 1, 
      * 		nMax: 3, 
      * 		sMessage: '' 
@@ -646,7 +647,6 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      */
     'StringRange': function( modelValue, viewValue, options ) {
 
-    	alert("In the StingRange"); 
     	
     	if((modelValue === null) || modelValue === '') { 
     		return true; 
@@ -666,11 +666,21 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
 
     	var bValid = modelValue.length >= options.nMin && modelValue.length <= options.nMax;  
 
+    	if(bValid === null || bValid === false) { 
+    		options.lastError = options.sMessage || ("Довжина строки має бути від '" + options.nMin + "' до '" + options.nMax + "'"); 
+    	}
+
+    	if(!bValid) {
+    		console.log("StringRange verification not passed '"+ modelValue +"' : " + options.lastError );
+    	}
+    	
     	return bValue; 
     },
     
     /**
      * 'LongNumber' - неподільне число 
+     * @Author ushatel 
+     * 
      * Текст помилки: options.sMessage або 'Число має бути між ' + options.nMin + ' та ' + options.nMax;  
      * Формат маркера: 
      * 
@@ -684,8 +694,6 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      */
     'LongNumber': function(modelValue, viewValue, options) { 
 
-    	alert( "In the LongNumber" );
-    	
     	if(modelValue === null || modelValue === '') {
     		return true;
     	}
@@ -705,15 +713,21 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	
     	var bValid = (parseFloat(modelValue) - Math.floor(modelValue) == 0) && (parseInt(modelValue) >= options.nMin) && (parseInt(modelValue) <= options.nMax);
     	
-    	if(bValid === false) {
+    	if(bValid === null || bValid === false) {
     		options.lastError = options.sMessage || ('Неподільне число між ' + options.nMin + ' та ' + options.nMax); 
+    	}   	
+    	
+    	if(!bValid) {
+    		console.log( "LongNumber verification not passed for '" + modelValue + "' : " + options.lastError );
     	}
     	
     	return bValid; 
     }, 
     
     /** 
-     * 'DoubleNumber' - подільне число 
+     * 'DoubleNumber' - подільне число
+     * @Author ushatel 
+     *  
      * Текст помилки: options.sMessage або 'Подільне число має бути між ' + options.nMin + ' та ' + options.nMax;   
      * 
      * DoubleNumber: { // Подільне в діапазоні 
@@ -725,8 +739,6 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
      * } 
      */
     'DoubleNumber': function(modelValue, viewValue, options) { 
-    	
-    	alert( "In the DoubleNumber" );
     	
     	if((modelValue === null) || modelValue == '') {
     		return true;
@@ -748,8 +760,12 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	
     	var bValid = (parsedFloat - Math.floor(modelValue) != 0) && (parsedFloat > options.nMin) && (parsedFloat < options.nMax);   
 
-    	if(bValid === null) { 
+    	if(bValid === null || bValid === false) { 
     		options.lastError = options.sMessage || ('Подільне число має бути між ' + options.nMin + ' та ' + options.nMax); 
+    	}
+    	
+    	if(!bValue) {
+    		console.log("DoubleNumber verification not passed '" + modelValue + "' : " + options.lastError); 
     	}
     	
     	return bValue; 
