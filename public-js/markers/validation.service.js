@@ -154,7 +154,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     		formFieldType = element[0].attributes["ng-switch-when"].value;
     	}
 
-    	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, "long" /*formFieldType*/) !== -1); 
+    	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, formFieldType) !== -1); 
     	
     	existingValidator = (formField != null) && formField.$validators && formField.$validators[keyByMarkerName];
 
