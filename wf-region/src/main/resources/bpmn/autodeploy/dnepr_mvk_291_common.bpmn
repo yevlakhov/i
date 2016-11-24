@@ -539,6 +539,7 @@
         <activiti:formProperty id="markers5" name="hideShowFields5" type="markers" default="${markerService.loadFromFile('dneprMVK/dnepr_mvk_291_common5.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers6" name="hideShowFields6" type="markers" default="${markerService.loadFromFile('dneprMVK/dnepr_mvk_291_common6.json')}"></activiti:formProperty>
         <activiti:formProperty id="sDateAppeal" name="Дата подачі" type="invisible"></activiti:formProperty>
+        <activiti:formProperty id="test_param" name="test_param" type="invisible" default="true"></activiti:formProperty>
       </extensionElements>
     </startEvent>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="scripttask4"></sequenceFlow>
@@ -556,11 +557,8 @@
         <activiti:field name="text">
           <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
 <b>Шановний(-а) ${bankIdfirstName} ${bankIdmiddleName}.</b><br><br>
-<p>Ваше звернення зареєстровано Дніпропетровською міською радою від ${sDateAppeal} № ${sID_Order_GovPublic}.<br><br>
-Суть Вашого звернення:<br>
-<i>${sReason}</i><br><br>
+<p> Ваше звернення до Дніпропетровської міської ради було зареєстровано у системі.<br>
 Повідомлення про результат послуги буде спрямоване на Ваш e-mail.</p>
-<br>
 Телефони для довідок:<br>
 +380 56 732 12 12<br>
 ‎+390 95 732 12 12<br>
@@ -1135,7 +1133,6 @@
         <activiti:formProperty id="sChannelApplicant" name="Канал зв'язку з заявником" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sID_Order_GovPublic" name="Номер звернення ДМР" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAnswerExplanation" name="Коментар колл-центру" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="nFile2" name="Завантажте скан-копію звернення (за наявностю)" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="asStatusOperator" name="Обробка звернення" type="enum" required="true">
           <activiti:value id="sEnumSendEmail" name="Відправити швидку відповідь на е-mail"></activiti:value>
           <activiti:value id="sEnumSendInFrontOffice" name="Відправити до фронт-офісу для письмової відповіді"></activiti:value>
@@ -1817,7 +1814,7 @@
             <activiti:expression><![CDATA[${sCity}]]></activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-        <activiti:taskListener event="create" delegateExpression="#{GetDocument_UkrDoc}">
+        <activiti:taskListener event="complete" delegateExpression="${GetDocument_UkrDoc}">
           <activiti:field name="sID_Document">
             <activiti:expression><![CDATA[${sID_Document_UkrDoc}]]></activiti:expression>
           </activiti:field>
@@ -3791,40 +3788,17 @@ execution.setVariable('sID_Order_GovPublic', fullNumber)</script>
     </scriptTask>
     <serviceTask id="servicetask10" name="ProcessCountTask" activiti:delegateExpression="#{ProcessCountTaskListener}"></serviceTask>
     <sequenceFlow id="flow87" sourceRef="servicetask10" targetRef="scripttask5"></sequenceFlow>
-    <sequenceFlow id="flow88" sourceRef="scripttask5" targetRef="scripttask1"></sequenceFlow>
-    <serviceTask id="servicetask11" name="Відповідь на email" activiti:delegateExpression="#{MailTaskWithAttachments}">
+    <sequenceFlow id="flow88" sourceRef="scripttask5" targetRef="servicetask11"></sequenceFlow>
+    <serviceTask id="servicetask11" name="Service Task (Corezoid)" activiti:delegateExpression="#{SendObject_Corezoid_New}">
       <extensionElements>
-        <activiti:field name="from">
-          <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
+        <activiti:field name="soJSON">
+          <activiti:string><![CDATA[{"sBankIdlastName":"value{[bankIdlastName]}","sBankIdfirstName":"value{[bankIdfirstName]}","sBankIdmiddleName":"value{[bankIdmiddleName]}","sSex":"enum{[asSex]}","sPhone":"value{[sPhone]}","sEmail":"value{[email]}","sDistrict":"enum{[asDistrict]}","sZipCode":"value{[sZipCode]}","sCity":"value{[sCity]}","sAdress":"value{[sAdress]}","sAdressProbl":"value{[sAdressProbl]}","sHowCategory":"enum{[asHowCategory]}","sKindTr":"enum{[asKindTr]}","sTypeTr":"enum{[asTypeTr]}","sHowSocStatus":"enum{[asHowSocStatus]}","sTopHead":"enum{[asTopHead]}","sTop1":"enum{[asTop1]}","sTop4":"enum{[asTop4]}","sTop5":"enum{[asTop5]}","sTop6":"enum{[asTop6]}","sTop7":"enum{[asTop7]}","sTop8":"enum{[asTop8]}","sTop9":"enum{[asTop9]}","sTop10":"enum{[asTop10]}","sTop11":"enum{[asTop11]}","sTop12":"enum{[asTop12]}","sTop13":"enum{[asTop13]}","sTop14":"enum{[asTop14]}","sTop15":"enum{[asTop15]}","sTop16":"enum{[asTop16]}","sTop17":"enum{[asTop17]}","sTop18":"enum{[asTop18]}","sTop19":"enum{[asTop19]}","sTop20":"enum{[asTop20]}","sTop21":"enum{[asTop21]}","sTop22":"enum{[asTop22]}","sTop23":"enum{[asTop23]}","sTop24":"enum{[asTop24]}","sReason":"value{[sReason]}","sAdditionalInformation":"value{[sAdditionalInformation]}","sDateReglament":"value{[sDateReglament]}","sChannelAppeals":"enum{[asChannelAppeals]}","sAnswerChannel":"enum{[asAnswerChannel]}","sRegistrationNumberRGA":"value{[sRegistrationNumberRGA]}","sChannelAppealsRGA":"enum{[asChannelAppealsRGA]}","sStatusRGA":"enum{[asStatusRGA]}","sID_Order_GovPublic":"value{[sID_Order_GovPublic]}","sDateAppeal":"value{[sDateAppeal]}","sID_Order":"[sID_Order]"}]]></activiti:string>
         </activiti:field>
-        <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
+        <activiti:field name="sID_Conveyour">
+          <activiti:string><![CDATA[158300]]></activiti:string>
         </activiti:field>
-        <activiti:field name="subject">
-          <activiti:string><![CDATA[Звернення до Дніпропетровської міської ради.]]></activiti:string>
-        </activiti:field>
-        <activiti:field name="text">
-          <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
-<b>Шановний(-а) ${bankIdfirstName} ${bankIdmiddleName}.</b><br><br>
-<p>
-Ваше звернення до Дніпропетровської міської ради - опрацьовано.<br><br>
-Рішення міської ради: ${sDocument_Body_UkrDoc}<br><br>
-Номер документа: ${sID_Document_UkrDoc}<br>
-</p>
-Телефони для довідок:<br>
-+380 56 732 12 12<br>
-‎+390 95 732 12 12<br>
-‎+380 96 732 12 12<br>
-‎+380 73 732 12 12<br>
-<br>
-[pattern/mail/_common_signature_start.html]
-Дніпропетровська міська рада,<br>
-[pattern/mail/_common_signature_end.html]
-[pattern/mail/_common_feedback.html]
-[pattern/mail/_common_footer.html]]]></activiti:expression>
-        </activiti:field>
-        <activiti:field name="saAttachmentsForSend">
-          <activiti:expression><![CDATA[${anID_Attach_UkrDoc}]]></activiti:expression>
+        <activiti:field name="soData">
+          <activiti:string><![CDATA[sBankIdlastName::value{[bankIdlastName]};;sBankIdfirstName::value{[bankIdfirstName]};;sBankIdmiddleName::value{[sBankIdmiddleName]};;sSex::enum{[asSex]};;sPhone::value{[sPhone]};;sEmail::value{[email]};;sDistrict::enum{[asDistrict]};;sZipCode::value{[sZipCode]};;sCity::value{[sCity]};;sAdress::value{[sAdress]};;sAdressProbl::value{[sAdressProbl]};;sHowCategory::enum{[asHowCategory]};;sKindTr::enum{[asKindTr]};;sTypeTr::enum{[asTypeTr]};;sHowSocStatus::enum{[asHowSocStatus]};;sTopHead::enum{[asTopHead]};;sTop1::enum{[asTop1]};;sTop2::enum{[asTop2]};;sTop3::enum{[asTop3]};;sTop4::enum{[asTop4]};;sTop5::enum{[asTop5]};;sTop6::enum{[asTop6]};;sTop7::enum{[asTop7]};;sTop8::enum{[asTop8]};;sTop9::enum{[asTop9]};;sTop10::enum{[asTop10]};;sTop11::enum{[asTop11]};;sTop12::enum{[asTop12]};;sTop13::enum{[asTop13]};;sTop14::enum{[asTop14]};;sTop15::enum{[asTop15]};;sTop16::enum{[asTop16]};;sTop17::enum{[asTop17]};;sTop18::enum{[asTop18]};;sTop19::enum{[asTop19]};;sTop20::enum{[asTop20]};;sTop21::enum{[asTop21]};;sTop22::enum{[asTop22]};;sTop23::enum{[asTop23]};;sTop24::enum{[asTop24]};;sReason::value{[sReason]};;sAdditionalInformation::value{[sAdditionalInformation]};;sDateReglament::value{[sDateReglament]};;sChannelAppeals::enum{[asChannelAppeals]};;sAnswerChannel::enum{[asAnswerChannel]};;sRegistrationNumberRGA::value{[sRegistrationNumberRGA]};;sChannelAppealsRGA::enum{[asChannelAppealsRGA]};;sStatusRGA::enum{[asStatusRGA]};;sID_Order_GovPublic::value{[sID_Order_GovPublic]};;sDateAppeal::value{[sDateAppeal]};;sID_Order::[sID_Order];;test_param::value{[test_param]}]]></activiti:string>
         </activiti:field>
       </extensionElements>
     </serviceTask>
