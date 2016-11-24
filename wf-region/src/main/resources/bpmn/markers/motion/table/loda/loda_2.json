@@ -5,14 +5,14 @@
       "name": "Рік",
       "type": "string",
       "required": "true",
-      "writable": "true"
+      "writible": "true"
     },
     {
       "id": "sBudget",
       "name": "Орієнтовна вартість проекту, тис. грн.",
       "type": "string",
       "required": "true",
-      "writable": "true"
+      "writible": "true"
     }
   ]
 }

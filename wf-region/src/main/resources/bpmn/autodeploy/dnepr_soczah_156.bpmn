@@ -112,8 +112,7 @@
           <activiti:value id="yes_2" name="так"></activiti:value>
           <activiti:value id="no_2" name="ні"></activiti:value>
         </activiti:formProperty>
-        
-        <activiti:formProperty id="asTransferType" name="спосіб перерахування коштів; ;writable=false" type="enum">
+        <activiti:formProperty id="transfer_type" name="спосіб перерахування коштів; ;writable=false" type="enum">
           <activiti:value id="post" name="через національного оператора поштового зв'язку"></activiti:value>
           <activiti:value id="bank" name="на рахунок у банку"></activiti:value>
         </activiti:formProperty>
