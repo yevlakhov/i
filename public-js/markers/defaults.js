@@ -128,15 +128,14 @@ angular.module('iGovMarkers')
       Editable_1: {aField_ID:['sPhone_User1', 'sMail_User1', 'bankIdlastName1'], bValue: true}, 
      
       ExtendLabelStyle : {
-    	  aElement_IDs : ['textUa', 'vin_code'], 
+    	  aElement_ID : ['textUa', 'vin_code'], 
     	  aSelectors : ["col-sm-4"], 
-    	  sCondition : "",
     	  // Загальний стиль для селекторів 
-    	  sCommonStyle : { "font-style" : "italic", "display" : "block" },
+    	  oCommonStyle : { "font-style" : "italic", "display" : "block" },
     	  // Стиль для Central-js | = sCommonStyle 
-    	  sCentralStyle : { "font-style": "bold", "display": "block" }, 
+    	  oCommonStyle : { "font-style": "bold", "display": "block" }, 
     	  // Стиль для Region  
-    	  sRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
+    	  oRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
       }, 
 /*       
       ExtendFormStyle : {

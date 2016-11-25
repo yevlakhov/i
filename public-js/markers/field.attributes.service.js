@@ -28,43 +28,43 @@ function FieldAttributesService(MarkersFactory) {
 		  var regionStyle = {}; 
 
 		  // перевіряємо чи маємо, що встановлювати 
-		  if( styles.sCommonStyle != null && styles.sCommonStyle.length > 0 ) { 
-			  commonStyle = styles.sCommonStyle; 
+		  if( styles.oCommonStyle != null && styles.oCommonStyle.length > 0 ) { 
+			  commonStyle = styles.oCommonStyle; 
 			  
-			  console.log("iGovMarkers.enableStyles -> sCommonStyle for '" + styles + "' is set"); 
+			  console.log("iGovMarkers.enableStyles -> oCommonStyle for '" + styles + "' is set"); 
 		  }
 		  
-		  if( styles.sCentralStyle != null && styles.sCommonStyle.length > 0 ) { 
-			  centralStyle = styles.sCentralStyle;
+		  if( styles.oCentralStyle != null && styles.oCentralStyle.length > 0 ) { 
+			  centralStyle = styles.oCentralStyle;
 			  
-			  console.log("iGovMarkers.enableStyles -> sCentralStyle for '" + styles + "' is set");
+			  console.log("iGovMarkers.enableStyles -> oCentralStyle for '" + styles + "' is set");
 		  }
 		  else { // Встановлюємо загальний стиль  
 			  centralStyle = commonStyle;
 			  
-			  console.log("iGovMarkers.enableStyles -> sCommonStyle is set - sCentralStyle empty"); 
+			  console.log("iGovMarkers.enableStyles -> oCommonStyle is set - oCentralStyle empty"); 
 		  }
 
-		  if( styles.sRegionStyle != null && styles.sRegionStyle.length > 0 ) { 
-			  regionStyle = styles.sRegionStyle; 
+		  if( styles.oRegionStyle != null && styles.oRegionStyle.length > 0 ) { 
+			  regionStyle = styles.oRegionStyle; 
 			  
-			  console.log("iGovMarkers.enableStyles -> sRegionStyle for '" + styles + "' is set");
+			  console.log("iGovMarkers.enableStyles -> oRegionStyle for '" + styles + "' is set");
 		  } 
 		  else { // Встановлюємо загальний стиль  
 			  regionStyle = commonStyle;
 			  
-			  console.log("iGovMarkers.enableStyles -> sCommonStyle is set - sRegionStyle empty");
+			  console.log("iGovMarkers.enableStyles -> oCommonStyle is set - oRegionStyle empty");
 		  }
  
-		  if( (commonStyle.length > 0 || centralStyle.length > 0 || regionStyle > 0) && styles.aElement_IDs != null && styles.aElement_IDs.length > 0 ) {
+		  if( (commonStyle.length > 0 || centralStyle.length > 0 || regionStyle > 0) && styles.aElement_ID != null && styles.aElement_ID.length > 0 ) {
 			  
-			  for( var j = 0; j < styles.aElement_IDs.length; j++ ) {
+			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
-				  var elem = window.angular.element(document).find(styles.aElement_IDs[j]);
+				  var elem = window.angular.element(document).find(styles.aElement_ID[j]);
 
 				  if( elem == null ) { 
 
-					  elem = window.angular.element(document).find( "#" + styles.aElement_IDs[j] ); 
+					  elem = window.angular.element(document).find( "#" + styles.aElement_ID[j] ); 
 
 				  } 
 
@@ -72,12 +72,12 @@ function FieldAttributesService(MarkersFactory) {
 
 					  elem.css(commonStyle);
 					  
-					  console.log( "iGovMarkers.enableStyles -> sCommonStyle for '" + styles.aElement_IDs[j] + "'  applied" ); 
+					  console.log( "iGovMarkers.enableStyles -> oCommonStyle for '" + styles.aElement_ID[j] + "'  applied" ); 
 
 				  }
 				  else { 
 					  
-					  console.log( "iGovMarkers.enableStyles -> element '" + styles.aElement_IDs[j] + "' not set" );
+					  console.log( "iGovMarkers.enableStyles -> element '" + styles.aElement_ID[j] + "' not set" );
 					  
 				  }
 /*
@@ -102,7 +102,7 @@ function FieldAttributesService(MarkersFactory) {
 
 					  elem.css(commonStyle);   
 
-					  console.log("iGovMarkers.enableStyles -> sCommonStyle applied");
+					  console.log("iGovMarkers.enableStyles -> oCommonStyle applied");
 				  }
 				  else {
 					  console.log("iGovMarkers.enableStyles -> Selector '"+ styles.aSelectors[j] +"' not found");
