@@ -8,6 +8,10 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       'use strict';
 
+      console.log( " Testing selectors for 1418 " + window.angular.element(document).find("form") );
+
+      window.angular.element(document).find("form").css("font-style","italic"); 
+
       var currentState = $state.$current;
 
       $scope.paramsBackup = null;
@@ -759,6 +763,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
         return true;
       };
 
+      $scope.isShowFillSelfPrevious = false;
       $scope.fillSelfPrevious = function () {
 
         $http.get('/api/order/getStartFormByTask', {
@@ -777,7 +782,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
               var property = $scope.data.formData.params[key];
 
               if (key && key !== null && key.indexOf("bankId") !== 0 && response.data.hasOwnProperty(key)) {
-
+            	$scope.isShowFillSelfPrevious = true;
                 if (oField && oField !== null
                     && oField.type !== "file"
                     && oField.type !== "label"
@@ -945,4 +950,4 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       if ($scope.selfOrdersCount.nOpened > 0 && oServiceData.oPlace || oServiceData.oPlaceRoot) {
         $scope.fillSelfPrevious();
       }
-    });
+});
