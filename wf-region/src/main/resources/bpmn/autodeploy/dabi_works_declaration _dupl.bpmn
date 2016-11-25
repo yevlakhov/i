@@ -730,7 +730,7 @@
       </extensionElements>        
     </userTask>
     <boundaryEvent id="boundarytimer6" name="Timer" attachedToRef="usertask_UserGroup" cancelActivity="true">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition><timeDuration>PT4H</timeDuration></timerEventDefinition>
     </boundaryEvent>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow67" sourceRef="boundarytimer6" targetRef="exclusivegateway1"></sequenceFlow>
