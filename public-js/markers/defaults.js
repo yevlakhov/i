@@ -126,7 +126,7 @@ angular.module('iGovMarkers')
     },
     attributes: {
       Editable_1: {aField_ID:['sPhone_User1', 'sMail_User1', 'bankIdlastName1'], bValue: true}, 
-      
+/*      
       ExtendLabelStyle : {
     	  aElement_IDs : ['textUa', 'vin_code'], 
     	  aSelectors : ["col-sm-4"], 
@@ -150,6 +150,7 @@ angular.module('iGovMarkers')
     	  // Стиль для Region  
     	  sRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" },
       }, 
+*/
     },
     motion: {
       ReplaceTextSymbols_1: {
