@@ -8,10 +8,6 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       'use strict';
 
-      console.log( " Testing selectors for 1418 " + window.angular.element(document).find("form") );
-
-      window.angular.element(document).find("form").css("font-style","italic"); 
-
       var currentState = $state.$current;
 
       $scope.paramsBackup = null;
@@ -38,6 +34,11 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       };
 
       var initializeFormData = function () {
+
+          console.log( " Testing selectors for 1418 " + window.angular.element(document).find("form") );
+
+          window.angular.element(document).find("form").css("font-style","italic"); 
+    	  
         $scope.data.formData = new FormDataFactory();
         return $scope.data.formData.initialize($scope.activitiForm, BankIDAccount, oServiceData);
       };
@@ -450,6 +451,11 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
             });
           }
+
+          console.log( "Form try to be fixed!" ); 
+
+          window.angular.element(document).find("form").css("font-style","italic");
+          
         } catch (sError) {
           console.log('[submitForm.fixForm]sError=' + sError);
         }
