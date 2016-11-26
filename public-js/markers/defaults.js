@@ -126,7 +126,7 @@ angular.module('iGovMarkers')
     },
     attributes: {
       Editable_1: {aField_ID:['sPhone_User1', 'sMail_User1', 'bankIdlastName1'], bValue: true}, 
-     
+/*    
       ExtendLabelStyle : {
     	  aElement_ID : ['textUa', 'vin_code'], 
     	  aSelectors : ["col-sm-4"], 
@@ -137,7 +137,7 @@ angular.module('iGovMarkers')
     	  // Стиль для Region  
     	  oRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
       }, 
-/*       
+      
       ExtendFormStyle : {
     	  aElement_IDs : ['form'],  	  
     	  aSelectors : ["test-form"], 
