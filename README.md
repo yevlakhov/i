@@ -53,6 +53,10 @@ Demo сайт от iGov: https://beta.test.igov.org.ua/
 
 [Wiki iGov](https://github.com/e-government-ua/i/wiki)
 
+[статистика ДЦ](https://drive.google.com/open?id=0B7gdIvs2BgzrS2pnTkU2Y3dWMG8)
+
+[статистика ЦНАП](https://drive.google.com/open?id=0B7gdIvs2BgzrT1NWNm1oanF2UUU)
+
 
 ## КОМАНДА
 
