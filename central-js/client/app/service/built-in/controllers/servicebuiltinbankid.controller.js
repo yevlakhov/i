@@ -1,5 +1,5 @@
 angular.module('app').controller('ServiceBuiltInBankIDController',
-    function ($sce, $state, $stateParams, $scope, $timeout, $location, $window, $rootScope, $http, $filter,
+    function ($sce, $state, $stateParams, $scope, $timeout, $location, $window, $rootScope, $http, $filter, $document, 
               FormDataFactory, ActivitiService, ValidationService, ServiceService, oService, oServiceData,
               BankIDAccount, activitiForm, formData, allowOrder, countOrder, selfOrdersCount, AdminService,
               PlacesService, uiUploader, FieldAttributesService, iGovMarkers, service, FieldMotionService,
@@ -30,8 +30,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       $scope.data.formData = formData;
       $scope.tableIsInvalid = false;
-
-      if( $scope.model ) { 
+      
+      $document.on("load", function() { alert(' test '); });
+      /*if( $scope.view ) { 
 
 	      $scope.model.$render = function() { 
 	    	  console.log("In render");    	  
@@ -41,7 +42,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       $scope.$render = function() {
     	  console.log("In render 2");    	  
-      }; 
+      };*/ 
 
       $scope.setFormScope = function (scope) {
         this.formScope = scope;
