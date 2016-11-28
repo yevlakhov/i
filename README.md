@@ -33,7 +33,7 @@ Demo сайт от iGov: https://beta.test.igov.org.ua/
 
 [Папка с файлами проекта](https://drive.google.com/open?id=0B_S7tdV-CEHOcXY2UXJxdkZoRVU)
 
-[Структура / Каталог услуг](https://drive.google.com/open?id=1itYolrSmo8D4-c9TJ4pHN5rrlFokrL79L2CZfLquJG0)
+[Структура / Каталог услуг](https://docs.google.com/spreadsheets/d/100enZyeGG12gedQZALhIcQU_bA3ngroFz7vALDLPV30/edit?usp=sharing)
 
 [Техническое задание](https://drive.google.com/open?id=0ByJvzOc1JeK_bnZDU0JRdnRubm8)
 
