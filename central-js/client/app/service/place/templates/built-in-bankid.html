@@ -1,4 +1,4 @@
-<div class="list-group">
+п»ї<div class="list-group">
   <place></place>
 
   <style>
@@ -22,15 +22,15 @@
 
   <div class="list-group-item disabled" ng-if="!spinner">
     <div class="row no-margin-bottom">
-      <div ng-if="!profile.isKyivCity" class="col-md-11">Крок 2. Ви увійшли як
+      <div ng-if="!profile.isKyivCity" class="col-md-11">РљСЂРѕРє 2. Р’Рё СѓРІС–Р№С€Р»Рё СЏРє
         {{account.customer.firstName}} {{account.customer.middleName}} {{account.customer.lastName}}
       </div>
-      <div ng-if="profile.isKyivCity" class="col-md-11">Крок 1. Ви увійшли як
+      <div ng-if="profile.isKyivCity" class="col-md-11">РљСЂРѕРє 1. Р’Рё СѓРІС–Р№С€Р»Рё СЏРє
         {{account.customer.firstName}} {{account.customer.middleName}} {{account.customer.lastName}}
       </div>
       <div class="col-md-1">
         <div class="link-button">
-          <a ng-click="editBankId()">Змінити</a>
+          <a ng-click="editBankId()">Р—РјС–РЅРёС‚Рё</a>
         </div>
       </div>
     </div>
@@ -38,15 +38,15 @@
 
   <div class="list-group-item" ng-if="!spinner">
     <div class="row">
-      <div ng-if="!profile.isKyivCity" class="col-md-6 pull-left">Крок 3.
+      <div ng-if="!profile.isKyivCity" class="col-md-6 pull-left">РљСЂРѕРє 3.
         {{data.formData.params["processName"].name==null?"":data.formData.params["processName"].name}}
       </div>
-      <div ng-if="profile.isKyivCity" class="col-md-6 pull-left">Крок 2.
+      <div ng-if="profile.isKyivCity" class="col-md-6 pull-left">РљСЂРѕРє 2.
         {{data.formData.params["processName"].name==null?"":data.formData.params["processName"].name}}
       </div>
       <div ng-show="bAdmin" class="col-md-6 pull-right">
         <!--div ng-if="bAdmin" style="/*display:none;*/" class="col-md-6 pull-right"-->
-        <label for="ref" class="pull-right"> Заповнення референтом</label>
+        <label for="ref" class="pull-right"> Р—Р°РїРѕРІРЅРµРЅРЅСЏ СЂРµС„РµСЂРµРЅС‚РѕРј</label>
         <input type="checkbox" ng-model="data.formData.params.bReferent.value" ng-change="onReferent" id="ref" class="pull-right">
       </div>
     </div>
@@ -89,13 +89,13 @@
         <div class="highlight">
           <form name="form" novalidate>
             <div class="clearfix" ng-if="oServiceData.oPlace">
-                <a class="pull-right" ng-hide="paramsBackup !== null" href ng-click="fillSelfPrevious()">Заповнити даними попередньої заявки</a>
-                <a class="pull-right" ng-hide="paramsBackup === null" href ng-click="fillSelfPreviousBack()">Відмінити авто-заповнені дані</a>
+                <a class="pull-right" ng-hide="paramsBackup !== null" href ng-click="fillSelfPrevious()">Р—Р°РїРѕРІРЅРёС‚Рё РґР°РЅРёРјРё РїРѕРїРµСЂРµРґРЅСЊРѕС— Р·Р°СЏРІРєРё</a>
+                <a class="pull-right" ng-hide="paramsBackup === null" href ng-click="fillSelfPreviousBack()">Р’С–РґРјС–РЅРёС‚Рё Р°РІС‚Рѕ-Р·Р°РїРѕРІРЅРµРЅС– РґР°РЅС–</a>
             </div>
 
               <div class="row col-md-8 col-md-push-2 update-bankid-message" ng-show="isShowMessageRequiringToValidateUserData()">
-                  Якщо ці або будь-які інші дані, які були передані з Вашого банку, вже не актуальні,
-                  просимо Вас звернутися до цього банку для актуалізації.
+                  РЇРєС‰Рѕ С†С– Р°Р±Рѕ Р±СѓРґСЊ-СЏРєС– С–РЅС€С– РґР°РЅС–, СЏРєС– Р±СѓР»Рё РїРµСЂРµРґР°РЅС– Р· Р’Р°С€РѕРіРѕ Р±Р°РЅРєСѓ, РІР¶Рµ РЅРµ Р°РєС‚СѓР°Р»СЊРЅС–,
+                  РїСЂРѕСЃРёРјРѕ Р’Р°СЃ Р·РІРµСЂРЅСѓС‚РёСЃСЏ РґРѕ С†СЊРѕРіРѕ Р±Р°РЅРєСѓ РґР»СЏ Р°РєС‚СѓР°Р»С–Р·Р°С†С–С—.
               </div>
 
             <div class="row"
@@ -267,7 +267,7 @@
                         </div>
 
                         <div ng-if="item.type == 'date'">
-                          <!--заменить на директиву-->
+                          <!--Р·Р°РјРµРЅРёС‚СЊ РЅР° РґРёСЂРµРєС‚РёРІСѓ-->
                           <p class="input-group datepicker-central">
                             <input type="text"
                                    ng-required="item.required"
@@ -311,7 +311,7 @@
                                   </th>
                                   <th colspan="3">
                                     <button id="{{::uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-link btn-sm" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" tabindex="-1" style="width:100%;">
-                                      <strong style="color: black; font-size: 14px">Рік</strong>
+                                      <strong style="color: black; font-size: 14px">Р С–Рє</strong>
                                     </button>
                                   </th>
                                   <th>
@@ -382,7 +382,7 @@
                             </script>
 
                           </p>
-                          <!--заменить на директиву-->
+                          <!--Р·Р°РјРµРЅРёС‚СЊ РЅР° РґРёСЂРµРєС‚РёРІСѓ-->
                         </div>
 
                         <div ng-if="item.type === 'select'" ng-class="getBpAndFieldID(item)">
@@ -427,16 +427,16 @@
                              class="error-popup"
                              ng-messages="form[tableName][item.id + rowIndex].$error" ng-if="form.$submitted && form[tableName][item.id + rowIndex].$invalid
                                           || tableIsInvalid && form[tableName][item.id + rowIndex].$invalid && invalidTableNum === tableName">
-                          <span ng-message="required">Необхідно заповнити.</span>
-                          <span ng-message="pattern">Значення має бути числом.</span>
-                          <span ng-message="email">Помилка в email.</span>
-                          <span ng-message="tel">Помилка в номері телефону.</span>
-                          <span ng-message="autovin">Помилка у VIN-номері авто.</span>
-                          <span ng-message="textua">Текст може містити тількі українські літери або мінус чи пробіл.</span>
-                          <span ng-message="textru">Текст може містити тількі російські літери або мінус чи пробіл.</span>
-                          <span ng-message="dateformat">Дата може бути тільки формату DATE_FORMAT.</span>
-                          <span ng-message="dateelapsed">З/до дати з/після сьогоднішньої, має бути більше/менше ніж х-днів,
-                            х-місяців, х-років.
+                          <span ng-message="required">РќРµРѕР±С…С–РґРЅРѕ Р·Р°РїРѕРІРЅРёС‚Рё.</span>
+                          <span ng-message="pattern">Р—РЅР°С‡РµРЅРЅСЏ РјР°С” Р±СѓС‚Рё С‡РёСЃР»РѕРј.</span>
+                          <span ng-message="email">РџРѕРјРёР»РєР° РІ email.</span>
+                          <span ng-message="tel">РџРѕРјРёР»РєР° РІ РЅРѕРјРµСЂС– С‚РµР»РµС„РѕРЅСѓ.</span>
+                          <span ng-message="autovin">РџРѕРјРёР»РєР° Сѓ VIN-РЅРѕРјРµСЂС– Р°РІС‚Рѕ.</span>
+                          <span ng-message="textua">РўРµРєСЃС‚ РјРѕР¶Рµ РјС–СЃС‚РёС‚Рё С‚С–Р»СЊРєС– СѓРєСЂР°С—РЅСЃСЊРєС– Р»С–С‚РµСЂРё Р°Р±Рѕ РјС–РЅСѓСЃ С‡Рё РїСЂРѕР±С–Р».</span>
+                          <span ng-message="textru">РўРµРєСЃС‚ РјРѕР¶Рµ РјС–СЃС‚РёС‚Рё С‚С–Р»СЊРєС– СЂРѕСЃС–Р№СЃСЊРєС– Р»С–С‚РµСЂРё Р°Р±Рѕ РјС–РЅСѓСЃ С‡Рё РїСЂРѕР±С–Р».</span>
+                          <span ng-message="dateformat">Р”Р°С‚Р° РјРѕР¶Рµ Р±СѓС‚Рё С‚С–Р»СЊРєРё С„РѕСЂРјР°С‚Сѓ DATE_FORMAT.</span>
+                          <span ng-message="dateelapsed">Р—/РґРѕ РґР°С‚Рё Р·/РїС–СЃР»СЏ СЃСЊРѕРіРѕРґРЅС–С€РЅСЊРѕС—, РјР°С” Р±СѓС‚Рё Р±С–Р»СЊС€Рµ/РјРµРЅС€Рµ РЅС–Р¶ С…-РґРЅС–РІ,
+                            С…-РјС–СЃСЏС†С–РІ, С…-СЂРѕРєС–РІ.
                           </span>
 			              <span ng-message="string">{{ form[tableName][item.id + rowIndex].lastErrorMessage }}</span>
 			              <span ng-message="long">{{ form[tableName][item.id + rowIndex].lastErrorMessage }}</span>
@@ -446,12 +446,12 @@
                           <span ng-message="numbersaccounts">{{ form[tableName][item.id + rowIndex].lastErrorMessage }}</span>
                           <span ng-message="dateofbirth">{{ form[tableName][item.id + rowIndex].lastErrorMessage }}</span>
                           <span ng-message="CustomFormat">{{ form[tableName][item.id + rowIndex].lastErrorMessage }}</span>
-                          <span ng-message="CodeKVED">Такого КВЕД не існує - (ви не можете вписувати літери)</span>
-                          <span ng-message="CodeEDRPOU">Такий код ЄДРПОУ не існує - (ви не можете вписувати літери)</span>
-                          <span ng-message="CodeMFO">Такого коду банку не існує - (ви не можете вписувати літери)</span>
-                          <span ng-message="FileSign">Підпис не валідний або відсутній</span>
+                          <span ng-message="CodeKVED">РўР°РєРѕРіРѕ РљР’Р•Р” РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)</span>
+                          <span ng-message="CodeEDRPOU">РўР°РєРёР№ РєРѕРґ Р„Р”Р РџРћРЈ РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)</span>
+                          <span ng-message="CodeMFO">РўР°РєРѕРіРѕ РєРѕРґСѓ Р±Р°РЅРєСѓ РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)</span>
+                          <span ng-message="FileSign">РџС–РґРїРёСЃ РЅРµ РІР°Р»С–РґРЅРёР№ Р°Р±Рѕ РІС–РґСЃСѓС‚РЅС–Р№</span>
                           <span ng-message="FileExtensions">{{ form[tableName][item.id + rowIndex].lastErrorMessage }}</span>
-                          <span ng-message="FieldNotEmptyAndNonZero">Будь ласка, оберiть iз запропонованого перелiку</span>
+                          <span ng-message="FieldNotEmptyAndNonZero">Р‘СѓРґСЊ Р»Р°СЃРєР°, РѕР±РµСЂiС‚СЊ iР· Р·Р°РїСЂРѕРїРѕРЅРѕРІР°РЅРѕРіРѕ РїРµСЂРµР»iРєСѓ</span>
                         </div>
 
                       </td>
@@ -468,7 +468,7 @@
                   </table>
 
                   <div style="text-align: left; margin-top: 3px">
-                    <input type="button" ng-hide="rowLengthCheckLimit(property)" class="add-row-button" ng-click="addRow(form[tableName], property.id, tableName)" value="Додати рядок">
+                    <input type="button" ng-hide="rowLengthCheckLimit(property)" class="add-row-button" ng-click="addRow(form[tableName], property.id, tableName)" value="Р”РѕРґР°С‚Рё СЂСЏРґРѕРє">
                   </div>
                 </div>
 
@@ -491,7 +491,7 @@
                         ng-required="isFieldRequired(property)"
                         ng-class="getBpAndFieldID(property)"
                         ng-click="redirectPaymentLiqpay(property.id)"
-                        class="btn btn-success">Сплатити</button>
+                        class="btn btn-success">РЎРїР»Р°С‚РёС‚Рё</button>
 
                 <label style="display: none;"
                        ng-switch-when="invisible"
@@ -567,7 +567,7 @@
                           </th>
                           <th colspan="3">
                             <button id="{{::uniqueId}}-title" role="heading" aria-live="assertive" aria-atomic="true" type="button" class="btn btn-link btn-sm" ng-click="toggleMode()" ng-disabled="datepickerMode === maxMode" tabindex="-1" style="width:100%;">
-                              <strong style="color: black; font-size: 14px">Рік</strong>
+                              <strong style="color: black; font-size: 14px">Р С–Рє</strong>
                             </button>
                           </th>
                           <th>
@@ -667,11 +667,11 @@
                   <label ng-if="data.formData.params[property.id].scan && data.formData.params[property.id].isLoading"
                          name="{{property.id}}_0"
                          class="form-control_">
-                    Завантаження із BankID ...</label>
+                    Р—Р°РІР°РЅС‚Р°Р¶РµРЅРЅСЏ С–Р· BankID ...</label>
                   <label ng-if="data.formData.params[property.id].scan && !data.formData.params[property.id].isLoading"
                          name="{{property.id}}_1"
                          class="form-control_">
-                    Завантажено із BankID</label>
+                    Р—Р°РІР°РЅС‚Р°Р¶РµРЅРѕ С–Р· BankID</label>
                   <file-field name="{{property.id}}"
                               ng-model="data.formData.params[property.id].value"
                               ng-required="isFieldRequired(property)"
@@ -738,16 +738,16 @@
               <div class="col-md-4 validation-message"
                    ng-if="form.$submitted"
                    ng-messages="form[property.id].$error">
-                <div ng-message="required">Необхідно заповнити.</div>
-                <div ng-message="pattern">Значення має бути числом.</div>
-                <div ng-message="email">Помилка в email.</div>
-                <div ng-message="tel">Помилка в номері телефону.</div>
-                <div ng-message="autovin">Помилка у VIN-номері авто.</div>
-                <div ng-message="textua">Текст може містити тількі українські літери або мінус чи пробіл.</div>
-                <div ng-message="textru">Текст може містити тількі російські літери або мінус чи пробіл.</div>
-                <div ng-message="dateformat">Дата може бути тільки формату DATE_FORMAT.</div>
-                <div ng-message="dateelapsed">З/до дати з/після сьогоднішньої, має бути більше/менше ніж х-днів,
-                  х-місяців, х-років.
+                <div ng-message="required">РќРµРѕР±С…С–РґРЅРѕ Р·Р°РїРѕРІРЅРёС‚Рё.</div>
+                <div ng-message="pattern">Р—РЅР°С‡РµРЅРЅСЏ РјР°С” Р±СѓС‚Рё С‡РёСЃР»РѕРј.</div>
+                <div ng-message="email">РџРѕРјРёР»РєР° РІ email.</div>
+                <div ng-message="tel">РџРѕРјРёР»РєР° РІ РЅРѕРјРµСЂС– С‚РµР»РµС„РѕРЅСѓ.</div>
+                <div ng-message="autovin">РџРѕРјРёР»РєР° Сѓ VIN-РЅРѕРјРµСЂС– Р°РІС‚Рѕ.</div>
+                <div ng-message="textua">РўРµРєСЃС‚ РјРѕР¶Рµ РјС–СЃС‚РёС‚Рё С‚С–Р»СЊРєС– СѓРєСЂР°С—РЅСЃСЊРєС– Р»С–С‚РµСЂРё Р°Р±Рѕ РјС–РЅСѓСЃ С‡Рё РїСЂРѕР±С–Р».</div>
+                <div ng-message="textru">РўРµРєСЃС‚ РјРѕР¶Рµ РјС–СЃС‚РёС‚Рё С‚С–Р»СЊРєС– СЂРѕСЃС–Р№СЃСЊРєС– Р»С–С‚РµСЂРё Р°Р±Рѕ РјС–РЅСѓСЃ С‡Рё РїСЂРѕР±С–Р».</div>
+                <div ng-message="dateformat">Р”Р°С‚Р° РјРѕР¶Рµ Р±СѓС‚Рё С‚С–Р»СЊРєРё С„РѕСЂРјР°С‚Сѓ DATE_FORMAT.</div>
+                <div ng-message="dateelapsed">Р—/РґРѕ РґР°С‚Рё Р·/РїС–СЃР»СЏ СЃСЊРѕРіРѕРґРЅС–С€РЅСЊРѕС—, РјР°С” Р±СѓС‚Рё Р±С–Р»СЊС€Рµ/РјРµРЅС€Рµ РЅС–Р¶ С…-РґРЅС–РІ,
+                  С…-РјС–СЃСЏС†С–РІ, С…-СЂРѕРєС–РІ.
                 </div>
                 <div ng-message="string">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="long">{{ form[property.id].lastErrorMessage }}</div>
@@ -757,12 +757,12 @@
                 <div ng-message="numbersaccounts">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="dateofbirth">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="CustomFormat">{{ form[property.id].lastErrorMessage }}</div>
-                <div ng-message="CodeKVED">Такого КВЕД не існує - (ви не можете вписувати літери)</div>
-                <div ng-message="CodeEDRPOU">Такий код ЄДРПОУ не існує - (ви не можете вписувати літери)</div>
-                <div ng-message="CodeMFO">Такого коду банку не існує - (ви не можете вписувати літери)</div>
-                <div ng-message="FileSign">Підпис не валідний або відсутній</div>
+                <div ng-message="CodeKVED">РўР°РєРѕРіРѕ РљР’Р•Р” РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)</div>
+                <div ng-message="CodeEDRPOU">РўР°РєРёР№ РєРѕРґ Р„Р”Р РџРћРЈ РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)</div>
+                <div ng-message="CodeMFO">РўР°РєРѕРіРѕ РєРѕРґСѓ Р±Р°РЅРєСѓ РЅРµ С–СЃРЅСѓС” - (РІРё РЅРµ РјРѕР¶РµС‚Рµ РІРїРёСЃСѓРІР°С‚Рё Р»С–С‚РµСЂРё)</div>
+                <div ng-message="FileSign">РџС–РґРїРёСЃ РЅРµ РІР°Р»С–РґРЅРёР№ Р°Р±Рѕ РІС–РґСЃСѓС‚РЅС–Р№</div>
                 <div ng-message="FileExtensions">{{ form[property.id].lastErrorMessage }}</div>
-                <div ng-message="FieldNotEmptyAndNonZero">Будь ласка, оберiть iз запропонованого перелiку</div>
+                <div ng-message="FieldNotEmptyAndNonZero">Р‘СѓРґСЊ Р»Р°СЃРєР°, РѕР±РµСЂiС‚СЊ iР· Р·Р°РїСЂРѕРїРѕРЅРѕРІР°РЅРѕРіРѕ РїРµСЂРµР»iРєСѓ</div>
               </div>
 
             </div>
@@ -771,22 +771,22 @@
               <div class="col-md-3">
 
 
-                  <label ng-hide="!sign.checked">Після натискання "Замовити послугу"
-                    Вас буде перенаправлено на сторінку підпису вашої заявки електронно-цифровим підписом
+                  <label ng-hide="!sign.checked">РџС–СЃР»СЏ РЅР°С‚РёСЃРєР°РЅРЅСЏ "Р—Р°РјРѕРІРёС‚Рё РїРѕСЃР»СѓРіСѓ"
+                    Р’Р°СЃ Р±СѓРґРµ РїРµСЂРµРЅР°РїСЂР°РІР»РµРЅРѕ РЅР° СЃС‚РѕСЂС–РЅРєСѓ РїС–РґРїРёСЃСѓ РІР°С€РѕС— Р·Р°СЏРІРєРё РµР»РµРєС‚СЂРѕРЅРЅРѕ-С†РёС„СЂРѕРІРёРј РїС–РґРїРёСЃРѕРј
                   </label>
-                  <label  ng-if="isSignNeeded" ng-hide="isSignNeededRequired">Накласти ЕЦП :
+                  <label  ng-if="isSignNeeded" ng-hide="isSignNeededRequired">РќР°РєР»Р°СЃС‚Рё Р•Р¦Рџ :
                   <input type="checkbox"
                          ng-model="sign.checked"
                          name="{{data.formData.getSignFieldID()}}">
                 </label>
-                  <!--label  ng-if="isSignNeededRequired ? true : sign.checked">Після натискання "Замовити послугу"-->
+                  <!--label  ng-if="isSignNeededRequired ? true : sign.checked">РџС–СЃР»СЏ РЅР°С‚РёСЃРєР°РЅРЅСЏ "Р—Р°РјРѕРІРёС‚Рё РїРѕСЃР»СѓРіСѓ"-->
                          <!--ng-model="isSignNeededRequired ? true : sign.checked"-->
 
               </div>
               <div class="col-md-4"></div>
               </div>
             <div class="row col-md-8 col-md-push-3">
-              Замовляючи послугу, Ви надаєте згоду на обробку Ваших персональних даних та підтверджуєте їх актуальність
+              Р—Р°РјРѕРІР»СЏСЋС‡Рё РїРѕСЃР»СѓРіСѓ, Р’Рё РЅР°РґР°С”С‚Рµ Р·РіРѕРґСѓ РЅР° РѕР±СЂРѕР±РєСѓ Р’Р°С€РёС… РїРµСЂСЃРѕРЅР°Р»СЊРЅРёС… РґР°РЅРёС… С‚Р° РїС–РґС‚РІРµСЂРґР¶СѓС”С‚Рµ С—С… Р°РєС‚СѓР°Р»СЊРЅС–СЃС‚СЊ
             </div>
               <div class="row">
                 <div class="col-md-5"></div>
@@ -796,15 +796,15 @@
                           ng-click="processForm(form, activitiForm.formProperties)"
                           ng-disable="cantSubmit(form)"
                           ng-hide="bSending(form)">
-                    Замовити послугу
+                    Р—Р°РјРѕРІРёС‚Рё РїРѕСЃР»СѓРіСѓ
                   </button>
                   <!--<button class="btn btn-info"-->
                           <!--ng-click="signForm(form)"-->
                           <!--ng-disable="cantSubmit(form)"-->
                           <!--ng-hide="bSending(form)">-->
-                    <!--Підписати-->
+                    <!--РџС–РґРїРёСЃР°С‚Рё-->
                   <!--</button>-->
-                  <br><label ng-show="bSending(form)">Зачекайте...</label>
+                  <br><label ng-show="bSending(form)">Р—Р°С‡РµРєР°Р№С‚Рµ...</label>
                 </div>
                 <div class="col-md-4"></div>
               </div>
