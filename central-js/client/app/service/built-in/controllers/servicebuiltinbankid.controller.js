@@ -76,11 +76,6 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       angular.forEach($scope.activitiForm.formProperties, function (field) {
 
         var sFieldName = field.name || '';
-
-        console.log( "#1418 Field each!" ); 
-
-        //window.angular.element(document).find("form").css("font-style","italic");
-    
   
         // 'Як працює послуга; посилання на інструкцію' буде розбито на частини по ';'
         var aNameParts = sFieldName.split(';');
@@ -258,7 +253,6 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       console.log( "#1418 Form try to be fixed!" ); 
 
       window.angular.element(document).find("form").css("font-style","italic");
-
       
       $scope.isSignNeeded = $scope.data.formData.isSignNeeded();
       $scope.isSignNeededRequired = $scope.data.formData.isSignNeededRequired();
@@ -639,7 +633,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
     	if( isStyled == false ) { 
 
     	  console.log("#1418 showFormField");
-          window.angular.element(document).find("form").css("font-style","italic");
+          //window.angular.element(document).find("form").css("font-style","italic");
+    	  
+    	  //FieldAttributeService.enableStyles();
 
     	  isStyled = true;
     	}
@@ -698,9 +694,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       $scope.$watch('data.formData.params', watchToSetDefaultValues, true);
       function watchToSetDefaultValues() {
-    	  
-    	  console.log("#1418 watchToSetDefaultValues"); 
-    	  
+   	  
     	  //var calcFields = FieldMotionService.getCalcFieldsIds();
         var calcFields = FieldMotionService.getTargetFieldsIds('Values');
         var pars = $scope.data.formData.params;
