@@ -70,15 +70,15 @@ angular.module('iGovMarkers')
     	  aField_ID: ['string'],
     	  aField_Type: ['string'], 
     	  nMin: 0,
-    	  nMax: 200,
-    	  sMessage: 'Повинно бути від 0 до 200 символів'
+    	  nMax: 256,
+    	  sMessage: 'Повинно бути від 0 до 256 символів'
       }
      ,LongNumber: { 
     	  aField_ID: ['long'],
     	  aField_Type: ['long'],
     	  nMin: 1,
     	  nMax: 1000, 
-    	  sMessage: 'Повинно бути неподільним числом від 1 до 1000 '
+    	  sMessage: 'Повинно бути цілим числом від 1 до 1000 '
       }
       ,DoubleNumber: { // Подільне число   
     	  aField_ID: ['double'],
