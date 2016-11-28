@@ -31,9 +31,13 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       $scope.data.formData = formData;
       $scope.tableIsInvalid = false;
 
-      $scope.model.$render = function() { 
-    	  console.log("In render");    	  
-      };
+      if( $scope.model ) { 
+
+	      $scope.model.$render = function() { 
+	    	  console.log("In render");    	  
+	      };
+
+      }
 
       $scope.$render = function() {
     	  console.log("In render 2");    	  
