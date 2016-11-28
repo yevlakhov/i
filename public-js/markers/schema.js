@@ -157,7 +157,7 @@ angular.module('iGovMarkers')
                             required: ["aElement_ID"],
                             additionalProperties: false
                         },
-                       /* "^": {
+                        "^Style_": {
                         	type: "object",
                         	properties: {
                         		aElement_ID: {"$ref": "#/definitions/stringArray"},
@@ -169,7 +169,6 @@ angular.module('iGovMarkers')
                         	required: [],
                         	additionalProperties: false
                         },
-                        */
 
                     },
                     additionalProperties: false
