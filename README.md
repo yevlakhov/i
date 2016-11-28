@@ -65,7 +65,6 @@ Demo сайт от iGov: https://beta.test.igov.org.ua/
 | Project manager   | [Костенко Юрий](https://gitlab.com/kostenko1)   | kostenko@kitsoft.kiev.ua   | 	@kostenko   | 050 351 7612   |
 | Team Lead   | [Куренной Максим](https://gitlab.com/kmm.kitsoft)   | kmm.webdev@kitsoft.kiev.ua   | 	@maksim_kurinniy   | 097 109 1362   |
 | Designer   | [Маша Зайцева](https://gitlab.com/u/zayceva)   | zayceva@gmail.com   | 	@masha_zayceva   | 068 808 4779   |
-| Designer   | [Игорь Косырев](https://gitlab.com/igor.kosyrev)   | i.kosyrev@kitsoft.kiev.ua   | 	@i.kosyrev   | 099 792 6261   |
 | Frontend   | Игорь Ломачук   | 	i.lomachuk@kitsoft.kiev.ua   | @igorlomachuk   | -   |
 | Начальник департамента заказчика   | Перевозник Александр   | sarendal@gmail.com   | -   | 067 459 8181   |
 | Ведущий разработчик со стороны заказчика   | Сергей Кухтин   | kuhtin.sv@gmail.com   | -   | 099 515 9019   |
