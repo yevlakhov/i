@@ -162,11 +162,12 @@ angular.module('iGovMarkers')
                         	properties: {
                         		aElement_ID: {"$ref": "#/definitions/stringArray"},
                         		aSelectors: {"$ref": "#/definitions/stringArray"},
-                        		oCommonStyle: { type: "object", patternProperties: {"^[A-Za-z]": {type : "string"}}},
+                        		/*oCommonStyle: { type: "object", patternProperties: {"^[A-Za-z]": {type : "string"}}},
                         		oCentralStyle: { type: "object", patternProperties: {"^[A-Za-z]": {type : "string"}} },
                         		oRegionStyle: { type: "object", patternProperties: {"^[A-Za-z]": {type : "string"}} },
+                        		*/
                         	}, 
-                        	required: [],
+                        	required: ["aElement_ID"],
                         	additionalProperties: false
                         },
 
