@@ -31,6 +31,14 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       $scope.data.formData = formData;
       $scope.tableIsInvalid = false;
 
+      $scope.model.$render = function() { 
+    	  console.log("In render");    	  
+      };
+
+      $scope.$render = function() {
+    	  console.log("In render 2");    	  
+      }; 
+
       $scope.setFormScope = function (scope) {
         this.formScope = scope;
       };
@@ -39,7 +47,6 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
         $scope.data.formData = new FormDataFactory();
         return $scope.data.formData.initialize($scope.activitiForm, BankIDAccount, oServiceData);
       };
-
 
       if (!$scope.data.id && !allowOrder) {
         $location.path("/");
@@ -249,11 +256,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       $scope.getSignFieldID = function () {
         return data.formData.getSignField().id;
       };
-
-      console.log( "#1418 Form try to be fixed!" ); 
-
-      window.angular.element(document).find("form").css("font-style","italic");
-      
+    
       $scope.isSignNeeded = $scope.data.formData.isSignNeeded();
       $scope.isSignNeededRequired = $scope.data.formData.isSignNeededRequired();
       //$scope.sign = {checked : false };
