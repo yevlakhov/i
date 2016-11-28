@@ -34,11 +34,6 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       };
 
       var initializeFormData = function () {
-
-          console.log( " Testing selectors for 1418 " + window.angular.element(document).find("form") );
-
-          window.angular.element(document).find("form").css("font-style","italic"); 
-    	  
         $scope.data.formData = new FormDataFactory();
         return $scope.data.formData.initialize($scope.activitiForm, BankIDAccount, oServiceData);
       };
@@ -80,6 +75,11 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
         var sFieldName = field.name || '';
 
+        console.log( "#1418 Field each!" ); 
+
+        //window.angular.element(document).find("form").css("font-style","italic");
+    
+        
         // 'Як працює послуга; посилання на інструкцію' буде розбито на частини по ';'
         var aNameParts = sFieldName.split(';');
         var sFieldNotes = aNameParts[0].trim();
@@ -253,6 +253,11 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
         return data.formData.getSignField().id;
       };
 
+      console.log( "#1418 Form try to be fixed!" ); 
+
+      window.angular.element(document).find("form").css("font-style","italic");
+
+      
       $scope.isSignNeeded = $scope.data.formData.isSignNeeded();
       $scope.isSignNeededRequired = $scope.data.formData.isSignNeededRequired();
       //$scope.sign = {checked : false };
@@ -451,11 +456,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
             });
           }
-
-          console.log( "Form try to be fixed!" ); 
-
-          window.angular.element(document).find("form").css("font-style","italic");
-          
+   
         } catch (sError) {
           console.log('[submitForm.fixForm]sError=' + sError);
         }
@@ -632,6 +633,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       };
 
       $scope.showFormField = function (property) {
+    	  
+    	  console.log("#1418 showFormField"); 
+    	  
         var p = getFieldProps(property);
         if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')) {
           return true;
@@ -647,6 +651,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       };
 
       $scope.renderAsLabel = function (property) {
+    	  
+    	  console.log("#1418 renderAsLabel"); 
+    	  
         if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')) {
           return false;
         }
@@ -685,7 +692,10 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       $scope.$watch('data.formData.params', watchToSetDefaultValues, true);
       function watchToSetDefaultValues() {
-        //var calcFields = FieldMotionService.getCalcFieldsIds();
+    	  
+    	  console.log("#1418 watchToSetDefaultValues"); 
+    	  
+    	  //var calcFields = FieldMotionService.getCalcFieldsIds();
         var calcFields = FieldMotionService.getTargetFieldsIds('Values');
         var pars = $scope.data.formData.params;
         calcFields.forEach(function (key) {
