@@ -9,7 +9,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       'use strict';
 
       var currentState = $state.$current;
-
+      
+      var isStyled = false; 
+      
       $scope.paramsBackup = null;
 
       $scope.oServiceData = oServiceData;
@@ -79,7 +81,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
         //window.angular.element(document).find("form").css("font-style","italic");
     
-        
+  
         // 'Як працює послуга; посилання на інструкцію' буде розбито на частини по ';'
         var aNameParts = sFieldName.split(';');
         var sFieldNotes = aNameParts[0].trim();
@@ -634,8 +636,14 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       $scope.showFormField = function (property) {
     	  
-    	  console.log("#1418 showFormField"); 
-    	  
+    	if( isStyled == false ) { 
+
+    	  console.log("#1418 showFormField");
+          window.angular.element(document).find("form").css("font-style","italic");
+
+    	  isStyled = true;
+    	}
+  
         var p = getFieldProps(property);
         if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')) {
           return true;
@@ -651,9 +659,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       };
 
       $scope.renderAsLabel = function (property) {
-    	  
-    	  console.log("#1418 renderAsLabel"); 
-    	  
+   	  
         if ($scope.data.formData.params.bReferent.value && property.id.startsWith('bankId')) {
           return false;
         }
