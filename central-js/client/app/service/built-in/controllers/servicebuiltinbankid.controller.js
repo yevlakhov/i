@@ -645,7 +645,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
     	  console.log("#1418 showFormField");
           //window.angular.element(document).find("form").css("font-style","italic");
 
-    	  FieldAttributeService.enableStyles();
+    	  FieldAttributesService.enableStyles();
 
     	  isStyled = true;
     	}
