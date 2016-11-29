@@ -56,9 +56,9 @@ function FieldAttributesService(MarkersFactory) {
 			  console.log("iGovMarkers.enableStyles -> oCommonStyle is set - oRegionStyle empty");
 		  }
 
-		  console.log( "commonStyle=" + commonStyle + " centralStyle=" + centralStyle + " regionStyle=" + regionStyle + " aElement_ID=" + styles.aElement_ID.length + " aElement_ID=" + styles["aElement_ID"] );
+		  console.log( "commonStyle=" + commonStyle["font-style"] + " centralStyle=" + centralStyle + " regionStyle=" + regionStyle + " aElement_ID=" + styles.aElement_ID.length + " aElement_ID=" + styles["aElement_ID"] );
 		  
-		  if( /*(commonStyle.length > 0 || centralStyle.length > 0 || regionStyle.length > 0) &&*/ styles.aElement_ID != null && styles.aElement_ID.length > 0 ) {
+		  if( (commonStyle || centralStyle || regionStyle) && styles.aElement_ID != null && styles.aElement_ID.length > 0 ) {
 			  
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
@@ -76,6 +76,7 @@ function FieldAttributesService(MarkersFactory) {
 					  
 					  console.log( "iGovMarkers.enableStyles -> oCommonStyle for '" + styles.aElement_ID[j] + "'  applied" ); 
 
+					  elem.css({"color": "#FF0000"});
 				  }
 				  else { 
 					  console.log( "iGovMarkers.enableStyles -> element '" + styles.aElement_ID[j] + "' not set" );				  
