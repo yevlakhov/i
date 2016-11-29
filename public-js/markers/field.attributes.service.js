@@ -28,13 +28,13 @@ function FieldAttributesService(MarkersFactory) {
 		  var regionStyle = {}; 
 
 		  // перевіряємо чи маємо, що встановлювати 
-		  if( styles.oCommonStyle != null && styles.oCommonStyle.length > 0 || styles["oCommonStyle"] != null && styles["oCommonStyle"].length > 0 ) { 
+		  if( styles.oCommonStyle != null || styles["oCommonStyle"] != null ) { 
 			  commonStyle = styles.oCommonStyle; 
 			  
 			  console.log("iGovMarkers.enableStyles -> oCommonStyle for '" + styles + "' is set"); 
 		  }
 		  
-		  if( styles.oCentralStyle != null && styles.oCentralStyle.length > 0 || styles["oCentralStyle"] != null && styles["oCentralStyle"].length > 0 ) { 
+		  if( styles.oCentralStyle != null || styles["oCentralStyle"] != null ) { 
 			  centralStyle = styles.oCentralStyle;
 			  
 			  console.log("iGovMarkers.enableStyles -> oCentralStyle for '" + styles + "' is set");
@@ -45,7 +45,7 @@ function FieldAttributesService(MarkersFactory) {
 			  console.log("iGovMarkers.enableStyles -> oCommonStyle is set - oCentralStyle empty"); 
 		  }
 
-		  if( styles.oRegionStyle != null && styles.oRegionStyle.length > 0 || styles["oRegionStyle"] != null && styles["oRegionStyle"].length > 0 ) { 
+		  if( styles.oRegionStyle != null || styles["oRegionStyle"] != null ) { 
 			  regionStyle = styles.oRegionStyle; 
 			  
 			  console.log("iGovMarkers.enableStyles -> oRegionStyle for '" + styles + "' is set");
