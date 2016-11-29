@@ -76,9 +76,7 @@ function FieldAttributesService(MarkersFactory) {
 
 				  }
 				  else { 
-					  
-					  console.log( "iGovMarkers.enableStyles -> element '" + styles.aElement_ID[j] + "' not set" );
-					  
+					  console.log( "iGovMarkers.enableStyles -> element '" + styles.aElement_ID[j] + "' not set" );				  
 				  }
 /*
 				  if ( StatesRepositoryProvider.isCentral() ) { 
@@ -105,7 +103,7 @@ function FieldAttributesService(MarkersFactory) {
 					  console.log("iGovMarkers.enableStyles -> oCommonStyle applied");
 				  }
 				  else {
-					  console.log("iGovMarkers.enableStyles -> Selector '"+ styles.aSelectors[j] +"' not found");
+					  console.log("iGovMarkers.enableStyles -> aSelector '"+ styles.aSelectors[j] +"' not found");
 				  }
 
 				  /*
