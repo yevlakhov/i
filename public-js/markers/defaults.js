@@ -131,23 +131,23 @@ angular.module('iGovMarkers')
     	  aElement_ID: ['textUa', 'vin_code'], 
     	  aSelectors: ["col-sm-4"], 
     	  // Загальний стиль для селекторів 
-    	  //oCommonStyle : { "font-style" : "italic", "display" : "block" },
+    	  oCommonStyle : { "font-style" : "italic", "display" : "block" },
     	  // Стиль для Central-js | = sCommonStyle 
-    	  //oCommonStyle : { "font-style": "bold", "display": "block" }, 
+    	  oCommonStyle : { "font-style": "bold", "display": "block" }, 
     	  // Стиль для Region  
-    	  //oRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
+    	  oRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
       }, 
 
       Style_ExtendForm: {
-    	  aElement_IDs: ['form'],  	  
+    	  aElement_ID: ['form'],  	  
     	  aSelectors: ["test-form"], 
     	  //sCondition : "",
     	  // Загальний стиль для селекторів 
-    	  //sCommonStyle : { "font-style": "italic", "display": "block" },
+    	  sCommonStyle : { "font-style": "italic", "display": "block" },
     	  // Стиль для Central-js | = sCommonStyle 
-    	  //sCentralStyle : { "font-style": "bold", "display": "block" }, 
+    	  sCentralStyle : { "font-style": "bold", "display": "block" }, 
     	  // Стиль для Region  
-    	  //sRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" },
+    	  sRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" },
       }, 
 
     },
