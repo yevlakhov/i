@@ -143,11 +143,11 @@ angular.module('iGovMarkers')
     	  aSelectors: ["test-form"], 
     	  //sCondition : "",
     	  // Загальний стиль для селекторів 
-    	  sCommonStyle : { "font-style": "italic", "display": "block" },
+    	  oCommonStyle: { "font-style": "italic", "display": "block" },
     	  // Стиль для Central-js | = sCommonStyle 
-    	  sCentralStyle : { "font-style": "bold", "display": "block" }, 
+    	  oCentralStyle: { "font-style": "bold", "display": "block" }, 
     	  // Стиль для Region  
-    	  sRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" },
+    	  oRegionStyle: { "font-style": "bold", "font-color": "#FF0000", "display": "block" },
       }, 
 
     },
