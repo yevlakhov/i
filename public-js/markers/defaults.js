@@ -137,7 +137,7 @@ angular.module('iGovMarkers')
     	  // Стиль для Region  
     	  //oRegionStyle : { "font-style": "bold", "font-color": "#FF0000", "display": "block" }, 
       }, 
-      
+
       Style_ExtendForm: {
     	  aElement_IDs: ['form'],  	  
     	  aSelectors: ["test-form"], 
