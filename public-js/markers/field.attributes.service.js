@@ -28,13 +28,13 @@ function FieldAttributesService(MarkersFactory) {
 		  var regionStyle = {}; 
 
 		  // перевіряємо чи маємо, що встановлювати 
-		  if( styles.oCommonStyle != null && styles.oCommonStyle.length > 0 ) { 
+		  if( styles.oCommonStyle != null && styles.oCommonStyle.length > 0 || styles["oCommonStyle"] != null && styles["oCommonStyle"].length > 0 ) { 
 			  commonStyle = styles.oCommonStyle; 
 			  
 			  console.log("iGovMarkers.enableStyles -> oCommonStyle for '" + styles + "' is set"); 
 		  }
 		  
-		  if( styles.oCentralStyle != null && styles.oCentralStyle.length > 0 ) { 
+		  if( styles.oCentralStyle != null && styles.oCentralStyle.length > 0 || styles["oCentralStyle"] != null && styles["oCentralStyle"].length > 0 ) { 
 			  centralStyle = styles.oCentralStyle;
 			  
 			  console.log("iGovMarkers.enableStyles -> oCentralStyle for '" + styles + "' is set");
@@ -45,7 +45,7 @@ function FieldAttributesService(MarkersFactory) {
 			  console.log("iGovMarkers.enableStyles -> oCommonStyle is set - oCentralStyle empty"); 
 		  }
 
-		  if( styles.oRegionStyle != null && styles.oRegionStyle.length > 0 ) { 
+		  if( styles.oRegionStyle != null && styles.oRegionStyle.length > 0 || styles["oRegionStyle"] != null && styles["oRegionStyle"].length > 0 ) { 
 			  regionStyle = styles.oRegionStyle; 
 			  
 			  console.log("iGovMarkers.enableStyles -> oRegionStyle for '" + styles + "' is set");
@@ -55,10 +55,10 @@ function FieldAttributesService(MarkersFactory) {
 			  
 			  console.log("iGovMarkers.enableStyles -> oCommonStyle is set - oRegionStyle empty");
 		  }
- 
+
+		  console.log( "commonStyle=" + commonStyle.length + " centralStyle=" + centralStyle.length + " regionStyle=" + regionStyle.length + " aElement_ID=" + styles.aElement_ID.length + " aElement_ID=" + styles["aElement_ID"] );
+		  
 		  if( (commonStyle.length > 0 || centralStyle.length > 0 || regionStyle.length > 0) && styles.aElement_ID != null && styles.aElement_ID.length > 0 ) {
-			  
-			  console.log( "commonStyle=" + commonStyle.length + " centralStyle=" + centralStyle.length + " regionStyle=" + regionStyle.length + " aElement_ID=" + styles.aElement_ID.length );  
 			  
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
