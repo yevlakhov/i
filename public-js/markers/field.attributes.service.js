@@ -1,4 +1,4 @@
-angular.module('iGovMarkers').service('FieldAttributesService', ['iGovMarkers', 'iGovMarkersDefaults', FieldAttributesService]);
+angular.module('iGovMarkers').service('FieldAttributesService', ['iGovMarkers', FieldAttributesService]);
 
 function FieldAttributesService(MarkersFactory) {
   var self = this;
@@ -11,7 +11,7 @@ function FieldAttributesService(MarkersFactory) {
   
   // enables styles from the iGovMarkersDefaults -> attributes 
   this.enableStyles = function () { 
-	  var selectors = iGovMarkersDefaults.attributes;
+	  var selectors = grepByPrefix("Style_"); 
 
 	  if(selectors == null || selectors.length < 1 ) { 
 		  console.log( "FieldAttributesService iGovMarkersDefaults.attributes is not set" ); 
