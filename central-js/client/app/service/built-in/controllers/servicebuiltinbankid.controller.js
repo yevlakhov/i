@@ -31,7 +31,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       $scope.data.formData = formData;
       $scope.tableIsInvalid = false;
       
-      $document.on("load", function() { alert(' test '); });
+      $document.$on("load", function() { alert(' test '); });
+      
+      angular.element(document).on("load", function() {  alert( ' test 2 ' );  }); 
       /*if( $scope.view ) { 
 
 	      $scope.model.$render = function() { 
