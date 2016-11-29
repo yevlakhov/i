@@ -56,7 +56,9 @@ function FieldAttributesService(MarkersFactory) {
 			  console.log("iGovMarkers.enableStyles -> oCommonStyle is set - oRegionStyle empty");
 		  }
  
-		  if( (commonStyle.length > 0 || centralStyle.length > 0 || regionStyle > 0) && styles.aElement_ID != null && styles.aElement_ID.length > 0 ) {
+		  if( (commonStyle.length > 0 || centralStyle.length > 0 || regionStyle.length > 0) && styles.aElement_ID != null && styles.aElement_ID.length > 0 ) {
+			  
+			  console.log( "commonStyle=" + commonStyle.length + " centralStyle=" + centralStyle.length + " regionStyle=" + regionStyle.length + " aElement_ID=" + styles.aElement_ID.length );  
 			  
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
