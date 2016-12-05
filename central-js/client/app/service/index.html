@@ -10,11 +10,16 @@
                     <a ui-sref="index.service.general({id: service.nID})">Послуга</a>
                 </li>
                 <li ui-sref-active="active"
-                    ng-if="service.sInfo.trim() || (false && bAdmin)"
                     ng-hide="bHideTab"
                     role="presentation">
                   <a ui-sref="index.service.instruction({id: service.nID})">Як працює</a>
                 </li>
+              <!--<li ui-sref-active="active"-->
+                    <!--ng-if="service.sInfo.trim() || (false && bAdmin)"-->
+                    <!--ng-hide="bHideTab"-->
+                    <!--role="presentation">-->
+                  <!--<a ui-sref="index.service.instruction({id: service.nID})">Як працює</a>-->
+                <!--</li>-->
                 <li ui-sref-active="active"
                     ng-if="feedback.visible"
                     ng-hide="bHideTab"
