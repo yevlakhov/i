@@ -253,8 +253,8 @@ public class SubjectMessageService {
             messageFeedback.setsID_Source(sID_Source);
             messageFeedback.setsAuthorFIO(sAuthorFIO);
             messageFeedback.setsMail(sMail);
-            messageFeedback.setsHead(sHead);
-            messageFeedback.setsBody(sBody);
+//            messageFeedback.setsHead(sHead);
+//            messageFeedback.setsBody(sBody);
             messageFeedback.setsPlace(sPlace);
             messageFeedback.setsEmployeeFIO(sEmployeeFIO);
             messageFeedback.setnID_Rate(nID_Rate);
@@ -289,8 +289,8 @@ public class SubjectMessageService {
                 messageFeedback.setsID_Source(sID_Source);
                 messageFeedback.setsAuthorFIO(sAuthorFIO);
                 messageFeedback.setsMail(sMail);
-                messageFeedback.setsHead(sHead);
-                messageFeedback.setsBody(sBody);
+//                messageFeedback.setsHead(sHead);
+//                messageFeedback.setsBody(sBody);
                 messageFeedback.setsPlace(sPlace);
                 messageFeedback.setsEmployeeFIO(sEmployeeFIO);
                 messageFeedback.setnID_Rate(nID_Rate);
@@ -316,11 +316,9 @@ public class SubjectMessageService {
                 subjectMessage.setsSubjectInfo(sAuthorFIO);
                 if (sMail != null) {
                     subjectMessage.setMail(sMail);
-//                    createSubjectContact(sMail, subjectMessage.getoSubject());
-                    LOG.info("1TEST_sMail: " + sMail);
-                    subjectContactDao.saveOrUpdate(createSubjectContact(sMail, subjectMessage.getoSubject()));
-                    LOG.info("1sMail: " + subjectMessage.getMail());
-                    LOG.info("2oMail: " + subjectMessage.getoMail().getsValue());
+//                  
+                    subjectContactDao.saveOrUpdate(updateContact(subjectMessage.getoSubject(), sMail)); //getSubject(nID_Subject, sMail)
+                    
                 }
                 if (nID_Subject != null) {
                     subjectMessage.setId_subject(nID_Subject);
