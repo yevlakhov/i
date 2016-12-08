@@ -78,17 +78,17 @@ function FieldAttributesService(MarkersFactory) {
 			  
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
-				  var elem = window.angular.element(document).find(styles.aElement_ID[j]);
+				  var elem = angular.element( document.getElementsByName( styles.aElement_ID[j] ) ); 
 
 				  if( elem == null || elem.length < 1 ) { 
 
 					  elem = window.angular.element(document).find( "#" + styles.aElement_ID[j] ); 
 
 				  } 
-				  
-				  if( (elem == null || elem.length < 1) && document.getElementsByName(styles.aElement_ID[j]).length > 0 ) { 
-					  
-					  elem = angular.element( document.getElementsByName( styles.aElement_ID[j] ) );
+
+				  if( (elem == null || elem.length < 1) ) { 
+		  
+					  elem = window.angular.element(document).find(styles.aElement_ID[j]);
 
 				  }
 
@@ -96,7 +96,9 @@ function FieldAttributesService(MarkersFactory) {
 
 					  elem.css(commonStyle);
 					  
-					  console.log( "iGovMarkers.enableStyles -> oCommonStyle for '" + styles.aElement_ID[j] + "'  applied" ); 
+					  console.log( "iGovMarkers.enableStyles -> oCommonStyle for '" + styles.aElement_ID[j] + "'  applied" );
+					  
+					  angular.forEach(commonStyle, function(value, key, obj) { console.log( key + ":" + value ); });  
 				  }
 				  else { 
 					  console.log( "iGovMarkers.enableStyles -> element '" + styles.aElement_ID[j] + "' not set" );				  
@@ -123,7 +125,7 @@ function FieldAttributesService(MarkersFactory) {
 
 					  elem.css(commonStyle);   
 
-					  console.log("iGovMarkers.enableStyles -> oCommonStyle applied");
+					  console.log("iGovMarkers.enableStyles -> oCommonStyle for " + styles.aSelectors[j] + " applied");
 				  }
 				  else {
 					  console.log("iGovMarkers.enableStyles -> aSelector '"+ styles.aSelectors[j] +"' not found");
