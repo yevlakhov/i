@@ -79,9 +79,13 @@ function FieldAttributesService(MarkersFactory) {
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
 				  var query = "[name=" + styles.aElement_ID[j] + "]";
-				  var elem = angular.element( document.querySelector( query ) ); 
+				  var elem = angular.element(document).find( query );  
 
-				  console.log( "Object query='" + query + "' elem=" + elem + " selector=" + document.querySelector( query ) + " length=" + document.querySelector( query ).length );
+				  try {
+					  console.log( "Object query='" + query + "' elem=" + elem + " selector=" + document.querySelector( query ) + " length=" + document.querySelector( query ).length );
+				  } catch(e) { 
+					  console.log(e);
+				  }				 
 				  
 				  if( elem == null || elem.length < 1 ) { 
 
@@ -97,8 +101,6 @@ function FieldAttributesService(MarkersFactory) {
 					  console.log( ' inside (elem == null || elem.length < 1) ' + elem.length );
 				  }
 
-				  console.log ( " elem len " + elem.length ); 
-				  
 				  if( elem != null ) {
 
 					  elem.css(commonStyle);
