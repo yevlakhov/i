@@ -78,7 +78,7 @@ function FieldAttributesService(MarkersFactory) {
 			  
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
-				  var elem = angular.element( document.getElementsByName( styles.aElement_ID[j] ) ); 
+				  var elem = angular.element( document.querySelector( "[name=" + styles.aElement_ID[j] + "]" ) ); 
 
 				  if( elem == null || elem.length < 1 ) { 
 
