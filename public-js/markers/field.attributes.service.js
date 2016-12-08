@@ -78,8 +78,11 @@ function FieldAttributesService(MarkersFactory) {
 			  
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
-				  var elem = angular.element( document.querySelector( "[name=" + styles.aElement_ID[j] + "]" ) ); 
+				  var query = "[name=" + styles.aElement_ID[j] + "]";
+				  var elem = angular.element( document.querySelector( query ) ); 
 
+				  console.log( "Object query='" + query + "' elem=" + elem + " selector=" + document.querySelector( query ) + " length=" + document.querySelector( query ).length );
+				  
 				  if( elem == null || elem.length < 1 ) { 
 
 					  elem = window.angular.element(document).find( "#" + styles.aElement_ID[j] ); 
