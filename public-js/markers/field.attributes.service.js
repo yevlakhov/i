@@ -84,14 +84,18 @@ function FieldAttributesService(MarkersFactory) {
 
 					  elem = window.angular.element(document).find( "#" + styles.aElement_ID[j] ); 
 
+					  console.log( ' inside if( elem == null || elem.length < 1 ) ' + elem.length ); 
 				  } 
 
 				  if( (elem == null || elem.length < 1) ) { 
 		  
 					  elem = window.angular.element(document).find(styles.aElement_ID[j]);
 
+					  console.log( ' inside (elem == null || elem.length < 1) ' + elem.length );
 				  }
 
+				  console.log ( " elem len " + elem.length ); 
+				  
 				  if( elem != null ) {
 
 					  elem.css(commonStyle);
