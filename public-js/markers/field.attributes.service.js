@@ -79,10 +79,10 @@ function FieldAttributesService(MarkersFactory) {
 			  for( var j = 0; j < styles.aElement_ID.length; j++ ) {
 
 				  var query = "[name=" + styles.aElement_ID[j] + "]";
-				  var elem = angular.element(document).find( query );  
+				  var elem = angular.element(query);  
 
 				  try {
-					  console.log( "Object query='" + query + "' elem=" + elem + " selector=" + document.querySelector( query ) + " length=" + document.querySelector( query ).length );
+					  console.log( "Object query='" + query + "' elem=" + elem + " selector=" + $( query ) + " length=" + angular.element(query).length );
 				  } catch(e) { 
 					  console.log(e);
 				  }				 
