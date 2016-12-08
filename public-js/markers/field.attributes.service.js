@@ -9,6 +9,24 @@ function FieldAttributesService(MarkersFactory) {
     NOT_SET: 3
   };
   
+  this.FieldMentioned = {
+
+		  inPrintForm: function ( tableId, tablesCollection ) {
+
+			  var result = false; 
+
+			  if( tablesCollection && tablesCollection.length > 0 ) { 
+				 result = _.contains( tablesCollection, tableId ); 
+			  }
+			  else {
+				  result = grepByPrefix( "PrintForm_" ).some(function (entry) { 
+					  return _.contains ( entry.aTable_ID, tableId ); 
+				  }); 
+			  }
+		  }   
+
+  };
+  
   // enables styles from the iGovMarkersDefaults -> attributes 
   this.enableStyles = function () { 
 	  var selectors = grepByPrefix("Style_"); 
@@ -62,11 +80,17 @@ function FieldAttributesService(MarkersFactory) {
 
 				  var elem = window.angular.element(document).find(styles.aElement_ID[j]);
 
-				  if( elem == null ) { 
+				  if( elem == null || elem.length < 1 ) { 
 
 					  elem = window.angular.element(document).find( "#" + styles.aElement_ID[j] ); 
 
 				  } 
+				  
+				  if( (elem == null || elem.length < 1) && document.getElementsByName(styles.aElement_ID[j]).length > 0 ) { 
+					  
+					  elem = angular.element( document.getElementsByName( styles.aElement_ID[j] ) );
+
+				  }
 
 				  if( elem != null ) {
 
@@ -117,6 +141,13 @@ function FieldAttributesService(MarkersFactory) {
 		  }
 		  
 	  }	  
+  }
+  
+  this.getPrintForms = function() {
+	  
+	  var printForms = grepByPrefix("PrintForms_");
+	  
+	  return printForms; 
   }
 
   this.editableStatusFor = function(fieldId) {
