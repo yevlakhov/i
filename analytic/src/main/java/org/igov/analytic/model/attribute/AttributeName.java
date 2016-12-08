@@ -21,6 +21,11 @@ public class AttributeName extends NamedEntity{
 	@JsonProperty(value = "sID")
     @Column
     private String sID;
+	
+        
+        @JsonProperty(value = "nOrder")
+    @Column
+    private Long nOrder;
 
 	public String getsID() {
 		return sID;
@@ -30,5 +35,12 @@ public class AttributeName extends NamedEntity{
 		this.sID = sID;
 	}
 	
+        public Long getnOrder() {
+		return nOrder;
+	}
+
+	public void setnOrder(Long nOrder) {
+		this.nOrder = nOrder;
+	}
 	
 }
