@@ -100,6 +100,18 @@ function FieldAttributesService(MarkersFactory) {
 
 					  console.log( ' inside (elem == null || elem.length < 1) ' + elem.length );
 				  }
+				  
+				  if( elem.length < 1 ) { 
+					  
+					  console.log( "Creating <style> " );
+					  
+					  var style = "";
+					  angular.forEach(commonStyle, function (value, key, obj) { style = style + key + ":" + value + "; " });
+					  
+					  $("<style>" + query + " {" + style + "}" + "</style>").appendTo(document.head);
+					  
+					  console.log(" Applied "+ query + " {"+ style + "}"); 
+				  }
 
 				  if( elem != null ) {
 
