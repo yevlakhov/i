@@ -167,7 +167,7 @@ angular.module('iGovMarkers')
 
       PrintForm_Table3: { 
     	  aField_ID: ["oPrescription2"],
-    	  //sTemplateNameField_ID: "sPrescriptionName", 
+    	  sTitleField: "sPrescriptionName",
     	  sPatternPath: "/print/kiev/kiev_mda_273_print.html", 
     	  sName: "Звіт за сектором",
       }, 
