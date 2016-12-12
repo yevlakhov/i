@@ -643,9 +643,14 @@
             var oMotion = JSON.parse(item.value)['motion']; // Generate obj from json(item.value)
             var asNameField = getAllNamesFields(oMotion); //Generate array fields name
 
-            for (var i = 0; i < asNameField.length; i++) {
-              if(asNameField[i].includes("PrintFormFormula")) {
-                executeFormula(oMotion[asNameField[i]]);
+            /*todo иногда oMotion возвращает undefined, что в итоге делает asNameField - null,
+             *в итоге ломаеться принтформа
+            */
+            if(asNameField){
+              for (var i = 0; i < asNameField.length; i++) {
+                if(asNameField[i].includes("PrintFormFormula")) {
+                  executeFormula(oMotion[asNameField[i]]);
+                }
               }
             }
           }
@@ -1186,13 +1191,13 @@
         $scope.showReadableField = function (field) {
           if($scope.isFormPropertyDisabled(field) && $scope.isDocumentReadable(field)) return true;
           else if(!$scope.isDocumentWritable(field) && $scope.isDocumentReadable(field)) return true;
-          else if($scope.inUnassigned() && $scope.isFormPropertyDisabled(field) && $scope.isDocumentWritable(field)) return true;
+          else if($scope.isFormPropertyDisabled(field) && $scope.isDocumentWritable(field)) return true;
         };
 
         // отображать поле в зависимости от доступности к чтению/записи документа.
         $scope.showField = function (field) {
           if(documentRights) {
-            if($scope.inUnassigned() && ($scope.isDocumentReadable(field) || $scope.isDocumentWritable(field))) return true;
+            if($scope.isDocumentReadable(field) || $scope.isDocumentWritable(field)) return true;
             else if(!$scope.isDocumentReadable(field) && !$scope.isDocumentWritable(field)) return false;
             else if(!$scope.inUnassigned() && $scope.isFormPropertyDisabled(field) && $scope.isDocumentWritable(field) && !$scope.isDocumentReadable(field)) return false;
             else if(!$scope.isFormPropertyDisabled(field) && ($scope.isDocumentWritable(field) || $scope.isDocumentReadable(field))) return true;
