@@ -1,4 +1,4 @@
-п»ї(function () {
+(function () {
   'use strict';
 
   angular
@@ -36,7 +36,7 @@
         function getObjFromTaskFormById(id) {
           if(id == null) return null;
           for (var i = 0; i < taskForm.length; i++) {
-            if (taskForm[i].id && taskForm[i].id.includes(id)) {
+            if (taskForm[i].id && taskForm[i].id.includes != null && taskForm[i].id.includes(id)) {
               return taskForm[i];
             }
           }
@@ -440,8 +440,8 @@
             if (item.id === 'email') {
               oData.sMail = item.value;
             }
-            //<activiti:formProperty id="bankIdfirstName" name="Р†Рј'СЏ" type="string" ></activiti:formProperty>
-            //<activiti:formProperty id="bankIdmiddleName" name="РџРѕ Р‘Р°С‚СЊРєРѕРІС–" type="string" ></activiti:formProperty>
+            //<activiti:formProperty id="bankIdfirstName" name="Ім'я" type="string" ></activiti:formProperty>
+            //<activiti:formProperty id="bankIdmiddleName" name="По Батькові" type="string" ></activiti:formProperty>
             if (item.id === 'bankIdfirstName') {
               sClientName = item.value;
             }
@@ -451,7 +451,7 @@
           });
 
           if ($scope.clarifyModel.sBody.trim().length === 0 && aFields.length === 0) {
-            Modal.inform.warning()('РўСЂРµР±Р° РІРІРµСЃС‚Рё РєРѕРјРµРЅС‚Р°СЂ Р°Р±Рѕ РѕР±СЂР°С‚Рё РїРѕР»Рµ/Р»СЏ');
+            Modal.inform.warning()('Треба ввести коментар або обрати поле/ля');
             return;
           }
 
@@ -474,14 +474,14 @@
               $scope.clarify = false;
               $scope.isClarifySending = false;
               Modal.inform.success(function () {
-              })('РљРѕРјРµРЅС‚Р°СЂ РІС–РґРїСЂР°РІР»РµРЅРѕ СѓСЃРїС–С€РЅРѕ');
+              })('Коментар відправлено успішно');
             });
           } else {
             tasks.setTaskQuestions(oData).then(function () {
               $scope.clarify = false;
               $scope.isClarifySending = false;
               Modal.inform.success(function () {
-              })('Р—Р°СѓРІР°Р¶РµРЅРЅСЏ РІС–РґРїСЂР°РІР»РµРЅРѕ СѓСЃРїС–С€РЅРѕ');
+              })('Зауваження відправлено успішно');
             });
           }
         };
@@ -520,7 +520,7 @@
               $scope.checkSignState.show = false;
               $scope.checkSignState.signInfo = null;
               $scope.checkSignState.attachmentName = null;
-              Modal.inform.warning()('РќРµРјР°С” РїС–РґРїРёСЃСѓ');
+              Modal.inform.warning()('Немає підпису');
             }
           }).catch(function (error) {
             $scope.checkSignState.show = false;
@@ -585,14 +585,14 @@
           for(var i = 0; i < asId.length; i++) {
             var item = getObjFromTaskFormById(asId[i]), value, message;
             if(!item) {
-              message = 'Р—РІРµСЂРЅС–С‚СЊСЃСЏ Сѓ С‚РµС…РЅС–С‡РЅСѓ РїС–РґС‚СЂРёРјРєСѓ. РћР±С”РєС‚ Р· id ' + asId[i] + ' РІС–РґСЃСѓС‚РЅС–Р№. Р¤РѕСЂРјСѓР»Р° РЅРµ Р·Р°РїСЂР°С†СЋС”.';
+              message = 'Зверніться у технічну підтримку. Обєкт з id ' + asId[i] + ' відсутній. Формула не запрацює.';
               Modal.inform.error()(message);
               throw message;
             }
 
             if (!(value = item.value)) {
               return undefined;
-              // message = 'РџСѓСЃС‚Рµ РїРѕР»Рµ ' + item.name + '. РџСЂС–РЅС‚ Р¤РѕСЂРјСѓР»Р° РЅРµ Р·Р°РїСЂР°С†СЋС”.';
+              // message = 'Пусте поле ' + item.name + '. Прінт Формула не запрацює.';
               // Modal.inform.error()(message);
               // throw message;
             } else if (!isNaN(value)) {
@@ -643,8 +643,8 @@
             var oMotion = JSON.parse(item.value)['motion']; // Generate obj from json(item.value)
             var asNameField = getAllNamesFields(oMotion); //Generate array fields name
 
-            /*todo РёРЅРѕРіРґР° oMotion РІРѕР·РІСЂР°С‰Р°РµС‚ undefined, С‡С‚Рѕ РІ РёС‚РѕРіРµ РґРµР»Р°РµС‚ asNameField - null,
-             *РІ РёС‚РѕРіРµ Р»РѕРјР°РµС‚СЊСЃСЏ РїСЂРёРЅС‚С„РѕСЂРјР°
+            /*todo иногда oMotion возвращает undefined, что в итоге делает asNameField - null,
+             *в итоге ломаеться принтформа
             */
             if(asNameField){
               for (var i = 0; i < asNameField.length; i++) {
@@ -704,7 +704,7 @@
               }
             if ((!documentUnpopulatedFields && unpopulatedFields.length > 0)
                 || (documentUnpopulatedFields && documentUnpopulatedFields.length > 0)) {
-              // var errorMessage = 'Р‘СѓРґСЊ Р»Р°СЃРєР°, Р·Р°РїРѕРІРЅС–С‚СЊ РїРѕР»СЏ: ';
+              // var errorMessage = 'Будь ласка, заповніть поля: ';
 
               // if (unpopulatedFields.length == 1) {
               //
@@ -713,7 +713,7 @@
               //     nameToAdd = nameToAdd.substr(0, 50) + "...";
               //   }
               //
-              //   errorMessage = "Р‘СѓРґСЊ Р»Р°СЃРєР°, Р·Р°РїРѕРІРЅС–С‚СЊ РїРѕР»e '" + nameToAdd + "'";
+              //   errorMessage = "Будь ласка, заповніть полe '" + nameToAdd + "'";
               // }
               // else {
               //   unpopulatedFields.forEach(function (field) {
@@ -748,7 +748,7 @@
                   Modal.inform.error(function (result) {
                   })(errMsg + " " + (result && result.length > 0 ? (': ' + result) : ''));
                 } else {
-                  var sMessage = "Р¤РѕСЂРјСѓ РІС–РґРїСЂР°РІР»РµРЅРѕ.";
+                  var sMessage = "Форму відправлено.";
                   angular.forEach($scope.taskForm, function (oField) {
                     if (oField.id === "sNotifyEvent_AfterSubmit") {
                       sMessage = oField.value;
@@ -796,7 +796,7 @@
 
                   Modal.inform.error(function (result) {})(errMsg + " " + (result && result.length > 0 ? (': ' + result) : ''));
                 } else {
-                  var sMessage = "Р¤РѕСЂРјСѓ Р·Р±РµСЂРµР¶РµРЅРѕ.";
+                  var sMessage = "Форму збережено.";
                   $scope.convertDisabledEnumFiedsToReadonlySimpleText();
                   Modal.inform.success(function (result) {})(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
                 }
@@ -813,7 +813,7 @@
             .then(function (result) {
               Modal.assignTask(function (event) {
                 $state.go('tasks.typeof.view', {type:'selfAssigned'});
-              }, 'Р—Р°РґР°С‡Р° Сѓ РІР°СЃ РІ СЂРѕР±РѕС‚С–', $scope.lightweightRefreshAfterSubmit);
+              }, 'Задача у вас в роботі', $scope.lightweightRefreshAfterSubmit);
 
             })
             .catch(defaultErrorHandler);
@@ -845,7 +845,7 @@
               filterResult[0].signInfo = result.signInfo;
             }
           }).catch(function (err) {
-            Modal.inform.error()('РџРѕРјРёР»РєР°. ' + err.code + ' ' + err.message);
+            Modal.inform.error()('Помилка. ' + err.code + ' ' + err.message);
           });
         };
 
@@ -879,13 +879,13 @@
         };
 
         $scope.sDate_FieldQueueData = function (sValue) {
-          var sDate = "Р”Р°С‚Р° РЅР°Р·РЅР°С‡РµРЅР°!";
+          var sDate = "Дата назначена!";
           try {
             var nAt = sValue.indexOf("sDate");
             var nTo = sValue.indexOf("}");
             sDate = sValue.substring(nAt + 5 + 1 + 1 + 1, nTo - 1 - 6);
           } catch (_) {
-            sDate = "Р”Р°С‚Р° РЅР°Р·РЅР°С‡РµРЅР°!";
+            sDate = "Дата назначена!";
           }
           return sDate;
         };
@@ -1042,7 +1042,7 @@
           console.log($scope)
         };
 
-        // РїСЂРѕРІРµСЂСЏРµРј РёРјСЏ РїРѕР»СЏ РЅР° РЅР°Р»РёС‡РёРµ Р·Р°РјРµС‚РѕРє
+        // проверяем имя поля на наличие заметок
         function fixName(item) {
           var sFieldName = item.name || '';
           var aNameParts = sFieldName.split(';');
@@ -1059,7 +1059,7 @@
         }
 
         /*
-         * СЂР°Р±РѕС‚Р° СЃ С‚Р°Р±Р»РёС†Р°РјРё
+         * работа с таблицами
          */
 
         var fixFieldsForTable = function (table) {
@@ -1166,10 +1166,10 @@
         $scope.searchingTablesForPrint();
 
         /*
-         * СЂР°Р±РѕС‚Р° СЃ С‚Р°Р±Р»РёС†Р°РјРё
+         * работа с таблицами
          */
 
-        // РїСЂРѕРІРµСЂРєР°, РµСЃС‚СЊ Р»Рё РїРѕР»Рµ РІ СЃРїРёСЃРєРµ СЂРµРґР°РєС‚РёСЂСѓРµРјС‹С… (РІ РґРѕРєСѓРјРµРЅС‚Рµ).
+        // проверка, есть ли поле в списке редактируемых (в документе).
         $scope.isDocumentWritable = function (field) {
           if(documentRights) {
             return documentRights.asID_Field_Write.indexOf(field.id)!== -1;
@@ -1178,7 +1178,7 @@
           }
         };
 
-        // РїСЂРѕРІРµСЂРєР°, РµСЃС‚СЊ Р»Рё РїРѕР»Рµ РІ СЃРїРёСЃРєРµ РґР»СЏ С‡С‚РµРЅРёСЏ (РІ РґРѕРєСѓРјРµРЅС‚Рµ).
+        // проверка, есть ли поле в списке для чтения (в документе).
         $scope.isDocumentReadable = function (field) {
           if(documentRights) {
             return documentRights.asID_Field_Read.indexOf(field.id)!== -1;
@@ -1187,14 +1187,14 @@
           }
         };
 
-        // РїРѕРєР°Р·С‹РІР°С‚СЊ РїРѕР»СЏ С‚РѕР»СЊРєРѕ РґР»СЏ С‡С‚РµРЅРёСЏ.
+        // показывать поля только для чтения.
         $scope.showReadableField = function (field) {
           if($scope.isFormPropertyDisabled(field) && $scope.isDocumentReadable(field)) return true;
           else if(!$scope.isDocumentWritable(field) && $scope.isDocumentReadable(field)) return true;
           else if($scope.isFormPropertyDisabled(field) && $scope.isDocumentWritable(field)) return true;
         };
 
-        // РѕС‚РѕР±СЂР°Р¶Р°С‚СЊ РїРѕР»Рµ РІ Р·Р°РІРёСЃРёРјРѕСЃС‚Рё РѕС‚ РґРѕСЃС‚СѓРїРЅРѕСЃС‚Рё Рє С‡С‚РµРЅРёСЋ/Р·Р°РїРёСЃРё РґРѕРєСѓРјРµРЅС‚Р°.
+        // отображать поле в зависимости от доступности к чтению/записи документа.
         $scope.showField = function (field) {
           if(documentRights) {
             if($scope.isDocumentReadable(field) || $scope.isDocumentWritable(field)) return true;
