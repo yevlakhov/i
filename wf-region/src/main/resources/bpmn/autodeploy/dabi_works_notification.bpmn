@@ -348,7 +348,7 @@
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow29" sourceRef="boundarytimer2" targetRef="usertask_step_6.2_red"></sequenceFlow>
-    <serviceTask id="servicetask_step16.1" name="16.1 Повідомлення заявника про відмову" activiti:delegateExpression="#{MailTaskWithAttachment}">
+    <serviceTask id="servicetask_step16.1" name="16.1 Повідомлення заявника про відмову" activiti:delegateExpression="#{MailTaskWithAttachments}">
       <extensionElements>
         <activiti:field name="from">
           <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
@@ -459,7 +459,7 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow57" sourceRef="usertask_step14" targetRef="scripttask2"></sequenceFlow>
     <sequenceFlow id="flow58" sourceRef="scripttask2" targetRef="exclusivegateway6"></sequenceFlow>
     <parallelGateway id="parallelgateway4" name="Parallel Gateway"></parallelGateway>
-    <serviceTask id="servicetask_step16.2" name="16.2 Повідомлення заявника про внесення даних до реєстру"  activiti:delegateExpression="#{MailTaskWithAttachment}">
+    <serviceTask id="servicetask_step16.2" name="16.2 Повідомлення заявника про внесення даних до реєстру"  activiti:delegateExpression="#{MailTaskWithAttachments}">
       <extensionElements>
         <activiti:field name="from">
           <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
