@@ -2659,7 +2659,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     }
     
     @ApiOperation(value = "TestBP2", notes = "TestBP")
-    @RequestMapping(value = "/getTestBPs", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @RequestMapping(value = "/getTestBPs2", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public @ResponseBody String getTestBPs2(
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
             throws IOException {        
