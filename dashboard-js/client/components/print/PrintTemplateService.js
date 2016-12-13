@@ -31,6 +31,9 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks','Field
       } // FieldMotionService.FieldMentioned.inShow(item.id)
 
       try {
+
+    	  var topItems = [];
+
 	      // test to check forms ids of 1438  
 	      for(var i = 0; i < form.length; i++) { 
 	
@@ -73,10 +76,10 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks','Field
     		  
 	    	  }
 	      }
+	      
 
 	      if (markerExists){
 	
-	    	  var topItems = [];
 	    	  var templates = form.filter(function (item) {
 	          var result = false;
 	
@@ -116,13 +119,21 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks','Field
 	          return result;
 	        });
 	      }
+	      
+	      if(form.oPrescription2 != null ) { 
+	    	  console.log( "oPrescription exists" ); 
+	      } 
+
 	      /*
+	       * 
+	       * taskData revert 
+	       * 
 	      try { 
 	    	  if(form.taskData)
 	    	  console.log(" taskData = " + form.taskData + " taskData.aTable=" + form.taskData.aRow );
 	      } catch(e) {
 	    	  console.log( "Mistake " + e );
-	      } */
+	      } 
 
 		  angular.forEach(form.taskData.aTable, function (table) {
 	
@@ -153,7 +164,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks','Field
 				  }); 
 			  }
 		  });
-	
+		  */
+
 		  if( topItems.length > 0 ) {
 		      templates.unshift(topItems);
 		  }
