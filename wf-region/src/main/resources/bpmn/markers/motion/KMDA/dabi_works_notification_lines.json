@@ -6,7 +6,7 @@
     },
     "Line_2" : {
        "aElement_ID" : ["sObjectName"], 
-       "sValue" : "Інформація про об'єкт"
+       "sValue" : "Об'єкт будівництва"
     },
     "Line_3" : {
        "aElement_ID" : ["asGeneralContractor"], 

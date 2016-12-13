@@ -205,6 +205,7 @@
         <activiti:formProperty id="sGenLegalForm" name="Організаційно-правова форма юридичної особи" type="string" default="Потрібна інтеграція з обліковою системою"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalINN" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBossPermitComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" required="true">
@@ -282,6 +283,7 @@
         <activiti:formProperty id="workPhone" name="Номер телефону підрядника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBossPermitComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Decision" name="---------------" type="label" default="Рішення   -------"></activiti:formProperty>
         <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" writable="false">
           <activiti:value id="sEnumDecisionOK" name="Надана повна інформація. Зареєструвати у реєстрі ДАБІ"></activiti:value>
           <activiti:value id="sEnumDecisionReturn" name="Відправити на доопрацювання. Підготувати інформаційний лист"></activiti:value>
