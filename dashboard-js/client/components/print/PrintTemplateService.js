@@ -39,11 +39,14 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks','Field
 	
 	    	  if(form[i].type == 'table' && form[i].aRow ) { 
 
-	    		  console.log( " #1438 form.id=" + form[i].id + " form.type=" + form[i].type + " form.value=" + form[i].value + " i=" + i + " form.aRow=" + form[i].aRow  );
+	    		  console.log( " #1438 form.id=" + form[i].id + " form.type=" + form[i].type + " form.value=" + form[i].value + " i=" + i );
 
 		    	  try {
 			    	  var prints = FieldMotionService.getPrintForms(form[i].id);
+			    	  
+			    	  console.log(" Defaults " + prints[0]); 
 
+/*
 			    	  for (var j = 0; j < prints.length; j++) { 
 			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
 
@@ -69,6 +72,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks','Field
 
 			    		  } ); 
 			    	  }
+*/ 
 		    	  }
 		    	  catch(e) {
 		    		  console.log( "mistake - " + e ); 
