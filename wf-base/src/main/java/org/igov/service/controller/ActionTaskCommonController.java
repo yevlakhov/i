@@ -2642,11 +2642,19 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
             throws IOException {        
         //List <ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().involvedUser(sLogin).list();
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser(sLogin).active().list();
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser(sLogin).list();
+        List<Task> tasks1 = taskService.createTaskQuery().taskCandidateUser(sLogin).taskUnassigned().active().list();
+        List<Task> tasks2 = taskService.createTaskQuery().taskCandidateUser(sLogin).taskAssignee(sLogin).active().list();
         Set<String> processesList = new HashSet<>();
         for (Task task : tasks) {        
             processesList.add(task.getProcessDefinitionId());
-        }        
+        }   
+        for (Task task : tasks1) {        
+            processesList.add(task.getProcessDefinitionId());
+        }  
+        for (Task task : tasks2) {        
+            processesList.add(task.getProcessDefinitionId());
+        }  
         return JSONValue.toJSONString(processesList);
     }
 }
