@@ -25,12 +25,12 @@
        "sCondition": 	"[sCondit] == 'sEnumGenLegal'||[sCondit] == 'Юридична особа'"
       },
     "ShowFieldsOnCondition_DecisionYes": 
-      {"aField_ID": 	["sID_NumberDABI"], 
+      {"aField_ID": 	["sID_NumberDABI","sBody_Registr","PrintForm_Registr"], 
        "asID_Field": 	{"sCondit":"asDecision"},
        "sCondition": 	"[sCondit] == 'sEnumDecisionOK'||[sCondit] == 'Надана повна інформація. Зареєструвати у реєстрі ДАБІ'"
       },  
     "ShowFieldsOnCondition_DecisionNo": 
-      {"aField_ID": 	["sRejectionReason"], 
+      {"aField_ID": 	["sRejectionReason","sBody_Reject","PrintForm_Reject"], 
        "asID_Field": 	{"sCondit":"asDecision"},
        "sCondition": 	"[sCondit] == 'sEnumDecisionReturn'||[sCondit] == 'Відправити на доопрацювання. Підготувати інформаційний лист'"
       }             
