@@ -228,23 +228,25 @@
 
         function searchSelectSubject() {
           angular.forEach(taskForm, function (item) {
-            var isExecutorSelect = item.name.split(';')[2];
-            if (item.type === 'select' || item.type === 'string' || isExecutorSelect && isExecutorSelect.indexOf('sID_SubjectRole=Executor') > -1) {
-              var match;
-              if (((match = item.id ? item.id.match(/^s(Currency|ObjectCustoms|SubjectOrganJoinTax|ObjectEarthTarget|Country|ID_SubjectActionKVED|ID_ObjectPlace_UA)(_(\d+))?/) : false))
-                ||(item.type == 'select' && (match = item.id ? item.id.match(/^s(Country)(_(\d+))?/) : false)) || isExecutorSelect) {
-                if (match && autocompletesDataFactory[match[1]] && !isExecutorSelect) {
-                  item.type = 'select';
-                  item.selectType = 'autocomplete';
-                  item.autocompleteName = match[1];
-                  if (match[2])
-                    item.autocompleteName += match[2];
-                  item.autocompleteData = autocompletesDataFactory[match[1]];
-                } else if (!match && isExecutorSelect.indexOf('SubjectRole') > -1) {
-                  item.type = 'select';
-                  item.selectType = 'autocomplete';
-                  item.autocompleteName = 'SubjectRole';
-                  item.autocompleteData = autocompletesDataFactory[item.autocompleteName];
+            if (item && item.name) { // v.serhiychuk only check other in this method create antonledkiy
+              var isExecutorSelect = item.name.split(';')[2];
+              if (item.type === 'select' || item.type === 'string' || isExecutorSelect && isExecutorSelect.indexOf('sID_SubjectRole=Executor') > -1) {
+                var match;
+                if (((match = item.id ? item.id.match(/^s(Currency|ObjectCustoms|SubjectOrganJoinTax|ObjectEarthTarget|Country|ID_SubjectActionKVED|ID_ObjectPlace_UA)(_(\d+))?/) : false))
+                  ||(item.type == 'select' && (match = item.id ? item.id.match(/^s(Country)(_(\d+))?/) : false)) || isExecutorSelect) {
+                  if (match && autocompletesDataFactory[match[1]] && !isExecutorSelect) {
+                    item.type = 'select';
+                    item.selectType = 'autocomplete';
+                    item.autocompleteName = match[1];
+                    if (match[2])
+                      item.autocompleteName += match[2];
+                    item.autocompleteData = autocompletesDataFactory[match[1]];
+                  } else if (!match && isExecutorSelect.indexOf('SubjectRole') > -1) {
+                    item.type = 'select';
+                    item.selectType = 'autocomplete';
+                    item.autocompleteName = 'SubjectRole';
+                    item.autocompleteData = autocompletesDataFactory[item.autocompleteName];
+                  }
                 }
               }
             }
@@ -440,8 +442,8 @@
             if (item.id === 'email') {
               oData.sMail = item.value;
             }
-            //<activiti:formProperty id="bankIdfirstName" name="Ім'я" type="string" ></activiti:formProperty>
-            //<activiti:formProperty id="bankIdmiddleName" name="По Батькові" type="string" ></activiti:formProperty>
+            //<activiti:formProperty id="bankIdfirstName" name="пїЅпїЅ'пїЅ" type="string" ></activiti:formProperty>
+            //<activiti:formProperty id="bankIdmiddleName" name="пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ" type="string" ></activiti:formProperty>
             if (item.id === 'bankIdfirstName') {
               sClientName = item.value;
             }
@@ -451,7 +453,7 @@
           });
 
           if ($scope.clarifyModel.sBody.trim().length === 0 && aFields.length === 0) {
-            Modal.inform.warning()('Треба ввести коментар або обрати поле/ля');
+            Modal.inform.warning()('пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ/пїЅпїЅ');
             return;
           }
 
@@ -474,14 +476,14 @@
               $scope.clarify = false;
               $scope.isClarifySending = false;
               Modal.inform.success(function () {
-              })('Коментар відправлено успішно');
+              })('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ');
             });
           } else {
             tasks.setTaskQuestions(oData).then(function () {
               $scope.clarify = false;
               $scope.isClarifySending = false;
               Modal.inform.success(function () {
-              })('Зауваження відправлено успішно');
+              })('пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ');
             });
           }
         };
@@ -520,7 +522,7 @@
               $scope.checkSignState.show = false;
               $scope.checkSignState.signInfo = null;
               $scope.checkSignState.attachmentName = null;
-              Modal.inform.warning()('Немає підпису');
+              Modal.inform.warning()('пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ');
             }
           }).catch(function (error) {
             $scope.checkSignState.show = false;
@@ -585,14 +587,14 @@
           for(var i = 0; i < asId.length; i++) {
             var item = getObjFromTaskFormById(asId[i]), value, message;
             if(!item) {
-              message = 'Зверніться у технічну підтримку. Обєкт з id ' + asId[i] + ' відсутній. Формула не запрацює.';
+              message = 'пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅ пїЅ id ' + asId[i] + ' пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.';
               Modal.inform.error()(message);
               throw message;
             }
 
             if (!(value = item.value)) {
               return undefined;
-              // message = 'Пусте поле ' + item.name + '. Прінт Формула не запрацює.';
+              // message = 'пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ ' + item.name + '. пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.';
               // Modal.inform.error()(message);
               // throw message;
             } else if (!isNaN(value)) {
@@ -643,8 +645,8 @@
             var oMotion = JSON.parse(item.value)['motion']; // Generate obj from json(item.value)
             var asNameField = getAllNamesFields(oMotion); //Generate array fields name
 
-            /*todo иногда oMotion возвращает undefined, что в итоге делает asNameField - null,
-             *в итоге ломаеться принтформа
+            /*todo пїЅпїЅпїЅпїЅпїЅпїЅ oMotion пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ undefined, пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ asNameField - null,
+             *пїЅ пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
             */
             if(asNameField){
               for (var i = 0; i < asNameField.length; i++) {
@@ -704,7 +706,7 @@
               }
             if ((!documentUnpopulatedFields && unpopulatedFields.length > 0)
                 || (documentUnpopulatedFields && documentUnpopulatedFields.length > 0)) {
-              // var errorMessage = 'Будь ласка, заповніть поля: ';
+              // var errorMessage = 'пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ: ';
 
               // if (unpopulatedFields.length == 1) {
               //
@@ -713,7 +715,7 @@
               //     nameToAdd = nameToAdd.substr(0, 50) + "...";
               //   }
               //
-              //   errorMessage = "Будь ласка, заповніть полe '" + nameToAdd + "'";
+              //   errorMessage = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅe '" + nameToAdd + "'";
               // }
               // else {
               //   unpopulatedFields.forEach(function (field) {
@@ -748,7 +750,7 @@
                   Modal.inform.error(function (result) {
                   })(errMsg + " " + (result && result.length > 0 ? (': ' + result) : ''));
                 } else {
-                  var sMessage = "Форму відправлено.";
+                  var sMessage = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
                   angular.forEach($scope.taskForm, function (oField) {
                     if (oField.id === "sNotifyEvent_AfterSubmit") {
                       sMessage = oField.value;
@@ -796,7 +798,7 @@
 
                   Modal.inform.error(function (result) {})(errMsg + " " + (result && result.length > 0 ? (': ' + result) : ''));
                 } else {
-                  var sMessage = "Форму збережено.";
+                  var sMessage = "пїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.";
                   $scope.convertDisabledEnumFiedsToReadonlySimpleText();
                   Modal.inform.success(function (result) {})(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
                 }
@@ -813,7 +815,7 @@
             .then(function (result) {
               Modal.assignTask(function (event) {
                 $state.go('tasks.typeof.view', {type:'selfAssigned'});
-              }, 'Задача у вас в роботі', $scope.lightweightRefreshAfterSubmit);
+              }, 'пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅ', $scope.lightweightRefreshAfterSubmit);
 
             })
             .catch(defaultErrorHandler);
@@ -845,7 +847,7 @@
               filterResult[0].signInfo = result.signInfo;
             }
           }).catch(function (err) {
-            Modal.inform.error()('Помилка. ' + err.code + ' ' + err.message);
+            Modal.inform.error()('пїЅпїЅпїЅпїЅпїЅпїЅпїЅ. ' + err.code + ' ' + err.message);
           });
         };
 
@@ -879,13 +881,13 @@
         };
 
         $scope.sDate_FieldQueueData = function (sValue) {
-          var sDate = "Дата назначена!";
+          var sDate = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
           try {
             var nAt = sValue.indexOf("sDate");
             var nTo = sValue.indexOf("}");
             sDate = sValue.substring(nAt + 5 + 1 + 1 + 1, nTo - 1 - 6);
           } catch (_) {
-            sDate = "Дата назначена!";
+            sDate = "пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ!";
           }
           return sDate;
         };
@@ -1042,7 +1044,7 @@
           console.log($scope)
         };
 
-        // проверяем имя поля на наличие заметок
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅ
         function fixName(item) {
           var sFieldName = item.name || '';
           var aNameParts = sFieldName.split(';');
@@ -1059,7 +1061,7 @@
         }
 
         /*
-         * работа с таблицами
+         * пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
          */
 
         var fixFieldsForTable = function (table) {
@@ -1166,10 +1168,10 @@
         $scope.searchingTablesForPrint();
 
         /*
-         * работа с таблицами
+         * пїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ
          */
 
-        // проверка, есть ли поле в списке редактируемых (в документе).
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ).
         $scope.isDocumentWritable = function (field) {
           if(documentRights) {
             return documentRights.asID_Field_Write.indexOf(field.id)!== -1;
@@ -1178,7 +1180,7 @@
           }
         };
 
-        // проверка, есть ли поле в списке для чтения (в документе).
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ, пїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ (пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ).
         $scope.isDocumentReadable = function (field) {
           if(documentRights) {
             return documentRights.asID_Field_Read.indexOf(field.id)!== -1;
@@ -1187,14 +1189,14 @@
           }
         };
 
-        // показывать поля только для чтения.
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅ.
         $scope.showReadableField = function (field) {
           if($scope.isFormPropertyDisabled(field) && $scope.isDocumentReadable(field)) return true;
           else if(!$scope.isDocumentWritable(field) && $scope.isDocumentReadable(field)) return true;
           else if($scope.isFormPropertyDisabled(field) && $scope.isDocumentWritable(field)) return true;
         };
 
-        // отображать поле в зависимости от доступности к чтению/записи документа.
+        // пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ пїЅ пїЅпїЅпїЅпїЅпїЅпїЅ/пїЅпїЅпїЅпїЅпїЅпїЅ пїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅпїЅ.
         $scope.showField = function (field) {
           if(documentRights) {
             if($scope.isDocumentReadable(field) || $scope.isDocumentWritable(field)) return true;
