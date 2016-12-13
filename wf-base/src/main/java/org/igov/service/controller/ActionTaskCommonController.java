@@ -2635,4 +2635,18 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
 
     }
     
+    //Test service
+    @ApiOperation(value = "TestBP", notes = "TestBP")
+    @RequestMapping(value = "/getTestBPs", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public @ResponseBody String getTestBPs(
+            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
+            throws IOException {        
+        //List <ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().involvedUser(sLogin).list();
+        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser(sLogin).active().list();
+        Set<String> processesList = new HashSet<>();
+        for (Task task : tasks) {        
+            processesList.add(task.getProcessDefinitionId());
+        }        
+        return JSONValue.toJSONString(processesList);
+    }
 }
