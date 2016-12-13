@@ -2633,50 +2633,40 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                     HttpStatus.FORBIDDEN);
         }
 
-    }
+    }      
     
-    //Test service
-    @ApiOperation(value = "TestBP", notes = "TestBP")
-    @RequestMapping(value = "/getTestBPs", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public @ResponseBody String getTestBPs(
+    @ApiOperation(value = "/getProcessByLogin", notes = "##### Получение списка процессов (доступных и ууже назначеных) по логину#####\n\n")
+    @RequestMapping(value = "/getProcessByLogin", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public @ResponseBody String getProcessByLogin(
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
-            throws IOException {        
-        //List <ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().involvedUser(sLogin).list();
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser(sLogin).list();
-       // List<Task> tasks1 = taskService.createTaskQuery().taskCandidateUser(sLogin).taskUnassigned().active().list();
-       // List<Task> tasks2 = taskService.createTaskQuery().taskCandidateUser(sLogin).taskAssignee(sLogin).active().list();
+            throws IOException {                
+        List<Task> tasksCandidate = taskService.createTaskQuery().taskCandidateUser(sLogin).list();        
+        List<Task> tasksAssigned = taskService.createTaskQuery().taskAssignee(sLogin).active().list();
         Set<String> processesList = new HashSet<>();
-        for (Task task : tasks) {        
+        tasksCandidate.stream().forEach((task) -> {        
             processesList.add(task.getProcessDefinitionId());
-        }   
-       // for (Task task : tasks1) {        
-       //     processesList.add(task.getProcessDefinitionId());
-      //  }  
-       // for (Task task : tasks2) {        
-       //     processesList.add(task.getProcessDefinitionId());
-       // }  
-        return JSONValue.toJSONString(processesList);
-    }
-    
-    @ApiOperation(value = "TestBP2", notes = "TestBP")
-    @RequestMapping(value = "/getTestBPs2", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public @ResponseBody String getTestBPs2(
-            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
-            throws IOException {        
-        //List <ProcessInstance> processInstances = runtimeService.createProcessInstanceQuery().involvedUser(sLogin).list();
-        List<Task> tasks = taskService.createTaskQuery().taskCandidateUser(sLogin).list();
-        List<Task> tasks1 = taskService.createTaskQuery().taskCandidateUser(sLogin).taskUnassigned().active().list();
-        List<Task> tasks2 = taskService.createTaskQuery().taskCandidateUser(sLogin).taskAssignee(sLogin).active().list();
-        Set<String> processesList = new HashSet<>();
-        for (Task task : tasks) {        
+        });   
+        tasksAssigned.stream().forEach((task) -> {        
             processesList.add(task.getProcessDefinitionId());
-        }   
-        for (Task task : tasks1) {        
-            processesList.add(task.getProcessDefinitionId());
-        }  
-        for (Task task : tasks2) {        
-            processesList.add(task.getProcessDefinitionId());
-        }  
-        return JSONValue.toJSONString(processesList);
+        });       
+        List <ProcessDefinition> processes = new LinkedList<>();
+        processesList.stream().forEach((processId) -> {
+            processes.add(repositoryService.createProcessDefinitionQuery().processDefinitionId(processId).singleResult());
+        });
+        List<Map<String, String>> result = new LinkedList<>();
+        
+        processes.stream().map((processDef) -> {
+            Map<String, String> process = new HashMap<>();
+            process.put("sID", processDef.getKey());
+            process.put("sName", processDef.getName());
+            return process;
+        }).map((process) -> {
+            LOG.info(String.format("Added record to response %s", process.toString()));
+            return process;
+        }).forEach((process) -> {
+            result.add(process);
+        });
+        
+        return JSONValue.toJSONString(result);
     }
 }
