@@ -16,7 +16,8 @@ angular.module('dashboardJsApp')
     return {
       getUserProcesses: function () {
 
-        return $http.get('/api/processes/getLoginBPs')
+        // return $http.get('/api/processes/getLoginBPs')
+        return $http.get('/api/processes/getProcessByLogin')
           .then(function (response) {
             try {
               var result = JSON.parse(response.data);

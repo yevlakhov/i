@@ -7,6 +7,7 @@ var router = express.Router();
 
 router.get('/', controller.index);
 router.get('/getLoginBPs', controller.getLoginBPs);
+router.get('/getProcessByLogin', controller.getProcessByLogin);
 
 
 module.exports = router;
