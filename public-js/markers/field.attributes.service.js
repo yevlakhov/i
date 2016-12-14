@@ -27,7 +27,14 @@ function FieldAttributesService(MarkersFactory) {
 
   };
   
-  // enables styles from the iGovMarkersDefaults -> attributes 
+
+  /** 
+   * function enableStyles
+   *  Enables styles for iGov from iGovMarkers -> attributes -> Style_<>  
+   * 
+   * @returns void 
+   * @author Sysprog   
+   */
   this.enableStyles = function () { 
 	  var selectors = grepByPrefix("Style_"); 
 
@@ -80,51 +87,34 @@ function FieldAttributesService(MarkersFactory) {
 
 				  var query = "[name=" + styles.aElement_ID[j] + "]";
 				  var elem = $(query);  
-
-				  try {
-					  console.log( "Object query='" + query + "' elem=" + elem + " selector=" + $( query ) + " length=" + $( query ).length );
-				  } catch(e) { 
-					  console.log(e);
-				  }				 
 				  
 				  if( elem == null || elem.length < 1 ) { 
 
 					  elem = window.angular.element(document).find( "#" + styles.aElement_ID[j] ); 
 
-					  console.log( ' inside if( elem == null || elem.length < 1 ) ' + elem.length ); 
 				  } 
 
 				  if( (elem == null || elem.length < 1) ) { 
 		  
 					  elem = window.angular.element(document).find(styles.aElement_ID[j]);
 
-					  console.log( ' inside (elem == null || elem.length < 1) ' + elem.length );
-				  }
-				  
-				  if( elem.length < 1 ) { 
-					  
-					  console.log( "Creating <style> " );
-					  
-					  var style = "";
-					  angular.forEach(commonStyle, function (value, key, obj) { style = style + key + ":" + value + "; " });
-					  
-					  $("<style>" + query + " {" + style + "}" + "</style>").appendTo(document.head);
-					  
-					  console.log(" Applied "+ query + " {"+ style + "}"); 
 				  }
 
+				  this.stylify( query, commonStyle, elem);
+
+				  /*
 				  if( elem != null ) {
 
 					  elem.css(commonStyle);
 					  
 					  console.log( "iGovMarkers.enableStyles -> oCommonStyle for '" + styles.aElement_ID[j] + "'  applied" );
-					  
-					  angular.forEach(commonStyle, function(value, key, obj) { console.log( key + ":" + value ); });  
+			  
+  
 				  }
 				  else { 
 					  console.log( "iGovMarkers.enableStyles -> element '" + styles.aElement_ID[j] + "' not set" );				  
 				  }
-/*
+
 				  if ( StatesRepositoryProvider.isCentral() ) { 
 					  elem.css(centralStyle); 
 				  }
@@ -152,6 +142,8 @@ function FieldAttributesService(MarkersFactory) {
 					  console.log("iGovMarkers.enableStyles -> aSelector '"+ styles.aSelectors[j] +"' not found");
 				  }
 
+				  this.stylify( styles.aSelectors[j], commonStyle, elem );
+			  
 				  /*
 				  if( StatesRepositoryProvider.isCentral() ) { 
 					  elem.css(centralStyle);
@@ -165,12 +157,45 @@ function FieldAttributesService(MarkersFactory) {
 		  
 	  }	  
   }
+
   
-  this.getPrintForms = function() {
-	  
-	  var printForms = grepByPrefix("PrintForms_");
-	  
-	  return printForms; 
+  /** 
+   * function stylify( query, stylesCollection, elem ) 
+   *  Allows to set CSS styles to elements  
+   * 
+   * @param {String} query - CSS selector used if @elem is null  
+   * @param {Object} stylesCollection - collection of CSS styles {background:#000} 
+   * @param {Element} elem - may be null 
+   * @returns {Boolean} true on success, false if element not found or stylesCollection is empty 
+   * @author Sysprog 
+   * @see Styles 
+   */
+  this.stylify = function ( query, stylesCollection, elem ) {
+
+	  var result = false; 
+
+	  if( elem != null && elem.length > 1 ) {
+
+		  elem.css( stylesCollection );
+		  
+		  result = true; 
+
+	  } else {  
+
+		  if( stylesCollection != null && stylesCollection.length > 0 && query.length > 0 ) { 
+
+			  var style = "";
+			  angular.forEach( stylesCollection, function (value, key, obj) { style = style + key + ":" + value + "; " });
+	
+			  $("<style>" + query + " {" + style + "}" + "</style>").appendTo(document.head);
+	
+			  console.log(" Applied "+ query + " {"+ style + "}");
+			  
+			  result = true; 
+		  }
+	  } 
+
+	  return result; 
   }
 
   this.editableStatusFor = function(fieldId) {
