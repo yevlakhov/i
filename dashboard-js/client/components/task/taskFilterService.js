@@ -10,10 +10,32 @@ angular.module('dashboardJsApp').service('taskFilterService', ['$filter', '$root
   var service = {
     getFilteredTasks: function (tasks, model) {
       var filteredTasks = this.filterTaskDefinitions(tasks, model.taskDefinition);
+      filteredTasks = this.filterTaskAssignee(tasks, model.sAssignee);
       filteredTasks = this.filterUserProcess(filteredTasks, model.userProcess);
       var strictTaskDefinitions = this.getProcessTaskDefinitions(filteredTasks);
       $rootScope.$broadcast('taskFilter:strictTaskDefinitions:update', strictTaskDefinitions);
       filteredTasks = this.filterStrictTaskDefinitions(filteredTasks, model.strictTaskDefinitions);
+      return filteredTasks;
+    },
+    filterTaskAssignee: function (tasks, sAssignee) {
+      if (tasks === null) {
+        return null;
+      }
+      if (tasks.length == 0) {
+        return [];
+      }
+      if (!sAssignee || 'Всі' == sAssignee) {
+        return tasks;
+      }
+
+      var filteredTasks = tasks.filter(function (task, index) {
+        if (!task) {
+          return false;
+        }
+        if (task.assignee == sAssignee) {
+          return true;
+        }
+      });
       return filteredTasks;
     },
     filterTaskDefinitions: function (tasks, taskDefinition) {
