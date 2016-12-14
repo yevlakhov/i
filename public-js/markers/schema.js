@@ -132,6 +132,17 @@ angular.module('iGovMarkers')
                             },
                             required: ["sID_Field", "sSpliter", "sID_Element_sValue1", "sID_Element_sValue2"],
                             additionalProperties: false
+                        },
+                        "^PrintForm_": {
+                        	type: "object", 
+                        	properties: { 
+                        		aField_ID: {"$ref": "#/definitions/stringArray"},
+                        		sTitleField: {type: "string"}, 
+                        		sPatternPath: {type: "string"}, 
+                        		sName: {type: "string"}
+                        	}, 
+                        	required: ["aField_ID", "sName"], 
+                        	additionalProperties: false 
                         }
                     },
                     additionalProperties: false
