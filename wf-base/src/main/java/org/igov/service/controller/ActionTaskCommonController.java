@@ -1009,6 +1009,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         }
         SimpleDateFormat sdfFileName = new SimpleDateFormat(
                 "yyyy-MM-ddHH-mm-ss", Locale.ENGLISH);
+        LOG.info("111sdfFileName: " + sdfFileName);
         String fileName = "!" + sID_BP_Name + "_"
                 + sdfFileName.format(Calendar.getInstance().getTime()) + ".xlsx";
         LOG.debug("File name for statistics : {%s}", fileName);
@@ -1175,7 +1176,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
 //      'sID_State_BP': '',//'usertask1'
 //      'saFieldsCalc': '', // поля для калькуляций
 //      'saFieldSummary': '' // поля для агрегатов
-        LOG.info("ПОИСК DOHODY.dat");
+        
         if ("".equalsIgnoreCase(sID_State_BP) || "null".equalsIgnoreCase(sID_State_BP)) {
             sID_State_BP = null;
         }
@@ -1196,8 +1197,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         Date dBeginDate = oActionTaskService.getBeginDate(dateAt);
         Date dEndDate = oActionTaskService.getEndDate(dateTo);
         String separator = oActionTaskService.getSeparator(sID_BP, nASCI_Spliter);
+        //LOG.info("4444separator " + separator);
+        //LOG.info("7777nASCI_Spliter " + nASCI_Spliter);
+        //LOG.info("6666separator " + separator.chars());
         Charset charset = oActionTaskService.getCharset(sID_Codepage);
-
+        //LOG.info("5555charset " + charset);
         // 2. query
         TaskQuery query = taskService.createTaskQuery()
                 .processDefinitionKey(sID_BP);
@@ -1246,6 +1250,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         // 3. response
         SimpleDateFormat sdfFileName = new SimpleDateFormat(
                 "yyyy-MM-ddHH-mm-ss", Locale.ENGLISH);
+        LOG.info("222sdfFileName: " + sdfFileName);
         String sTaskDataFileName = fileName != null ? fileName : "data_BP-"
                 + sID_BP + "_"
                 + sdfFileName.format(Calendar.getInstance().getTime()) + ".txt";
@@ -1418,6 +1423,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             + "\n```\n")
     @RequestMapping(value = "/getLoginBPs", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @Transactional
+    @Deprecated //новый: getBPs 
     public @ResponseBody
     String getBusinessProcessesForUser(
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
@@ -2334,12 +2340,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
      */
     @RequestMapping(value = "/getListBP", method = RequestMethod.GET)
     @ResponseBody
-    public List<ProcDefinitionI> getListBP(@ApiParam(value = "строка-ИД БП //опциональный фильтр, иначе все", required = false)
-            @RequestParam(value = "sID_BP", required = false) String sID_BP,
-            @ApiParam(value = "строка-типа поля //опциональный фильтр, иначе все", required = false)
-            @RequestParam(value = "sFieldType", required = false) String sFieldType,
-            @ApiParam(value = "строка-ИД поля //опциональный фильтр, иначе все", required = false)
-            @RequestParam(value = "sID_Field", required = false) String sID_Field) {
+    public List<ProcDefinitionI> getListBP(
+            @ApiParam(value = "строка-ИД БП //опциональный фильтр, иначе все", required = false) @RequestParam(value = "sID_BP", required = false) String sID_BP,
+            @ApiParam(value = "строка-типа поля //опциональный фильтр, иначе все", required = false) @RequestParam(value = "sFieldType", required = false) String sFieldType,
+            @ApiParam(value = "строка-ИД поля //опциональный фильтр, иначе все", required = false) @RequestParam(value = "sID_Field", required = false) String sID_Field
+    ) {
         List<ProcessDefinition> processDefinitions = repositoryService
                 .createProcessDefinitionQuery().processDefinitionId(sID_BP).list();
 
@@ -2633,6 +2638,109 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                     HttpStatus.FORBIDDEN);
         }
 
+    }
+
+    
+    
+    /**
+     * Returns business processes which belong to a specified user
+     *
+     * @param sLogin - login of user in user activity
+     */
+    @ApiOperation(value = "Получение списка бизнес процессов к которым у пользователя есть доступ", notes = "#####  ActionCommonTaskController: Получение списка бизнес процессов к которым у пользователя есть доступ #####\n\n"
+            + "HTTP Context: https://test.region.igov.org.ua/wf/service/action/task/getLoginBPs?sLogin=userId\n\n"
+            + "Метод возвращает json со списком бизнес процессов, к которым у пользователя есть доступ, в формате:\n"
+            + "\n```json\n"
+            + "[\n"
+            + "  {\n"
+            + "    \"sID\": \"[process definition key]\"\"sName\": \"[process definition name]\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"[process definition key]\"\"sName\": \"[process definition name]\"\n"
+            + "  }\n"
+            + "]\n"
+            + "\n```\n"
+            + "Принадлежность пользователя к процессу проверяется по вхождению в группы, которые могут запускать usertask-и внутри процесса, или по вхождению в группу, которая может стартовать процесс\n\n"
+            + "Пример:\n\n"
+            + "https://test.region.igov.org.ua/wf/service/action/task/getLoginBPs?sLogin=kermit\n"
+            + "Пример результата\n"
+            + "\n```json\n"
+            + "[\n"
+            + "{\n"
+            + "    \"sID\": \"dnepr_spravka_o_doxodax\",\n"
+            + "    \"sName\": \"Дніпропетровськ - Отримання довідки про доходи фіз. осіб\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"dnepr_subsidies2\",\n"
+            + "    \"sName\": \"Отримання субсидії на оплату житлово-комунальних послуг2\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"khmelnitskij_mvk_2\",\n"
+            + "    \"sName\": \"Хмельницький - Надання інформації, що підтверджує відсутність (наявність) земельної ділянки\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"khmelnitskij_zemlya\",\n"
+            + "    \"sName\": \"Заява про наявність земельної ділянки\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"kiev_spravka_o_doxodax\",\n"
+            + "    \"sName\": \"Київ - Отримання довідки про доходи фіз. осіб\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"kuznetsovsk_mvk_5\",\n"
+            + "    \"sName\": \"Кузнецовськ МВК - Узгодження графіка роботи підприємства торгівлі\\/обслуговування\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"post_spravka_o_doxodax_pens\",\n"
+            + "    \"sName\": \"Отримання довідки про доходи (пенсійний фонд)\"\n"
+            + "  }\n"
+            + "]\n"
+            + "\n```\n")
+    @RequestMapping(value = "/getBPs", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @Transactional
+    public @ResponseBody
+    List<Map<String, String>> getBusinessProcesses(
+            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
+            throws IOException {
+
+        //String jsonRes = JSONValue.toJSONString(oActionTaskService.getBusinessProcessesForUser(sLogin));
+        //LOG.info("Result: {}", jsonRes);
+        return oActionTaskService.getBusinessProcessesOfLogin(sLogin);
+    }    
+    
+    @ApiOperation(value = "/getProcessByLogin", notes = "##### Получение списка процессов (доступных и ууже назначеных) по логину#####\n\n")
+    @RequestMapping(value = "/getProcessByLogin", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public @ResponseBody String getProcessByLogin(
+            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
+            throws IOException {                
+        List<Task> tasksCandidate = taskService.createTaskQuery().taskCandidateUser(sLogin).list();        
+        List<Task> tasksAssigned = taskService.createTaskQuery().taskAssignee(sLogin).active().list();
+        Set<String> processesList = new HashSet<>();
+        tasksCandidate.stream().forEach((task) -> {        
+            processesList.add(task.getProcessDefinitionId());
+        });   
+        tasksAssigned.stream().forEach((task) -> {        
+            processesList.add(task.getProcessDefinitionId());
+        });       
+        List <ProcessDefinition> processes = new LinkedList<>();
+        processesList.stream().forEach((processId) -> {
+            processes.add(repositoryService.createProcessDefinitionQuery().processDefinitionId(processId).singleResult());
+        });
+        List<Map<String, String>> result = new LinkedList<>();
+        
+        processes.stream().map((processDef) -> {
+            Map<String, String> process = new HashMap<>();
+            process.put("sID", processDef.getKey());
+            process.put("sName", processDef.getName());
+            return process;
+        }).map((process) -> {
+            LOG.info(String.format("Added record to response %s", process.toString()));
+            return process;
+        }).forEach((process) -> {
+            result.add(process);
+        });
+        
+        return JSONValue.toJSONString(result);
     }
     
 }
