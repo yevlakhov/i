@@ -30,6 +30,25 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         }
       }
 
+      try { 
+        
+        var topItems = []; 
+        
+        for(var i = 0; i < form.length; i++) { 
+
+           if( form[i].type == 'table' ) { 
+
+             console.log(  " #1438 " + form[i].id ); 
+
+           }
+        }
+            
+      }
+      catch(e) { 
+        console.log( "Mistake " + e ); 
+      }
+
+    
       if (markerExists){
         var templates = form.filter(function (item) {
           var result = false;
@@ -66,6 +85,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
           return result;
         });
       }
+
+      templates.unshift( { id : "template1438", displayTemplate : "Template 1438" } );
 
       return templates;
     },
