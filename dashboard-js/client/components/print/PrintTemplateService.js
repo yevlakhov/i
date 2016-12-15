@@ -21,6 +21,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         return [];
       }
 
+      var templates = [];
+      
       var markerExists = false;
 
       for(var i = 0; i < form.length; i++) {
@@ -50,7 +52,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
     
       if (markerExists){
-        var templates = form.filter(function (item) {
+          templates = form.filter(function (item) {
           var result = false;
           if (item.id && item.id.includes('sBody')
             && (!FieldMotionService.FieldMentioned.inShow(item.id)
@@ -69,7 +71,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
           return result;
         });
       } else {
-        var templates = form.filter(function (item) {
+          templates = form.filter(function (item) {
           var result = false;
           if (item.id && item.id.indexOf('sBody') >= 0) {
             result = true;
@@ -86,7 +88,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         });
       }
 
-      //templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
+      templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
 
       return templates;
     },
