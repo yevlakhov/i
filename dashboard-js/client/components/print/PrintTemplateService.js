@@ -88,7 +88,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         });
       }
 
-      templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
+      //templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
 
       return templates;
     },
