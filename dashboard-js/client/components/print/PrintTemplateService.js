@@ -86,8 +86,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         });
       }
 
-      templates.unshift( { id : "template1438", displayTemplate : "Template 1438" } );
-
       return templates;
     },
     // method to get parsed template
