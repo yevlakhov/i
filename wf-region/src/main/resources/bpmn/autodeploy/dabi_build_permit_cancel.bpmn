@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-  <process id="dabi_build_declar_cancel" name="Скасування реєстрації декларації про початок виконання будівельних робіт" isExecutable="true">
+  <process id="dabi_build_permit_cancel" name="Анулювання дозволу на виконання будівельних робіт" isExecutable="true">
     <startEvent id="startevent_step1" name="2. Реєстрація вхідного документу, внесення інформації до облікової системи">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" required="true"></activiti:formProperty>
@@ -9,6 +9,7 @@
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
+          <activiti:value id="sEnumByInspection" name="за результатами перевірки"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="enum" required="true">
           <activiti:value id="sEnumAppPerson" name="фізична особа"></activiti:value>
@@ -41,15 +42,15 @@
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" required="true"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="nCancelApplication" name="Заява про скасування реєстрації" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="nDoc" name="Документ" type="file" default=" "></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required_marker" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_valid.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_lines.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_required" name="Required_marker" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_req.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_valid.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_lines.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
     <userTask id="usertask_step3" name="3. Ознайомлення директором ДАБК" activiti:candidateGroups="kyiv_dabi_boss">
@@ -93,10 +94,10 @@
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nCancelApplication},${nDoc}]]></activiti:expression>
@@ -145,10 +146,10 @@
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nCancelApplication},${nDoc}]]></activiti:expression>
@@ -197,13 +198,13 @@
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLoginAsignee_step8" name="Відповідальний виконавець;sSelectType=UserByGroup,sSourceFieldID_sID_Group=sID_Group_step8" type="select" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_Group_step8" name="Група виконавців" type="invisible" default="kyiv_dabi_permit_empl"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nCancelApplication},${nDoc}]]></activiti:expression>
@@ -235,8 +236,8 @@
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -258,9 +259,9 @@
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sObjectLink" name="Посилання на картку об’єкту" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_valid.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_req.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step8]]></activiti:expression>
@@ -292,7 +293,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <userTask id="usertask_step_8.2_red" name="8.2 Повідомлення про невиконання завдання">
@@ -307,7 +308,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step8]]></activiti:expression>
@@ -387,13 +388,13 @@
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLoginAsignee_step10" name="Відповідальний виконавець;sSelectType=UserByGroup,sSourceFieldID_sID_Group=sID_Group_step10" type="select" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_Group_step10" name="Група виконавців" type="invisible" default="kyiv_dabi_law"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nCancelApplication},${nDoc}]]></activiti:expression>
@@ -442,12 +443,12 @@
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step10]]></activiti:expression>
@@ -479,7 +480,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <userTask id="usertask_step10.2_red" name="10.2 Повідомлення про невиконання завдання">
@@ -494,7 +495,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step10]]></activiti:expression>
@@ -526,8 +527,8 @@
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -554,9 +555,9 @@
         <activiti:formProperty id="sContrEmpComment" name="Коментар співробітника інспекційного відділу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectLink" name="Посилання на картку об’єкту" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sOrderAttr" name="Атрибути наказу" type="string"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_valid.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_req.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step10]]></activiti:expression>
@@ -587,7 +588,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <userTask id="usertask_step11.2" name="11.2 Повідомлення про невиконане завдання">
@@ -602,7 +603,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step10]]></activiti:expression>
@@ -634,8 +635,8 @@
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -662,7 +663,7 @@
         <activiti:formProperty id="sContrEmpComment" name="Коментар співробітника інспекційного відділу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_NumberOutputDoc" name="Реєстраційний номер вихідного документу" type="string"></activiti:formProperty>
         <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="string"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nCancelApplication}]]></activiti:expression>
@@ -715,13 +716,13 @@
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLoginAsignee_step9" name="Відповідальний виконавець;sSelectType=UserByGroup,sSourceFieldID_sID_Group=sID_Group_step9" type="select" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_Group_step9" name="Група виконавців" type="invisible" default="kyiv_dabi_insp_empl"></activiti:formProperty>
         <activiti:formProperty id="sContrBossComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nCancelApplication},${nDoc}]]></activiti:expression>
@@ -763,8 +764,8 @@
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarNumber" name="Реєстраційний номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarDate" name="Дата реєстрації декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -785,9 +786,9 @@
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sContrBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sContrEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_valid.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_req.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step9]]></activiti:expression>
@@ -823,7 +824,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <userTask id="usertask_step9.2_red" name="9.2 Повідомлення про невиконання завдання">
@@ -838,7 +839,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_cancel_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step9]]></activiti:expression>
@@ -897,8 +898,8 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow31" sourceRef="usertask_step4" targetRef="parallelgateway5"></sequenceFlow>
     <sequenceFlow id="flow32" sourceRef="usertask_step3" targetRef="parallelgateway5"></sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_build_declar_cancel">
-    <bpmndi:BPMNPlane bpmnElement="dabi_build_declar_cancel" id="BPMNPlane_dabi_build_declar_cancel">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_build_permit_cancel">
+    <bpmndi:BPMNPlane bpmnElement="dabi_build_permit_cancel" id="BPMNPlane_dabi_build_permit_cancel">
       <bpmndi:BPMNShape bpmnElement="startevent_step1" id="BPMNShape_startevent_step1">
         <omgdc:Bounds height="35.0" width="35.0" x="50.0" y="122.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
