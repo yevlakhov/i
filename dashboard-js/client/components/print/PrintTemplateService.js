@@ -130,8 +130,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         });
       }
 
-      if(topItems.length > 0) {
-         templates.unshift( topItems );
+      if(topItems.length > 0) { 
+        angular.forEach( topItems, function( item ) { templates.unshift(item); } ); 
       } 
 
       templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
