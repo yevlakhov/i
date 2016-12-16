@@ -198,7 +198,7 @@
         <activiti:formProperty id="sApprovedPerson" name="ПІБ особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sApprovedPersonPosition" name="Посада особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sApprovalDate" name="Дата затвердження проекту або назва, номер та дата видачі розпорядчого документу" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sRespSupervsorName" name="ПІБ відповідальної особи проектувальника, що здійснює авторський нагляд" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sRespSupervіsorName" name="ПІБ відповідальної особи проектувальника, що здійснює авторський нагляд" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sTechSupervisorName" name="ПІБ особи, яка здійснює технічний нагляд;Наприклад, Іванов Петро Васильович" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sTechSupervisorSertif" name="Серія та номер кваліфікаційного сертифікату особи, яка здійснює технічний нагляд" type="string"></activiti:formProperty>
         <activiti:formProperty id="asConstructionOnBasis" name="Земельна ділянка використовується для будівництва на підставі:" type="enum" required="true">
@@ -452,8 +452,8 @@ var sMessage =""
           if (execution.getVariable('asDecision') == 'sEnumDecisionReturn'){
   isRegistered = "не "
 }
-sMessage = "&lt;p&gt;Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) повідомлення про початок виконання будівельних  робіт "+ isRegistered + "зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та  будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів. &lt;/p&gt;"
-sMessage = sMessage + "&lt;p&gt;Інформація про результат опрацювання декларації про початок виконання підготовчих робіт передано до центру надання адміністративних послуг."&lt;/p&gt;"
+sMessage = "&lt;p&gt;Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) повідомлення про початок виконання будівельних  робіт "+ isRegistered + "зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та  будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів. &lt;/p&gt;";
+sMessage = sMessage + "&lt;p&gt;Інформація про результат опрацювання декларації про початок виконання підготовчих робіт передано до центру надання адміністративних послуг.&lt;/p&gt;"
 execution.setVariable('sTextLetter', sMessage)</script>
     </scriptTask>
     <sequenceFlow id="flow46" sourceRef="scripttask1" targetRef="exclusivegateway8"></sequenceFlow>
