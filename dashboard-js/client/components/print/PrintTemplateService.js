@@ -42,6 +42,24 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
              console.log(  " #1438 " + form[i].id ); 
 
+			    	  var prints = FieldMotionService.getPrintForms(form[i].id);
+			    	  
+			    	  console.log(" Defaults " + prints[0]); 
+
+			    	  for (var j = 0; j < prints.length; j++) { 
+			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
+
+			    		  var selector = ".inputs-in-table";
+
+			    		  if( prints[j].sTitleName ) {
+
+			    			  selector = ' [name=' + prints[j].sTitleName + ']'; 
+
+			    		  }
+
+			    		  console.log ( selector + " " + $(selector).length );
+  
+              }  
            }
         }
             
