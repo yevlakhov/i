@@ -508,7 +508,7 @@ execution.setVariable('sAnswerEmail', res)
       </extensionElements>
     </serviceTask>
     <sequenceFlow id="flow58" sourceRef="exclusivegateway8" targetRef="servicetask_step15.1">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asDesicion == 'sEnumDecisionOK' }]]></conditionExpression>
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asDecision == 'sEnumDecisionOK' }]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow59" sourceRef="exclusivegateway8" targetRef="servicetask_step15.2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asDecision == 'sEnumDecisionReturn'}]]></conditionExpression>
