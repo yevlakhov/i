@@ -609,7 +609,7 @@ public class ObjectFileCommonController {
             + "\n```json\n"
             + "{\"code\":\"SYSTEM_ERR\",\"message\":\"Cannot find task with id 384\"}\n"
             + "\n```\n")
-    @RequestMapping(value = "/upload_content_as_attachment", method = RequestMethod.POST, produces = "application/json")
+    @RequestMapping(value = "/upload_content_as_attachment", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
     @Transactional
     public @ResponseBody
     AttachmentEntityI putTextAttachmentsToExecution(
