@@ -42,7 +42,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
               console.log(  " #1438 " + form[i].id ); 
 
 			    	  var prints = FieldMotionService.getPrintForms(form[i].id);
-			    	  
+			    	  console.log( " #1438 PrintForms count " + prints.length ); 
+             
 			    	  for (var j = 0; j < prints.length; j++) { 
 			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
 
