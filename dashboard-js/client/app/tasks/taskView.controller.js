@@ -100,8 +100,6 @@
                       item.value = item.enumValues[0].id;
                       $scope.updateAssigneeName(item);
                     }
-                    // hidden sAssignName
-                    hiddenObjById(getIdFromActivityProperty("sDestinationFieldID_sName"));
                   }
                 });
               }
@@ -335,7 +333,7 @@
         };
 
         $scope.taskForm = addIndexForFileItems(taskForm);
-
+        console.log($scope.taskForm);
         $scope.printTemplateList = PrintTemplateService.getTemplates($scope.taskForm);
         if ($scope.printTemplateList.length > 0) {
           $scope.model.printTemplate = $scope.printTemplateList[0];
