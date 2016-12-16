@@ -41,7 +41,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
               console.log(  " #1438 " + form[i].id ); 
 
-			    	  var prints = FieldMotionService.getPrintForms(form[i].id);
+			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
 			    	  console.log( " #1438 PrintForms count " + prints.length ); 
              
 			    	  for (var j = 0; j < prints.length; j++) { 
@@ -77,7 +77,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         console.log( "Mistake " + e ); 
       }
 
-    
       if (markerExists){
           templates = form.filter(function (item) {
           var result = false;
