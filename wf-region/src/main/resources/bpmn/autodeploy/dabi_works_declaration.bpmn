@@ -198,7 +198,7 @@
         <activiti:formProperty id="sApprovedPerson" name="ПІБ особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sApprovedPersonPosition" name="Посада особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sApprovalDate" name="Дата затвердження проекту або назва, номер та дата видачі розпорядчого документу" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sRespSupervіsorName" name="ПІБ відповідальної особи проектувальника, що здійснює авторський нагляд" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sRespSupervisorName" name="ПІБ відповідальної особи проектувальника, що здійснює авторський нагляд" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sTechSupervisorName" name="ПІБ особи, яка здійснює технічний нагляд;Наприклад, Іванов Петро Васильович" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sTechSupervisorSertif" name="Серія та номер кваліфікаційного сертифікату особи, яка здійснює технічний нагляд" type="string"></activiti:formProperty>
         <activiti:formProperty id="asConstructionOnBasis" name="Земельна ділянка використовується для будівництва на підставі:" type="enum" required="true">
