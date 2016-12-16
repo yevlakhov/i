@@ -52,7 +52,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 			    		  if( prints[j].sTitleField ) {
 
                   // search sTitleField column inputs 
-			    			  selector = ' [name=^' + prints[j].sTitleField + ']'; 
+			    			  selector = selector + ' [name^="' + prints[j].sTitleField + '"]'; 
 
                   var item = { 
 
