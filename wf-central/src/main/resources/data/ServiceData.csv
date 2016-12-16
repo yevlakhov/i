@@ -3873,3 +3873,4 @@ nID;nID_Service;nID_Place;nID_City;nID_Region;nID_ServiceType;oData;sURL;bHidden
 5020;2517;6;NULL;NULL;4;{"processDefinitionId":"dabi_build_notif_cancel:1:1"};;false;1;true;;BankID,EDS;0
 5021;2518;6;NULL;NULL;4;{"processDefinitionId":"dabi_works_declar_cancel:1:1"};;false;1;true;;BankID,EDS;0
 5022;2519;6;NULL;NULL;4;{"processDefinitionId":"dabi_build_declar_cancel:1:1"};;false;1;true;;BankID,EDS;0
+5023;2520;6;NULL;NULL;4;{"processDefinitionId":"dabi_build_permit_cancel:1:1"};;false;1;true;;BankID,EDS;0
