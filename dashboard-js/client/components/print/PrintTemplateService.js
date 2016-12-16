@@ -62,10 +62,10 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                     value: "{ tableId: form[i].id, printFormId: prints[j] }", 
 
                   }; 
-                  
+
                   topItems.unshift( item ); 
 
-                  console.log ( selector + " " + $(selector).length );
+                  console.log ( selector + " " + $(selector).length + " " + topItems.length);
 			    		  }
                 else { 
 
@@ -80,6 +80,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                   }; 
                   
                   topItems.unshift( item ); 
+                  
+                  console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
                 } 
 
               }  
