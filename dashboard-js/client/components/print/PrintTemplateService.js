@@ -114,10 +114,10 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         });
       }
 
-      if(topItem.length > 0) {
+      if(topItems.length > 0) {
          templates.unshift( topItems );
       } 
-      
+
       templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
 
       return templates;
