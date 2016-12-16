@@ -11,6 +11,7 @@
                             ng-options="oEnumValue.id as oEnumValue.name for oEnumValue in item.enumValues"
                             ng-required="isRequired(item)"
                             ng-model="item.value"
+                            ng-change="updateAssigneeName(item)"
                             ng-disabled="isFormPropertyDisabled(item) !isDocumentWritable(item) && isDocumentReadable(item)"
                             ng-class="{submitted:isRequired(item) && isTaskSubmitted()}">
                     </select>
