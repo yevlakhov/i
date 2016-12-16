@@ -49,25 +49,39 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
 			    		  var selector = ".inputs-in-table";
 
-			    		  if( prints[j].sTitleName ) {
+			    		  if( prints[j].sTitleField ) {
 
-			    			  selector = ' [name=' + prints[j].sTitleName + ']'; 
+                  // search sTitleField column inputs 
+			    			  selector = ' [name=^' + prints[j].sTitleField + ']'; 
 
                   var item = { 
 
                     id: form[i].id, 
-                    displayTemplate: "", 
+                    displayTemplate: prints[j].sName, 
                     type: "markers",
                     value: "{ tableId: form[i].id, printFormId: prints[j] }", 
 
                   }; 
                   
                   topItems.unshift( item ); 
-                  
-			    		  }
 
-			    		  console.log ( selector + " " + $(selector).length );
-  
+                  console.log ( selector + " " + $(selector).length );
+			    		  }
+                else { 
+
+                  // just PrintForm sName 
+                  var item = { 
+
+                    id: form[i].id, 
+                    displayTemplate: prints[j].sName, 
+                    type: "markers",
+                    value: "{ tableId: form[i].id, printFormId: prints[j] }", 
+
+                  }; 
+                  
+                  topItems.unshift( item ); 
+                } 
+
               }  
            }
         }
