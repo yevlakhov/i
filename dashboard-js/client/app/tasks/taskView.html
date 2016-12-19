@@ -358,7 +358,7 @@
                     <a href="#" ng-click="newPrint(form, item)">{{item.displayTemplate}}</a>
                   </div>
                 </div>
-                <button ng-if="updateTemplateList() && printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>
+                <button ng-if="printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>
                 <!--<button ng-if="printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>-->
                 <button ng-if="printTemplateList.length === 0" ng-click="print()" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати</button>
               </div>
