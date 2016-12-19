@@ -353,12 +353,13 @@
               <div class="dropup" ng-if="!clarify && !inUnassigned()">
                 <!--<div class="print-form-div dropdown-menu drop-up" role="menu">-->
                 <!--<div class="print-form-div dropdown-menu drop-up" role="menu" ng-if="updateTemplateList()">-->
-                <div class="print-form-div dropdown-menu drop-up" role="menu" ng-click="updateTemplateList()">
+                <div class="print-form-div dropdown-menu drop-up" role="menu">
                   <div ng-repeat="item in printTemplateList">
                     <a href="#" ng-click="newPrint(form, item)">{{item.displayTemplate}}</a>
                   </div>
                 </div>
-                <button ng-if="printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>
+                <button ng-if="updateTemplateList() && printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>
+                <!--<button ng-if="printTemplateList.length > 0" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати <i style="font-size: 11px" class="glyphicon glyphicon-chevron-down"></i></button>-->
                 <button ng-if="printTemplateList.length === 0" ng-click="print()" class="btn btn-link dropdown-toggle" data-toggle="dropdown">Роздрукувати</button>
               </div>
             </div>
