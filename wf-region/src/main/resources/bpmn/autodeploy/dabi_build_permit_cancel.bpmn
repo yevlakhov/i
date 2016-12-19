@@ -325,7 +325,7 @@
           <activiti:expression><![CDATA[${email}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression><![CDATA[Повідомлення щодо  скасування декларації про початок виконання будівельних робіт]]></activiti:expression>
+          <activiti:expression><![CDATA[Повідомлення щодо анулювання дозволу на виконання будівельних робіт]]></activiti:expression>
         </activiti:field>
         <activiti:field name="text">
           <activiti:expression><![CDATA[Текст повідомлення]]></activiti:expression>
