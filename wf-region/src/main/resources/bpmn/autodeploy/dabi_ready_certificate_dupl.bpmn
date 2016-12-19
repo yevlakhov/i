@@ -80,7 +80,6 @@
         <activiti:formProperty id="sReadyCertificateDate" name="Дата видачі Сертифікату про готовність об’єкта до експлуатації" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLossNotice},${nDuplApplication}]]></activiti:expression>
@@ -124,7 +123,6 @@
         <activiti:formProperty id="sReadyCertificateDate" name="Дата видачі Сертифікату про готовність об’єкта до експлуатації" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLossNotice},${nDuplApplication}]]></activiti:expression>
@@ -172,7 +170,6 @@
         <activiti:formProperty id="sAssigneeName_step6" name="Виконавець" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLossNotice},${nDuplApplication}]]></activiti:expression>
@@ -221,7 +218,6 @@
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitDepBossComment" name="Коментар" type="string"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLossNotice},${nDuplApplication}]]></activiti:expression>
@@ -402,7 +398,6 @@
         <activiti:formProperty id="sAssigneeName_step8" name="Виконавець" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLossNotice},${nDuplApplication}]]></activiti:expression>
@@ -449,7 +444,6 @@
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step8]]></activiti:expression>
@@ -558,7 +552,6 @@
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_valid.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step6]]></activiti:expression>
@@ -662,7 +655,6 @@
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_valid.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLetter},${nCertifDupl}]]></activiti:expression>
@@ -717,7 +709,6 @@
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_valid.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_line" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLossNotice},${nDuplApplication},${nLetter},${nCertifDupl}]]></activiti:expression>
