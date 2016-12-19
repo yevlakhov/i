@@ -517,6 +517,7 @@ execution.setVariable('sTextLetter', sMessage)</script>
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sAnswerEmail == 'noSendEmail'}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow34" sourceRef="servicetask1" targetRef="exclusivegateway4"></sequenceFlow>
+    <sequenceFlow id="flow35" sourceRef="usertask_UserGroup" targetRef="exclusivegateway1"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_kyiv_mda_929">
     <bpmndi:BPMNPlane bpmnElement="kyiv_mda_929" id="BPMNPlane_kyiv_mda_929">
@@ -697,6 +698,10 @@ execution.setVariable('sTextLetter', sMessage)</script>
       <bpmndi:BPMNEdge bpmnElement="flow34" id="BPMNEdge_flow34">
         <omgdi:waypoint x="818.0" y="820.0"></omgdi:waypoint>
         <omgdi:waypoint x="841.0" y="820.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow35" id="BPMNEdge_flow35">
+        <omgdi:waypoint x="862.0" y="371.0"></omgdi:waypoint>
+        <omgdi:waypoint x="862.0" y="407.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
