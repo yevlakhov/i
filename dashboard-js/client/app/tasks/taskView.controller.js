@@ -333,8 +333,10 @@
         };
 
         $scope.taskForm = addIndexForFileItems(taskForm);
-        console.log($scope.taskForm);
+        /* Print menu update on updateTemplateList 
+        console.log($scope.taskForm); 
         $scope.printTemplateList = PrintTemplateService.getTemplates($scope.taskForm);
+        */ 
         if ($scope.printTemplateList.length > 0) {
           $scope.model.printTemplate = $scope.printTemplateList[0];
         }
