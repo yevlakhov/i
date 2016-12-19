@@ -5,8 +5,16 @@
       "sValue": "Замовник"        
     },
     "Line_3": {
-      "aElement_ID": ["sObjectName"],
+      "aElement_ID": ["sObjectName","asTypeOfConstruction"],
       "sValue": "Об'єкт будівництва"        
+    },
+    "Line_4": {
+      "aElement_ID": ["sPermitNumber"],
+      "sValue": "Реквізити дозволу"        
+    },
+    "Line_5": {
+      "aElement_ID": ["asDecision"],
+      "sValue": "Прийняте рішення"        
     }
   }
 }
