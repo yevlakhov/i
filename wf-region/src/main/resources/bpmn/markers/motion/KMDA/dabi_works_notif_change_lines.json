@@ -1,7 +1,7 @@
 {
   "attributes": {
     "Line_2": {
-      "aElement_ID": ["asApplicantType"],
+      "aElement_ID": ["sPersonLastName","sLegalForm"],
       "sValue": "Замовник"        
     },
     "Line_3": {
