@@ -1,0 +1,56 @@
+{
+  "attributes": {
+    "Line_2": {
+      "aElement_ID": ["asApplicantType"],
+      "sValue": "Замовник"        
+    },
+    "Line_3": {
+      "aElement_ID": ["sObjectName"],
+      "sValue": "Об'єкт будівництва"        
+    },
+    "Line_4": {
+      "aElement_ID": ["sChangeDocName"],
+      "sValue": "Підстава для зміни даних"        
+    },
+    "Line_5": {
+      "aElement_ID": ["sConstructionPassport"],
+      "sValue": "Будівельний паспорт"      
+    },
+    "Line_6": {
+      "aElement_ID": ["asIsProjectDeveloped"],
+      "sValue": "Проект"        
+    },
+    "Line_7": {
+      "aElement_ID": ["sResponsiblePerson"],
+      "sValue": "Відповідальні особи проектувальника"        
+    },
+    "Line_8": {
+      "aElement_ID": ["sApprovalPerson"],
+      "sValue": "Затвердження проекту"        
+    },
+    "Line_9": {
+      "aElement_ID": ["sKeyIndicators"],
+      "sValue": "Основні показники"        
+    },
+    "Line_10": {
+      "aElement_ID": ["sExpertOrgName"],
+      "sValue": "Експертиза"        
+    },
+    "Line_11": {
+      "aElement_ID": ["asIsTechSupervision"],
+      "sValue": "Технічний нагляд"        
+    },
+    "Line_12": {
+      "aElement_ID": ["asConstructionOnBasis"],
+      "sValue": "Земельна ділянка"        
+    },
+    "Line_13": {
+      "aElement_ID": ["asGeneralContractor"],
+      "sValue": "Генеральний підрядник"        
+    },
+    "Line_14": {
+      "aElement_ID": ["asDecision"],
+      "sValue": "Прийняте рішення"        
+    }
+  }
+}
