@@ -268,7 +268,8 @@ angular.module('dashboardJsApp')
             if (formProperty && formProperty.writable) {
               properties.push({
                 id: formProperty.id,
-                value: formProperty.value
+                value: formProperty.value,
+                type: formProperty.type
               });
             }
           }
