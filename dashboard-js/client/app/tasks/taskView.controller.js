@@ -1096,21 +1096,22 @@
 
         TableService.init($scope.taskForm);
 
+        
         try { 
         	if(form['oPrescription2']) {
         		console.log("oPrescription2 exists");
 
         		console.log($scope.taskForm['oPrescription2'].aRow[0].aField[0].sFieldNotes + " " );
+        		
+        		$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
         	}
         	else {
         		console.log("Could not find oPrescription2"); 
         	}
-          
-        	$('.inputs-in-table input[type="text"]').change(inputChange);  // [name^=sPrescriptionName]           
         } catch( e ) { 
-        	console.log("Mistake 1438 - table not found"); 
+        	console.log("Mistake 1438 - " + e ); 
         }
-        
+       
         var inputChange = function( eventObject ) { 
         	alert( eventObject.val() );
         }
