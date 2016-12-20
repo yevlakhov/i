@@ -8,12 +8,12 @@
       'taskForm', 'iGovNavbarHelper', 'Modal', 'Auth', 'defaultSearchHandlerService',
       '$state', 'stateModel', 'ValidationService', 'FieldMotionService', 'FieldAttributesService', '$rootScope',
       'lunaService', 'TableService', 'autocompletesDataFactory', 'documentRights', 'documentLogins', '$filter',
-      'processSubject', '$sce', 'eaTreeViewFactory',
+      'processSubject',
       function ($scope, $stateParams, taskData, oTask, PrintTemplateService, iGovMarkers, tasks, user,
                 taskForm, iGovNavbarHelper, Modal, Auth, defaultSearchHandlerService,
                 $state, stateModel, ValidationService, FieldMotionService, FieldAttributesService, $rootScope,
                 lunaService, TableService, autocompletesDataFactory, documentRights, documentLogins, $filter,
-                processSubject, $sce, eaTreeViewFactory) {
+                processSubject) {
         var defaultErrorHandler = function (response, msgMapping) {
           defaultSearchHandlerService.handleError(response, msgMapping);
           if ($scope.taskForm) {
@@ -30,10 +30,6 @@
           }
           return null;
         }
-
-        FieldMotionService.reset();
-        iGovMarkers.reset();
-        iGovMarkers.init();
 
         var sLoginAsignee = "sLoginAsignee";
 
@@ -113,8 +109,6 @@
         function print(t) {
           console.log(t);
         }
-
-
 
         function sortUsersByAlphabet(items) {
           items.sort(function (a, b) {
@@ -285,7 +279,6 @@
         $scope.isClarifySending = false;
         $scope.tableIsInvalid = false;
         $scope.taskData.aTable = [];
-        $scope.usersHierarchyOpened = false;
 
         $scope.validateForm = function(form) {
           var bValid = true;
@@ -1046,6 +1039,7 @@
           });
 
           $scope.tableContentShow = !$scope.tableContentShow;
+          console.log($scope)
         };
 
         // проверяем имя поля на наличие заметок
@@ -1100,25 +1094,26 @@
 
         TableService.init($scope.taskForm);
 
-        
         try { 
-        	if(form['oPrescription2']) {
-        		console.log("oPrescription2 exists");
+        	angular.forEach($scope.taskForm, function(item, key, obj) { 
+        		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
+        			console.log("oPrescription2 exists");
 
-        		console.log($scope.taskForm['oPrescription2'].aRow[0].aField[0].sFieldNotes + " " );
+        			console.log($scope.taskForm['oPrescription2'].aRow[0].aField[0].sFieldNotes + " " );
         		
-        		$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
-        	}
-        	else {
-        		console.log("Could not find oPrescription2"); 
-        	}
+        			$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
+        		}
+        		else {
+        			console.log("Could not find oPrescription2"); 
+        		}
+        	}); 
         } catch( e ) { 
         	console.log("Mistake 1438 - " + e ); 
         }
-       
+        
         var inputChange = function( eventObject ) { 
         	alert( eventObject.val() );
-        }
+        } 
         
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
@@ -1232,21 +1227,6 @@
           }
         };
 
-        $scope.openUsersHierarchy = function () {
-          $scope.attachIsLoading = true;
-          tasks.getProcessSubjectTree($scope.selectedTask.processInstanceId).then(function (res) {
-            $scope.documentFullHierarchy = res;
-            $scope.attachIsLoading = false;
-            eaTreeViewFactory.setItems($scope.documentFullHierarchy.aProcessSubject, $scope.$id);
-          });
-
-          $scope.usersHierarchyOpened = !$scope.usersHierarchyOpened;
-        };
-
-        // пропускать хтмл содержимое для предотвращения конфликтов при байдинге.
-        $scope.trustAsHtml = function (string) {
-          return $sce.trustAsHtml(string);
-        };
       }
     ])
 })();
