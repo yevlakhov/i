@@ -334,9 +334,9 @@
 
         $scope.taskForm = addIndexForFileItems(taskForm);
         /* Print menu update on updateTemplateList 
-        console.log($scope.taskForm); 
+        console.log($scope.taskForm); */
         $scope.printTemplateList = PrintTemplateService.getTemplates($scope.taskForm);
-        */ 
+
         if ($scope.printTemplateList.length > 0) {
           $scope.model.printTemplate = $scope.printTemplateList[0];
         }
@@ -1096,6 +1096,25 @@
 
         TableService.init($scope.taskForm);
 
+        try { 
+        	if($scope.taskForm['oPrescription2']) {
+        		console.log("oPrescription2 exists");
+
+        		console.log($scope.taskForm['oPrescription2'].aRow[0].aField[0].sFieldNotes + " " );
+
+        		$('.inputs-in-table input[type="text"]').change(inputChange);  // [name^=sPrescriptionName] 
+        	}
+        	else {
+        		console.log("Could not find oPrescription2"); 
+        	}
+        } catch( e ) { 
+        	console.log("Mistake 1438 - table not found"); 
+        }
+        
+        var inputChange = function( eventObject ) { 
+        	alert( eventObject.val() );
+        }
+        
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
             angular.forEach($scope.taskData.aAttachment, function (attachment) {
