@@ -2728,6 +2728,39 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         return mReturn;
     }    
 
-    
+     @ApiOperation(value = "/getProcessByLogin", notes = "##### Получение списка процессов (доступных и уже назначеных) по логину#####\n\n")
+    @RequestMapping(value = "/getProcessByLogin", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    public @ResponseBody String getProcessByLogin(
+            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
+            throws IOException {                
+        List<Task> tasksCandidate = taskService.createTaskQuery().taskCandidateUser(sLogin).list();        
+        List<Task> tasksAssigned = taskService.createTaskQuery().taskAssignee(sLogin).active().list();
+        Set<String> processesList = new HashSet<>();
+        tasksCandidate.stream().forEach((task) -> {        
+            processesList.add(task.getProcessDefinitionId());
+        });   
+        tasksAssigned.stream().forEach((task) -> {        
+            processesList.add(task.getProcessDefinitionId());
+        });       
+        List <ProcessDefinition> processes = new LinkedList<>();
+        processesList.stream().forEach((processId) -> {
+            processes.add(repositoryService.createProcessDefinitionQuery().processDefinitionId(processId).singleResult());
+        });
+        List<Map<String, String>> result = new LinkedList<>();
+        
+        processes.stream().map((processDef) -> {
+            Map<String, String> process = new HashMap<>();
+            process.put("sID", processDef.getKey());
+            process.put("sName", processDef.getName());
+            return process;
+        }).map((process) -> {
+            LOG.info(String.format("Added record to response %s", process.toString()));
+            return process;
+        }).forEach((process) -> {
+            result.add(process);
+        });
+        
+        return JSONValue.toJSONString(result);
+    }
     
 }
