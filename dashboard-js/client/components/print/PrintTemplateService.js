@@ -41,21 +41,39 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
               console.log(  " #1438 " + form[i].id ); 
 
-			    	  var prints = FieldMotionService.getPrintForms(form[i].id);
-			    	  
+			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
+			    	  console.log( " #1438 PrintForms count " + prints.length ); 
+             
 			    	  for (var j = 0; j < prints.length; j++) { 
 			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
 
 			    		  var selector = ".inputs-in-table";
 
-			    		  if( prints[j].sTitleName ) {
+			    		  if( prints[j].sTitleField ) {
 
-			    			  selector = ' [name=' + prints[j].sTitleName + ']'; 
+                  // search sTitleField column inputs 
+			    			  selector = selector + ' [name^="' + prints[j].sTitleField + '"]'; 
 
                   var item = { 
 
                     id: form[i].id, 
-                    displayTemplate: "", 
+                    displayTemplate: prints[j].sName, 
+                    type: "markers",
+                    value: "{ tableId: form[i].id, printFormId: prints[j] }", 
+
+                  }; 
+
+                  topItems.unshift( item ); 
+
+                  console.log ( selector + " " + $(selector).length + " " + topItems.length);
+			    		  }
+                else { 
+
+                  // just PrintForm sName 
+                  var item = { 
+
+                    id: form[i].id, 
+                    displayTemplate: prints[j].sName, 
                     type: "markers",
                     value: "{ tableId: form[i].id, printFormId: prints[j] }", 
 
@@ -63,10 +81,9 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                   
                   topItems.unshift( item ); 
                   
-			    		  }
+                  console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
+                } 
 
-			    		  console.log ( selector + " " + $(selector).length );
-  
               }  
            }
         }
@@ -76,7 +93,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         console.log( "Mistake " + e ); 
       }
 
-    
       if (markerExists){
           templates = form.filter(function (item) {
           var result = false;
@@ -114,8 +130,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         });
       }
 
-      if(topItems.length > 0) {
-         templates.unshift( topItems );
+      if(topItems.length > 0) { 
+        angular.forEach( topItems, function( item ) { templates.unshift(item); } ); 
       } 
 
       templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });

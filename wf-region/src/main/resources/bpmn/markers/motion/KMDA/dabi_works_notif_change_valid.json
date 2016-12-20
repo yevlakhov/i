@@ -18,7 +18,9 @@
   	},
     "PhoneUA": {
         "aField_ID":["sGenPhone"] 
-        }
-        
+        },
+    "Mail":   
+        {"aField_ID": ["email_"]}
+ 
   }
 }

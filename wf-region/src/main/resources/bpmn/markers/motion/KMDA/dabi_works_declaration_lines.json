@@ -1,12 +1,12 @@
 {
   "attribute" : {
     "Line_1" : {
-       "aElement_ID" : ["asApplicantType"],    
+       "aElement_ID" : ["sPersonLastName","sLegalForm"],    
        "sValue" : "Замовник" 
     },
     "Line_2" : {
        "aElement_ID" : ["sObjectName"], 
-       "sValue" : "Об'єктбудівництва"
+       "sValue" : "Об'єкт будівництва"
     },
     "Line_3" : {
        "aElement_ID" : ["asGeneralContractor"], 

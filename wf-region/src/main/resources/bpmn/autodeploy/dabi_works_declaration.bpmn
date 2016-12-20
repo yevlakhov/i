@@ -198,7 +198,7 @@
         <activiti:formProperty id="sApprovedPerson" name="ПІБ особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sApprovedPersonPosition" name="Посада особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sApprovalDate" name="Дата затвердження проекту або назва, номер та дата видачі розпорядчого документу" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sRespSupervsorName" name="ПІБ відповідальної особи проектувальника, що здійснює авторський нагляд" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sRespSupervisorName" name="ПІБ відповідальної особи проектувальника, що здійснює авторський нагляд" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sTechSupervisorName" name="ПІБ особи, яка здійснює технічний нагляд;Наприклад, Іванов Петро Васильович" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sTechSupervisorSertif" name="Серія та номер кваліфікаційного сертифікату особи, яка здійснює технічний нагляд" type="string"></activiti:formProperty>
         <activiti:formProperty id="asConstructionOnBasis" name="Земельна ділянка використовується для будівництва на підставі:" type="enum" required="true">
@@ -231,7 +231,7 @@
         <activiti:formProperty id="sRejectionReason" name="Причина відмови" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sID_NumberOutputDoc" name="Реєстраційний номер вихідного документу" type="invisible" default=" "></activiti:formProperty>
-        <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="invisible" default=" "></activiti:formProperty>   
+        <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="invisible" default=" "></activiti:formProperty>
         <activiti:formProperty id="sBody_Reject" name="[pattern/print/kiev/DABI_works_declar_reject.html]" type="invisible" default="Лист про відмову" writable="false"></activiti:formProperty>
         <!--activiti:formProperty id="sBody_Registr" name="[pattern/print/kiev/DABI_works_declar_registr.html]" type="invisible" default="Лист про реєстрацію" writable="false"></activiti:formProperty!-->
         <activiti:formProperty id="marker6_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_declaration_vis.json')}"></activiti:formProperty>
@@ -321,7 +321,7 @@
         <activiti:formProperty id="sID_NumberDABI" name="Реєстраційний номер з реєстру ДАБІ" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sRejectionReason" name="Причина відмови" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sID_NumberOutputDoc" name="Реєстраційний номер вихідного документу" type="string" ></activiti:formProperty>
+        <activiti:formProperty id="sID_NumberOutputDoc" name="Реєстраційний номер вихідного документу" type="string"></activiti:formProperty>
         <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="string"></activiti:formProperty>
         <activiti:formProperty id="sBody_Reject" name="[pattern/print/kiev/DABI_works_declar_reject.html]" type="invisible" default="Лист про відмову" writable="false"></activiti:formProperty>
         <!--activiti:formProperty id="sBody_Registr" name="[pattern/print/kiev/DABI_works_declar_registr.html]" type="invisible" default="Лист про реєстрацію" writable="false"></activiti:formProperty!-->
@@ -397,7 +397,7 @@
           <activiti:expression><![CDATA[${sTextLetter}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="saAttachmentsForSend">
-          <activiti:expression><![CDATA[${PrintForm_Registr}]]></activiti:expression>
+          <activiti:expression><![CDATA[]]></activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
@@ -452,8 +452,8 @@ var sMessage =""
           if (execution.getVariable('asDecision') == 'sEnumDecisionReturn'){
   isRegistered = "не "
 }
-sMessage = "&lt;p&gt;Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) повідомлення про початок виконання будівельних  робіт "+ isRegistered + "зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та  будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів. &lt;/p&gt;"
-sMessage = sMessage + "&lt;p&gt;Інформація про результат опрацювання декларації про початок виконання підготовчих робіт передано до центру надання адміністративних послуг."&lt;/p&gt;"
+sMessage = "&lt;p&gt;Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) повідомлення про початок виконання будівельних  робіт "+ isRegistered + "зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та  будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів. &lt;/p&gt;";
+sMessage = sMessage + "&lt;p&gt;Інформація про результат опрацювання декларації про початок виконання підготовчих робіт передано до центру надання адміністративних послуг.&lt;/p&gt;"
 execution.setVariable('sTextLetter', sMessage)</script>
     </scriptTask>
     <sequenceFlow id="flow46" sourceRef="scripttask1" targetRef="exclusivegateway8"></sequenceFlow>
@@ -505,10 +505,14 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:field name="saAttachmentsForSend">
           <activiti:expression><![CDATA[${PrintForm_Reject}]]></activiti:expression>
         </activiti:field>
-      </extensionElements>      
+      </extensionElements>
     </serviceTask>
-    <sequenceFlow id="flow58" sourceRef="exclusivegateway8" targetRef="servicetask_step15.1"></sequenceFlow>
-    <sequenceFlow id="flow59" sourceRef="exclusivegateway8" targetRef="servicetask_step15.2"></sequenceFlow>
+    <sequenceFlow id="flow58" sourceRef="exclusivegateway8" targetRef="servicetask_step15.1">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asDecision == 'sEnumDecisionOK' }]]></conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="flow59" sourceRef="exclusivegateway8" targetRef="servicetask_step15.2">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asDecision == 'sEnumDecisionReturn'}]]></conditionExpression>
+    </sequenceFlow>
     <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow60" sourceRef="servicetask_step15.1" targetRef="exclusivegateway9"></sequenceFlow>
     <sequenceFlow id="flow61" sourceRef="servicetask_step15.2" targetRef="exclusivegateway9"></sequenceFlow>

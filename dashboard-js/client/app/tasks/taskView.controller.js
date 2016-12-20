@@ -110,8 +110,6 @@
           console.log(t);
         }
 
-
-
         function sortUsersByAlphabet(items) {
           items.sort(function (a, b) {
             if (a.sLastName > b.sLastName) {
@@ -333,8 +331,10 @@
         };
 
         $scope.taskForm = addIndexForFileItems(taskForm);
-        console.log($scope.taskForm);
+        /* Print menu update on updateTemplateList 
+        console.log($scope.taskForm); */
         $scope.printTemplateList = PrintTemplateService.getTemplates($scope.taskForm);
+
         if ($scope.printTemplateList.length > 0) {
           $scope.model.printTemplate = $scope.printTemplateList[0];
         }
@@ -1094,6 +1094,27 @@
 
         TableService.init($scope.taskForm);
 
+        try { 
+        	angular.forEach($scope.taskForm, function(item, key, obj) { 
+        		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
+        			console.log("oPrescription2 exists");
+
+        			console.log(item.aRow[0].aField[0].sFieldNotes + " " );
+        		
+        			$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
+        		}
+        		else {
+        			console.log("Could not find oPrescription2"); 
+        		}
+        	}); 
+        } catch( e ) { 
+        	console.log("Mistake 1438 - " + e ); 
+        }
+        
+        var inputChange = function( eventObject ) { 
+        	alert( eventObject.val() );
+        }
+       
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
             angular.forEach($scope.taskData.aAttachment, function (attachment) {

@@ -1,0 +1,21 @@
+{
+  "attribute" : {
+    "Line_1" : {
+       "aElement_ID" : ["sPersonLastName","sLegalForm"],    
+       "sValue" : "Замовник" 
+    },
+    "Line_2" : {
+       "aElement_ID" : ["sObjectName"], 
+       "sValue" : "Об'єкт будівництва"
+    },   
+    "Line_9" : {
+       "aElement_ID" : ["asDecision"], 
+       "sValue" : "Рішення"
+    },
+    "Line_11" : {
+       "aElement_ID" : ["sWorksDeclarationNumber"], 
+       "sValue" : "Реквізити декларації"
+    }
+    
+  }
+}

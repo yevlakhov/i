@@ -68,6 +68,7 @@ public class ObjectFileCommonController {
 
     public static final String PATTERN_DEFAULT_CONTENT_TYPE = "text/plain";
     private static final Logger LOG = LoggerFactory.getLogger(ObjectFileCommonController.class);
+    
     @Autowired
     private TaskService taskService;
 
@@ -283,48 +284,10 @@ public class ObjectFileCommonController {
             @ApiParam(value = "порядковый номер прикрепленного файла", required = false) @RequestParam(required = false, value = "nFile") Integer nFile,
             HttpServletResponse httpResponse) throws IOException {
 
-        // Получаем по задаче ид процесса
-        HistoricTaskInstance historicTaskInstanceQuery = historyService
-                .createHistoricTaskInstanceQuery().taskId(taskId)
-                .singleResult();
-        String processInstanceId = historicTaskInstanceQuery
-                .getProcessInstanceId();
-        if (processInstanceId == null) {
-            throw new ActivitiObjectNotFoundException(
-                    "ProcessInstanceId for taskId '" + taskId + "' not found.",
-                    Attachment.class);
-        }
-        LOG.info("attachmentId: " + attachmentId + " taskId: " + taskId + " nFile: " + nFile + " processInstanceId: " + processInstanceId);
-        // Выбираем по процессу прикрепленные файлы
-        Attachment attachmentRequested = oActionTaskService.getAttachment(attachmentId, nFile, processInstanceId);
-        String sFileName = attachmentRequested.getName();
-        String description = attachmentRequested.getDescription();
-        String type = attachmentRequested.getType();
-
-        String id = attachmentRequested.getId();
-        InputStream attachmentStream = taskService
-                .getAttachmentContent(id);
-        if (attachmentStream == null) {
-            throw new ActivitiObjectNotFoundException("Attachment with ID '"
-                    + id + "' doesn't have content associated with it.",
-                    Attachment.class);
-        }
-
-        if (sFileName != null && !sFileName.toLowerCase().endsWith(".xml")) {
-            int nTo = sFileName.lastIndexOf(".");
-            if (nTo >= 0) {
-                sFileName = "attach_" + id + "."
-                        + sFileName.substring(nTo + 1);
-            }
-        }
-
-        // Вычитывем из потока массив байтов контента и помещаем параметры
-        // контента в header
-        VariableMultipartFile multipartFile = new VariableMultipartFile(
-                attachmentStream, description,
-                sFileName, type);
+        VariableMultipartFile multipartFile = oObjectFileService.download_file_from_db(taskId, attachmentId, nFile);
+        
         httpResponse.setHeader("Content-disposition", "attachment; filename="
-                + sFileName);
+                + multipartFile.getOriginalFilename());
         httpResponse.setHeader("Content-Type", "application/octet-stream");
 
         httpResponse.setContentLength(multipartFile.getBytes().length);
@@ -636,14 +599,6 @@ public class ObjectFileCommonController {
         }
 
         identityService.setAuthenticatedUserId(assignee);        
-        
-        List<Attachment> attachments = taskService.getProcessInstanceAttachments(processInstanceId);
-        attachments.stream().filter((oAttachment) -> (description.equals(oAttachment.getDescription()))).map((oAttachment) -> {
-            taskService.deleteAttachment(oAttachment.getId());
-            return oAttachment;
-        }).forEach((oAttachment) -> {
-            LOG.info("Attachment was deleted. nID_Attach {} ", oAttachment.getId());
-        }); 
                 
         String sFilename = sFileName;
         LOG.debug("sFilename={}", sFileName);
@@ -858,7 +813,7 @@ public class ObjectFileCommonController {
     @Transactional
     public @ResponseBody
     AttachmentEntityI setTaskAttachment(
-            @ApiParam(value = "строка-Логин пользователя", required = true) @RequestParam(value = "nTaskId") String taskId,
+            @ApiParam(value = "номер-ИД задачи", required = true) @RequestParam(value = "nTaskId") String taskId,
             @ApiParam(value = "строка-MIME тип отправляемого файла (по умолчанию = \"text/html\")", required = false) @RequestParam(value = "sContentType", required = false, defaultValue = "text/html") String sContentType,
             @ApiParam(value = "строка-описание", required = true) @RequestParam(value = "sDescription") String description,
             @RequestParam(value = "sFileName") String sFileName,

@@ -42,7 +42,7 @@ function FieldMotionService(MarkersFactory) {
   
   this.getPrintForms = function(fieldId) { 
 
-	  var printForms = grepByPrefix("PrintForms_");
+	  var printForms = grepByPrefix("PrintForm_");
 
 	  if( fieldId ) {
 		  printForms = printForms.some(function(entry) {
@@ -201,5 +201,10 @@ function FieldMotionService(MarkersFactory) {
 
   function grepByPrefix(prefix) {
     return MarkersFactory.grepByPrefix('motion', prefix);
+  }
+
+  this.reset = function () {
+    fieldId_entryTriggered = {};
+    aFieldIDs = [];
   }
 }

@@ -585,6 +585,10 @@ public abstract class AbstractModelTask {
 
         String[] asID_Attachment = sAttachments.split(",");
 
+        for (int i = 0; i < asID_Attachment.length; i++) {
+            asID_Attachment[i] = asID_Attachment[i].trim();
+        }
+
         List<String> aAttachmentNotFound = new ArrayList<>();
 
         for (String sID_Attachment : asID_Attachment) {
@@ -606,10 +610,10 @@ public abstract class AbstractModelTask {
             //the next line returns no collection hence no items from aAttachmentNotFound are added to aAttachment; consider replacing
             List<Attachment> aAttachmentByProcess = taskService.getProcessInstanceAttachments(processInstanceId);
 
-            for (Attachment attachment : aAttachmentByProcess) {
-                LOG.info("Attachment info={}, attachment.getId()={}", attachment.getDescription(), attachment.getId());
-                if (!aAttachmentNotFound.contains(attachment.getId())) {
-                    aAttachment.add(attachment);
+            for (Attachment attachmentByProcess : aAttachmentByProcess) {
+                LOG.info("Attachment info={}, attachment.getId()={}", attachmentByProcess.getDescription(), attachmentByProcess.getId());
+                if (!aAttachmentNotFound.contains(attachmentByProcess.getId())) {
+                    aAttachment.add(attachmentByProcess);
                 }
             }
         }
