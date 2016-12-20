@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
-  <process id="dabi_works_declaration_dupl" name="ДАБІ Видача дублікату Декларації про початок підготовчих робіт" isExecutable="true">
+  <process id="dabi_works_declar_dupl" name="ДАБІ Видача дублікату Декларації про початок підготовчих робіт" isExecutable="true">
     <startEvent id="startevent_step1" name="1. Реєстрація вхідного документу, внесення інформації до облікової системи">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" required="true"></activiti:formProperty>
@@ -825,8 +825,8 @@ execution.setVariable('sTextLetter', sMessage)</script>
     </textAnnotation>
     <association id="association6" sourceRef="textannotation6" targetRef="usertask_step9.2"></association>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_works_declaration_dupl">
-    <bpmndi:BPMNPlane bpmnElement="dabi_works_declaration_dupl" id="BPMNPlane_dabi_works_declaration_dupl">
+  <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_works_declar_dupl">
+    <bpmndi:BPMNPlane bpmnElement="dabi_works_declar_dupl" id="BPMNPlane_dabi_works_declar_dupl">
       <bpmndi:BPMNShape bpmnElement="startevent_step1" id="BPMNShape_startevent_step1">
         <omgdc:Bounds height="35.0" width="35.0" x="63.0" y="8.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
