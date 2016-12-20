@@ -1097,16 +1097,16 @@
         TableService.init($scope.taskForm);
 
         try { 
-        	if($scope.taskForm['oPrescription2']) {
+        	if(form['oPrescription2']) {
         		console.log("oPrescription2 exists");
 
         		console.log($scope.taskForm['oPrescription2'].aRow[0].aField[0].sFieldNotes + " " );
-
-        		$('.inputs-in-table input[type="text"]').change(inputChange);  // [name^=sPrescriptionName] 
         	}
         	else {
         		console.log("Could not find oPrescription2"); 
         	}
+          
+        	$('.inputs-in-table input[type="text"]').change(inputChange);  // [name^=sPrescriptionName]           
         } catch( e ) { 
         	console.log("Mistake 1438 - table not found"); 
         }
