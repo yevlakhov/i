@@ -2619,12 +2619,17 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 LOG.error("Variable \"properties\" not found");
             }        
             LOG.info("properties = " + dates.toJSONString());
+            
+            List<String> oTypes = Arrays.asList("markers", "file", "table", "label");            
 
             org.json.simple.JSONObject result;
             Iterator<org.json.simple.JSONObject> datesIterator = dates.iterator();
             while (datesIterator.hasNext()) {
                 result = datesIterator.next();
-                values.put(result.get("id").toString(), (String) result.get("value"));
+                boolean typeInclude = oTypes.contains(result.get("type").toString());
+                if (!typeInclude && result.get("value") != null) {
+                    values.put(result.get("id").toString(), (String) result.get("value"));
+                }
             }
             formService.saveFormData(nID_Task, values);
             LOG.info("Process of update data finiched");
