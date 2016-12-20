@@ -1099,12 +1099,11 @@
         		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
         			console.log("oPrescription2 exists");
 
-        			if( typeof item.aRow[0] !== 'number' ) { 
+        			if( item.aRow && typeof item.aRow[0] !== 'number' ) {
         				console.log("oPrescription2 loaded");
-
-                console.log(item.aRow[0].aField[0].sFieldLabel + " " ); 
-        			} 
-        			//console.log(item.aRow[0].aField[0].sFieldNotes + " " );
+        				
+        				console.log(item.aRow[0].aField[0].sFieldLabel); 
+        			}
         		
         			$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
         		}
@@ -1119,6 +1118,7 @@
         var inputChange = function( eventObject ) { 
         	alert( eventObject.val() );
         } 
+
       
         $scope.$on('TableFieldChanged', function() { alert(typeof this); });
         
