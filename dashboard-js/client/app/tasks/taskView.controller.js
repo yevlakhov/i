@@ -1105,7 +1105,7 @@
         				console.log(item.aRow[0].aField[0].sFieldLabel); 
         			}
         		
-        			$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
+        			//$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
         		}
         		else {
         			console.log("Could not find oPrescription2"); 
