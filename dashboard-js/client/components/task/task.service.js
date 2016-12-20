@@ -139,13 +139,24 @@ angular.module('dashboardJsApp')
         })
       },
 
-      getProcessSubject: function (id, level) {
+      getProcessSubject: function (id) {
         return simpleHttpPromise({
           method: 'GET',
           url: '/api/documents/getProcessSubject',
           params: {
             snID_Process_Activiti: id,
             nDeepLevel: 1
+          }
+        })
+      },
+
+      getProcessSubjectTree: function (id) {
+        return simpleHttpPromise({
+          method: 'GET',
+          url: '/api/documents/getProcessSubjectTree',
+          params: {
+            snID_Process_Activiti: id,
+            nDeepLevel: 0
           }
         })
       },
@@ -195,19 +206,27 @@ angular.module('dashboardJsApp')
         if(tableFields.length > 0) {
           angular.forEach(tableFields, function (table) {
             if(attachments.length > 0) {
-              angular.forEach(attachments, function (attachment) {
-                var matchTableId = attachment.description.match(/(\[id=(\w+)\])/);
-                if(attachment.description.indexOf('[table]') !== -1 && matchTableId !== null){
+              var theSameAttachments = attachments.filter(function (item) {
+                var matchTableId = item.description.match(/(\[id=(\w+)\])/);
+                var x = item.description.indexOf('[table]') !== -1 && matchTableId !== null;
+                if(x) {
                   var name = matchTableId[2];
-                  if(name.toLowerCase() === table.id.toLowerCase()) {
-                    var description = attachment.description.split('[')[0];
-                    promises.push(self.uploadTable(table, taskId, attachment.id, description));
-                  }
+                  return name.toLowerCase() === table.id.toLowerCase()
                 }
               });
+
+              if(theSameAttachments.length !== 0) {
+                theSameAttachments.map(function (a) {
+                  var description = a.description.split('[')[0];
+                  promises.push(self.uploadTable(table, taskId, a.id, description));
+                });
+              } else {
+                var name = table.name.split(';')[0];
+                promises.push(self.uploadTable(table, taskId, null, name));
+              }
             } else {
-              var name = table.name.split(';')[0];
-              promises.push(self.uploadTable(table, taskId, null, name));
+              var tableName = table.name.split(';')[0];
+              promises.push(self.uploadTable(table, taskId, null, tableName));
             }
           })
         }
@@ -662,6 +681,24 @@ angular.module('dashboardJsApp')
           return true;
         }
         return false;
+      },
+      isUserHasDocuments: function (login) {
+        return simpleHttpPromise({
+          method: 'GET',
+          url: '/api/documents/getBPs',
+          params: {
+            sLogin: login
+          }
+        })
+      },
+      createNewDocument: function (bpID) {
+        return simpleHttpPromise({
+          method: 'GET',
+          url: 'api/documents/setDocument',
+          params: {
+            sID_BP: bpID
+          }
+        })
       }
     };
   });

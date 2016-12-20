@@ -8,12 +8,12 @@
       'taskForm', 'iGovNavbarHelper', 'Modal', 'Auth', 'defaultSearchHandlerService',
       '$state', 'stateModel', 'ValidationService', 'FieldMotionService', 'FieldAttributesService', '$rootScope',
       'lunaService', 'TableService', 'autocompletesDataFactory', 'documentRights', 'documentLogins', '$filter',
-      'processSubject',
+      'processSubject', '$sce', 'eaTreeViewFactory',
       function ($scope, $stateParams, taskData, oTask, PrintTemplateService, iGovMarkers, tasks, user,
                 taskForm, iGovNavbarHelper, Modal, Auth, defaultSearchHandlerService,
                 $state, stateModel, ValidationService, FieldMotionService, FieldAttributesService, $rootScope,
                 lunaService, TableService, autocompletesDataFactory, documentRights, documentLogins, $filter,
-                processSubject) {
+                processSubject, $sce, eaTreeViewFactory) {
         var defaultErrorHandler = function (response, msgMapping) {
           defaultSearchHandlerService.handleError(response, msgMapping);
           if ($scope.taskForm) {
@@ -30,6 +30,10 @@
           }
           return null;
         }
+
+        FieldMotionService.reset();
+        iGovMarkers.reset();
+        iGovMarkers.init();
 
         var sLoginAsignee = "sLoginAsignee";
 
@@ -281,6 +285,7 @@
         $scope.isClarifySending = false;
         $scope.tableIsInvalid = false;
         $scope.taskData.aTable = [];
+        $scope.usersHierarchyOpened = false;
 
         $scope.validateForm = function(form) {
           var bValid = true;
@@ -1041,7 +1046,6 @@
           });
 
           $scope.tableContentShow = !$scope.tableContentShow;
-          console.log($scope)
         };
 
         // проверяем имя поля на наличие заметок
@@ -1228,6 +1232,21 @@
           }
         };
 
+        $scope.openUsersHierarchy = function () {
+          $scope.attachIsLoading = true;
+          tasks.getProcessSubjectTree($scope.selectedTask.processInstanceId).then(function (res) {
+            $scope.documentFullHierarchy = res;
+            $scope.attachIsLoading = false;
+            eaTreeViewFactory.setItems($scope.documentFullHierarchy.aProcessSubject, $scope.$id);
+          });
+
+          $scope.usersHierarchyOpened = !$scope.usersHierarchyOpened;
+        };
+
+        // пропускать хтмл содержимое для предотвращения конфликтов при байдинге.
+        $scope.trustAsHtml = function (string) {
+          return $sce.trustAsHtml(string);
+        };
       }
     ])
 })();

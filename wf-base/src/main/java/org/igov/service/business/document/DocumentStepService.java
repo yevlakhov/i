@@ -58,77 +58,170 @@ public class DocumentStepService {
     private IdentityService oIdentityService;
 
     public void setDocumentSteps(String snID_Process_Activiti, String soJSON) {
-        JSONObject steps = new JSONObject(soJSON);
-        List<DocumentStep> resultSteps = new ArrayList<>();
+        JSONObject oJSON = new JSONObject(soJSON);
+        List<DocumentStep> aDocumentStep = new ArrayList<>();
         //process common step if it exists
-        Object _step = steps.opt("_");
-        LOG.info("Common step is - {}", _step);
-        if (_step != null) {
-            DocumentStep commonStep = mapToDocumentStep(_step);
-            commonStep.setnOrder(0L);//common step with name "_" has order 0
-            commonStep.setsKey_Step("_");
-            commonStep.setSnID_Process_Activiti(snID_Process_Activiti);
-            documentStepDao.saveOrUpdate(commonStep);
-            resultSteps.add(commonStep);
+        Object oStep_Common = oJSON.opt("_");
+        LOG.info("Common step is - {}", oStep_Common);
+        if (oStep_Common != null) {
+            DocumentStep oDocumentStep_Common = mapToDocumentStep(oStep_Common);
+            oDocumentStep_Common.setnOrder(0L);//common step with name "_" has order 0
+            oDocumentStep_Common.setsKey_Step("_");
+            oDocumentStep_Common.setSnID_Process_Activiti(snID_Process_Activiti);
+            documentStepDao.saveOrUpdate(oDocumentStep_Common);
+            aDocumentStep.add(oDocumentStep_Common);
         }
         //process all other steps
         //first of all we filter common step with name "_" and then just convert each step from JSON to POJO
-        List<String> stepsNames = Arrays.asList(JSONObject.getNames(steps));
-        LOG.info("List of steps: {}", stepsNames);
-        stepsNames = stepsNames.stream().
-                filter(stepName -> !"_".equals(stepName))
+        List<String> asKey_Step = Arrays.asList(JSONObject.getNames(oJSON));
+        LOG.info("List of steps: {}", asKey_Step);
+        asKey_Step = asKey_Step.stream().
+                filter(sKey_Step -> !"_".equals(sKey_Step))
                 .collect(Collectors.toList());
         long i = 1L;
-        for (String stepName : stepsNames) {
-            DocumentStep step = mapToDocumentStep(steps.get(stepName));
-            step.setnOrder(i++);
-            step.setsKey_Step(stepName);
-            step.setSnID_Process_Activiti(snID_Process_Activiti);
-            documentStepDao.saveOrUpdate(step);
-            resultSteps.add(step);
+        for (String sKey_Step : asKey_Step) {
+            DocumentStep oDocumentStep = mapToDocumentStep(oJSON.get(sKey_Step));
+            oDocumentStep.setnOrder(i++);
+            oDocumentStep.setsKey_Step(sKey_Step);
+            oDocumentStep.setSnID_Process_Activiti(snID_Process_Activiti);
+            documentStepDao.saveOrUpdate(oDocumentStep);
+            aDocumentStep.add(oDocumentStep);
         }
-        LOG.info("Result list of steps: {}", resultSteps);
+        LOG.info("Result list of steps: {}", aDocumentStep);
     }
 
-    private DocumentStep mapToDocumentStep(Object singleStep) {
-        JSONObject step = (JSONObject) singleStep;
-        LOG.info("try to parse step: {}", step);
-        if (step == null) {
+    private DocumentStep mapToDocumentStep(Object oStep_JSON) {
+        JSONObject oStep = (JSONObject) oStep_JSON;
+        LOG.info("try to parse step: {}", oStep);
+        if (oStep == null) {
             return null;
         }
 
-        DocumentStep resultStep = new DocumentStep();
-        String[] groupNames = JSONObject.getNames(step);
-        List<DocumentStepSubjectRight> rights = new ArrayList<>();
-        for (String groupName : groupNames) {
-            JSONObject group = step.optJSONObject(groupName);
-            LOG.info("group for step: {}", group);
+        DocumentStep oDocumentStep = new DocumentStep();
+        String[] asKey_Group = JSONObject.getNames(oStep);
+        List<DocumentStepSubjectRight> aDocumentStepSubjectRight = new ArrayList<>();
+        for (String sKey_Group : asKey_Group) {
+            JSONObject oGroup = oStep.optJSONObject(sKey_Group);
+            LOG.info("group for step: {}", oGroup);
 
-            if (group == null) {
+            if (oGroup == null) {
                 continue;
             }
-            Boolean bWrite = (Boolean) group.opt("bWrite");
+            Boolean bWrite = (Boolean) oGroup.opt("bWrite");
             if (bWrite == null) {
-                throw new IllegalArgumentException("Group " + groupName + " hasn't property bWrite.");
+                throw new IllegalArgumentException("Group " + sKey_Group + " hasn't property bWrite.");
             }
 
-            DocumentStepSubjectRight rightForGroup = new DocumentStepSubjectRight();
-            rightForGroup.setsKey_GroupPostfix(groupName);
-            rightForGroup.setbWrite(bWrite);
+            DocumentStepSubjectRight oDocumentStepSubjectRight = new DocumentStepSubjectRight();
+            oDocumentStepSubjectRight.setsKey_GroupPostfix(sKey_Group);
+            oDocumentStepSubjectRight.setbWrite(bWrite);
 
-            Object sName = group.opt("sName");
+            Object sName = oGroup.opt("sName");
             if (sName != null) {
-                rightForGroup.setsName((String) sName);
+                oDocumentStepSubjectRight.setsName((String) sName);
             }
 
-            List<DocumentStepSubjectRightField> fields = mapToFields(group, rightForGroup);
-            rightForGroup.setDocumentStepSubjectRightFields(fields);
-            rightForGroup.setDocumentStep(resultStep);
-            LOG.info("right for step: {}", rightForGroup);
-            rights.add(rightForGroup);
+            List<DocumentStepSubjectRightField> aDocumentStepSubjectRightField = mapToFields(oGroup, oDocumentStepSubjectRight);
+            oDocumentStepSubjectRight.setDocumentStepSubjectRightFields(aDocumentStepSubjectRightField);
+            oDocumentStepSubjectRight.setDocumentStep(oDocumentStep);
+            LOG.info("right for step: {}", oDocumentStepSubjectRight);
+            aDocumentStepSubjectRight.add(oDocumentStepSubjectRight);
         }
-        resultStep.setRights(rights);
-        return resultStep;
+        oDocumentStep.setRights(aDocumentStepSubjectRight);
+        return oDocumentStep;
+    }
+
+//setDocumentStep(snID_Process_Activiti[, sKey_Step)]    
+//3.1) setDocumentStepSubjectRight(snID_Process_Activiti, sKey_GroupPostfix, bWrite) //Установить право записи, равное bWrite, для ветки к путем sKey_Step/sKey_GroupPostfix
+//3.2) cloneDocumentStepSubject(snID_Process_Activiti, sKey_GroupPostfix, sKey_GroupPostfix_New) //Клонировать ветку права записи с путем sKey_Step/sKey_GroupPostfix в ветку с путем 
+    public DocumentStepSubjectRight cloneDocumentStepSubject(String snID_Process_Activiti, String sKey_GroupPostfix, String sKey_GroupPostfix_New) {//JSONObject //Map<String, Object>
+        LOG.info("sKey_GroupPostfix={}, snID_Process_Activiti={}, sKey_GroupPostfix_New={}", sKey_GroupPostfix, snID_Process_Activiti, sKey_GroupPostfix_New);
+        List<Task> aTaskActive = oTaskService.createTaskQuery().processInstanceId(snID_Process_Activiti).active().list();
+        if (aTaskActive.size() < 1 || aTaskActive.get(0) == null) {
+            throw new IllegalArgumentException("Process with ID: " + snID_Process_Activiti + " has no active task.");
+        }
+        Task oTaskActive = aTaskActive.get(0);
+        String sID_BP = oTaskActive.getProcessDefinitionId();
+        LOG.info("sID_BP={}", sID_BP);
+        if (sID_BP != null && sID_BP.contains(":")) {
+            String[] as = sID_BP.split("\\:");
+            sID_BP = as[0];
+            LOG.info("FIX(:) sID_BP={}", sID_BP);
+        }
+        if (sID_BP != null && sID_BP.contains(".")) {
+            String[] as = sID_BP.split("\\.");
+            sID_BP = as[0];
+            LOG.info("FIX(.) sID_BP={}", sID_BP);
+        }
+
+        ProcessInstance oProcessInstance = runtimeService
+                .createProcessInstanceQuery()
+                .processInstanceId(snID_Process_Activiti)
+                .active()
+                .singleResult();
+        Map<String, Object> mProcessVariable = oProcessInstance.getProcessVariables();
+        LOG.info("mProcessVariable={}", mProcessVariable);
+        //Map<String, Object> mProcessVariable = new HashMap();
+        String snID_Task = oTaskActive.getId();
+        List<FormProperty> aProperty = oFormService.getTaskFormData(snID_Task).getFormProperties();                    
+        for (FormProperty oProperty : aProperty) {
+            mProcessVariable.put(oProperty.getId(), oProperty.getValue());
+            //String sID = oProperty.getId();
+        }
+        LOG.info("mProcessVariable(added)={}", mProcessVariable);
+        String sKey_Step_Document = (String) mProcessVariable.get("sKey_Step_Document");
+        /*if (StringUtils.isEmpty(sKey_Step_Document)) {
+            throw new IllegalStateException("There is no active Document Step! mProcessVariable=" + mProcessVariable +
+            //        " Process variable sKey_Step_Document is empty.");
+            //sKey_Step_Document="1";
+        }*/
+
+        List<DocumentStep> aDocumentStep = documentStepDao.findAllBy("snID_Process_Activiti", snID_Process_Activiti);
+        LOG.info("aDocumentStep={}", aDocumentStep);
+        
+        DocumentStep oDocumentStep_Active = aDocumentStep
+                .stream()
+                .filter(o -> sKey_Step_Document == null ? o.getnOrder().equals(1) : o.getsKey_Step().equals(sKey_Step_Document))
+                .findAny()
+                .orElse(null);
+        LOG.info("oDocumentStep_Active={}", oDocumentStep_Active);
+        if (oDocumentStep_Active == null) {
+            throw new IllegalStateException("There is no active Document Step, process variable sKey_Step_Document="
+                    + sKey_Step_Document);
+        }
+        DocumentStepSubjectRight oDocumentStepSubjectRight = new DocumentStepSubjectRight();
+        List<DocumentStepSubjectRight> aDocumentStepSubjectRight_Source = new LinkedList(oDocumentStep_Active.getRights());
+        for(DocumentStepSubjectRight oDocumentStepSubjectRight_Source : aDocumentStepSubjectRight_Source){
+            if(sKey_GroupPostfix.equals(oDocumentStepSubjectRight_Source.getsKey_GroupPostfix())){
+                oDocumentStepSubjectRight.setsKey_GroupPostfix(sKey_GroupPostfix_New);
+                oDocumentStepSubjectRight.setbWrite(oDocumentStepSubjectRight_Source.getbWrite());
+                Object sName = oDocumentStepSubjectRight_Source.getsName(); //oGroup.opt("sName");
+                if (sName != null) {
+                    oDocumentStepSubjectRight.setsName((String) sName);
+                }
+
+                //List<DocumentStepSubjectRightField> aDocumentStepSubjectRightField = mapToFields(oGroup, oDocumentStepSubjectRight);
+                List<DocumentStepSubjectRightField> aDocumentStepSubjectRightField = new LinkedList();
+                
+                for(DocumentStepSubjectRightField oDocumentStepSubjectRightField_Source : oDocumentStepSubjectRight_Source.getDocumentStepSubjectRightFields()){
+                    DocumentStepSubjectRightField oDocumentStepSubjectRightField=new DocumentStepSubjectRightField();
+                    oDocumentStepSubjectRightField.setbWrite(oDocumentStepSubjectRightField_Source.getbWrite());
+                    oDocumentStepSubjectRightField.setsMask_FieldID(oDocumentStepSubjectRightField_Source.getsMask_FieldID());
+                    oDocumentStepSubjectRightField.setDocumentStepSubjectRight(oDocumentStepSubjectRight);
+                    //oDocumentStepSubjectRightField_Source.getsMask_FieldID();
+                }
+                
+                oDocumentStepSubjectRight.setDocumentStepSubjectRightFields(aDocumentStepSubjectRightField);
+                oDocumentStepSubjectRight.setDocumentStep(oDocumentStep_Active);
+                LOG.info("right for step: {}", oDocumentStepSubjectRight);
+                aDocumentStepSubjectRight_Source.add(oDocumentStepSubjectRight);        
+                
+                oDocumentStep_Active.setRights(aDocumentStepSubjectRight_Source);
+                documentStepDao.saveOrUpdate(oDocumentStep_Active);
+            }
+            
+        }
+        return oDocumentStepSubjectRight;
     }
 
     private List<DocumentStepSubjectRightField> mapToFields(JSONObject group, DocumentStepSubjectRight rightForGroup) {
@@ -359,15 +452,23 @@ public class DocumentStepService {
         LOG.info("sLogin={}, asID_Group={}", sLogin, asID_Group);
         //Lets collect DocumentStepSubjectRight by according users groups
 
-        final String sGroupPrefix = new StringBuilder(sID_BP).append("_").toString();
+        //final String sGroupPrefix = new StringBuilder(sID_BP).append("_").toString();
 
+        
+        
+        
+        
+        
+        
+        
+        
         List<DocumentStepSubjectRight> aDocumentStepSubjectRight_Common = new LinkedList();
         if(oDocumentStep_Common!=null){
             aDocumentStepSubjectRight_Common = oDocumentStep_Common
                     .getRights()
                     .stream()
                     //.filter(o -> asID_Group.contains(new StringBuilder(sGroupPrefix).append(o.getsKey_GroupPostfix()).toString()))
-                    .filter(o -> asID_Group.contains(o.getsKey_GroupPostfix()))
+                    .filter(oRight -> asID_Group.contains(oRight.getsKey_GroupPostfix()))
                     .collect(Collectors.toList());
         }
         LOG.info("aDocumentStepSubjectRight_Common={}", aDocumentStepSubjectRight_Common);
