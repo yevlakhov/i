@@ -2589,7 +2589,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     //save curretn values to Form
     @ApiOperation(value = "saveForm", notes = "saveForm")
     @RequestMapping(value = "/saveForm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public HttpServletRequest saveForm(
+    public ResponseEntity saveForm(
             @ApiParam(value = "проперти формы", required = false) @RequestBody String sParams, HttpServletRequest req)
             throws ParseException, CommonServiceException, IOException {
         StringBuilder osRequestBody = new StringBuilder();
@@ -2619,16 +2619,21 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 LOG.error("Variable \"properties\" not found");
             }        
             LOG.info("properties = " + dates.toJSONString());
+            
+            List<String> oTypes = Arrays.asList("markers", "file", "table", "label");            
 
             org.json.simple.JSONObject result;
             Iterator<org.json.simple.JSONObject> datesIterator = dates.iterator();
             while (datesIterator.hasNext()) {
                 result = datesIterator.next();
-                values.put(result.get("id").toString(), (String) result.get("value"));
+                boolean typeInclude = oTypes.contains(result.get("type").toString());
+                if (!typeInclude && result.get("value") != null) {
+                    values.put(result.get("id").toString(), (String) result.get("value"));
+                }
             }
             formService.saveFormData(nID_Task, values);
             LOG.info("Process of update data finiched");
-            return req;
+            return JsonRestUtils.toJsonResponse(values);
         } catch (Exception e) {
             String message = "The process of update variables fail.";
             LOG.debug(message);
@@ -2646,6 +2651,8 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
      * Returns business processes which belong to a specified user
      *
      * @param sLogin - login of user in user activity
+     * @param bDocOnly
+     * @return 
      */
     @ApiOperation(value = "Получение списка бизнес процессов к которым у пользователя есть доступ", notes = "#####  ActionCommonTaskController: Получение списка бизнес процессов к которым у пользователя есть доступ #####\n\n"
             + "HTTP Context: https://test.region.igov.org.ua/wf/service/action/task/getLoginBPs?sLogin=userId\n\n"
@@ -2700,15 +2707,33 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     @Transactional
     public @ResponseBody
     List<Map<String, String>> getBusinessProcesses(
-            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
+            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin", required = true) String sLogin,
+            @ApiParam(value = "Выводить только список БП документов", required = false) @RequestParam(value = "bDocOnly", required = false, defaultValue = "true") Boolean bDocOnly
+                    )
+            
             throws IOException {
 
         //String jsonRes = JSONValue.toJSONString(oActionTaskService.getBusinessProcessesForUser(sLogin));
         //LOG.info("Result: {}", jsonRes);
-        return oActionTaskService.getBusinessProcessesOfLogin(sLogin);
+        return oActionTaskService.getBusinessProcessesOfLogin(sLogin, bDocOnly);
     }    
     
-    @ApiOperation(value = "/getProcessByLogin", notes = "##### Получение списка процессов (доступных и ууже назначеных) по логину#####\n\n")
+
+    @ApiOperation(value = "/setDocument", notes = "##### Получение списка прав у логина по документу#####\n\n")
+    @RequestMapping(value = "/setDocument", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String,Object> setDocument(@ApiParam(value = "sLogin", required = false) @RequestParam(value = "sLogin", required = false, defaultValue = "kermit") String sLogin, //String
+            @ApiParam(value = "sID_BP", required = true) @RequestParam(value = "sID_BP", required = true) String sID_BP
+    ) throws Exception {
+        //return oDocumentStepService.getDocumentStepRights(sLogin, nID_Process+"");
+        Map<String, Object> mParam = new HashMap<>();        
+        ProcessInstance oProcessInstanceChild = runtimeService.startProcessInstanceByKey(sID_BP, mParam);
+        Map<String, Object> mReturn = new HashMap<>();
+        mReturn.put("snID_Process", oProcessInstanceChild.getProcessInstanceId());
+        return mReturn;
+    }    
+
+     @ApiOperation(value = "/getProcessByLogin", notes = "##### Получение списка процессов (доступных и уже назначеных) по логину#####\n\n")
     @RequestMapping(value = "/getProcessByLogin", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     public @ResponseBody String getProcessByLogin(
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)

@@ -110,8 +110,6 @@
           console.log(t);
         }
 
-
-
         function sortUsersByAlphabet(items) {
           items.sort(function (a, b) {
             if (a.sLastName > b.sLastName) {
@@ -1096,25 +1094,34 @@
 
         TableService.init($scope.taskForm);
 
-        
         try { 
-        	if(form['oPrescription2']) {
-        		console.log("oPrescription2 exists");
+        	angular.forEach($scope.taskForm, function(item, key, obj) { 
+        		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
+        			console.log("oPrescription2 exists");
 
-        		console.log($scope.taskForm['oPrescription2'].aRow[0].aField[0].sFieldNotes + " " );
+        			if( item.aRow && typeof item.aRow[0] !== 'number' ) {
+        				console.log("oPrescription2 loaded");
+        				
+        				console.log(item.aRow[0].aField[0].sFieldLabel); 
+        			}
         		
-        		$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
-        	}
-        	else {
-        		console.log("Could not find oPrescription2"); 
-        	}
+        			//$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
+        		}
+        		else {
+        			console.log("Could not find oPrescription2"); 
+        		}
+        	}); 
         } catch( e ) { 
         	console.log("Mistake 1438 - " + e ); 
         }
-       
+        
         var inputChange = function( eventObject ) { 
         	alert( eventObject.val() );
-        }
+        } 
+
+        $scope.$on('TableFieldChanged', function() { console.console.log(this); });
+        
+        $rootScope.$on('TableFieldChanged', function() { console.log("RootScope " + this); }); 
         
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
