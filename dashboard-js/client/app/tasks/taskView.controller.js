@@ -1095,11 +1095,11 @@
         TableService.init($scope.taskForm);
 
         try { 
-        	angular.forEach($scope.taskForm, function(item, key, obj) { 
+        	forEach($scope.taskForm, function(item, key, obj) { 
         		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
         			console.log("oPrescription2 exists");
 
-        			console.log($scope.taskForm['oPrescription2'].aRow[0].aField[0].sFieldNotes + " " );
+        			console.log(item.aRow[0].aField[0].sFieldNotes + " " );
         		
         			$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
         		}
@@ -1113,8 +1113,8 @@
         
         var inputChange = function( eventObject ) { 
         	alert( eventObject.val() );
-        } 
-        
+        }
+       
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
             angular.forEach($scope.taskData.aAttachment, function (attachment) {
