@@ -550,6 +550,10 @@
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар співробітника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="asDesision" name="Прийняте рішення" type="enum" required="true">
+          <activiti:value id="sEnumYes" name="Зауваження відсутні. Підготувати дублікат"></activiti:value>
+          <activiti:value id="sEnumNo" name="Підготувати відмову"></activiti:value>
+        </activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_declar_dupl_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_declar_dupl_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_declar_dupl_valid.json')}"></activiti:formProperty>
@@ -707,7 +711,7 @@
         <activiti:formProperty id="sLawEmpComment" name="Коментар співробітника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_OutDoc" name="---------------" type="label" default="Вихідний документ   -------"></activiti:formProperty>
         <activiti:formProperty id="sID_NumberOutputDoc" name="Реєстраційний номер вихідного документу" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment2" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_declar_dupl_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_declar_dupl_req.json')}"></activiti:formProperty>
