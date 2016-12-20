@@ -1095,7 +1095,7 @@
         TableService.init($scope.taskForm);
 
         try { 
-        	forEach($scope.taskForm, function(item, key, obj) { 
+        	angular.forEach($scope.taskForm, function(item, key, obj) { 
         		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
         			console.log("oPrescription2 exists");
 
