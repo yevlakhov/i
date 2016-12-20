@@ -1099,6 +1099,11 @@
         		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
         			console.log("oPrescription2 exists");
 
+        			if( $scope.tableIsLoaded(item) ) { 
+        				console.log("oPrescription2 loaded");
+
+                console.log(item.aRow[0].aField[0].sFieldLabel + " " ); 
+        			} 
         			//console.log(item.aRow[0].aField[0].sFieldNotes + " " );
         		
         			$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
@@ -1113,8 +1118,8 @@
         
         var inputChange = function( eventObject ) { 
         	alert( eventObject.val() );
-        }
-       
+        } 
+      
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
             angular.forEach($scope.taskData.aAttachment, function (attachment) {
