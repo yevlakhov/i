@@ -34,7 +34,6 @@
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="nLossNotice" name="Копія документа, який підтверджує розміщення у ЗМІ повідомлення про втрату документа" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="nDuplApplication" name="Заява на видачу дублікату" type="file" default=" "></activiti:formProperty>
@@ -78,7 +77,6 @@
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_dupl_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
@@ -690,7 +688,6 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
