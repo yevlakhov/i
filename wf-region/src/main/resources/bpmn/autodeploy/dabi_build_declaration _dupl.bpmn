@@ -74,7 +74,7 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -117,7 +117,7 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -160,7 +160,7 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -209,7 +209,7 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea" writable="false"></activiti:formProperty>
@@ -242,7 +242,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
@@ -385,7 +385,7 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -420,7 +420,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
@@ -519,7 +519,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
@@ -619,7 +619,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
@@ -672,7 +672,7 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реавізити документа   -------"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
@@ -709,7 +709,22 @@
     <sequenceFlow id="flow59" sourceRef="usertask_step14" targetRef="parallelgateway5"></sequenceFlow>
     <sequenceFlow id="flow60" sourceRef="boundarytimer4" targetRef="usertask_step8.1_red"></sequenceFlow>
     <sequenceFlow id="flow61" sourceRef="boundarytimer4" targetRef="usertask_step8.2_red"></sequenceFlow>
-    <userTask id="usertask1" name="CheckAssigneeGroup" activiti:candidateGroups="kyiv_dabi_doc"></userTask>
+    <userTask id="usertask1" name="CheckAssigneeGroup" activiti:candidateGroups="kyiv_dabi_doc">
+      <extensionElements>
+        <activiti:formProperty id="sResult" name="Виконавець - начальник відділу?" type="string"></activiti:formProperty>
+        <activiti:taskListener event="create" delegateExpression="${checkUserGroup}">
+          <activiti:field name="sGroupListener">
+            <activiti:expression><![CDATA[kyiv_dabi_permit_doc_boss]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="sUsernameListener">
+            <activiti:expression><![CDATA[${sLoginAsignee_step6}]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="resultListener">
+            <activiti:expression><![CDATA[sResult]]></activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>        
+    </userTask>
     <boundaryEvent id="boundarytimer6" name="Timer" attachedToRef="usertask1" cancelActivity="true">
       <timerEventDefinition>
         <timeDuration>PT5S</timeDuration>
