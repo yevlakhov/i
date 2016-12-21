@@ -8,12 +8,12 @@
       'taskForm', 'iGovNavbarHelper', 'Modal', 'Auth', 'defaultSearchHandlerService',
       '$state', 'stateModel', 'ValidationService', 'FieldMotionService', 'FieldAttributesService', '$rootScope',
       'lunaService', 'TableService', 'autocompletesDataFactory', 'documentRights', 'documentLogins', '$filter',
-      'processSubject',
+      'processSubject', '$document', 
       function ($scope, $stateParams, taskData, oTask, PrintTemplateService, iGovMarkers, tasks, user,
                 taskForm, iGovNavbarHelper, Modal, Auth, defaultSearchHandlerService,
                 $state, stateModel, ValidationService, FieldMotionService, FieldAttributesService, $rootScope,
                 lunaService, TableService, autocompletesDataFactory, documentRights, documentLogins, $filter,
-                processSubject) {
+                processSubject, $document) {
         var defaultErrorHandler = function (response, msgMapping) {
           defaultSearchHandlerService.handleError(response, msgMapping);
           if ($scope.taskForm) {
@@ -36,7 +36,7 @@
         function getObjFromTaskFormById(id) {
           if(id == null) return null;
           for (var i = 0; i < taskForm.length; i++) {
-            if (taskForm[i].id && taskForm[i].id.includes(id)) {
+            if (taskForm[i].id && taskForm[i].id.includes && taskForm[i].id.includes(id)) {
               return taskForm[i];
             }
           }
@@ -1119,8 +1119,10 @@
         	alert( eventObject.val() );
         } 
 
-        $scope.$on('TableFieldChanged', function() { console.console.log(this); });
-        
+        $document.on('TableFieldChanged', function() { console.log("DocumentScope " + this) }); 
+
+        $scope.$on('TableFieldChanged', function() { console.log(this); });
+
         $rootScope.$on('TableFieldChanged', function() { console.log("RootScope " + this); }); 
         
         var idMatch = function () {
