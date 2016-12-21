@@ -38,7 +38,7 @@
                    ng-required="field.required"
                    ng-model="field.default"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-change="$broadcast('TableFieldChanged')"
+                   ng-click="$broadcast('TableFieldChanged')"
                    type="text">
             <input class="inputs-in-table"
                    ng-if='field.hasOwnProperty("value")'
@@ -47,7 +47,7 @@
                    ng-required="field.required"
                    ng-model="field.value"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-change="$broadcast('TableFieldChanged')" 
+                   ng-click="$broadcast('TableFieldChanged')" 
                    type="text">
           </div>
 
