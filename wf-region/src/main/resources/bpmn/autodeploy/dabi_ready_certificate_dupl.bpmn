@@ -544,7 +544,7 @@
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар співробітника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asDesision" name="Прийняте рішення" type="enum" required="true">
+        <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" required="true">
           <activiti:value id="sEnumYes" name="Зауваження відсутні. Підготувати дублікат"></activiti:value>
           <activiti:value id="sEnumNo" name="Підготувати відмову"></activiti:value>
         </activiti:formProperty>
