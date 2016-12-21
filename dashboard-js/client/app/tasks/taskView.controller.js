@@ -1119,8 +1119,10 @@
         	alert( eventObject.val() );
         } 
 
-        $scope.$on('TableFieldChanged', function() { console.console.log(this); });
-        
+        $document.on('TableFieldChanged', function() { console.log("DocumentScope " + this) }); 
+
+        $scope.$on('TableFieldChanged', function() { console.log(this); });
+
         $rootScope.$on('TableFieldChanged', function() { console.log("RootScope " + this); }); 
         
         var idMatch = function () {
