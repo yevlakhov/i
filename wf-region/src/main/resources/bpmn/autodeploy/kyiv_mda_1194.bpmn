@@ -579,11 +579,17 @@ execution.setVariable('sNameWork', per1)</script>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow59" sourceRef="boundarytimer3" targetRef="usertask13_red"></sequenceFlow>
-    <userTask id="usertask12" name="Upload Files" activiti:candidateGroups="kyiv_dabi_doc"></userTask>
+    <userTask id="usertask12" name="Upload Files" activiti:candidateGroups="kyiv_dabi_doc">
+      <extensionElements>
+        <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
+        <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
+        </activiti:taskListener>
+      </extensionElements>        
+    </userTask>
     <sequenceFlow id="flow60" sourceRef="startevent1" targetRef="usertask12"></sequenceFlow>
     <boundaryEvent id="boundarytimer4" name="Timer" attachedToRef="usertask12" cancelActivity="true">
       <timerEventDefinition>
-        <timeDuration>PR5S</timeDuration>
+        <timeDuration>PT5S</timeDuration>
       </timerEventDefinition>
     </boundaryEvent>
     <sequenceFlow id="flow61" sourceRef="boundarytimer4" targetRef="parallelgateway1"></sequenceFlow>
