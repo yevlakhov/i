@@ -28,9 +28,9 @@
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectAdress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_vis" name="Замовник - фізична або юридична особа" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis0.json')}"></activiti:formProperty>
+        <!--activiti:formProperty id="marker_vis" name="Замовник - фізична або юридична особа" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis0.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_req" name="Замовник - фізична або юридична особа" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req0.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_valid.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_valid.json')}"></activiti:formProperty!-->
         <activiti:formProperty id="marker_lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_lines.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
