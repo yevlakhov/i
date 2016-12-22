@@ -28,10 +28,10 @@
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectAdress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <!--activiti:formProperty id="marker_vis" name="Замовник - фізична або юридична особа" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis0.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_vis" name="Замовник - фізична або юридична особа" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis0.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_req" name="Замовник - фізична або юридична особа" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req0.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_valid.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_lines.json')}"></activiti:formProperty!-->
+        <activiti:formProperty id="marker_lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_lines.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
     <parallelGateway id="parallelgateway1" name="Parallel Gateway"></parallelGateway>
@@ -51,7 +51,7 @@
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="phone" name="Контактний телефон" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeChange" name="Зміна даних в Декларації про" type="enum" writable="false">
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
@@ -80,7 +80,7 @@
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="phone" name="Контактний телефон" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeChange" name="Зміна даних в Декларації про" type="enum" writable="false">
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
@@ -109,7 +109,7 @@
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="phone" name="Контактний телефон" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeChange" name="Зміна даних в Декларації про" type="enum" writable="false">
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
@@ -479,7 +479,22 @@ execution.setVariable('sNameWork', per1)</script>
     </sequenceFlow>
     <parallelGateway id="parallelgateway4" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow45" sourceRef="usertask3" targetRef="parallelgateway4"></sequenceFlow>
-    <userTask id="usertask10" name="CheckAssigneeGroup" activiti:candidateGroups="kyiv_dabi_doc"></userTask>
+    <userTask id="usertask10" name="CheckAssigneeGroup" activiti:candidateGroups="kyiv_dabi_doc">
+      <extensionElements>
+        <activiti:formProperty id="sResult" name="Виконавець - начальник відділу?" type="string"></activiti:formProperty>
+        <activiti:taskListener event="create" delegateExpression="${checkUserGroup}">
+          <activiti:field name="sGroupListener">
+            <activiti:expression><![CDATA[kyiv_dabi_permit_doc_boss]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="sUsernameListener">
+            <activiti:expression><![CDATA[${sLoginAsignee_step6}]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="resultListener">
+            <activiti:expression><![CDATA[sResult]]></activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+      </extensionElements>       
+    </userTask>
     <sequenceFlow id="flow46" sourceRef="parallelgateway4" targetRef="usertask10"></sequenceFlow>
     <sequenceFlow id="flow47" sourceRef="parallelgateway4" targetRef="usertask6"></sequenceFlow>
     <sequenceFlow id="flow48" sourceRef="usertask6" targetRef="usertask9"></sequenceFlow>
