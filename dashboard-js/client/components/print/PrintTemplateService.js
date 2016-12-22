@@ -22,75 +22,75 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
       }
 
       var templates = [];
-      var topItems = []; 
-      
+      var topItems = [];
+
       var markerExists = false;
 
       for(var i = 0; i < form.length; i++) {
-        if (form[i].id.includes('marker') && form[i].value.includes('ShowFieldsOn')){
+        if (form[i].id && form[i].id.includes('marker') && form[i].value.includes('ShowFieldsOn')){
           markerExists = true;
           break;
         }
       }
 
-      try { 
+      try {
 
-        for(var i = 0; i < form.length; i++) { 
+        for(var i = 0; i < form.length; i++) {
 
-           if( form[i].type == 'table' ) { 
+           if( form[i].type == 'table' ) {
 
-              console.log(  " #1438 " + form[i].id ); 
+              console.log(  " #1438 " + form[i].id );
 
-			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
-			    	  console.log( " #1438 PrintForms count " + prints.length ); 
-             
-			    	  for (var j = 0; j < prints.length; j++) { 
+			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id
+			    	  console.log( " #1438 PrintForms count " + prints.length );
+
+			    	  for (var j = 0; j < prints.length; j++) {
 			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
 
 			    		  var selector = ".inputs-in-table";
 
 			    		  if( prints[j].sTitleField ) {
 
-                  // search sTitleField column inputs 
-			    			  selector = selector + ' [name^="' + prints[j].sTitleField + '"]'; 
+                  // search sTitleField column inputs
+			    			  selector = selector + ' [name^="' + prints[j].sTitleField + '"]';
 
-                  var item = { 
+                  var item = {
 
-                    id: form[i].id, 
-                    displayTemplate: prints[j].sName, 
+                    id: form[i].id,
+                    displayTemplate: prints[j].sName,
                     type: "markers",
-                    value: "{ tableId: form[i].id, printFormId: prints[j] }", 
+                    value: "{ tableId: form[i].id, printFormId: prints[j] }",
 
-                  }; 
+                  };
 
-                  topItems.unshift( item ); 
+                  topItems.unshift( item );
 
                   console.log ( selector + " " + $(selector).length + " " + topItems.length);
 			    		  }
-                else { 
+                else {
 
-                  // just PrintForm sName 
-                  var item = { 
+                  // just PrintForm sName
+                  var item = {
 
-                    id: form[i].id, 
-                    displayTemplate: prints[j].sName, 
+                    id: form[i].id,
+                    displayTemplate: prints[j].sName,
                     type: "markers",
-                    value: "{ tableId: form[i].id, printFormId: prints[j] }", 
+                    value: "{ tableId: form[i].id, printFormId: prints[j] }",
 
-                  }; 
-                  
-                  topItems.unshift( item ); 
-                  
+                  };
+
+                  topItems.unshift( item );
+
                   console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
-                } 
+                }
 
-              }  
+              }
            }
         }
-            
+
       }
-      catch(e) { 
-        console.log( "Mistake " + e ); 
+      catch(e) {
+        console.log( "Mistake " + e );
       }
 
       if (markerExists){
@@ -130,9 +130,9 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         });
       }
 
-      if(topItems.length > 0) { 
-        angular.forEach( topItems, function( item ) { templates.unshift(item); } ); 
-      } 
+      if(topItems.length > 0) {
+        angular.forEach( topItems, function( item ) { templates.unshift(item); } );
+      }
 
       templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
 
