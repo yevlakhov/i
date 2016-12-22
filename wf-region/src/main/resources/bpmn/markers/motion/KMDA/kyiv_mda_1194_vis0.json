@@ -5,7 +5,7 @@
     "sCondition":"[sCond] == 'sEnumIndividual' || [sCond] == 'фізична особа'"
   },
   "ShowFieldsOnCondition_AppLegal" : {"sNote":["замовник - юрособа"],
-    "aField_ID":["","","","",""],
+    "aField_ID":["sTypeCompany","sNameCompany","sAddressCompany","sInnCompany"],
     "asID_Field":{"sCond":"asRefEntity"},
     "sCondition":"[sCond]=='sEnumCompany'||[sCond]=='юридична особа'"
   }
