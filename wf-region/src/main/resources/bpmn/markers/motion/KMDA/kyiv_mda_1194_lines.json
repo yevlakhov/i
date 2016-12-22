@@ -22,6 +22,14 @@
     "Line_6": {
       "aElement_ID": ["tNonLivingArea"],
       "sValue": "Нежитлові приміщення"        
-    }       
+    },
+    "Line_7": {
+      "aElement_ID": ["sLastName","sTypeCompany"],
+      "sValue": "Замовник"        
+    },
+    "Line_8": {
+      "aElement_ID": ["sObjectName"],
+      "sValue": "Об’єкт будівництва"        
+    }
     }
 }
