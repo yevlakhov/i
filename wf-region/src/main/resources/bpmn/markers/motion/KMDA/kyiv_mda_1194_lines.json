@@ -28,7 +28,7 @@
       "sValue": "Замовник"        
     },
     "Line_8": {
-      "aElement_ID": ["sObjectName"],
+      "aElement_ID": ["sObjectName","asTypeBuilding"],
       "sValue": "Об’єкт будівництва"        
     }
     }

@@ -166,6 +166,8 @@
           <activiti:value id="sEnumRestoration" name="Реставрація"></activiti:value>
           <activiti:value id="sEnumOverhaul" name="Капітальний ремонт"></activiti:value>
         </activiti:formProperty>
+        <activiti:formProperty id="sObjectCode" name="Код об’єкта (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string"></activiti:formProperty>
         <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
@@ -187,8 +189,6 @@
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sPIBprevious" name="ПІБ попереднього замовника" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sObjectCode" name="Код об’єкта (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionPib" name="ПІБ особи, яка здійснює технічний нагляд" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionCertificate" name="Серія та номер кваліфікаційного сертифікату особи, яка здійснює технічний нагляд" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionPhone" name="Номер телефону особи, яка здійснює технічний нагляд" type="string" default="+380" required="true"></activiti:formProperty>
@@ -198,12 +198,11 @@
           <activiti:value id="sEnumIndividual" name="Фізична особа"></activiti:value>
           <activiti:value id="sEnumCompany" name="Юридична особа"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sProjectPibApprove" name="ПІБ особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sProjectPositionApprove" name="Посада особи, яка затвердила проект" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sProjectDocDate" name="Дата затвердження проекту або назва, номер та дата видачі розпорядчого документу" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sProjectDocName" name="Назва розпорядчого документу по затвердженню проекту" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sProjectDocNumber" name="Номер розпорядчого документу по затвердженню проекту" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sProjectDocDate" name="Дата розпорядчого документу по затвердженню проекту" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sProjectPibApprove" name="ПІБ особи, яка затвердила проект" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sProjectPositionApprove" name="Посада особи, яка затвердила проект" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sProjectDocDate" name="Дата затвердження проекту або дата розпорядчого документу" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sProjectDocName" name="Назва розпорядчого документу по затвердженню проекту" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sProjectDocNumber" name="Номер розпорядчого документу по затвердженню проекту" type="string"></activiti:formProperty>
         <activiti:formProperty id="tProjectPersons" name="Особи, під керівництвом яких розроблена проектна документація" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tRespPersProject.json')}"></activiti:formProperty>
         <activiti:formProperty id="sProjectDocExpertName" name="Найменування експертої організації" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sProjectDocExpertInn" name="Код згідно з ЄДРПОУ експертної організації" type="string" required="true"></activiti:formProperty>
