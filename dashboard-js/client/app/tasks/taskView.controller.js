@@ -1094,8 +1094,6 @@
 
         TableService.init($scope.taskForm);
 
-        $scope.$digest(); 
-        
         try { 
         	angular.forEach($scope.taskForm, function(item, key, obj) { 
         		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
