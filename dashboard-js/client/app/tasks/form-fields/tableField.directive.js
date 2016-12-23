@@ -3,7 +3,7 @@ angular.module('dashboardJsApp')
   .directive('tableField', function() {
     return {
       restrict: 'E',
-      controller: ['$scope', function TableFieldController( $scope ) {
+      controller: ['$scope', '$rootScope', function TableFieldController( $scope, $rootScope ) {
         
         $scope.broadcast = function(eventName, obj) { 
 
