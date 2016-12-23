@@ -1119,11 +1119,11 @@
         	alert( eventObject.val() );
         } 
 
-        $document.on('TableFieldChanged', function() { console.log("DocumentScope " + this) }); 
+        $rootScope.$on('TableFieldChanged', function() { console.log("RootScope " + this); }); 
 
         $scope.$on('TableFieldChanged', function() { console.log(this); });
-
-        $rootScope.$on('TableFieldChanged', function() { console.log("RootScope " + this); }); 
+        
+        $document.on('TableFieldChanged', function() { console.log("DocumentScope " + this); }); 
         
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {

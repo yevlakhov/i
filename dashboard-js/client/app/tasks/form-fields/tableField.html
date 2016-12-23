@@ -38,7 +38,8 @@
                    ng-required="field.required"
                    ng-model="field.default"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-chagne="$broadcast('TableFieldChanged')"
+                   ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                   ng-click="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
                    type="text">
             <input class="inputs-in-table"
                    ng-if='field.hasOwnProperty("value")'
@@ -47,7 +48,8 @@
                    ng-required="field.required"
                    ng-model="field.value"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-change="$broadcast('TableFieldChanged')" 
+                   ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
+                   ng-click="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
                    type="text">
           </div>
 
@@ -58,7 +60,8 @@
                     ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
                     ng-options="oEnumValue.id as oEnumValue.name for oEnumValue in field.a"
                     ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                    ng-change="$broadcast('TableFieldChanged')"
+                    ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                    ng-click="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
                     class="inputs-in-table">
             </select>
           </div>
@@ -71,7 +74,7 @@
                    ng-model="field.default"
                    class="inputs-in-table"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-change="$broadcast('TableFieldChanged')" 
+                   ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
                    type="number">
             <input name="{{field.id + rowIndex}}"
                    ng-if="field.hasOwnProperty('value')"
@@ -80,7 +83,7 @@
                    ng-model="field.value"
                    class="inputs-in-table"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-change="$broadcast('TableFieldChanged')" 
+                   ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
                    type="number">
           </div>
 
@@ -92,7 +95,7 @@
                  ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
                  ng-required="field.required"
                  ng-model="field.props.value"
-                 ng-change="$broadcast('TableFieldChanged')"
+                 ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
                  format="DD/MM/YYYY"/>
           </div>
 

@@ -7,7 +7,7 @@
   "RequiredFieldsOnCondition_2":{"sNote":["підготовчі роботи"],
     "aField_ID":["sDateRegistrationPrepare"],
     "asID_Field":{"sCond":"asTypeChange"},
-    "sCondition":"[sCond]='sEnumPrepare'"
+    "sCondition":"[sCond]=='sEnumPrepare'"
   },
   "RequiredFieldsOnCondition_3" : {"sNote":["виправлення технічної помилки і будівельні"],
     "aField_ID":["sSupervisionPib","sSupervisionCertificate","sSupervisionPhone","sProjectDocExpertName","sProjectDocExpertInn",
