@@ -154,6 +154,7 @@
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAdress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sCommentBossPermit" name="Коментар начальника управління дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string"></activiti:formProperty>
@@ -248,7 +249,6 @@
         <activiti:formProperty id="sDocChangeMessage" name="Повідомлення про зміну даних у зареєстрованій декларації про початок виконання підготовчих/будівельних робіт" type="file"></activiti:formProperty>
         <activiti:formProperty id="sDocDeclarationBuild" name="Декларація про початок будівельних робіт" type="file"></activiti:formProperty>
         <activiti:formProperty id="sDocDeclarationPrepare" name="Декларація про початок підготовчих робіт" type="file"></activiti:formProperty>
-        <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmplPermitComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="decide" name="Прийняте рішення" type="enum" required="true">
           <activiti:value id="accept" name="Надана повна інформація. Зареєструвати у реєстрі ДАБІ"></activiti:value>
@@ -288,93 +288,79 @@
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="phone" name="Контактний телефон" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeChange" name="Зміна даних в Декларації про" type="enum" writable="false">
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
           <activiti:value id="sEnumBuild" name="будівельні роботи"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sNumberDeclaration" name="Номер зареєстрованої Декларації" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string"  writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string"  writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sNumberDeclaration" name="Номер зареєстрованої Декларації" type="string"  writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel1" name=" " type="label" default="---- Причини зміни даних ----"></activiti:formProperty>
-        <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum" writable="false">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange2" name="Змінено осіб, відповідальні за здійснення авторського нагляду; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange2" name="Змінено осіб, відповідальні за здійснення авторського нагляду; ;sID_CheckboxTrue=yes" type="enum" writable="false">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange3" name="Змінено осіб, відповідальних за здійснення технічного нагляду; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange3" name="Змінено осіб, відповідальних за здійснення технічного нагляду; ;sID_CheckboxTrue=yes" type="enum" writable="false">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange4" name="Змінено підрядника/генерального підрядника; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange4" name="Змінено підрядника/генерального підрядника; ;sID_CheckboxTrue=yes" type="enum" writable="false">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange5" name="Виправлення технічної помилки; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange5" name="Виправлення технічної помилки; ;sID_CheckboxTrue=yes" type="enum" writable="false">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sPIBprevious" name="ПІБ попереднього замовника" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sPIBprevious" name="ПІБ попереднього замовника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAdress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asTypeBuilding" name="Вид будівництва" type="enum" required="true">
+        <activiti:formProperty id="asTypeBuilding" name="Вид будівництва" type="enum" writable="false">
           <activiti:value id="sEnumNew" name="Нове будівництво"></activiti:value>
           <activiti:value id="sEnumReconstruction" name="Реконструкція"></activiti:value>
           <activiti:value id="sEnumRe" name="Технічне переоснащення діючих підприємств"></activiti:value>
           <activiti:value id="sEnumRestoration" name="Реставрація"></activiti:value>
           <activiti:value id="sEnumOverhaul" name="Капітальний ремонт"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sObjectCode" name="Код об’єкта (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sChangeNameDoc" name="Найменування документу, що є підставою для зміни даних" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sChangeDateDoc" name="Дата видачі та номер документу, що є підставою для зміни даних" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sChangeWhoDoc" name="Ким виданий документ, що є підставою для зміни даних" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sDocLetter" name="Лист" type="file"></activiti:formProperty>
-        <activiti:formProperty id="sDocDeclaration" name="Декларація, в яку необхідно внести зміни, підписана ЕЦП" type="file"></activiti:formProperty>
-        <activiti:formProperty id="sDocZayava" name="Заява про зміну даних" type="file"></activiti:formProperty>
-        <activiti:formProperty id="sDocChangeMessage" name="Повідомлення про зміну даних у зареєстрованій декларації про початок виконання підготовчих/будівельних робіт" type="file"></activiti:formProperty>
-        <activiti:formProperty id="sDocDeclarationBuild" name="Декларація про початок будівельних робіт" type="file"></activiti:formProperty>
-        <activiti:formProperty id="sDocDeclarationPrepare" name="Декларація про початок підготовчих робіт" type="file"></activiti:formProperty>
-        <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер документообігу АСКОД" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sObjectCode" name="Код об’єкта (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sChangeNameDoc" name="Найменування документу, що є підставою для зміни даних" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sChangeDateDoc" name="Дата видачі та номер документу, що є підставою для зміни даних" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sChangeWhoDoc" name="Ким виданий документ, що є підставою для зміни даних" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sEmplPermitComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="sCommentBossPermit" name="Коментар начальника управління дозвільних документів" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="decide" name="Прийняте рішення" type="enum" required="true">
+        <activiti:formProperty id="sEmplPermitComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sCommentBossPermit" name="Коментар начальника управління дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="decide" name="Прийняте рішення" type="enum"  writable="false">
           <activiti:value id="accept" name="Надана повна інформація. Зареєструвати у реєстрі ДАБІ"></activiti:value>
           <activiti:value id="reject" name="Відправити на доопрацювання. Підготувати інформаційний лист."></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="comment" name="Причина відмови" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="sID_numberDABI" name="Реєстраційний номер з реєстру ДАБІ" type="string"></activiti:formProperty>
+        <activiti:formProperty id="comment" name="Причина відмови" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sID_numberDABI" name="Реєстраційний номер з реєстру ДАБІ" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_numberOutgoing" name="Реєстраційний номер вихідного документу" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_dateOutgoing" name="Дата реєстрації вихідного документу" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="markers3" name="Якщо підготовчі роботи" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_3&quot;:{&quot;aField_ID&quot;:[&quot;sDateRegistrationBuild&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;asTypeChange&quot;},&quot;sCondition&quot;:&quot;[sClient] == 'sEnumPrepare' || [sClient] == 'підготовчі роботи'&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers4" name="Якщо будівельні роботи" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_4&quot;:{&quot;aField_ID&quot;:[&quot;sDateRegistrationPrepare&quot;,&quot;saReasonChange3&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;asTypeChange&quot;},&quot;sCondition&quot;:&quot;[sClient] == 'sEnumBuild' || [sClient] == 'будівельні роботи' &quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers5" name="Якщо право на будівництво передано іншому замовникові" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_5&quot;:{&quot;aField_ID&quot;:[&quot;sPIBprevious&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saReasonChange1&quot;},&quot;sCondition&quot;:&quot;[sClient] == 'yes' || [sClient] == 'так' &quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers6" name="Якщо виправлення технічної помилки і будівельні" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_5&quot;:{&quot;aField_ID&quot;:[&quot;sSupervisionPib&quot;,&quot;sSupervisionCertificate&quot;,&quot;sSupervisionPhone&quot;,&quot;saProjectPersonCount&quot;, &quot;sProjectDocExpertName&quot;,&quot;sProjectDocExpertInn&quot;,&quot;sProjectDocExpertPib&quot;,&quot;sProjectDocExpertCertificate&quot;,&quot;sArchitectPib&quot;,&quot;sNumberConditions&quot;,&quot;sNameOrganConditions&quot;,&quot;sDateConditions&quot;,&quot;sObjectTotalArea&quot;,&quot;sObjectHouseFloor&quot;,&quot;sObjectHouseAptQuantity&quot;,&quot;sObjectHouseAptTotalArea&quot;,&quot;sObjectHouseAptLiveArea&quot;,  &quot;sObjectHouseIntegratedTotalArea&quot;,&quot;sObjectHouseNonLiveArea&quot;,&quot;sObjectHouseNonLiveName&quot;,&quot;sObjectHouseNonLiveFunction&quot;, &quot;sObjectHouseNonLiveTotalArea&quot;,&quot;sDocDeclarationBuild&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saReasonChange5&quot;,&quot;sClient1&quot;:&quot;asTypeChange&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'yes' || [sClient] == 'так') &amp;&amp; ([sClient1] == 'sEnumBuild' || [sClient1] == 'будівельні роботи')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers7" name="Якщо виправлення технічної помилки" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_7&quot;:{&quot;aField_ID&quot;:[&quot;sProjectOrganizationName&quot;,&quot;sProjectOrganizationInn&quot;,&quot;asLandUsed&quot;,&quot;landNumb&quot;,&quot;sDocDeclaration&quot;,&quot;sDocZayava&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saReasonChange5&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'yes' || [sClient] == 'так')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers8" name="Якщо виправлення технічної помилки і фіз.особа яка виконала проект" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_8&quot;:{&quot;aField_ID&quot;:[&quot;sProjectPibApprove&quot;,&quot;sProjectPositionApprove&quot;,&quot;sProjectDocDate&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saReasonChange5&quot;,&quot;sClient1&quot;:&quot;asProjectApprove&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'yes' || [sClient] == 'так') &amp;&amp; ([sClient1] == 'sEnumIndividual' || [sClient1] == 'Фізична особа')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers9" name="Якщо виправлення технічної помилки і юр.особа яка виконала проект" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_9&quot;:{&quot;aField_ID&quot;:[&quot;sProjectDocName&quot;,&quot;sProjectDocNumber&quot;,&quot;sProjectDocDate&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saReasonChange5&quot;,&quot;sClient1&quot;:&quot;asProjectApprove&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'yes' || [sClient] == 'так') &amp;&amp; ([sClient1] == 'sEnumCompany' || [sClient1] == 'Юридична особа')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers10" name="Якщо обрано одну відповідальну особу" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_10&quot;:{&quot;aField_ID&quot;:[&quot;sProjectPersonPosition1&quot;,&quot;sProjectPersonPib1&quot;,&quot;sProjectPersonPhone1&quot;,&quot;sProjectPersonDocName1&quot;,&quot;sProjectPersonDocDate1&quot;,&quot;sProjectPersonDocNumber1&quot;,&quot;sProjectPersonCertificate1&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saProjectPersonCount&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'sEnumOne' || [sClient] == 'одна')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers11" name="Якщо обрано дві відповідальні особи" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_11&quot;:{&quot;aField_ID&quot;:[&quot;sProjectPersonPosition1&quot;,&quot;sProjectPersonPib1&quot;,&quot;sProjectPersonPhone1&quot;,&quot;sProjectPersonDocName1&quot;,&quot;sProjectPersonDocDate1&quot;,&quot;sProjectPersonDocNumber1&quot;,&quot;sProjectPersonCertificate1&quot;,&quot;sProjectPersonPosition2&quot;,&quot;sProjectPersonPib2&quot;,&quot;sProjectPersonPhone2&quot;,&quot;sProjectPersonDocName2&quot;,&quot;sProjectPersonDocDate2&quot;,&quot;sProjectPersonDocNumber2&quot;,&quot;sProjectPersonCertificate2&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saProjectPersonCount&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'sEnumTwo' || [sClient] == 'дві')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers11" name="Якщо обрано три відповідальні особи" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_11&quot;:{&quot;aField_ID&quot;:[&quot;sProjectPersonPosition1&quot;,&quot;sProjectPersonPib1&quot;,&quot;sProjectPersonPhone1&quot;,&quot;sProjectPersonDocName1&quot;,&quot;sProjectPersonDocDate1&quot;,&quot;sProjectPersonDocNumber1&quot;,&quot;sProjectPersonCertificate1&quot;,&quot;sProjectPersonPosition2&quot;,&quot;sProjectPersonPib2&quot;,&quot;sProjectPersonPhone2&quot;,&quot;sProjectPersonDocName2&quot;,&quot;sProjectPersonDocDate2&quot;,&quot;sProjectPersonDocNumber2&quot;,&quot;sProjectPersonCertificate2&quot;,&quot;sProjectPersonPosition3&quot;,&quot;sProjectPersonPib3&quot;,&quot;sProjectPersonPhone3&quot;,&quot;sProjectPersonDocName3&quot;,&quot;sProjectPersonDocDate3&quot;,&quot;sProjectPersonDocNumber3&quot;,&quot;sProjectPersonCertificate3&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saProjectPersonCount&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'sEnumThree' || [sClient] == 'три')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers12" name="Якщо виправлення технічної помилки  або змінено підрядника" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_12&quot;:{&quot;aField_ID&quot;:[&quot;sContractor&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saReasonChange5&quot;,&quot;sClient1&quot;:&quot;saReasonChange4&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'yes' || [sClient] == 'так') || ([sClient1] == 'yes' || [sClient1] == 'так')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers13" name="Якщо ген.підрядник фіз.особа" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_13&quot;:{&quot;aField_ID&quot;:[&quot;sContractorPib&quot;,&quot;sContractorPassport&quot;,&quot;sContractorAddress&quot;,&quot;sContractorInn&quot;],&quot;asID_Field&quot;:{&quot;sClient1&quot;:&quot;sContractor&quot;},&quot;sCondition&quot;:&quot;([sClient1] == 'sEnumIndividual' || [sClient1] == 'Фізична особа')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers14" name="Якщо ген.підрядник юр.особа" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_14&quot;:{&quot;aField_ID&quot;:[&quot;sContractorOrganizationType&quot;,&quot;sContractorOrganizationName&quot;,&quot;sContractorOrganizationAddress&quot;,&quot;sContractorOrganizationInn&quot;,&quot;sContractorOrganizationPhone&quot;],&quot;asID_Field&quot;:{&quot;sClient1&quot;:&quot;sContractor&quot;},&quot;sCondition&quot;:&quot;([sClient1] == 'sEnumCompany' || [sClient1] == 'Юридична особа')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers15" name="Якщо  право власності" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_15&quot;:{&quot;aField_ID&quot;:[&quot;sObjectOwnerNumber&quot;],&quot;asID_Field&quot;:{&quot;sClient1&quot;:&quot;asLandUsed&quot;},&quot;sCondition&quot;:&quot;([sClient1] == 'sEnumObjectOwner' || [sClient1] == 'Документ, що посвідчує право власності чи користування земельною ділянкою')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers16" name="Якщо договір суперфіція" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_16&quot;:{&quot;aField_ID&quot;:[&quot;sObjectOwnerSuperfic&quot;],&quot;asID_Field&quot;:{&quot;sClient1&quot;:&quot;asLandUsed&quot;},&quot;sCondition&quot;:&quot;([sClient1] == 'sEnumSuperfic' || [sClient1] == 'Договір суперфіцію')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers25" name="Якщо змінено підрядника" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_25&quot;:{&quot;aField_ID&quot;:[&quot;sDocLetter&quot;],&quot;asID_Field&quot;:{&quot;sClient1&quot;:&quot;saReasonChange4&quot;},&quot;sCondition&quot;:&quot;([sClient1] == 'yes' || [sClient1] == 'так')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers26" name="Якщо право на будівництво передано іншому замовникові" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_26&quot;:{&quot;aField_ID&quot;:[&quot;sDocChangeMessage&quot;],&quot;asID_Field&quot;:{&quot;sClient1&quot;:&quot;saReasonChange1&quot;},&quot;sCondition&quot;:&quot;([sClient1] == 'yes' || [sClient1] == 'так')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers27" name="Якщо виправлення технічної помилки і підготовчі" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_27&quot;:{&quot;aField_ID&quot;:[&quot;sDocDeclarationPrepare&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saReasonChange5&quot;,&quot;sClient1&quot;:&quot;asTypeChange&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'yes' || [sClient] == 'так') &amp;&amp; ([sClient1] == 'sEnumPrepare' || [sClient1] == 'підготовчі роботи')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers28" name="Якщо рішення позитивне" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_28&quot;:{&quot;aField_ID&quot;:[&quot;sDocDeclarationPrepare&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;decide&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'accept' || [sClient] == 'Надана повна інформація. Зареєструвати у реєстрі ДАБІ')&quot;}}}"></activiti:formProperty>
-        <activiti:formProperty id="markers29" name="Якщо рішення негативне" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_29&quot;:{&quot;aField_ID&quot;:[&quot;sDocDeclarationPrepare&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;decide&quot;},&quot;sCondition&quot;:&quot;([sClient] == 'reject' || [sClient] == 'Відправити на доопрацювання. Підготувати інформаційний лист.')&quot;}}}"></activiti:formProperty>
+        <activiti:formProperty id="marker_vis0" name="Замовник - фізична або юридична особа" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis0.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_vis1" name="vis1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_vis2" name="vis2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis2.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_req1" name="req1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_req2" name="req2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req2.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_lines.json')}"></activiti:formProperty>
         <activiti:formProperty id="sTextLetterPositive" name="текст листа якщо позитивне рішення" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sTextLetterNegative" name="текст листа якщо негативне рішення" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sNameWork" name="назва робіт у лист" type="invisible"></activiti:formProperty>
+        <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
+          <activiti:field name="aFieldInheritedAttachmentID">
+            <activiti:expression><![CDATA[${sDocLetter},${sDocDeclaration},${sDocZayava},${sDocChangeMessage},
+${sDocDeclarationBuild},${sDocDeclarationPrepare}]]></activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
+
       </extensionElements>
     </userTask>
     <endEvent id="endevent2" name="End"></endEvent>
@@ -394,11 +380,9 @@
           <activiti:expression><![CDATA[Про результат опрацювання документів про зміну даних до декларації про початок виконання ${sNameWork}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
-<b>Шановний ${sFirstName} ${sMiddleName}!</b><br><br>
-${sTextLetterPositive}
-[pattern/mail/_common_signature.html]
-[pattern/mail/_common_footer.html]]]></activiti:expression>
+          <activiti:expression><![CDATA[<b>Шановний ${sFirstName} ${sMiddleName}!</b><br><br>
+${sTextLetterPositive}]]>
+          </activiti:expression>
         </activiti:field>
         <activiti:field name="sPhone_SMS">
           <activiti:expression><![CDATA[${phone}]]></activiti:expression>
@@ -424,11 +408,8 @@ ${sTextLetterPositive}
           <activiti:expression><![CDATA[Про результат опрацювання документів про зміну даних до декларації про початок виконання ${sNameWork}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
-<b>Шановний ${sFirstName} ${sMiddleName}!</b><br><br>
-${sTextLetterNegative}
-[pattern/mail/_common_signature.html]
-[pattern/mail/_common_footer.html]]]></activiti:expression>
+          <activiti:expression><![CDATA[<b>Шановний ${sFirstName} ${sMiddleName}!</b><br><br>
+${sTextLetterNegative}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="saAttachmentsForSend">
           <activiti:expression><![CDATA[" "]]></activiti:expression>
