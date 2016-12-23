@@ -1096,15 +1096,15 @@
 
         try { 
         	angular.forEach($scope.taskForm, function(item, key, obj) { 
-        		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
+        		if(['table'].indexOf(item.type) > -1 && ['oPrescription2'].indexOf(item.id) > -1 ) {
         			console.log("oPrescription2 exists");
 
         			if( item.aRow && typeof item.aRow[0] !== 'number' ) {
         				console.log("oPrescription2 loaded");
-        				
+
         				console.log(item.aRow[0].aField[0].sFieldLabel); 
         			}
-        		
+
         			//$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
         		}
         		else {
@@ -1119,13 +1119,9 @@
         	alert( eventObject.val() );
         } 
 
-        $scope.$watch('field.value', function(newValue, oldValue) { console.log( "Watched" ); });
+        //$rootScope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
 
-        $rootScope.$on('TableFieldChanged', function(event, args) { console.log("RootScope " + this); }); 
-
-        $scope.$on('TableFieldChanged', function(event, args) { console.log(this); });
-
-        $document.on('TableFieldChanged', function(event, args) { console.log("DocumentScope " + this); }); 
+        $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
 
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
