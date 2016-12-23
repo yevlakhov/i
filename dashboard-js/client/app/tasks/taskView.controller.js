@@ -1094,6 +1094,8 @@
 
         TableService.init($scope.taskForm);
 
+        $scope.$digest(); 
+        
         try { 
         	angular.forEach($scope.taskForm, function(item, key, obj) { 
         		if(['table'].indexOf(item.type) && ['oPrescription2'].indexOf(item.id)) {
@@ -1119,12 +1121,18 @@
         	alert( eventObject.val() );
         } 
 
-        $rootScope.$on('TableFieldChanged', function() { console.log("RootScope " + this); }); 
+          $scope.$digest(); 
 
-        $scope.$on('TableFieldChanged', function() { console.log(this); });
-        
-        $document.on('TableFieldChanged', function() { console.log("DocumentScope " + this); }); 
-        
+        $scope.$watch('field.value', function(newValue, oldValue) { console.log( "Watched" ); });
+
+        $rootScope.$on('TableFieldChanged', function(event, args) { console.log("RootScope " + this); }); 
+
+        $scope.$on('TableFieldChanged', function(event, args) { console.log(this); });
+
+        $document.on('TableFieldChanged', function(event, args) { console.log("DocumentScope " + this); }); 
+
+          $scope.$digest(); 
+
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
             angular.forEach($scope.taskData.aAttachment, function (attachment) {
