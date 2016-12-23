@@ -262,8 +262,7 @@
         <activiti:formProperty id="marker_req1" name="req1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req1.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_req2" name="req2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req2.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_lines.json')}"></activiti:formProperty>
-        <activiti:formProperty id="sTextLetterPositive" name="текст листа якщо позитивне рішення" type="invisible"></activiti:formProperty>
-        <activiti:formProperty id="sTextLetterNegative" name="текст листа якщо негативне рішення" type="invisible"></activiti:formProperty>
+        <activiti:formProperty id="sTextLetter" name="текст листа" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sNameWork" name="назва робіт у лист" type="invisible"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
@@ -294,9 +293,9 @@
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
           <activiti:value id="sEnumBuild" name="будівельні роботи"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string"  writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string"  writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sNumberDeclaration" name="Номер зареєстрованої Декларації" type="string"  writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sNumberDeclaration" name="Номер зареєстрованої Декларації" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel1" name=" " type="label" default="---- Причини зміни даних ----"></activiti:formProperty>
         <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum" writable="false">
           <activiti:value id="yes" name="так"></activiti:value>
@@ -331,13 +330,16 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_ChangeReason" name="---------------" type="label" default="Підстава для зміни даних   -------"></activiti:formProperty>
         <activiti:formProperty id="sChangeNameDoc" name="Найменування документу, що є підставою для зміни даних" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sChangeDateDoc" name="Дата видачі та номер документу, що є підставою для зміни даних" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sChangeWhoDoc" name="Ким виданий документ, що є підставою для зміни даних" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmplPermitComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sCommentBossPermit" name="Коментар начальника управління дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="decide" name="Прийняте рішення" type="enum"  writable="false">
+        <activiti:formProperty id="sLabel_Decision" name="---------------" type="label" default="Рішення   -------"></activiti:formProperty>
+        <activiti:formProperty id="decide" name="Прийняте рішення" type="enum" writable="false">
           <activiti:value id="accept" name="Надана повна інформація. Зареєструвати у реєстрі ДАБІ"></activiti:value>
           <activiti:value id="reject" name="Відправити на доопрацювання. Підготувати інформаційний лист."></activiti:value>
         </activiti:formProperty>
@@ -351,8 +353,7 @@
         <activiti:formProperty id="marker_req1" name="req1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req1.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_req2" name="req2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req2.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_lines.json')}"></activiti:formProperty>
-        <activiti:formProperty id="sTextLetterPositive" name="текст листа якщо позитивне рішення" type="invisible"></activiti:formProperty>
-        <activiti:formProperty id="sTextLetterNegative" name="текст листа якщо негативне рішення" type="invisible"></activiti:formProperty>
+        <activiti:formProperty id="sTextLetter" name="текст листа" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sNameWork" name="назва робіт у лист" type="invisible"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
@@ -360,7 +361,6 @@
 ${sDocDeclarationBuild},${sDocDeclarationPrepare}]]></activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-
       </extensionElements>
     </userTask>
     <endEvent id="endevent2" name="End"></endEvent>
@@ -368,7 +368,7 @@ ${sDocDeclarationBuild},${sDocDeclarationPrepare}]]></activiti:expression>
     <sequenceFlow id="flow17" sourceRef="parallelgateway3" targetRef="endevent2"></sequenceFlow>
     <sequenceFlow id="flow18" sourceRef="usertask4" targetRef="parallelgateway3"></sequenceFlow>
     <sequenceFlow id="flow19" sourceRef="usertask2" targetRef="parallelgateway3"></sequenceFlow>
-    <serviceTask id="servicetask3" name="12.2 Повідомлення заявника +" activiti:delegateExpression="#{MailTaskWithAttachmentsAndSMS}">
+    <serviceTask id="servicetask4" name="12.1 Повідомлення заявника +/-" activiti:delegateExpression="#{MailTaskWithAttachmentsAndSMS}">
       <extensionElements>
         <activiti:field name="from">
           <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
@@ -381,79 +381,41 @@ ${sDocDeclarationBuild},${sDocDeclarationPrepare}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="text">
           <activiti:expression><![CDATA[<b>Шановний ${sFirstName} ${sMiddleName}!</b><br><br>
-${sTextLetterPositive}]]>
-          </activiti:expression>
-        </activiti:field>
-        <activiti:field name="sPhone_SMS">
-          <activiti:expression><![CDATA[${phone}]]></activiti:expression>
-        </activiti:field>
-        <activiti:field name="sText_SMS">
-          <activiti:expression><![CDATA[Vashe zvernennya [sID_Order] obrobleno.   
-                               Detali: igov.org.ua/journal abo u Vashomu emaill]]></activiti:expression>
+${sTextLetter}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="saAttachmentsForSend">
           <activiti:expression><![CDATA[" "]]></activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
-    <serviceTask id="servicetask4" name="12.1 Повідомлення заявника -" activiti:delegateExpression="#{MailTaskWithAttachmentsAndSMS}">
-      <extensionElements>
-        <activiti:field name="from">
-          <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
-        </activiti:field>
-        <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
-        </activiti:field>
-        <activiti:field name="subject">
-          <activiti:expression><![CDATA[Про результат опрацювання документів про зміну даних до декларації про початок виконання ${sNameWork}]]></activiti:expression>
-        </activiti:field>
-        <activiti:field name="text">
-          <activiti:expression><![CDATA[<b>Шановний ${sFirstName} ${sMiddleName}!</b><br><br>
-${sTextLetterNegative}]]></activiti:expression>
-        </activiti:field>
-        <activiti:field name="saAttachmentsForSend">
-          <activiti:expression><![CDATA[" "]]></activiti:expression>
-        </activiti:field>
-      </extensionElements>
-    </serviceTask>
-    <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
     <endEvent id="endevent3" name="End"></endEvent>
-    <sequenceFlow id="flow31" sourceRef="servicetask3" targetRef="exclusivegateway5"></sequenceFlow>
-    <sequenceFlow id="flow32" sourceRef="servicetask4" targetRef="exclusivegateway5"></sequenceFlow>
     <scriptTask id="scripttask1" name="скриптусечка" scriptFormat="javascript" activiti:autoStoreVariables="false">
-      <script>var per1 = ""
-var per2 = ""
+      <script>var worksType = ""
+var isRegistered = ""
 var per3 = ""
 if(execution.getVariable('asTypeChange') == 'sEnumPrepare'){
-per1 = "підготовчих робіт"
+worksType = " підготовчих робіт "
 }
 if(execution.getVariable('asTypeChange') == 'sEnumBuild'){
-per1 = "будівельних робіт "
+worksType = " будівельних робіт "
 }
+if(execution.getVariable('decide') == 'reject'){
+worksType = " не "
+}     
+if(execution.getVariable('decide') == 'accept'){
+worksType = " внесено та "
+}           
+             
 if(execution.getVariable('saReasonChange5') == 'yes'){
-per2 = "Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) документи щодо виправлення технічної помилки в декларації про початок виконання"  + per1 + "внесено та зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів."
+per3 = "Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) документи щодо виправлення технічної помилки в декларації про початок виконання"  + worksType + "зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів."
 }
 if(execution.getVariable('saReasonChange5') != 'yes'){
-per2 = "Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) електронне повідомлення про внесення змін до декларації про початок виконання" + per1 + "внесено та зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів."
+per3 = "Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) повідомлення про внесення змін до декларації про початок виконання" + worksType + "зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів."
 }
 
-if(execution.getVariable('saReasonChange5') == 'yes'){
-per3 = "Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) документи щодо виправлення технічної помилки в декларації про початок виконання"  + per1 + "не зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів."
-}
-if(execution.getVariable('saReasonChange5') != 'yes'){
-per3 = "Надіслане до Департаменту з питань державного архітектурно-будівельного контролю міста Києва виконавчого органу Київської міської ради (Київської міської державної адміністрації) електронне повідомлення про внесення змін до декларації про початок виконання" + per1 + "не зареєстровано у єдиному реєстрі документів, що дають право на виконання підготовчих та будівельних робіт і засвідчують прийняття в експлуатацію закінчених будівництвом об’єктів, відомостей про повернення на доопрацювання, відмову у видачі, скасування та анулювання зазначених документів."
-}
-execution.setVariable('sTextLetterPositive', per2)
-execution.setVariable('sTextLetterNegative', per3)
-execution.setVariable('sNameWork', per1)</script>
+execution.setVariable('sTextLetter', per3)
+execution.setVariable('sNameWork', worksType)</script>
     </scriptTask>
-    <sequenceFlow id="flow38" sourceRef="scripttask1" targetRef="exclusivegateway1"></sequenceFlow>
-    <sequenceFlow id="flow42" sourceRef="exclusivegateway1" targetRef="servicetask3">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${decide=='accept'}]]></conditionExpression>
-    </sequenceFlow>
-    <sequenceFlow id="flow43" sourceRef="exclusivegateway1" targetRef="servicetask4">
-      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${decide=='reject'}]]></conditionExpression>
-    </sequenceFlow>
     <parallelGateway id="parallelgateway4" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow45" sourceRef="usertask3" targetRef="parallelgateway4"></sequenceFlow>
     <userTask id="usertask10" name="CheckAssigneeGroup" activiti:candidateGroups="kyiv_dabi_doc">
@@ -525,8 +487,6 @@ execution.setVariable('sNameWork', per1)</script>
     <sequenceFlow id="flow55" sourceRef="exclusivegateway4" targetRef="scripttask1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sAnswerEmail == 'sendEmail'}]]></conditionExpression>
     </sequenceFlow>
-    <exclusiveGateway id="exclusivegateway5" name="Parallel Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow56" sourceRef="exclusivegateway5" targetRef="endevent3"></sequenceFlow>
     <sequenceFlow id="flow57" sourceRef="exclusivegateway4" targetRef="endevent3">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sAnswerEmail == 'noSendEmail'}]]></conditionExpression>
     </sequenceFlow>
@@ -598,6 +558,8 @@ else{res = 'noSendEmail'}
 execution.setVariable('sAnswerEmail', res)</script>
     </scriptTask>
     <sequenceFlow id="flow63" sourceRef="scripttask2" targetRef="exclusivegateway4"></sequenceFlow>
+    <sequenceFlow id="flow64" sourceRef="scripttask1" targetRef="servicetask4"></sequenceFlow>
+    <sequenceFlow id="flow65" sourceRef="servicetask4" targetRef="endevent3"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_kyiv_mda_1194">
     <bpmndi:BPMNPlane bpmnElement="kyiv_mda_1194" id="BPMNPlane_kyiv_mda_1194">
@@ -634,14 +596,8 @@ execution.setVariable('sAnswerEmail', res)</script>
       <bpmndi:BPMNShape bpmnElement="parallelgateway3" id="BPMNShape_parallelgateway3">
         <omgdc:Bounds height="40.0" width="40.0" x="672.0" y="170.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="servicetask3" id="BPMNShape_servicetask3">
-        <omgdc:Bounds height="72.0" width="111.0" x="950.0" y="204.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask4" id="BPMNShape_servicetask4">
-        <omgdc:Bounds height="72.0" width="111.0" x="950.0" y="315.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="exclusivegateway1" id="BPMNShape_exclusivegateway1">
-        <omgdc:Bounds height="40.0" width="40.0" x="900.0" y="275.0"></omgdc:Bounds>
+        <omgdc:Bounds height="72.0" width="111.0" x="940.0" y="260.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent3" id="BPMNShape_endevent3">
         <omgdc:Bounds height="35.0" width="35.0" x="1150.0" y="278.0"></omgdc:Bounds>
@@ -669,9 +625,6 @@ execution.setVariable('sAnswerEmail', res)</script>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway4" id="BPMNShape_exclusivegateway4">
         <omgdc:Bounds height="40.0" width="40.0" x="804.0" y="403.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="exclusivegateway5" id="BPMNShape_exclusivegateway5">
-        <omgdc:Bounds height="40.0" width="40.0" x="1080.0" y="275.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask12_red" id="BPMNShape_usertask12_red">
         <omgdc:Bounds height="61.0" width="119.0" x="242.0" y="490.0"></omgdc:Bounds>
@@ -714,30 +667,6 @@ execution.setVariable('sAnswerEmail', res)</script>
       <bpmndi:BPMNEdge bpmnElement="flow19" id="BPMNEdge_flow19">
         <omgdi:waypoint x="346.0" y="187.0"></omgdi:waypoint>
         <omgdi:waypoint x="672.0" y="190.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow31" id="BPMNEdge_flow31">
-        <omgdi:waypoint x="1061.0" y="240.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1100.0" y="240.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1100.0" y="275.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow32" id="BPMNEdge_flow32">
-        <omgdi:waypoint x="1061.0" y="351.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1100.0" y="350.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1100.0" y="315.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
-        <omgdi:waypoint x="877.0" y="295.0"></omgdi:waypoint>
-        <omgdi:waypoint x="900.0" y="295.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow42" id="BPMNEdge_flow42">
-        <omgdi:waypoint x="920.0" y="275.0"></omgdi:waypoint>
-        <omgdi:waypoint x="920.0" y="240.0"></omgdi:waypoint>
-        <omgdi:waypoint x="950.0" y="240.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
-        <omgdi:waypoint x="920.0" y="315.0"></omgdi:waypoint>
-        <omgdi:waypoint x="920.0" y="351.0"></omgdi:waypoint>
-        <omgdi:waypoint x="950.0" y="351.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
         <omgdi:waypoint x="336.0" y="375.0"></omgdi:waypoint>
@@ -783,10 +712,6 @@ execution.setVariable('sAnswerEmail', res)</script>
         <omgdi:waypoint x="824.0" y="403.0"></omgdi:waypoint>
         <omgdi:waypoint x="824.0" y="331.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
-        <omgdi:waypoint x="1120.0" y="295.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1150.0" y="295.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
         <omgdi:waypoint x="844.0" y="423.0"></omgdi:waypoint>
         <omgdi:waypoint x="1167.0" y="422.0"></omgdi:waypoint>
@@ -817,6 +742,14 @@ execution.setVariable('sAnswerEmail', res)</script>
         <omgdi:waypoint x="745.0" y="520.0"></omgdi:waypoint>
         <omgdi:waypoint x="824.0" y="520.0"></omgdi:waypoint>
         <omgdi:waypoint x="824.0" y="443.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow64" id="BPMNEdge_flow64">
+        <omgdi:waypoint x="877.0" y="295.0"></omgdi:waypoint>
+        <omgdi:waypoint x="940.0" y="296.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow65" id="BPMNEdge_flow65">
+        <omgdi:waypoint x="1051.0" y="296.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1150.0" y="295.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
