@@ -156,8 +156,8 @@
         <activiti:formProperty id="sObjectAdress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sCommentBossPermit" name="Коментар начальника управління дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string"></activiti:formProperty>
         <activiti:formProperty id="sNumberDeclaration" name="Номер зареєстрованої Декларації" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="asTypeBuilding" name="Вид будівництва" type="enum" required="true">
           <activiti:value id="sEnumNew" name="Нове будівництво"></activiti:value>
@@ -168,23 +168,23 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string"></activiti:formProperty>
-        <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum" default="no">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange2" name="Змінено осіб, відповідальні за здійснення авторського нагляду; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange2" name="Змінено осіб, відповідальні за здійснення авторського нагляду; ;sID_CheckboxTrue=yes" type="enum" default="no">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange3" name="Змінено осіб, відповідальних за здійснення технічного нагляду; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange3" name="Змінено осіб, відповідальних за здійснення технічного нагляду; ;sID_CheckboxTrue=yes" type="enum" default="no">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange4" name="Змінено підрядника/генерального підрядника; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange4" name="Змінено підрядника/генерального підрядника; ;sID_CheckboxTrue=yes" type="enum" default="no">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="saReasonChange5" name="Виправлення технічної помилки; ;sID_CheckboxTrue=yes" type="enum">
+        <activiti:formProperty id="saReasonChange5" name="Виправлення технічної помилки; ;sID_CheckboxTrue=yes" type="enum" default="no">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
         </activiti:formProperty>
@@ -294,8 +294,8 @@
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
           <activiti:value id="sEnumBuild" name="будівельні роботи"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationBuild" name="Дата реєстрації Декларації про початок виконання будівельних робіт" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sDateRegistrationPrepare" name="Дата реєстрації Декларації про початок виконання підготовчих робіт" type="string"></activiti:formProperty>
         <activiti:formProperty id="sNumberDeclaration" name="Номер зареєстрованої Декларації" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sLabel1" name=" " type="label" default="---- Причини зміни даних ----"></activiti:formProperty>
         <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum">
