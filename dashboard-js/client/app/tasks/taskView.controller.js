@@ -1131,8 +1131,6 @@
 
         $document.on('TableFieldChanged', function(event, args) { console.log("DocumentScope " + this); }); 
 
-          $scope.$digest(); 
-
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
             angular.forEach($scope.taskData.aAttachment, function (attachment) {
