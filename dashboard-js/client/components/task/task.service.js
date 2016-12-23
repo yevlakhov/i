@@ -686,9 +686,11 @@ angular.module('dashboardJsApp')
       isUserHasDocuments: function (login) {
         return simpleHttpPromise({
           method: 'GET',
-          url: '/api/documents/getBPs',
+       // url: '/api/documents/getBPs',
+          url: '/api/documents/getTasks',
           params: {
-            sLogin: login
+            sLogin: login,
+            bIncludeAlienAssignedTasks: true
           }
         })
       },
