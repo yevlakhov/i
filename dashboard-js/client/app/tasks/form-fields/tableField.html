@@ -38,8 +38,7 @@
                    ng-required="field.required"
                    ng-model="field.default"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
-                   ng-click="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                   ng-change="alert('123');"
                    type="text">
             <input class="inputs-in-table"
                    ng-if='field.hasOwnProperty("value")'
@@ -48,10 +47,14 @@
                    ng-required="field.required"
                    ng-model="field.value"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                   ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
-                   ng-click="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
+                   ng-change="alert('123');"
                    type="text">
           </div>
+
+                   <!-- 
+                    ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
+                    ng-click="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
+                    -->
 
           <div ng-if="['enum'].indexOf(field.type) > -1">
             <select name="{{field.id + rowIndex}}"
@@ -60,8 +63,6 @@
                     ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
                     ng-options="oEnumValue.id as oEnumValue.name for oEnumValue in field.a"
                     ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
-                    ng-change="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
-                    ng-click="$rootScope.$broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )"
                     class="inputs-in-table">
             </select>
           </div>
