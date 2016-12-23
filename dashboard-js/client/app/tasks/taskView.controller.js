@@ -1121,8 +1121,6 @@
         	alert( eventObject.val() );
         } 
 
-          $scope.$digest(); 
-
         $scope.$watch('field.value', function(newValue, oldValue) { console.log( "Watched" ); });
 
         $rootScope.$on('TableFieldChanged', function(event, args) { console.log("RootScope " + this); }); 
