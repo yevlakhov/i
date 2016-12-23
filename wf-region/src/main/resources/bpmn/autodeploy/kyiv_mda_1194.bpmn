@@ -166,7 +166,6 @@
           <activiti:value id="sEnumRestoration" name="Реставрація"></activiti:value>
           <activiti:value id="sEnumOverhaul" name="Капітальний ремонт"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel1" name=" " type="label" default="---- Причини зміни даних ----"></activiti:formProperty>
         <activiti:formProperty id="saReasonChange1" name="Право на будівництво передано іншому замовникові; ;sID_CheckboxTrue=yes" type="enum">
           <activiti:value id="yes" name="так"></activiti:value>
           <activiti:value id="no" name="ні"></activiti:value>
@@ -193,7 +192,6 @@
         <activiti:formProperty id="sSupervisionPib" name="ПІБ особи, яка здійснює технічний нагляд" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionCertificate" name="Серія та номер кваліфікаційного сертифікату особи, яка здійснює технічний нагляд" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionPhone" name="Номер телефону особи, яка здійснює технічний нагляд" type="string" default="+380" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_11" name=" " type="label" default="---- Інформація про проектувальника ----"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationName" name="Найменування проектувальника" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationInn" name="Код згідно ЄДРПОУ проектувальника" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="asProjectApprove" name="Особа, яка затвердила проект" type="enum" required="true">
@@ -251,7 +249,6 @@
         <activiti:formProperty id="sDocChangeMessage" name="Повідомлення про зміну даних у зареєстрованій декларації про початок виконання підготовчих/будівельних робіт" type="file" required="true"></activiti:formProperty>
         <activiti:formProperty id="sDocDeclarationBuild" name="Декларація про початок будівельних робіт" type="file" required="true"></activiti:formProperty>
         <activiti:formProperty id="sDocDeclarationPrepare" name="Декларація про початок підготовчих робіт" type="file" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер документообігу АСКОД" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmplPermitComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="decide" name="Прийняте рішення" type="enum" required="true">
@@ -265,7 +262,7 @@
         <activiti:formProperty id="marker_vis2" name="vis2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_vis2.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_req1" name="req1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req1.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_req2" name="req2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_req2.json')}"></activiti:formProperty>
-        
+        <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1194_lines.json')}"></activiti:formProperty>
         <activiti:formProperty id="sTextLetterPositive" name="текст листа якщо позитивне рішення" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sTextLetterNegative" name="текст листа якщо негативне рішення" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sNameWork" name="назва робіт у лист" type="invisible"></activiti:formProperty>
@@ -493,7 +490,7 @@ execution.setVariable('sNameWork', per1)</script>
             <activiti:expression><![CDATA[sResult]]></activiti:expression>
           </activiti:field>
         </activiti:taskListener>
-      </extensionElements>       
+      </extensionElements>
     </userTask>
     <sequenceFlow id="flow46" sourceRef="parallelgateway4" targetRef="usertask10"></sequenceFlow>
     <sequenceFlow id="flow47" sourceRef="parallelgateway4" targetRef="usertask6"></sequenceFlow>
@@ -535,9 +532,13 @@ execution.setVariable('sNameWork', per1)</script>
         <activiti:formProperty id="sCommentBossPermit" name="Коментар начальника управління дозвільних документів" type="textArea"></activiti:formProperty>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow50" sourceRef="exclusivegateway2" targetRef="usertask11"></sequenceFlow>
+    <sequenceFlow id="flow50" sourceRef="exclusivegateway2" targetRef="usertask11">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sResult == 'False'}]]></conditionExpression>
+    </sequenceFlow>
     <exclusiveGateway id="exclusivegateway3" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow51" sourceRef="exclusivegateway2" targetRef="exclusivegateway3"></sequenceFlow>
+    <sequenceFlow id="flow51" sourceRef="exclusivegateway2" targetRef="exclusivegateway3">
+      <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sResult == 'True'}]]></conditionExpression>
+    </sequenceFlow>
     <sequenceFlow id="flow52" sourceRef="usertask11" targetRef="exclusivegateway3"></sequenceFlow>
     <sequenceFlow id="flow53" sourceRef="exclusivegateway3" targetRef="parallelgateway3"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway"></exclusiveGateway>
@@ -597,9 +598,8 @@ execution.setVariable('sNameWork', per1)</script>
     <userTask id="usertask12" name="Upload Files" activiti:candidateGroups="kyiv_dabi_doc">
       <extensionElements>
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
-        <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
-        </activiti:taskListener>
-      </extensionElements>        
+        <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}"></activiti:taskListener>
+      </extensionElements>
     </userTask>
     <sequenceFlow id="flow60" sourceRef="startevent1" targetRef="usertask12"></sequenceFlow>
     <boundaryEvent id="boundarytimer4" name="Timer" attachedToRef="usertask12" cancelActivity="true">
