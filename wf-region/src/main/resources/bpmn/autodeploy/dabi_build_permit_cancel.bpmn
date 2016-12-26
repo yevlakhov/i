@@ -5,7 +5,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" required="true"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" required="true">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" required="true">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -57,7 +57,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -109,7 +109,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -161,7 +161,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -216,7 +216,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -351,7 +351,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -406,7 +406,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -507,7 +507,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -615,7 +615,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -679,7 +679,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
@@ -744,7 +744,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asCancelReason" name="Підстава скасування повідомлення" type="enum" writable="false">
+        <activiti:formProperty id="asCancelReason" name="Підстава анулювання дозволу" type="enum" writable="false">
           <activiti:value id="sEnumApplication" name="подача заяви замовника про скасування"></activiti:value>
           <activiti:value id="sEnumDeath" name="отримання відомостей про припинення юридичної особи або підприємницької діяльності фізичною особою - підприємцем (замовником), смерті фізичної особи - замовника або визнання її безвісно відсутньою"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
