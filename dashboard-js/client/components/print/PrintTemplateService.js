@@ -50,15 +50,39 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
 
                 angular.forEach( form[i].aRow, function( item, key, obj ) { 
-                  var indexTitleField = item.aField.indexOf( prints[j].sTitleField ); 
-                  
-                  if( indexTitleField > -1 ) { 
-                    label = item.aField[indexTitleField].sValue; 
-                    console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); 
-                  } else { 
-                    label = item.aField[0].sValue; 
+
+                  label = ""; 
+                  if( prints[j].sTitleField ) { 
+                    angular.forEach( item.aField, function( field, fieldKey ) { 
+
+	                    if( field.name === prints[j].sTitleField )  { 
+		                    label = field.value; 
+                        console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); 
+
+                        break; 
+	                    } 
+
+                    } );  
+
+                  if( label === "" ) {
+                    label = item.aField[0].value; 
                     console.log( " #1438 '" + form[i].id + "'=" + label ); 
                   } 
+                    
+                  // just PrintForm sName 
+                  var item = {
+
+                    id: form[i].id,
+                    displayTemplate: prints[j].sName + ' (' + label + ')',
+                    type: "markers",
+                    value: "{ tableId: form[i].id, printFormId: prints[j] }",
+
+                  };
+
+                  topItems.unshift( item );
+
+                  console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
+                  
                 } ); 
 
                 /*
@@ -81,22 +105,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 			    		  }
                 else {
                 */ 
-
-                  // just PrintForm sName 
-                  var item = {
-
-                    id: form[i].id,
-                    displayTemplate: prints[j].sName + ' (' + label + ')',
-                    type: "markers",
-                    value: "{ tableId: form[i].id, printFormId: prints[j] }",
-
-                  };
-
-                  topItems.unshift( item );
-
-                //} 
-
-                console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
 
             } 
           }
