@@ -37,26 +37,25 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
         for(var i = 0; i < form.length; i++) {
 
-           if( form[i].type == 'table' ) {
+           if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') {
 
-              console.log(  " #1438 " + form[i].id );
+              console.log(  " #1438 " + form[i].id + " loaded");
 
 			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id
 			    	  console.log( " #1438 PrintForms count " + prints.length );
 
-              if( form[i].aRow && typeof form[i].aRow[0] !== 'number' ) { 
-                console.log( "#1438 aRow loaded" );
-              } 
+              var label = '';
              
 			    	  for (var j = 0; j < prints.length; j++) {
 			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
 
-			    		  var selector = ".inputs-in-table";
+                angular.forEach( form[i].aRow, function( item, key, obj ) { var indexTitleField = item.aField.indexOf( prints[j].sTitleField ); if( indexTitleField > -1 ) { label = item.aField[indexTitleField].value; console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); } else { label = item.aField[0].value; console.log( " #1438 '" + form[i].id "'=" + label ); } } ); 
 
+                /*
 			    		  if( prints[j].sTitleField ) {
 
                   // search sTitleField column inputs
-			    			  selector = selector + ' [name^="' + prints[j].sTitleField + '"]';
+			    			  //selector = selector + ' [name^="' + prints[j].sTitleField + '"]';
 
                   var item = {
 
@@ -69,15 +68,15 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
                   topItems.unshift( item );
 
-                  console.log ( selector + " " + $(selector).length + " " + topItems.length);
 			    		  }
                 else {
+                */ 
 
-                  // just PrintForm sName
+                  // just PrintForm sName 
                   var item = {
 
                     id: form[i].id,
-                    displayTemplate: prints[j].sName,
+                    displayTemplate: prints[j].sName + ' (' + label + ')',
                     type: "markers",
                     value: "{ tableId: form[i].id, printFormId: prints[j] }",
 
@@ -85,9 +84,10 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
                   topItems.unshift( item );
 
-                  console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
-                }
+                //} 
 
+                console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
+                
               }
            }
         }
