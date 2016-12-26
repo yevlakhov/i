@@ -49,7 +49,17 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 			    	  for (var j = 0; j < prints.length; j++) {
 			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
 
-                angular.forEach( form[i].aRow, function( item, key, obj ) { var indexTitleField = item.aField.indexOf( prints[j].sTitleField ); if( indexTitleField > -1 ) { label = item.aField[indexTitleField].value; console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); } else { label = item.aField[0].value; console.log( " #1438 '" + form[i].id "'=" + label ); } } ); 
+                angular.forEach( form[i].aRow, function( item, key, obj ) { 
+                  var indexTitleField = item.aField.indexOf( prints[j].sTitleField ); 
+                  
+                  if( indexTitleField > -1 ) { 
+                    label = item.aField[indexTitleField].value; 
+                    console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); 
+                  } else { 
+                    label = item.aField[0].value; 
+                    console.log( " #1438 '" + form[i].id "'=" + label ); 
+                  } 
+                } ); 
 
                 /*
 			    		  if( prints[j].sTitleField ) {
@@ -87,9 +97,9 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                 //} 
 
                 console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
-                
-              }
-           }
+
+            } 
+          }
         }
 
       }
