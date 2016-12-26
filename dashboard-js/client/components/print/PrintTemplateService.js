@@ -53,10 +53,10 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                   var indexTitleField = item.aField.indexOf( prints[j].sTitleField ); 
                   
                   if( indexTitleField > -1 ) { 
-                    label = item.aField[indexTitleField].value; 
+                    label = item.aField[indexTitleField].sValue; 
                     console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); 
                   } else { 
-                    label = item.aField[0].value; 
+                    label = item.aField[0].sValue; 
                     console.log( " #1438 '" + form[i].id + "'=" + label ); 
                   } 
                 } ); 
