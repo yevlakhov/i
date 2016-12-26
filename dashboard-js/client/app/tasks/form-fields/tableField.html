@@ -32,11 +32,12 @@
 
           <div ng-if="['string'].indexOf(field.type) > -1">
             <input class="inputs-in-table"
+                   ng-init="field.value = (field.value | field.default | '')"
                    ng-if='field.hasOwnProperty("default") || !field.hasOwnProperty("default") && !field.hasOwnProperty("value")'
                    name="{{field.id + rowIndex}}"
                    ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
                    ng-required="field.required"
-                   ng-model="field.default"
+                   ng-model="field.value"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
                    ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
                    type="text">
@@ -64,10 +65,11 @@
 
           <div ng-if="['long', 'double'].indexOf(field.type) > -1">
             <input name="{{field.id + rowIndex}}"
+                   ng-init="field.value = (field.value | field.default | '')"
                    ng-if="field.hasOwnProperty('default') || !field.hasOwnProperty('default') && !field.hasOwnProperty('value')"
                    ng-required="field.required"
                    ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
-                   ng-model="field.default"
+                   ng-model="field.value"
                    class="inputs-in-table"
                    ng-disabled="!isFieldWritable(field.writable) || (!isDocumentWritable(item) && isDocumentReadable(item))"
                    ng-change="broadcast('TableFieldChanged', { 'field': field, 'rowIndex': rowIndex, 'tableName': tableName } )" 
