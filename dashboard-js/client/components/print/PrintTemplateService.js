@@ -63,7 +63,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                         return; 
 	                    } 
 
-                    } );  
+                    } ); 
+                  } 
 
                   if( label === "" ) {
                     label = item.aField[0].value; 
