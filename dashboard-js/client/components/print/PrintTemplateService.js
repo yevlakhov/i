@@ -57,7 +57,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                     console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); 
                   } else { 
                     label = item.aField[0].value; 
-                    console.log( " #1438 '" + form[i].id "'=" + label ); 
+                    console.log( " #1438 '" + form[i].id + "'=" + label ); 
                   } 
                 } ); 
 
