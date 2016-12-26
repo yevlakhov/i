@@ -38,6 +38,14 @@
     "Line_10": {
       "aElement_ID": ["sContractor"],
       "sValue": "Генеральний підрядник"        
+    },
+    "Line_11": {
+      "aElement_ID": ["asLandUsed"],
+      "sValue": "Земельна ділянка"        
+    },
+    "Line_12": {
+      "aElement_ID": ["sNumberConditions"],
+      "sValue": "Містобудівні умови і обмеження"        
     }
     }
 }
