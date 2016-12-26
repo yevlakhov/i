@@ -30,6 +30,14 @@
     "Line_8": {
       "aElement_ID": ["sObjectName","asTypeBuilding"],
       "sValue": "Об’єкт будівництва"        
+    },
+    "Line_9": {
+      "aElement_ID": ["sChangeNameDoc"],
+      "sValue": "Підстава для зміни даних"        
+    },
+    "Line_10": {
+      "aElement_ID": ["sContractor"],
+      "sValue": "Генеральний підрядник"        
     }
     }
 }
