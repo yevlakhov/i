@@ -56,10 +56,11 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                     angular.forEach( item.aField, function( field, fieldKey ) { 
 
 	                    if( field.name === prints[j].sTitleField )  { 
-		                    label = field.value; 
+
+                        label = field.value; 
                         console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); 
 
-                        break; 
+                        return; 
 	                    } 
 
                     } );  
