@@ -53,8 +53,17 @@ module.exports.getHistoryEvents = function(req, res) {
         }
 
         var getMyUser = (body)=> {
+          var inn = undefined;
+          if(body.social && body.social.BankID && body.social.BankID.inn != undefined){
+            inn = body.social.BankID.inn
+          }else if(body.social && body.social.eds && body.social.eds.edrpoucode != undefined){
+            inn = body.social.eds.edrpoucode
+          }else{
+            inn = '3119325858'
+          }
+
             return new Promise((resolve,reject)=>{
-                syncSubject.sync('3119325858', function (error, response, data) {
+                syncSubject.sync(inn, function (error, response, data) {
                     resolve(data)
                 })
             })
