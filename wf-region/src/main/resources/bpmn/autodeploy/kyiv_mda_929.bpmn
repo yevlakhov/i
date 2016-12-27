@@ -5,7 +5,7 @@
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="asRefEntity" name="Замовник" type="enum" required="true">
+        <activiti:formProperty id="asRefEntity" name="Замовник" type="enum">
           <activiti:value id="sEnumCompany" name="юридична особа"></activiti:value>
           <activiti:value id="sEnumIndividual" name="фізична особа"></activiti:value>
         </activiti:formProperty>
@@ -23,7 +23,7 @@
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="nFile1" name="Декларація про початок виконання будівельних робіт;Вкладення відсканованого поданого паперового документу" type="file" required="true"></activiti:formProperty>
+        <activiti:formProperty id="nFile1" name="Декларація про початок виконання будівельних робіт;Вкладення відсканованого поданого паперового документу" type="file"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sDateAppeal" name="Дата подачі" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_1.json')}"></activiti:formProperty>
@@ -32,7 +32,6 @@
         <activiti:formProperty id="markers_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_valid.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
-    <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
     <userTask id="usertask1" name="Temporary UserTask for UploadFiles" activiti:candidateGroups="kyiv_dabi_doc">
       <extensionElements>
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
@@ -335,11 +334,6 @@
     <sequenceFlow id="flow20" sourceRef="usertask3" targetRef="usertask_UserGroup"></sequenceFlow>
     <sequenceFlow id="flow21" sourceRef="usertask10" targetRef="exclusivegateway2"></sequenceFlow>
     <sequenceFlow id="flow22" sourceRef="usertask6" targetRef="usertask9"></sequenceFlow>
-    <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="usertask1" cancelActivity="true">
-      <timerEventDefinition>
-        <timeDuration>PT5S</timeDuration>
-      </timerEventDefinition>
-    </boundaryEvent>
     <userTask id="usertask10" name="6. Ознайомлення з документом начальника відділу дозвільних документів" activiti:candidateGroups="kyiv_dabi_permit_dep_boss">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
@@ -510,19 +504,19 @@ execution.setVariable('sTextLetter', sMessage)</script>
     </sequenceFlow>
     <sequenceFlow id="flow34" sourceRef="servicetask1" targetRef="exclusivegateway4"></sequenceFlow>
     <sequenceFlow id="flow35" sourceRef="usertask_UserGroup" targetRef="exclusivegateway1"></sequenceFlow>
-    <sequenceFlow id="flow36" sourceRef="boundarytimer1" targetRef="usertask2"></sequenceFlow>
     <sequenceFlow id="flow37" sourceRef="usertask2" targetRef="endevent2"></sequenceFlow>
+    <sequenceFlow id="flow38" sourceRef="startevent1" targetRef="usertask2"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_kyiv_mda_929">
     <bpmndi:BPMNPlane bpmnElement="kyiv_mda_929" id="BPMNPlane_kyiv_mda_929">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="398.0" y="55.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="408.0" y="73.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
         <omgdc:Bounds height="71.0" width="211.0" x="310.0" y="139.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask2" id="BPMNShape_usertask2">
-        <omgdc:Bounds height="71.0" width="211.0" x="70.0" y="310.0"></omgdc:Bounds>
+        <omgdc:Bounds height="71.0" width="211.0" x="491.0" y="55.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask3" id="BPMNShape_usertask3">
         <omgdc:Bounds height="71.0" width="211.0" x="550.0" y="310.0"></omgdc:Bounds>
@@ -531,25 +525,22 @@ execution.setVariable('sTextLetter', sMessage)</script>
         <omgdc:Bounds height="71.0" width="211.0" x="310.0" y="310.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask6" id="BPMNShape_usertask6">
-        <omgdc:Bounds height="72.0" width="211.0" x="551.0" y="495.0"></omgdc:Bounds>
+        <omgdc:Bounds height="72.0" width="211.0" x="561.0" y="485.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer3" id="BPMNShape_boundarytimer3">
-        <omgdc:Bounds height="30.0" width="30.0" x="550.0" y="540.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="560.0" y="530.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer4" id="BPMNShape_boundarytimer4">
-        <omgdc:Bounds height="30.0" width="30.0" x="590.0" y="540.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="600.0" y="530.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask9" id="BPMNShape_usertask9">
         <omgdc:Bounds height="75.0" width="211.0" x="551.0" y="603.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent2" id="BPMNShape_endevent2">
-        <omgdc:Bounds height="35.0" width="35.0" x="50.0" y="513.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="742.0" y="73.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway3" id="BPMNShape_parallelgateway3">
         <omgdc:Bounds height="40.0" width="40.0" x="153.0" y="510.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
-        <omgdc:Bounds height="30.0" width="30.0" x="470.0" y="179.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask10" id="BPMNShape_usertask10">
         <omgdc:Bounds height="72.0" width="211.0" x="551.0" y="392.0"></omgdc:Bounds>
@@ -587,10 +578,6 @@ execution.setVariable('sTextLetter', sMessage)</script>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway4" id="BPMNShape_exclusivegateway4">
         <omgdc:Bounds height="40.0" width="40.0" x="841.0" y="800.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
-        <omgdi:waypoint x="415.0" y="90.0"></omgdi:waypoint>
-        <omgdi:waypoint x="415.0" y="139.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow16" id="BPMNEdge_flow16">
         <omgdi:waypoint x="861.0" y="840.0"></omgdi:waypoint>
         <omgdi:waypoint x="861.0" y="867.0"></omgdi:waypoint>
@@ -607,7 +594,7 @@ execution.setVariable('sTextLetter', sMessage)</script>
         <omgdi:waypoint x="842.0" y="485.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow22" id="BPMNEdge_flow22">
-        <omgdi:waypoint x="656.0" y="567.0"></omgdi:waypoint>
+        <omgdi:waypoint x="666.0" y="557.0"></omgdi:waypoint>
         <omgdi:waypoint x="656.0" y="603.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow23" id="BPMNEdge_flow23">
@@ -625,18 +612,18 @@ execution.setVariable('sTextLetter', sMessage)</script>
       <bpmndi:BPMNEdge bpmnElement="flow26" id="BPMNEdge_flow26">
         <omgdi:waypoint x="862.0" y="505.0"></omgdi:waypoint>
         <omgdi:waypoint x="861.0" y="531.0"></omgdi:waypoint>
-        <omgdi:waypoint x="762.0" y="531.0"></omgdi:waypoint>
+        <omgdi:waypoint x="772.0" y="521.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow27" id="BPMNEdge_flow27">
         <omgdi:waypoint x="862.0" y="665.0"></omgdi:waypoint>
         <omgdi:waypoint x="861.0" y="701.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow28" id="BPMNEdge_flow28">
-        <omgdi:waypoint x="550.0" y="555.0"></omgdi:waypoint>
+        <omgdi:waypoint x="560.0" y="545.0"></omgdi:waypoint>
         <omgdi:waypoint x="500.0" y="570.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow29" id="BPMNEdge_flow29">
-        <omgdi:waypoint x="605.0" y="570.0"></omgdi:waypoint>
+        <omgdi:waypoint x="615.0" y="560.0"></omgdi:waypoint>
         <omgdi:waypoint x="435.0" y="610.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow30" id="BPMNEdge_flow30">
@@ -663,13 +650,13 @@ execution.setVariable('sTextLetter', sMessage)</script>
         <omgdi:waypoint x="862.0" y="371.0"></omgdi:waypoint>
         <omgdi:waypoint x="862.0" y="407.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
-        <omgdi:waypoint x="485.0" y="209.0"></omgdi:waypoint>
-        <omgdi:waypoint x="175.0" y="310.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow37" id="BPMNEdge_flow37">
-        <omgdi:waypoint x="175.0" y="381.0"></omgdi:waypoint>
-        <omgdi:waypoint x="67.0" y="513.0"></omgdi:waypoint>
+        <omgdi:waypoint x="702.0" y="90.0"></omgdi:waypoint>
+        <omgdi:waypoint x="742.0" y="90.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
+        <omgdi:waypoint x="443.0" y="90.0"></omgdi:waypoint>
+        <omgdi:waypoint x="491.0" y="90.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
