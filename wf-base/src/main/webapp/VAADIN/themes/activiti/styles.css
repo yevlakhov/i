@@ -117,7 +117,7 @@ body {
 }
 
 .v-button-caption {
-    color: #464646;
+    color: #FFFFFF;
 }
 
 .v-button.v-disabled .v-button-wrap .v-button-caption {
@@ -353,7 +353,7 @@ input.login-field {
 	padding:0 12px 0 10px;
 	height:1%;
 	position:relative;
-	background:#007dc3 url(img/bg-header.gif) repeat-x;
+	background:#41a2ab url(img/bg-header.gif) repeat-x;
 }
 
 .header .v-button .v-button-wrap {
@@ -491,11 +491,11 @@ input.login-field {
 .toolbar .toolbar-button .v-button-wrap .v-button-caption {
 	font:11px Arial, Helvetica, sans-serif;
 	font-weight: bold;
-	color:#464646;
+	color:#FFFFFF;
 }
 
 .toolbar .v-button-wrap .v-button-caption:hover {
-	color:#464646;
+	color:#FFFFFF;
 }
 
 .toolbar .v-button-link.active .v-button-wrap .v-button-caption {

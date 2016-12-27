@@ -105,3 +105,19 @@ ul.dropdown-menu {
   overflow-y: scroll;
   width: 100%;
 }
+
+.list-group-item.active, .list-group-item.active:hover, .list-group-item.active:focus{
+  background-color: #41a2ab;
+  border-color: #41a2ab;
+}
+.btn-primary{
+  background-color: #41a2ab;
+  border-color: #41a2ab;
+}
+.btn-primary:hover, .btn-primary:focus, .btn-primary.focus, .btn-primary:active, .btn-primary.active, .open > .dropdown-toggle.btn-primary{
+  background-color: #519fa6;
+  border-color: #52888d;
+}
+.btn-link{
+  color: #41a2ab;
+}

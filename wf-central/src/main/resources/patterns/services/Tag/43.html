@@ -1,408 +1,381 @@
-﻿<style>
-    .article-block {
-        font-family: Open Sans, Arial, sans-serif;
-        color: #333333;
+﻿﻿<style>
+.article-block {
+    font-family: Open Sans, Arial, sans-serif;
+    color: #333333;
+}
+
+    .article-block li {
+        margin: 10px 0;
     }
 
-        .article-block li {
-            margin: 10px 0;
+    .article-block ol,
+    .article-block ul {
+        margin-bottom: 36px;
+    }
+
+     .article-block .content-art ol,
+     .article-block .content-art ul,
+     .article-block ol ul,
+     .article-block ol ol,
+     .article-block ul ul,
+     .article-block ul ol {
+         margin-bottom: 12px;
+     }
+
+    .article-block table ol,
+    .article-block table ul {
+        margin: 0 0 0 25px;
+        padding: 0;
+    }
+
+    .article-block table li {
+        padding: 5px 0 0 0;
+        margin: 0;
+    }
+
+
+    .article-block .notmarker > li {
+        list-style-type: none; /* Убираем маркеры */
+    }
+
+    .article-block sup {
+        color: #428bca;
+        font-size: 10.8333px;
+    }
+
+    .article-block a {
+        color: #428bca;
+    }
+
+    .article-block h1,
+    .article-block .ind-section {
+        margin-top: 46px;
+    }
+
+        .article-block h1.topic {
+            margin-top: 12px;
         }
 
-        .article-block ol,
-        .article-block ul {
-            margin-bottom: 36px;
+    .article-block h2 {
+        margin-top: 36px;
+    }
+
+    .article-block h3 {
+        margin-top: 24px;
+    }
+
+    .article-block h1 > sup {
+        color: #428bca;
+        font-size: 15.8333px;
+    }
+
+    .article-block table {
+        border-spacing: 0;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        border-collapse: separate;
+    }
+
+    .article-block th {
+        background: #eeeeee;
+        text-align: center;
+    }
+
+    .article-block td,
+    .article-block th {
+        padding: 16px 10px;
+        vertical-align: central;
+        border-left: 1px solid #ddd;
+        border-top: 1px solid #ddd;
+    }
+
+    .article-block .tableNotHead tr:first-child > td,
+    .article-block tr:first-child > th {
+        border-top: none;
+    }
+
+        .article-block td:first-child,
+        .article-block tr:first-child > th:first-child {
+            border-left: none;
+        }
+        /* из-за background */
+        .article-block tr:first-child > th:first-child {
+            border-top-left-radius: 5px;
         }
 
-            .article-block .content-art ol,
-            .article-block .content-art ul,
-            .article-block ol ul,
-            .article-block ol ol,
-            .article-block ul ul,
-            .article-block ul ol {
-                margin-bottom: 12px;
-            }
-
-        .article-block table ol,
-        .article-block table ul {
-            margin: 0 0 0 25px;
-            padding: 0;
+        .article-block tr:first-child > th:last-child {
+            border-top-right-radius: 5px;
         }
 
-        .article-block table li {
-            padding: 5px 0 0 0;
-            margin: 0;
+    .article-block tr > td.small-text,
+    .article-block .small-text {
+        font-size: 10pt;
+    }
+
+
+    .article-block tr > td.va-c,
+    .article-block .va-c {
+        vertical-align: central;
+    }
+
+    .article-block tr > td.va-b,
+    .article-block .va-b {
+        vertical-align: bottom;
+    }
+
+    .article-block tr > td.va-t,
+    .article-block .va-t {
+        vertical-align: top;
+    }
+
+
+    .article-block tr > td.ta-c,
+    .article-block .ta-c {
+        text-align: center;
+    }
+
+    .article-block tr > td.ta-l,
+    .article-block .ta-l {
+        text-align: left;
+    }
+
+    .article-block tr > td.ta-r,
+    .article-block .ta-r {
+        text-align: right;
+    }
+
+    .article-block tr > td.ta-j,
+    .article-block p,
+    .article-block li,
+    .article-block .ta-j {
+        text-align: justify;
+        -webkit-hyphens: auto;
+        -moz-hyphens: auto;
+        -ms-hyphens: auto;
+        hyphens: auto;
+        word-wrap: break-word;
+    }
+
+    .article-block .attention-block {
+        margin: 20px;
+        padding: 20px;
+        border-left: 3px solid #eee;
+    }
+
+        .article-block .attention-block h4 {
+            margin-top: 0;
+            margin-bottom: 5px;
         }
 
-        .article-block .notmarker > li {
-            list-style-type: none; /* Убираем маркеры */
+        .article-block .attention-block p:last-child {
+            margin-bottom: 0;
         }
 
-        .article-block sup {
-            color: #428bca;
-            font-size: 10.8333px;
+    .article-block .attention-block-info {
+        background-color: #f4f8fa;
+        border-color: #5bc0de;
+    }
+
+        .article-block .attention-block-info h4 {
+            color: #5bc0de;
         }
 
-        .article-block a {
-            color: #428bca;
-        }
+    .article-block .attention {
+        padding: 16px 10px;
+        border: 1px solid #dddddd;
+        border-radius: 5px;
+        background-color: #ffffff;
+    }
 
-        .article-block h1,
-        .article-block .ind-section {
-            margin-top: 46px;
-        }
+    .article-block .note {
+        color: #999;
+    }
 
-            .article-block h1.topic {
-                margin-top: 12px;
-            }
+    .article-block .b {
+        font-weight: bold;
+    }
 
-        .article-block h2 {
-            margin-top: 36px;
-        }
-
-        .article-block h3 {
-            margin-top: 24px;
-        }
-
-        .article-block h1 > sup {
-            color: #428bca;
-            font-size: 15.8333px;
-        }
-
-        .article-block table {
-            border-spacing: 0;
-            border: 1px solid #ddd;
-            border-radius: 5px;
-            border-collapse: separate;
-        }
-
-        .article-block th {
-            background: #eeeeee;
-            text-align: center;
-        }
-
-        .article-block td,
-        .article-block th {
-            padding: 16px 10px;
-            vertical-align: central;
-            border-left: 1px solid #ddd;
-            border-top: 1px solid #ddd;
-        }
-
-        .article-block .tableNotHead tr:first-child > td,
-        .article-block tr:first-child > th {
-            border-top: none;
-        }
-
-            .article-block td:first-child,
-            .article-block tr:first-child > th:first-child {
-                border-left: none;
-            }
-            /* из-за background */
-            .article-block tr:first-child > th:first-child {
-                border-top-left-radius: 5px;
-            }
-
-            .article-block tr:first-child > th:last-child {
-                border-top-right-radius: 5px;
-            }
-
-        .article-block tr > td.small-text,
-        .article-block .small-text {
-            font-size: 10pt;
-        }
-
-        .article-block tr > td.va-c,
-        .article-block .va-c {
-            vertical-align: central;
-        }
-
-        .article-block tr > td.va-b,
-        .article-block .va-b {
-            vertical-align: bottom;
-        }
-
-        .article-block tr > td.va-t,
-        .article-block .va-t {
-            vertical-align: top;
-        }
-
-        .article-block tr > td.ta-c,
-        .article-block .ta-c {
-            text-align: center;
-        }
-
-        .article-block tr > td.ta-l,
-        .article-block .ta-l {
-            text-align: left;
-        }
-
-        .article-block tr > td.ta-r,
-        .article-block .ta-r {
-            text-align: right;
-        }
-
-        .article-block tr > td.ta-j,
-        .article-block p,
-        .article-block li,
-        .article-block .ta-j {
-            text-align: justify;
-            -webkit-hyphens: auto;
-            -moz-hyphens: auto;
-            -ms-hyphens: auto;
-            hyphens: auto;
-            word-wrap: break-word;
-        }
-
-        .article-block .attention-block {
-            margin: 20px;
-            padding: 20px;
-            border-left: 3px solid #eee;
-        }
-
-            .article-block .attention-block h4 {
-                margin-top: 0;
-                margin-bottom: 5px;
-            }
-
-            .article-block .attention-block p:last-child {
-                margin-bottom: 0;
-            }
-
-        .article-block .attention-block-info {
-            background-color: #f4f8fa;
-            border-color: #5bc0de;
-        }
-
-            .article-block .attention-block-info h4 {
-                color: #5bc0de;
-            }
-
-        .article-block .attention {
-            padding: 16px 10px;
-            border: 1px solid #dddddd;
-            border-radius: 5px;
-            background-color: #ffffff;
-        }
-
-        .article-block .note {
-            color: #999;
-        }
-
-        .article-block .b {
-            font-weight: bold;
-        }
-
-        .article-block .notb {
-            font-weight: 100;
-        }
+    .article-block .notb {
+        font-weight: 100;
+    }
 
     .formula em,
     .variables em,
     .variable {
         font-weight: bold;
     }
-
-    .article-block .formula table {
-        border-spacing: 0;
-        border: 0;
-        border-radius: 0px;
-        border-collapse: separate;
-        margin: auto;
-        padding: 0;
-    }
-
-    .article-block .formula tr,
-    .article-block .formula td {
-        vertical-align: central;
-        margin: 0;
-        padding: 3px 5px;
-        border: 0;
-    }
+	    .article-block .formula table {
+	        border-spacing: 0;
+	        border: 0;
+	        border-radius: 0px;
+	        border-collapse: separate;
+	        margin: auto;
+	        padding:0;
+	    }
+	    .article-block .formula tr,
+	    .article-block .formula td {
+	        vertical-align: central;
+	        margin:0;
+	        padding: 3px 5px;
+	        border: 0;
+	    }
 </style>
 
+
 <article lang="uk" class="article-block">
-    <h1 class="topic">Звернення до посадовців</h1>
-    <p>Зміст:</p>
-    <ol class="content-art">
+    <h1 class="topic">Як оформити покупку б/у автомобіля</h1>
+    <p>У цьому розділі:</p>
+    <ul class="content-art notmarker">
         <li>
-            <a href="" ng-click="gotoAnchor(1)">
-                Що таке звернення до посадовців і як вони подаються
+            <a href="#anchor1">
+                Реєстрація б/у автомобіля за допомогою порталу послуг
             </a>
         </li>
         <li>
-            <a href="" ng-click="gotoAnchor(2)">
-                Які бувають види звернень
-            </a>
-            <ul>
-                <li>
-                    <a href="" ng-click="gotoAnchor(21)">
-                        Пропозиція
-                    </a>
-                </li>
-                <li>
-                    <a href="" ng-click="gotoAnchor(22)">
-                        Заява (клопотання)
-                    </a>
-                </li>
-                <li>
-                    <a href="" ng-click="gotoAnchor(23)">
-                        Скарга
-                    </a>
-                </li>
-                <li>
-                    <a href="" ng-click="gotoAnchor(24)">
-                        Запит про надання публічної інформації
-                    </a>
-                </li>
-            </ul>
-        <li>
-            <a href="" ng-click="gotoAnchor(3)">
-                Як правильно складати звернення
+            <a href="#anchor2">
+                Нотаріальне оформлення
             </a>
         </li>
         <li>
-            <a href="" ng-click="gotoAnchor(4)">
-                У який термін розглядаються звернення
+            <a href="#anchor3">
+                Оформлення договору купівлі-продажу в сервісному центрі
             </a>
         </li>
         <li>
-            <a href="" ng-click="gotoAnchor(5)">
-                Законодавство
+            <a href="#anchor4">
+                Купівля б/у автомобіля неофіційно
             </a>
         </li>
+        <li>
+            <a href="#anchor5">
+                Посилання на законодавство
+            </a>
+        </li>
+    </ul>
+     <p>
+        Є кілька способів придбати б/у авто. Вони відрізняються ціною, швидкістю і додатковими перевірками.
+    </p>
+    
+    <h2 id="anchor1">Реєстрація б/у автомобіля за допомогою порталу послуг</h1>
+
+    <p>
+        Найпростіший спосіб - це провести онлайн-перереєстрацію транспортного засобу на нового власника за договором купівлі-продажу через портал послуг.
+    </p>
+        </p>
+<a href="https://test3.es.kievcity.gov.ua/service/1464/general" class="button-subscribe" style="color:#fff;">Замовити послугу онлайн</a>
+    <p>
+        Для цього Вам необхідно:
+    </p>
+    <ol>
+        <li>Натиснути на кнопку вище і авторизуватися.</li>
+        <li>Заповнити всі поля і натиснути на кнопку "Замовити послугу".</li>
+        <li>Отримати на SMS і лист електронної пошти з реквізитами для оплати послуги та датою відвідування сервісного центру (або з відмовою, якщо надана Вами інформація не пройшла перевірку).</li>
+        <li>У зазначену дату під'їхати зі всіма документами (перелік нагадають в електронному листі) та квитанцією про сплату в сервісний центр МВС і закінчити процедуру оформлення.</li>
     </ol>
-    <h1 id="anchor1">1. Що таке звернення до посадовців і як вони подаються</h1>
+    <h2 id="anchor2">Нотаріальне оформлення</h2>
     <p>
-        Під зверненнями громадян до посадовців слід розуміти викладені письмово або в усній формі пропозиції, заяви або скарги.
+        Це самий затратний, але і найбільш безпечний спосіб, так як нотаріус виключає всі можливі проблеми, пов'язані з купівлею. Право власності переходить покупцеві з моменту нотаріального оформлення угоди і вже ніякі проблеми продавця (не погашені кредити та різні обмеження щодо продажу) не будуть дошкуляти в майбутньому.
+    </p>
+    <p>
+        Нотаріус перевіряє всі документи на автомобіль, а також шукає машину по базах:
     </p>
     <ul>
-        <li>
-            <em>Усне звернення</em> викладається громадянином на особистому прийомі або за допомогою засобів телефонного зв’язку через визначені контактні центри,
-            телефонні "гарячі лінії" та реєструється посадовою особою.
-        </li>
-        <li>
-            <em>Письмове звернення</em> надсилається поштою або передається громадянином до відповідного органу особисто чи через уповноважену ним особу,
-            повноваження якої оформлені відповідно до законодавства. Письмове звернення також може бути надіслане через Інтернет, засоби електронного зв’язку (електронне звернення).
-        </li>
+        <li>Невиконані кредитні зобов'язання</li>
+        <li>Чи не знаходиться під арештом</li>
+        <li>Відсутність обмежень на відчуження</li>
+        <li>Робить запит на <a href="https://test3.es.kievcity.gov.ua/service/1397/general">інформацію з Єдиного державного реєстру МВС</a> про володіння транспортними засобами фізичною або юридичною особою</li>
     </ul>
     <p>
-        Подати ряд звернень можна на порталі державних послуг iGov.org.ua, заповнивши невеличку форму:
+        При собі мати:
     </p>
     <ul>
-        <li><a href="https://igov.org.ua/service/676/general" target="_blank">звернення до міської ради</a> – якщо питання стосується міста;</li>
-        <li><a href="https://igov.org.ua/service/659/general" target="_blank">звернення до міського голови</a> – якщо питання не було вирішено при зверненні до відділів міської ради;</li>
-        <li><a href="https://igov.org.ua/service/1403/general" target="_blank">Звернення до голови ОДА</a> – якщо питання стосується районів області та не було вирішено відділами ОДА.</li>
+        <li>паспорт або інший документ, здатний засвідчити особу</li>
+        <li>індивідуальний податковий номер (ІПН)</li>
     </ul>
     <p>
-        Звернення до держустанов або посадовців може бути подано окремою особою (індивідуальне) або групою осіб (колективне).
+        Після оформлення угоди все одно доведеться їхати до сервісного центру для реєстрації авто в єдиній базі, але за спрощеною процедурою.
+    </p>
+    <h2 id="anchor3">Оформлення договору купівлі-продажу в сервісному центрі</h2>
+    <p>
+        Процедура така ж, як при нотаріальному оформленні, але ви економите на послугах нотаріуса та самостійно перевіряєте автомобіль і продавця. Послуги сервісного центру при оформленні договору купівлі-продажу надаються безкоштовно.
     </p>
     <p>
-        Особливою формою колективного звернення громадян до Президента, Верховної Ради, Кабінету Міністрів або органу місцевого самоврядування є електронна петиція, 
-        яка подається на офіційному веб-сайті органу, якому вона адресована.
+        Вам необхідно:
+    </p>
+    <ol>
+        <li>Оформити угоду.</li>
+        <li>Оплатити обов'язкові платежі по перереєстрації.</li>
+        <li>Далі з договором, квитанціями, своїм паспортом і технічним паспортом на автомобіль звернутися в єдине вікно сервісного центру.</li>
+    </ol>
+    <p>
+        При зміні власника, знімати автомобіль з обліку не обов'язково, але це може знадобитися, наприклад, для зміни номерів.
     </p>
     <p>
-        Наприклад:
+        При собі мати і продавцю і покупцю оригінали і пару копій:
     </p>
     <ul>
-        <li>до <a href="https://petition.president.gov.ua/" target="_blank">Президента України</a>;</li>
-        <li>до <a href="https://itd.rada.gov.ua/services/Petitions/" target="_blank">Верховної Ради України</a>;</li>
-        <li>до <a href="https://petition.kmu.gov.ua/" target="_blank">Кабінету Міністрів України</a>.</li>
+        <li>паспорт або інший документ, здатний засвідчити особу</li>
+        <li>індивідуальний податковий номер (ІПН)</li>
     </ul>
     <p>
-        Майже в кожному регіональному органі місцевого самоврядування на офіційному веб-порталі є можливість подати електронну петицію.
-    </p>
-    <h1 id="anchor2">2. Які бувають види звернень</h1>
-    <h2 id="anchor21">Пропозиція (зауваження)</h2>
-    <p>
-        <strong>Пропозиція</strong> – це звернення громадян, де висловлюється порада або рекомендація щодо діяльності органів державної влади і місцевого самоврядування, 
-        депутатів усіх рівнів, посадових осіб, а також висловлюються думки щодо врегулювання суспільних відносин та умов життя громадян, 
-        вдосконалення правової основи державного і громадського життя, соціально-культурної та інших сфер діяльності держави і суспільства.
-    </p>
-    <h2 id="anchor22">Заява (клопотання)</h2>
-    <p>
-        <strong>Заява</strong> – це звернення громадян із проханням посприяти реалізації їх прав та інтересів, закріплених Конституцією та чинним законодавством, 
-        або повідомлення про порушення чинного законодавства чи недоліки в діяльності підприємств, установ, організацій незалежно від форм власності, 
-        народних депутатів України, депутатів місцевих рад, посадових осіб, а також висловлення думки щодо поліпшення їх діяльності.
+        Якщо продавець перебуває в шлюбі, для офіційного оформлення договору від нього потрібна нотаріально завірена письмова згода пари на продаж авто або присутність чоловіка (дружини) з паспортом або іншим документом, здатним засвідчити особу.
     </p>
     <p>
-        <strong>Клопотання</strong> – письмове звернення з проханням про визнання за особою відповідного статусу, прав чи свобод тощо.
+        При купівлі б/у авто необхідно перевірити, чи не перебуває машина в одній з баз:
     </p>
-    <h2 id="anchor23">Скарга</h2>
+    <ul>
+        <li>Невиконані кредитні зобов'язання</li>
+        <li>Чи не знаходиться під арештом</li>
+        <li>Відсутність обмежень на відчуження</li>
+        <li>Робить запит на <a href="https://test3.es.kievcity.gov.ua/service/1397/general">інформацію з Єдиного державного реєстру МВС</a> про володіння транспортними засобами фізичною або юридичною особою</li>
+    </ul>
     <p>
-        <strong>Скарга</strong> – це звернення з вимогою поновити права і захистити законні інтереси громадян, порушені діями (бездіяльністю), 
-        рішеннями державних органів, органів місцевого самоврядування, підприємств, установ, організацій, об'єднань громадян, посадових осіб.
+        Також перед покупкою не зайвим буде в сервісному центрі:
     </p>
+    <ul>
+        <li>перевірити, чи не числиться автомобіль в угоні</li>
+        <li>замовити у сертифікованих експертів перевірку відповідності ідентифікаційних номерів на ТЗ і в документах</li>
+    </ul>
+    <p>
+        У сервісному центрі ви отримаєте свідоцтво про реєстрацію (технічний паспорт) та комплект номерних знаків. Після реєстрації надається три дні на оформлення обов'язкової страховки (ОСЦПВ).
+    </p>
+    <h2 id="anchor4">Купівля б/у автомобіля неофіційно</h2>
+    <p>
+        Продавець надає покупцеві нотаріально завірену відомість від свого імені. Покупець надає продавцеві обумовлену суму і отримує автомобіль.
+    </p>
+    <p>
+        Цей спосіб покупки є самим ненадійним, тому не рекомендуємо його використовувати з наступних причин:
+    </p>
+    <ul>
+        <li>Продавець з юридичної точки зору залишається власником.</li>
+        <li>Якщо у продавця виникнуть фінансові проблеми (наприклад, прострочений кредит), то на автомобіль може бути накладено арешт.</li>
+        <li>Після закінчення терміну дії довіреності продавець зможе розпоряджатися автомобілем на свій розсуд.</li>
+        <li>Продавець може в будь-який момент скасувати довіреність або видати ще величезну кількість подібних довіреностей (це передбачено ст. 249 Цивільного кодексу України), а потім зажадати повернути автомобіль.</li>
+        <li>у разі смерті власника (продавця), довіреність втрачає свою законну силу і транспорт переходить у власність нащадків.</li>
+        <li>При розлученні продавця, якщо авто було у спільній власності, покупець теж втрачає право розпоряджатися машиною.</li>
+    </ul>
 
-    <h2 id="anchor24">Запит про надання публічної інформації</h2>
-    <p>
-        <strong>Публічна інформація</strong> – це відображена та задокументована будь-якими засобами та на будь-яких носіях інформація, 
-        що була отримана або створена в процесі виконання суб'єктами владних повноважень своїх обов'язків, передбачених чинним законодавством, 
-        або яка знаходиться у володінні суб'єктів владних повноважень, інших розпорядників публічної інформації, визначених Законом.
-    </p>
-    <p>
-        <strong>Запит на інформацію</strong> – це прохання особи до розпорядника інформації надати публічну інформацію, що знаходиться у його володінні.
-    </p>
-    <p>
-        Запитувач має право звернутися до розпорядника інформації із запитом на інформацію незалежно від того, стосується ця інформація його особисто чи ні, без пояснення причини подання запиту.
-    </p>
-    <h1 id="anchor3">3. Як правильно складати звернення</h1>
-    <p>
-        Починайте звернення зі слів “Шановний” та закінчуйте “З повагою”. В одному зверненні краще описувати одне питання, якщо питань багато – напишіть декілька звернень з кожного окремого питання.
-    </p>
-    <p>
-        Спочатку викладете коротко вміст і історію вирішення Вашої проблеми із засланнями на відповідність Ваших вимог законодавчим актам, 
-        або, навпаки, на протиріччя ним дій організації, на яку Ви скаржитеся. В кінці текст звернення повинен мати чіткі вимоги-побажання, а не розмиті «просимо розібратися».
-    </p>
-    <p>
-        У зверненні має бути зазначено прізвище, ім’я, по батькові, місце проживання громадянина, викладено суть порушеного питання, зауваження, пропозиції, заяви чи скарги, прохання чи вимоги.
-    </p>
-    <p>
-        Письмове звернення повинно бути підписано заявником (заявниками) із зазначенням дати. В електронному зверненні також має бути зазначено електронну поштову адресу, 
-        на яку заявнику можна надіслати відповідь, або відомості про інші засоби зв’язку з ним. Електронно-цифровий підпис при надсиланні електронного звернення не вимагається.
-    </p>
-    <p>
-        Для письмових запитів на інформацію також використовуються відповідні <a href="http://zakon5.rada.gov.ua/laws/show/z0629-11" target="_blank">форми запитів на інформацію</a>, 
-        які можна отримати в розпорядника інформації та на офіційному веб-сайті відповідного розпорядника. Зазначені форми мають містити стислу інструкцію щодо процедури подання запиту на інформацію, її отримання тощо.
-    </p>
-    <p>
-        Якщо з поважних причин (інвалідність, обмежені фізичні можливості тощо) особа не може подати письмовий запит, 
-        його має оформити відповідальна особа з питань доступу до публічної інформації, обов'язково зазначивши в запиті своє ім'я, контактний телефон, та надати копію запиту особі, яка його подала.
-    </p>
-    <h1 id="anchor4">4. У який термін розглядаються звернення</h1>
-
-    <h3>Термін розгляду звернень громадян</h3>
-    <p>
-        Ваше звернення повинно бути розглянуто у термін не більше одного місяця від дня його надходження, а ті, які не потребують додаткового вивчення, – не пізніше п'ятнадцяти днів від дня їх отримання. 
-        Якщо в місячний термін вирішити порушені у зверненні питання неможливо, керівник відповідного органу, підприємства, установи, організації або його заступник встановлюють необхідний термін для його розгляду, 
-        про що Вам повідомлять. При цьому загальний термін вирішення питань, порушених у зверненні, не може перевищувати сорока п'яти днів.
-    </p>
-    <p>
-        Запис громадян на особистий прийом до посадовців проводиться за попереднім записом, коли порушене громадянином питання залишилося не вирішеним після письмового звернення. 
-        Графік та порядок особистого прийому громадян можна дізнатись на веб-порталах держустанов.
-    </p>
-
-    <h3>Строк розгляду запитів на інформацію</h3>
-    <p>
-        Розпорядник інформації має надати відповідь на запит на інформацію не пізніше п'яти робочих днів з дня отримання запиту.
-    </p>
-    <p>
-        Якщо запит стосується інформації, необхідної для захисту життя чи свободи особи, щодо стану довкілля, якості харчових продуктів і предметів побуту, аварій, катастроф, 
-        небезпечних природних явищ та інших надзвичайних подій, що сталися або можуть статись і загрожують безпеці громадян, відповідь має бути надана не пізніше 48 годин з дня отримання запиту, 
-        при цьому клопотання про термінове опрацювання запиту має бути обґрунтованим.
-    </p>
-    <h1 id="anchor5">Законодавство</h1>
+    <h1 id="anchor5">Посилання на законодавство</h1>
     <ol>
         <li>
-            <a href="http://zakon5.rada.gov.ua/laws/show/393/96-%D0%B2%D1%80" target="_blank">
-                Закон України «Про звернення громадян»
+            <a href="http://zakon5.rada.gov.ua/laws/show/1388-98-%D0%BF" target="_blank">
+                Порядок державної реєстрації транспортного засобу
             </a>
         </li>
         <li>
-            <a href="http://zakon5.rada.gov.ua/laws/show/2939-17" target="_blank">
-                Закон України «Про доступ до публічної інформації»
+            <a href="http://zakon0.rada.gov.ua/laws/show/795-2007-%D0%BF" target="_blank">
+                Тарифи (див. Категорію “Територіальні органи з надання сервісних послуг МВС”)
+            </a>
+        </li>
+        <li>
+            <a href="http://www.me.gov.ua/Vehicles/CalculatePrice?lang=uk-UA" target="_blank">
+                Транспортні засоби: розрахунок вартості
+            </a>
+        </li>
+        <li>
+            <a href="http://zakon1.rada.gov.ua/laws/show/z0689-10" target="_blank">
+                Про деякі питання здійснення обов'язкового страхування цивільно-правової відповідальності власників наземних транспортних засобів
             </a>
         </li>
     </ol>
 </article>
-<p>&nbsp;</p>
-<p>&nbsp;</p>

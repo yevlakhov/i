@@ -121,7 +121,7 @@
   background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(160,160,160,0.75), rgba(0,0,0,0));
 }
 .attach-btn, .attach-btn:hover, .attach-btn:focus, .main-form-controls .btn, .main-form-controls .btn:hover, .main-form-controls .btn:focus {
-  border: 1px solid #337ab7;
+  border: 1px solid #41a2ab;
   outline: none;
   border-radius: 3px;
   text-decoration: none;
@@ -156,9 +156,9 @@
 .like-modal .btn, .like-modal .btn:hover, .like-modal .btn:focus {
   width: 100%;
   margin-top: 8px;
-  background: #337ACF;
+  background: #41a2ab;
   outline: none;
-  border-color: #337ACF;
+  border-color: #41a2ab;
 }
 
 .like-modal span {
@@ -197,8 +197,8 @@
   padding-right: 10%;
 }
 .tab-is-selected {
-  border: 1px solid #337ACF !important;
-  background: #337ACF !important;
+  border: 1px solid #41a2ab !important;
+  background: #41a2ab !important;
   color: white !important;
   text-decoration: none;
 }
@@ -206,8 +206,8 @@
   text-decoration: none;
   border-radius: 0;
   width: 50%;
-  border: 1px solid #337ACF;
-  color: #337ACF;
+  border: 1px solid #41a2ab;
+  color: #41a2ab;
   font-size: 15px;
   padding-top: 3px;
   padding-bottom: 3px;
@@ -255,16 +255,16 @@
   background-image:      -o-linear-gradient(left, rgba(0,0,0,0), rgba(160,160,160,0.75), rgba(0,0,0,0));
 }
 .modal-success .modal-header {
-  background: #337ACF !important;
+  background: #41a2ab !important;
 }
 
 .modal-success .btn-success, .modal-success .btn-success:hover, .modal-success .btn-success:focus, .modal-success .btn-success.focus, .modal-success .btn-success:active, .modal-success .btn-success.active {
-  background-color: #337ACF;
+  background-color: #41a2ab;
   border: none;
   outline: none;
 }
 .btn-igov, .btn-igov:hover, .btn-igov:focus {
-  background-color: #337ACF;
+  background-color: #41a2ab;
   border: none;
   outline: none;
   color: white;
