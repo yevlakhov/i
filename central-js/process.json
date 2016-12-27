@@ -15,7 +15,7 @@
     "bTest": "TRUE",
 
     "BackProxy_Central": {
-      "sURL_BackProxy_Central": "http://alpha.test.igov.org.ua:9000",
+      "sURL_BackProxy_Central": "http://central.es.kievcity.gov.ua:9000",
       "sKeyPath_BackProxy_Central": "/sybase/cert/server.key",
       "sCertPath_BackProxy_Central": "/sybase/cert/server.crt"
     },
