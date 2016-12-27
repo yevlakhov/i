@@ -1,0 +1,119 @@
+
+/*----------------------- Breadcrumbs ------------------------*/
+
+.js-news-crumb {
+  background-color: #fff;
+  //height: 33px;
+  height: 40px;//поменял
+  margin-bottom: 33px;
+  -webkit-transition: .3s ease all;
+  -moz-transition: .3s ease all;
+  -ms-transition: .3s ease all;
+  -o-transition: .3s ease all;
+  transition: .3s ease all;
+  .breadcrumb {
+    background-color: transparent;
+    color: #000;
+    margin-top: -3px;
+    @media screen and (max-width: 450px) {
+      padding-left: 0;
+      padding-right: 0;
+    }
+    li {
+      @media screen and (max-width: 600px) {
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 40px;
+        position: relative;
+        top: 3px;
+      }
+    }
+    >.active {
+      position: relative;
+      top: 3px;
+      color: #000;
+      max-width: 800px;
+      overflow: hidden;
+      display: inline-block;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+      @media screen and (max-width: 1200px){
+        max-width: 500px;
+      }
+      @media screen and (max-width: 992px) {
+        max-width: 220px;
+      }
+      @media screen and (max-width: 768px) {
+        max-width: 130px;
+      }
+      @media screen and (max-width: 550px) {
+        max-width: 130px;
+      }
+      @media screen and (max-width: 500px) {
+        max-width: 130px;
+      }
+      @media screen and (max-width: 450px) {
+        max-width: 100px;
+      }
+    }
+    >li+li:before {
+      color: #45484a;
+      content: "/ ";//поменял
+      @media screen and (max-width: 450px) {
+        padding: 0 3px;
+      }
+    }
+    li {
+      font-family: $font-reg;
+      a {
+        color: #45484a;
+        border-bottom: 1px solid transparent;
+        transition: .3s all ease;
+        &:hover {
+          border-bottom: 1px solid #45484a;
+          transition: .3s all ease;
+        }
+      }
+    }
+  }
+}
+
+.js-news-crumb.fix-crumb {
+  left: 0;
+  top: 0;
+  right: 0;
+  line-height: 16px;
+  z-index: 100;
+  position: fixed;
+  background-color: $main-color;
+  height: 33px;
+  -webkit-transition: .3s ease all;
+  -moz-transition: .3s ease all;
+  -ms-transition: .3s ease all;
+  -o-transition: .3s ease all;
+  transition: .3s ease all;
+  .breadcrumb {
+    background-color: transparent;
+    color: #fff;
+    >.active {
+      color: #fff;
+    }
+    >li+li:before {
+      color: #fff;
+    }
+    li {
+      font-family: $font-reg;
+      a {
+        color: #fff;
+        border-bottom: 1px solid transparent;
+        transition: .3s all ease;
+        &:hover {
+          border-bottom: 1px solid #fff;
+          transition: .3s all ease;
+        }
+      }
+    }
+  }
+}

@@ -89,7 +89,7 @@ angular.module('app')
             }
           }
 
-          getCounts();
+          // getCounts();
 
           function isFilterActive() {
             $rootScope.mainSearchView = !!(($state.is('index') || $state.is('index.catalog')) && $scope.data.region);
@@ -229,6 +229,7 @@ angular.module('app')
               angular.forEach(ctlg, function (category) {
                 angular.forEach(category.aSubcategory, function (subCategory) {
                   // leave services that match filterCriteria
+                  console.log(subCategory);
                   subCategory.aService = $filter('filter')(subCategory.aService, filterCriteria);
                 });
                 // leave subcategories that are not empty

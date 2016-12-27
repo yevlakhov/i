@@ -6,30 +6,54 @@
     font-size: 14px;
   }
 </style>
-<div class="container igov-container">
-  <div class="container breadcrumbs" style="margin-top: 20px" ng-if="!spinner">
+
+
+<div class="container-fluid news__crumb js-news-crumb" ng-if="!spinner">
+  <div class="container">
     <div class="row">
-      <div class="container" style="padding-left: 0; padding-right: 0">
-        <a ui-sref="index.oldbusiness">Головна</a>
-        >
-        <span>{{subcategory.sName}}</span>
-        <hr class="common-hr" style="width: 101%">
+      <div class="col-md-12">
+        <ol class="breadcrumb">
+          <li class="breadcrumb-item"><a href="/business/1">Головна</a></li>
+          <li class="breadcrumb-item active">{{subcategory.sName}}</li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid category-kostyl igov-container">
+  <!--<div class="container breadcrumbs" style="margin-top: 20px" ng-if="!spinner">-->
+    <!--<div class="row">-->
+      <!--<div class="container" style="padding-left: 0; padding-right: 0">-->
+        <!--<a ui-sref="index.oldbusiness">Головна</a>-->
+        <!--&gt;-->
+        <!--<span>{{subcategory.sName}}</span>-->
+        <!--<hr class="common-hr" style="width: 101%">-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
+
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="category__title">
+          <h2>{{subcategory.sName}}</h2>
+        </div>
       </div>
     </div>
   </div>
 
   <div class="container" style="padding-right: 27px; padding-left: 27px">
-    <div class="row igov-columns-3" ng-if="!spinner">
+    <div class="row ng-if="!spinner">
       <div ng-repeat="service in subcategory.aService | orderBy: ['-nStatus', 'nOrder', 'sName'] " ng-if="!busSpinner">
         <ul class="list-unstyled">
-          <li>
+          <li class="col-md-6 col-sm-12 category__item-list-item">
             <a ui-sref="index.service.general({'id': service.nID })"
                ng-href="/service/{{service.nID}}/general">
               <i class="icon-e-service-on"
                  ng-if="service.nStatus === 2"
                  title="Ця послуга доступна в електронній формі для одного, кількох або всіх регіонів">
               </i>
-              <i class="icon-e-service-test"
+              <i class="icon-e-service-off"
                  ng-if="service.nStatus === 1"
                  title="Ця послуга буде доступна онлайн дуже скоро. Зайдіть у послугу та залиште свій email, щоб дізнатися, коли стане доступна.">
               </i>
@@ -41,6 +65,26 @@
             </a>
           </li>
         </ul>
+      </div>
+    </div>
+  </div>
+
+  <div class="row category__item-subscribe" style="margin-top: 3em; margin-bottom: 2em;">
+    <div class="container">
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <div class="category__item-subscribe-text mb991">
+          Не знайшли необхідний вам розділ або послугу?
+        </div>
+      </div>
+      <div class="col-md-6 col-sm-12 col-xs-12">
+        <form ng-submit="sendMailRequest()">
+          <div class="input-group">
+            <input type="text" ng-model="mailInputText" class="form-control" placeholder="Напишіть, що саме шукали" required>
+            <span class="input-group-btn">
+                  <button class="btn btn-default button-subscribe" type="submit">Надіслати</button>
+                </span>
+          </div>
+        </form>
       </div>
     </div>
   </div>

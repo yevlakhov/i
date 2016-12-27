@@ -20,6 +20,13 @@ angular.module('app')
     $scope.mainSpinner = true;
     $scope.isKyivCity = !!statesRepository.isKyivCity();
 
+    $scope.mailInputText = '';
+    $scope.sendMailRequest = function () {
+      $.post('/api/messages/sendMail',{message:$scope.mailInputText}).success(function () {
+        $scope.mailInputText = '';
+        $scope.$apply()
+      })
+    }
     /*$scope.isCatalogCategoryShowAll = function(nID){
         return statesRepository.isSearch(nID);
     };*/
@@ -102,6 +109,15 @@ angular.module('app')
       if(toState.name === 'index') {
         CatalogService.getCatalogTreeTag(1).then(function (res) {
           $scope.catalog = res;
+          $scope.catalog = $scope.catalog.map(function (val) {
+            val.aServiceTag_Child = val.aServiceTag_Child.map(function (item) {
+              var to = item.sName_UA.indexOf(']');
+              item.sName_UA = item.sName_UA.substr(to+1);
+              return item
+            })
+            return val
+          });
+
           $scope.changeCategory();
           $scope.spinner = false;
           $scope.mainSpinner = false;
@@ -111,6 +127,10 @@ angular.module('app')
       if (toState.resolve) {
         $scope.spinner = true;
       }
+    });
+
+    $scope.$on('$stateChangeSuccess', function(event, toState) {
+      $scope.spinner = false;
     });
     $scope.$on('$stateChangeError', function(event, toState) {
       if (toState.resolve) {

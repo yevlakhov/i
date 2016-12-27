@@ -1,4 +1,113 @@
-<div class="container">
-    <h1>Сторінку не знайдено</h1>
-    <a ui-sref="index">На головну</a>
+<div class="notfound" ng-controller="fourCtr">
+
+    <div class="container">
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                <div class="notfound__head">
+
+                    <a ui-sref="index">
+
+                        <img class="notfound__head-img" src="../../assets/images/svg/logo_blue.svg" alt="ПОСЛУГИ. Офіційний Портал Міста">
+
+                    </a>
+
+                </div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="notfound__inner">
+
+                <div class="col-md-1"></div>
+
+                <div class="col-md-4">
+                    <div class="notfound__inner-error">
+                        404
+                    </div>
+                </div>
+
+                <div class="col-md-6">
+
+                    <div class="notfound__inner-title">сторінку не знайдено</div>
+                    <div class="notfound__inner-text">Можливо, вона видалена або змінилась її адреса. А може, її ніколи тут не було. Скористайтесь пошуком або поверніться <a ui-sref="index">на головну</a>.</div>
+
+                </div>
+
+                <div class="col-md-1"></div>
+
+            </div>
+
+        </div>
+
+        <div class="row">
+
+            <div class="notfound__search">
+
+                <div class="col-md-1"></div>
+
+                <div class="col-md-4 hidden-lg hidden-md">
+
+                    <div class="notfound__search-form">
+
+                        <form ng-submit="searchOrder(this)">
+                            <div class="input-group">
+                                <input ng-model="sSearch"
+                                       ng-model-options="{ updateOn: 'default', debounce: {'default': 100} }"
+                                       type="text"
+                                       class="form-control header__search-input"
+                                       placeholder="закордонний паспорт">
+                                <button type="submit" class="header__search-btn" ng-show="sSearch.length<3">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                                <button class="header__search-btn" ng-show="sSearch.length>=3" ng-click="clear()">
+                                    <i class="fa fa-remove" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-4"></div>
+
+                <div class="col-md-4 hidden-xs hidden-sm">
+
+                    <div class="notfound__search-form">
+
+                        <form ng-submit="searchOrder(this)">
+                            <div class="input-group">
+                                <input ng-model="sSearch"
+                                       ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }"
+                                       ng-change="searching()"
+                                       type="text"
+                                       class="form-control header__search-input"
+                                       placeholder="закордонний паспорт">
+                                <button type="submit" class="header__search-btn" ng-show="sSearch.length<3">
+                                    <i class="fa fa-search" aria-hidden="true"></i>
+                                </button>
+                                <button class="header__search-btn" ng-show="sSearch.length>=3" ng-click="clear()">
+                                    <i class="fa fa-remove" aria-hidden="true"></i>
+                                </button>
+                            </div>
+                        </form>
+
+                    </div>
+
+                </div>
+
+                <div class="col-md-1"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
 </div>

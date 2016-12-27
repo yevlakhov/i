@@ -21,67 +21,24 @@
 
     vm.onChange = onChange;
 
-    vm.enable = typeof getCookie(cookieName) !== 'undefined';
+    vm.enable = typeof window.cookiesFunc.get(cookieName) !== 'undefined';
 
     function onChange() {
+      console.log(vm.enable);
       vm.enable = !vm.enable;
       if (vm.enable) {
-        setCookie(cookieName, 'MockUser', {
+        window.cookiesFunc.set(cookieName, 'MockUser', {
           path: "/",
           expires: 180
         });
       } else if (!vm.enable) {
-        deleteCookie(cookieName, 'MockUser');
+        window.cookiesFunc.delete(cookieName, 'MockUser');
       }
     }
 
     vm.isVisible = function () {
-      if ($scope.$root.profile.isKyivCity) return false;
-      return getCookie('bServerTest') === 'true';
+      if ($scope.$root.profile.isKyivCity && getCookie('bServerTest') !== 'true') return false;
+      return window.cookiesFunc.get('bServerTest') === 'true';
     };
-
-
-    function getCookie(name) {
-      var matches = document.cookie.match(new RegExp(
-        "(?:^|; )" + name.replace(/([\.$?*|{}\(\)\[\]\\\/\+^])/g, '\\$1') + "=([^;]*)"
-      ));
-      return matches ? decodeURIComponent(matches[1]) : undefined;
-    }
-
-
-    function setCookie(name, value, options) {
-      options = options || {};
-
-      var expires = options.expires;
-
-      if (typeof expires == "number" && expires) {
-        var d = new Date();
-        d.setTime(d.getTime() + expires * 1000);
-        expires = options.expires = d;
-      }
-      if (expires && expires.toUTCString) {
-        options.expires = expires.toUTCString();
-      }
-
-      value = encodeURIComponent(value);
-
-      var updatedCookie = name + "=" + value;
-
-      for (var propName in options) {
-        updatedCookie += "; " + propName;
-        var propValue = options[propName];
-        if (propValue !== true) {
-          updatedCookie += "=" + propValue;
-        }
-      }
-      document.cookie = updatedCookie;
-    }
-
-    function deleteCookie(name, value) {
-      setCookie(name, value, {
-        expires: -1,
-        path: "/"
-      });
-    }
   }
 })();

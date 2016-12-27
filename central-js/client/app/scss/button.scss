@@ -1,0 +1,253 @@
+/*----------------------- Button ------------------------*/
+
+.scrollToTop {
+  width: 50px;
+  height: 50px;
+  text-align: center;
+  font-weight: bold;
+  text-decoration: none;
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  display: none;
+  z-index: 2000;
+  background-color: $main-color;
+  opacity: .7;
+  -webkit-transition: -webkit-transform 0.3s;
+  transition: -webkit-transform 0.3s;
+  transition: transform 0.3s;
+  transition: transform 0.3s, -webkit-transform 0.3s;
+  overflow: hidden;
+  -webkit-border-radius: 50%;
+  -moz-border-radius: 50%;
+  border-radius: 50%;
+  &:before {
+    content: '';
+    position: absolute;
+    display: block;
+    top: 15px;
+    background-color: #fff;
+    height: 20px;
+    width: 3px;
+    -webkit-transform: rotate(-45deg);
+    transform: rotate(-45deg);
+    left: 29px;
+  }
+  &:after{
+    content: '';
+    position: absolute;
+    display: block;
+    top: 15px;
+    background-color: #fff;
+    height: 20px;
+    width: 3px;
+    -webkit-transform: rotate(45deg);
+    transform: rotate(45deg);
+    right: 30px;
+  }
+  &:hover {
+    opacity: 1;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    text-decoration: none;
+  }
+}
+
+
+.btn {
+  &:active {
+    -webkit-box-shadow: none;
+    -moz-box-shadow: none;
+    box-shadow: none;
+  }
+}
+
+.button {
+  &-subscribe {
+    background-color: $btn-main!important;
+    font-size: 13px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #fff!important;
+    font-weight: 700;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    padding: 1em 2em;
+    letter-spacing: 1px;
+    border: 0;
+    border-radius: 7px;
+    &:hover {
+      background-color: $btn-hover!important;
+      -webkit-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      -ms-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      transition: .3s ease all;
+      color: #fff;
+    }
+    &:focus,
+    &:active {
+      color: #fff;
+      outline: none!important;
+    }
+    &:active {
+      outline: none!important;
+      color: #fff;
+      background-color: lighten($btn-main, 10)!important;
+    }
+  }
+  &-main {
+    position: relative;
+    background-color: $btn-main!important;
+    font-size: 13px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #fff!important;
+    font-weight: 700;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    padding: 1em 2em;
+    letter-spacing: 1px;
+    border: 0;
+    border-radius: 7px;
+    &:hover {
+      background-color: $btn-hover!important;
+      -webkit-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      -ms-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      transition: .3s ease all;
+      color: #fff;
+    }
+    &:focus,
+    &:active {
+      color: #fff;
+      outline: none!important;
+    }
+    &:active {
+      outline: none!important;
+      color: #fff;
+      background-color: lighten($btn-main, 10)!important;
+    }
+    .btn-text {
+      margin-left: 20px;
+    }
+  }
+  &-services {
+    background-color: #67c1c1!important;
+    font-size: 13px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #fff!important;
+    font-weight: 700;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    padding: 1.5em 2em;
+    letter-spacing: 1px;
+    border: 0;
+    border-radius: 7px;
+    &:hover {
+      background-color: #67c1c1!important;
+      -webkit-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      -ms-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      transition: .3s ease all;
+      color: #fff;
+    }
+    &:focus,
+    &:active {
+      color: #fff;
+      outline: none!important;
+    }
+    &:active {
+      outline: none!important;
+      color: #fff;
+      background-color: lighten(#67c1c1, 10)!important;
+    }
+  }
+  &-upload {
+    background-color: #dbdbdb!important;
+    font-size: 13px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #000!important;
+    font-weight: 700;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    padding: .7em 1em;
+    letter-spacing: 1px;
+    border: 0;
+    border-radius: 7px;
+    &:hover {
+      background-color: lighten(#dbdbdb, 5)!important;
+      -webkit-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      -ms-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      transition: .3s ease all;
+      color: #000;
+    }
+    &:focus,
+    &:active {
+      color: #000;
+      outline: none!important;
+    }
+    &:active {
+      outline: none!important;
+      color: #000;
+      background-color: lighten(#dbdbdb, 8)!important;
+    }
+  }
+  &-access {
+    background-color: $main-color!important;
+    font-size: 13px;
+    display: inline-block;
+    text-transform: uppercase;
+    color: #fff!important;
+    font-weight: 700;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    padding: .7em 1em;
+    letter-spacing: 1px;
+    border: 0;
+    border-radius: 7px;
+    &:hover {
+      background-color: lighten($main-color, 10)!important;
+      -webkit-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      -ms-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      transition: .3s ease all;
+      color: #fff;
+    }
+    &:focus,
+    &:active {
+      color: #fff;
+      outline: none!important;
+    }
+    &:active {
+      outline: none!important;
+      color: #fff;
+      background-color: lighten($main-color, 15)!important;
+    }
+  }
+}

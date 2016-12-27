@@ -1,0 +1,99 @@
+/*----------------------- Subcategory ------------------------*/
+
+.category {
+  background-color: #efefef;
+  padding-bottom: 30px;
+  margin-bottom: -85px;
+  &-kostyl{
+    margin-top: -33px!important;
+    background-color: #efefef;
+    margin-bottom: -84px;
+  }
+  &__item {
+    &-list {
+      &-item {
+        min-height: 60px;
+        p {
+          font-family: $font-reg;
+        }
+        a {
+          color: #247d76;
+          text-decoration: none;
+          border-bottom: 1px solid transparent;
+          -webkit-transition: .3s ease all;
+          -moz-transition: .3s ease all;
+          -ms-transition: .3s ease all;
+          -o-transition: .3s ease all;
+          transition: .3s ease all;
+          font-family: $font-reg;
+          font-size: 14px;
+          &:hover {
+            -webkit-transition: .3s ease all;
+            -moz-transition: .3s ease all;
+            -ms-transition: .3s ease all;
+            -o-transition: .3s ease all;
+            transition: .3s ease all;
+            text-decoration: none;
+            color: #00a99f;
+            border-bottom: 1px solid #00a99f;
+          }
+        }
+      }
+    }
+    &-subscribe {
+      margin-top: 1em;
+      margin-bottom: 1em;
+      &-grey{
+        margin-bottom: 2em;
+        margin-top: 2em;
+        input {
+          border: 1px solid #999999!important;
+        }
+      }
+      span {
+        button {
+          z-index: 3 !important;
+          margin-left: -8px !important;
+          border-top-left-radius: 7px !important;
+          border-bottom-left-radius: 7px !important;
+          padding: 8px 2em;
+        }
+      }
+      &-text {
+        display: inline-block;
+        font-family: $font-semi;
+        color: #000;
+        font-size: 20px;
+      }
+      .form-control {
+        border-top-left-radius: 7px !important;
+        border-bottom-left-radius: 7px !important;
+        font-family: $font-semi;
+        color: #999;
+        transition: 0s ease all !important;
+        border: 1px solid #fff !important;
+        -webkit-box-shadow: none;
+        -moz-box-shadow: none;
+        box-shadow: none;
+        &:focus {
+          outline: none;
+        }
+      }
+    }
+  }
+  &__title {
+    text-align: center;
+    margin-top: 1em;
+    margin-bottom: 2em;
+    h2 {
+      color: #000;
+      font-family: $font-reg;
+      display: inline-block;
+      font-size: 24px;
+    }
+  }
+  .igov-container {
+    padding: 0;
+    background-color: transparent;
+  }
+}

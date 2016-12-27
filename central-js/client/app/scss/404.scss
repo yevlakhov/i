@@ -1,0 +1,121 @@
+/*----------------------- 404 ------------------------*/
+
+.notfound {
+  background-color: #fff;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  &__head {
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 150px;
+    @media screen and (max-width: 992px) {
+      margin-bottom: 100px;
+    }
+    @media screen and (max-width: 768px) {
+      margin-bottom: 20px;
+      margin-top: 10px;
+    }
+    >a {
+      display: block;
+      position: relative;
+      margin: 0 auto;
+      width: 300px;
+    }
+    &-img {
+      position: absolute;
+      width: 200px;
+      height: 80px;
+      left: 0;
+      top: 3px;
+      @media screen and (max-width: 768px) {
+        left: 10px;
+      }
+    }
+  }
+  &__inner {
+    margin-top: 100px;
+    &-error {
+      font-size: 125px;
+      color: $main-color;
+      text-transform: uppercase;
+      font-family: $font-bold;
+      text-align: right;
+      @media screen and (max-width: 991px) {
+        text-align: center;
+      }
+    }
+    &-title {
+      margin-top: 20px;
+      margin-bottom: 10px;
+      text-align: left;
+      font-size: 24px;
+      text-transform: uppercase;
+      color: $main-color;
+      font-family: $font-bold;
+      @media screen and (max-width: 991px) {
+        text-align: center;
+      }
+    }
+    &-text {
+      text-align: left;
+      font-family: $font-semi;
+      color: #000;
+      font-size: 14px;
+      padding-right: 150px;
+      line-height: 18px;
+      @media screen and (max-width: 1200px) {
+        padding-right: 0;
+      }
+      @media screen and (max-width: 992px) {
+        margin-top: 2em;
+        margin-bottom: 2em;
+        text-align: center;
+      }
+      a {
+        display: inline;
+        color: $main-color;
+        -webkit-transition: .5s ease all;
+        -moz-transition: .5s ease all;
+        -ms-transition: .5s ease all;
+        -o-transition: .5s ease all;
+        transition: .5s ease all;
+        border-bottom: 1px solid transparent;
+        font-family: $font-semi;
+        &:hover {
+          -webkit-transition: .5s ease all;
+          -moz-transition: .5s ease all;
+          -ms-transition: .5s ease all;
+          -o-transition: .5s ease all;
+          transition: .5s ease all;
+          color: $main-color-hover;
+          border-bottom: 1px solid $main-color-hover;
+          text-decoration: none;
+        }
+      }
+    }
+  }
+  &__search {
+    margin-top: 1em;
+    &-img {
+      text-align: right;
+      @media screen and (max-width: 992px) {
+        text-align: center;
+      }
+      img {
+        display: inline-block;
+      }
+    }
+    &-form {
+      margin-bottom: 3em;
+      .input-group {
+        width: 100%;
+        input {
+          font-family: $font-semi;
+        }
+      }
+    }
+  }
+}

@@ -114,7 +114,8 @@ angular.module('appBoilerPlate').provider('statesRepository', function StatesRep
       }
 
     } else {
-      this.mode = 'local';
+      this.mode = 'kyiv';
+
     }
 
   };

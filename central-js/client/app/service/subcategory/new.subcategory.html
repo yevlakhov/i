@@ -1,57 +1,122 @@
-<div class="container breadcrumbs" style="margin-top: 20px" ng-if="!spinner">
-  <div class="row">
+<div class="container-fluid category">
+
+  <div class="container-fluid news__crumb js-news-crumb" ng-if="!spinner">
     <div class="container">
-      <a href="/1" ng-if="catalogTab == 1">Головна</a>
-      <a href="/2" ng-if="catalogTab == 2">Головна</a>
-      >
-      <span>{{subcategory.oServiceTag_Root.sName_UA}}</span>
-      <hr class="common-hr" style="width: 101%">
+      <div class="row">
+        <div class="col-md-12">
+          <ol class="breadcrumb">
+            <li class="breadcrumb-item" ng-if="catalogTab != 2"><a href="/">Головна</a></li>
+            <li class="breadcrumb-item" ng-if="catalogTab == 2"><a href="/2">Головна</a></li>
+            <li class="breadcrumb-item active">{{subcategory.oServiceTag_Root.sName_UA}}</li>
+          </ol>
+        </div>
+      </div>
     </div>
   </div>
-</div>
-<div class="row">
-  <div class="container igov-container subcategory-tmpl">
 
-    <div ng-if="!spinner">
+  <!--<div class="container breadcrumbs" style="margin-top: 20px" ng-if="!spinner">-->
+    <!--<div class="row">-->
+      <!--<div class="container">-->
+        <!--<a href="/1" ng-if="catalogTab == 1">Головна</a>-->
+        <!--<a href="/2" ng-if="catalogTab == 2">Головна</a>-->
+        <!--&gt;-->
+        <!--<span>{{subcategory.oServiceTag_Root.sName_UA}}</span>-->
+        <!--<hr class="common-hr" style="width: 101%">-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
-      <div class="row" ng-if="subcategory">
-        <div class="container">
-          <div class="vertical-divider"></div>
-          <span ng-if="stateCheck == 1" style="font-size: 24px; font-family: 'Open Sans'; margin-left: 8px">Оберіть Вашу життєву ситуацію...</span>
-          <span ng-if="stateCheck == 2" style="font-size: 24px; font-family: 'Open Sans'">Оберіть Ваш розділ</span>
-          <br>
-          <ul class="situation-list">
-            <li ng-repeat="situation in subcategory.aServiceTag_Child">
-              <a ui-sref="index.situation({'catID': catalogTab, 'scatID': subcategory.oServiceTag_Root.nID, 'sitID': situation.nID})">{{situation.sName_UA}}</a>
-            </li>
-          </ul>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12">
+        <div class="category__title">
+          <h2>{{subcategory.oServiceTag_Root.sName_UA}}</h2>
         </div>
       </div>
+    </div>
+  </div>
 
-      <div class="row" style="margin-top: 30px" ng-if="subcategory">
-        <div class="container">
-          <span style="font-size: 24px; font-family: 'Open Sans'; display: inline-block;">... або знайдіть послугу, яка Вас цікавить</span>
-          <hr class="common-hr" style="width: 57%; display:inline-block; margin-bottom: 6px">
+  <div class="row">
+    <div class="container igov-container subcategory-tmpl">
+    <!--<div class="container igov-container">-->
+
+      <div ng-if="!spinner">
+
+        <div class="row" ng-if="subcategory">
+          <div class="container">
+            <span ng-if="stateCheck == 2" style="font-size: 24px; font-family: 'Open Sans'">Оберіть Ваш розділ</span>
+            <br>
+            <ul class="situation-list">
+              <li class="col-md-6 category__item-list-item" ng-repeat="category in subcategory.aServiceTag_Child">
+                <p style="font-size: 20px; font-family: 'Open Sans Semibold'; display: inline-block; color: #000; position: relative;"><i style="position: absolute; left: -20px; color: #247d76;" class="glyphicon glyphicon-menu-right"></i>{{category.cName}}</p>
+                <div ng-repeat="situation in category.items">
+                  <a style="font-weight: normal;" ui-sref="index.situation({'catID': catalogTab, 'scatID': subcategory.oServiceTag_Root.nID, 'sitID': situation.nID})">{{situation.sName_UA}}</a>
+                </div>
+              </li>
+            </ul>
+          </div>
         </div>
-      </div>
 
-      <div class="container" style="padding-right: 50px">
-        <div class="row igov-columns-3 services-in-situations">
-          <div class="col-md-12" ng-repeat="service in subcategory.aService | orderBy: 'nOrder'">
-            <a ui-sref="index.service.general({'id': service.nID })">{{service.sName}}</a>
-            <hr class="common-hr">
+        <div class="row">
+          <div class="container">
+            <hr class="white-hr">
+          </div>
+        </div>
+
+        <div class="row" ng-if="subcategory">
+          <div class="container">
+            <span style="font-size: 20px; font-family: 'Open Sans Semibold'; display: inline-block;">Пов'язані послуги</span>
+          </div>
+        </div>
+<style>
+  .servises-status{
+    width: 10px;
+    height: 10px;
+    border-radius: 5px;
+    position: absolute;
+    left: 0;
+    top: 11px;
+  }
+</style>
+        <div class="container" style="padding-right: 50px">
+          <div class="row category__item-list services-in-situations">
+          <!--<div class="row igov-columns-3 services-in-situations">-->
+            <div class="col-md-6 category__item-list-item" ng-repeat="service in subcategory.aService | orderBy: 'nOrder'">
+              <div class="servises-status" style="background: #017582" ng-if ="service.nStatus==2"></div>
+              <div class="servises-status" style="background: #a1a1a1" ng-if ="service.nStatus!==2"></div>
+              <a ui-sref="index.service.general({'id': service.nID })">{{service.sName}}</a>
+            </div>
           </div>
         </div>
       </div>
-    </div>
 
-    <div class="row" ng-show="!resultsAreLoading && spinner">
-      <div class="text-center">
-        <img class="text-center section-preloader" src="/assets/images/loading.gif" alt="Loading"/>
+      <div class="row" ng-show="!resultsAreLoading && spinner">
+        <div class="text-center">
+          <img class="text-center section-preloader" src="/assets/images/loading.gif" alt="Loading"/>
+        </div>
       </div>
+
+      <div class="row category__item-subscribe">
+        <div class="container">
+          <div class="col-md-6 col-sm-12 col-xs-12">
+            <div class="category__item-subscribe-text mb991 tac991">
+              Не знайшли необхідний вам розділ або послугу?
+            </div>
+          </div>
+          <div class="col-md-6 col-sm-12 col-xs-12">
+            <form ng-submit="sendMailRequest()">
+              <div class="input-group">
+                <input type="text" ng-model='mailInputText' class="form-control" placeholder="Напишіть, що саме шукали" required>
+                <span class="input-group-btn">
+                <button class="btn btn-default button-subscribe" type="submit">Надіслати</button>
+              </span>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+
     </div>
-
   </div>
+
 </div>
-
-

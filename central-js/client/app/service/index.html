@@ -1,19 +1,37 @@
-<div class="container" ng-class="{'sfs-container': service.subjectOperatorName === 'Державна фіскальна служба'}" ng-if="!spinner">
+<div class="container-fluid news__crumb js-news-crumb">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <ol class="breadcrumb">
+                    <li class="breadcrumb-item">
+                        <a href="/" ng-if="catalogTab == 1 || !catalogTab">Головна</a>
+                    </li>
+                    <li class="breadcrumb-item active">
+                        <span>{{::service.sName}}</span>
+                    </li>
+                </ol>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="container service" ng-class="{'sfs-container': service.subjectOperatorName === 'Державна фіскальна служба'}" ng-if="!spinner">
     <div class="service-name">{{::service.sName}}</div>
     <div class="operator-name">{{::service.sSubjectOperatorName}}</div>
 
-    <div class="row">
+    <div class="row service-tab">
         <div class="col-md-12">
             <ul class="nav nav-tabs longTabs">
                 <li ui-sref-active="active"
-                    role="presentation">
+                    role="presentation"
+                    ng-if="!serviceNotFound">
                     <a ui-sref="index.service.general({id: service.nID})">Послуга</a>
                 </li>
                 <li ui-sref-active="active"
                     ng-if="service.sInfo.trim() || (false && bAdmin)"
                     ng-hide="bHideTab"
                     role="presentation">
-                  <a ui-sref="index.service.instruction({id: service.nID})">Як працює</a>
+                  <a ui-sref="index.service.instruction({id: service.nID})">Інший спосіб</a>
                 </li>
                 <li ui-sref-active="active"
                     ng-if="feedback.visible"
@@ -39,6 +57,7 @@
                     <a ui-sref="index.service.discussion({id: service.nID})">Обговорення</a>
                 </li>
               <li ui-sref-active="active"
+                  ng-if="service.sFAQ.trim() || (false && bAdmin)"
                   ng-hide="bHideTab"
                   role="presentation">
                 <a ui-sref="index.service.statistics({id: service.nID})">Статистика</a>
@@ -47,7 +66,7 @@
         </div>
     </div>
 
-    <div ui-view="content">
+    <div ui-view="content" class="service-content">
         <div class="text-center">
             <img class="text-center"
                  src="assets/images/loading.gif"

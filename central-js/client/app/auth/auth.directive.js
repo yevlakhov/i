@@ -1,4 +1,4 @@
-angular.module('app').directive('serviceAuthBlock', function ($state, $location, bankidProviders) {
+angular.module('app').directive('serviceAuthBlock', function ($rootScope,$state, $location, bankidProviders) {
   return {
     restrict: 'A',
     transclude: true,
@@ -8,6 +8,8 @@ angular.module('app').directive('serviceAuthBlock', function ($state, $location,
       authMethods: '@'
     },
     link: function (scope, element, attrs) {
+      scope.clientIDRed = $rootScope.clientIDRed;
+      scope.loginPathRedirect = $rootScope.loginPathRedirect;
       scope.$location = $location;
 
       scope.loginWithEmail = function () {

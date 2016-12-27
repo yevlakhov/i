@@ -33,6 +33,7 @@ angular.module('app')
           params: data,
           data: data
         }).then(function (response) {
+          if(response.data.length == 0 || response.data.message != undefined)return $rootScope.state.go('404');
           servicesCache = response.data;
           return response.data;
         });
@@ -48,6 +49,7 @@ angular.module('app')
           params: data,
           data: data
         }).then(function (response) {
+          if(response.data.length == 0 || response.data.message != undefined)return $rootScope.state.go('404');
           servicesCache = response.data;
           return response.data;
         });
@@ -79,6 +81,7 @@ angular.module('app')
           params: data,
           data: data
         }).then(function (response) {
+          if(response.data.length == 0 || response.data.message != undefined)return $rootScope.state.go('404');
           servicesCache = response.data;
           return response.data;
         });
@@ -132,7 +135,8 @@ angular.module('app')
       params: data,
       data: data
     }).then(function (response) {
-        return response.data;
+      // if(response.data.length == 0 || response.data.message != undefined)return $rootScope.state.go('404');
+      return response.data;
     });
   };
 
@@ -158,6 +162,7 @@ angular.module('app')
       params: data,
       data: data
     }).then(function (response) {
+      if(response.data.length == 0 || response.data.message != undefined)return $rootScope.state.go('404');
       servicesCache = response.data;
       return response.data;
     });
@@ -173,6 +178,7 @@ angular.module('app')
       params: data,
       data: data
     }).then(function (response) {
+      if(response.data.length == 0 || response.data.message != undefined)return $rootScope.state.go('404');
       servicesCache = response.data;
       return response.data[0];
     })

@@ -9,8 +9,8 @@ angular.module('app').service('AdminService', function() {
   };
 
   this.isAdmin = function() {
-    var result = $.cookie(cookieKey);
-    if (!result)
+    var result = window.cookiesFunc.get(cookieKey);
+    if (typeof result == "undefined")
       return false;
     result = JSON.parse(result);
     return !(!result.token || !result.inn);

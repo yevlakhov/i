@@ -4,8 +4,22 @@ $breadcrumb-separator: ">";
 $breadcrumb-bg: none;
 /*$grid-float-breakpoint: 992px;*/
 @import '../bower_components/bootstrap-sass-official/vendor/assets/stylesheets/bootstrap';
-@import "journal/journal";
 @import '../bower_components/font-awesome/scss/font-awesome';
+
+//Include style from Glazov S. Front-End Developer - Kitsoft
+
+//Helpers styles
+@import "scss/vars";
+@import "scss/reset";
+@import "scss/helpers";
+@import "scss/fonts";
+@import "scss/link";
+@import "scss/cookie";
+
+@import "journal/journal";
+@import "scss/journal";
+
+@import "scss/header";
 
 /**
  * App-wide Styles
@@ -41,10 +55,6 @@ h1 {
   margin-bottom: 20px;
 }
 
-h3 {
-  font-weight: bold
-}
-
 hr {
   border: 0;
   border-top: 2px solid #b2d5e7;
@@ -77,13 +87,13 @@ a, a:focus, a:hover {
   outline: none;
 }
 
-.row {
-  margin-bottom: 10px;
-}
+//.row {
+//  margin-bottom: 10px;
+//}
 
-.row li {
-  margin-top: 10px
-}
+//.row li {
+//  margin-top: 10px
+//}
 
 .default-styles-for-inner-html {
   h1 {
@@ -426,20 +436,6 @@ ul.dropdown-menu {
   }
 }
 
-.footer {
-  /*position: absolute;*/
-  bottom: 0;
-  width: 100%;
-  /* Set the fixed height of the footer here */
-  /*height: 60px;*/
-  line-height: 60px;
-  /*margin-top: 50px;*/
-  margin-top: 30px;
-  background-color: #f2f2f2;
-  p {
-    margin: 0 0 0;
-  }
-}
 
 .footer-container {
   margin-top: 10px;
@@ -573,6 +569,9 @@ ul.dropdown-menu {
 
 .similar-situation-container {
   float: right;
+  @media screen and (max-width: 991px) {
+    display: none;
+  }
   .similar-situation-container-header {
     font-size: 24px;
     font-family: 'Open Sans';
@@ -804,13 +803,6 @@ ul.dropdown-menu {
   border:none;
 }
 
-.subcategory-tmpl {
-  width: 84%;
-  margin-bottom: 30px;
-  padding-left: 5px;
-  padding-right: 5px;
-}
-
 .common-hr {
   background: #dddddd;
   border: none;
@@ -827,12 +819,21 @@ ul.dropdown-menu {
   position: relative;
   top: 5px;
 }
+.situation-list {
+  margin-bottom: 1em;
+  li {
+    min-height: 150px;
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
+
 
 .situation-list, .similar-situation {
-  padding-left: 16px;
-  list-style-type: square;
+  //padding-left: 16px;
+  list-style-type: none;
   color: #dddddd;
-  margin-top: 30px;
+  //margin-top: 30px;
 }
 
 .situation-list a {
@@ -847,12 +848,7 @@ ul.dropdown-menu {
   font-weight: bold;
 }
 
-.active-tab {
-  background: white;
-  color: #4b5053;
-  position: relative;
-  top: 1px;
-}
+
 
 .navi-citizens-business li {
   margin-right: 9px;
@@ -862,7 +858,7 @@ ul.dropdown-menu {
   a {
     font-weight: bold;
     font-family: "Open Sans";
-    background: white;
+    background-color: #e4eef0!important;
     padding-top: 5px !important;
     height: 50px;
     border: none;
@@ -888,11 +884,11 @@ ul.dropdown-menu {
   }
 }
 
-.subcategory {
-  background: white;
-  border-top: 1px solid #9cc9e1;
-  border-bottom: 2px solid #9cc9e1;
-  padding-bottom: 40px;
+.active-tab {
+  background: white!important;
+  color: #4b5053;
+  position: relative;
+  top: 1px;
 }
 
 .text {
@@ -930,6 +926,7 @@ ul.dropdown-menu {
 
 .full-content-with-catalog {
   overflow-x: hidden;
+  background-color: $timeline-bg;
 }
 
 .igov-login-bar {
@@ -1104,14 +1101,24 @@ ul.dropdown-menu {
   margin-top: 2px;
 }
 
-.icon-bank-id {
-  vertical-align: middle;
-  display: inline-block;
-  background-image: url(/assets/images/icons/bank-id.png);
-  background-repeat: no-repeat !important;
-  background-position: 0px 0px;
-  width: 23px;
-  height: 19px;
+.icon-bank {
+  &-id {
+    vertical-align: middle;
+    display: inline-block;
+    background-image: url(/assets/images/icons/bank-id.png);
+    background-repeat: no-repeat !important;
+    background-position: 0px 0px;
+    width: 23px;
+    height: 19px;
+    &-new {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 45px;
+      height: 45px;
+      background-image: url(/assets/images/svg/Icon__Bank_ID.svg);
+    }
+  }
 }
 
 .icon-mobil-id {
@@ -1252,9 +1259,24 @@ ul.dropdown-menu {
 }
 
 .nav-tabs > li > a {
+  background-color: #dadada;
   padding: 0px 30px;
   line-height: 2.42857143;
   margin-top: 10px;
+  background-color: #dadada;
+  -webkit-transition: .3s ease all;
+  -moz-transition: .3s ease all;
+  -ms-transition: .3s ease all;
+  -o-transition: .3s ease all;
+  transition: .3s ease all;
+  &:hover {
+    background-color: #dadada;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+  }
 }
 
 .form-signin-bankid {
@@ -1499,7 +1521,8 @@ label .snippet {
 }
 
 .s-field-notes {
-  color: #aaaaaa;
+  font-size: 12px;
+  color: #999;
   text-align: left;
 }
 
@@ -1514,10 +1537,6 @@ label .snippet {
 
 .slot-picker .slot-time {
   min-width: 85px;
-}
-
-.subcategory_title {
-  padding-left: 30px;
 }
 
 .site-preloader, .section-preloader {
@@ -1849,6 +1868,8 @@ input.ng-touched.ng-invalid-email, input.ng-touched.ng-invalid-tel {
 
 .validation-message {
   color: $invalid-label-text-color;
+  font-family: $font-reg;
+  font-size: 12px;
 }
 
 /* Override the path to flags.png for intlTelInput */
@@ -2263,8 +2284,6 @@ input.ng-touched.ng-invalid-email, input.ng-touched.ng-invalid-tel {
     }
 }
 
-/*<span class="kyiv-header" style="position:absolute;top:35px;left:100px;width:428px;height:95px;"></span>*/
-
 /**
  * Form labels
  */
@@ -2317,6 +2336,15 @@ input.ng-touched.ng-invalid-email, input.ng-touched.ng-invalid-tel {
 .service-name {
   margin-top: 20px;
   font-size: 25px;
+}
+
+.service-title {
+  text-align: center;
+  max-width: 600px;
+  margin: 0 auto;
+  margin-top: 4em;
+  margin-bottom: 2em;
+  font-size: 26px;
 }
 
 .operator-name {
@@ -2434,13 +2462,6 @@ table.QuestionFields td {
     //color: #666;
   }
 }
-/*
-    Star Rating  end block
-*/
-
-/*
-    Feedback start
-*/
 
 .feedback-clearfix:after {
   visibility: hidden;
@@ -2610,3 +2631,26 @@ table.QuestionFields td {
 }
 
 /* Checkbox indterminate end */
+
+@import "scss/content";
+@import "scss/situations";
+@import "scss/services";
+@import "scss/subcategory";
+@import "scss/instuction";
+@import "scss/footer";
+
+@import "scss/breadcrumbs";
+@import "scss/button";
+@import "scss/404";
+@import "scss/more";
+
+.intl-tel-input .flag-dropdown {
+  display: none;
+}
+
+.intl-tel-input {
+  width: 100%;
+}
+.intl-tel-input input, .intl-tel-input input[type=text], .intl-tel-input input[type=tel] {
+  padding-left: 6px;
+}
