@@ -13,5 +13,6 @@ router.get('/service', messages.findServiceMessages);
 router.post('/service', messages.postServiceMessage);
 router.get('/getSubjectMessageData', messages.getSubjectMessageData);
 router.get('/getMessageFile', messages.getMessageFile);
+router.post('/sendMail', messages.sendMail);
 
 module.exports = router;

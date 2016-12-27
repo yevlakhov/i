@@ -1,5 +1,7 @@
 var request = require('request');
 var _ = require('lodash');
+var nodemailer = require('nodemailer');
+var transporter = nodemailer.createTransport('smtp://answer@es.kievcity.gov.ua:M7WpgJI7Ge@mail.kievcity.gov.ua');
 
 var oUtil = require('../../components/activiti');
 var oAuth = require('../../components/admin');
@@ -255,4 +257,22 @@ module.exports.findServiceMessages = function(req, res){
     res.end();
   }
 
+};
+
+module.exports.sendMail = function(req, res){
+    var mailOptions = {
+        from: 'answer@es.kievcity.gov.ua', // sender address
+        to: 'answer@es.kievcity.gov.ua', // list of receivers
+        subject: 'Запит на послугу чи розділ', // Subject line
+        text: `Користувач запросив послугу ${req.body.message}`, // plaintext body
+        html: `Користувач запросив послугу ${req.body.message}` // html body
+    };
+
+// send mail with defined transport object
+    transporter.sendMail(mailOptions, function(error, info){
+        if(error){
+            return console.error(error);
+        }
+        res.send();
+    });
 };

@@ -123,7 +123,7 @@ module.exports.getCatalogTreeTag = function (req, res) {
         // set cache key for this particular request
         if (!error) {
           cache.set(buildKey(options.params), body, cacheTtl);
-          res.json(body);
+          res.status(response.statusCode).json(body);
         } else {
           res.json(errors.createExternalServiceError('Something went wrong', error));
         }
