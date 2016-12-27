@@ -27,7 +27,7 @@ module.exports.callback = (req, res, next)=> {
 
     var getUserId = (body)=> {
         return new Promise((resolve, reject)=> {
-            request(`https://accounts.kitsoft.kiev.ua/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
+            request(`https://accounts.kievcity.gov.ua/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
                 // console.log(data);
                 resolve({user: data, access: body})
             })
