@@ -8,11 +8,11 @@ var fs = require('fs')
 
 module.exports = function (app) {
   if (config.debug) {
-    process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
     // request.debug = true;
     loggerFactory.setDebugEnabled();
   }
 
+  process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
   function setupServer() {
     var server = null;
 
