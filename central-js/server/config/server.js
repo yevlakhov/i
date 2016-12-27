@@ -13,6 +13,7 @@ module.exports = function (app) {
   }
 
   process.env.NODE_TLS_REJECT_UNAUTHORIZED = "0";
+
   function setupServer() {
     var server = null;
 

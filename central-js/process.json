@@ -10,7 +10,7 @@
     "sServerRegion": "https://office.kievcity.gov.ua",
     "bCompile_Application": "FALSE",
     "sProfile_Application": "test-alpha",
-    "sDomain": "http://localhost:9000",
+    "sDomain": "https://central.es.kievcity.gov.ua",
     "bDebug_Application": "TRUE",
     "bTest": "TRUE",
 
