@@ -15,9 +15,9 @@
     "bTest": "TRUE",
 
     "BackProxy_Central": {
-      "sURL_BackProxy_Central": "http://central.es.kievcity.gov.ua:9000",
-      "sKeyPath_BackProxy_Central": "/sybase/cert/server.key",
-      "sCertPath_BackProxy_Central": "/sybase/cert/server.crt"
+      "sURL_BackProxy_Central": "https://central.es.kievcity.gov.ua:8443",
+      "sKeyPath_BackProxy_Central": "/sybase/central-js/cert/server.key",
+      "sCertPath_BackProxy_Central": "/sybase/central-js/cert/server.crt"
     },
 
     "BackProxySession_Central":{
@@ -62,7 +62,7 @@
       "sVersion_Auth_CardKyanyn": "1.0",
       "sClientID_Auth_CardKyanyn": "put here client id",
       "sClientSecret_Auth_CardKyanyn": "put here client secret",
-      "sPrivateKeyPath_Auth_CardKyanyn": "/sybase/cert/server.key",
+      "sPrivateKeyPath_Auth_CardKyanyn": "/sybase/central-js/cert/server.key",
       "sPrivateKeyPassphrase_Auth_CardKyanyn": "put here passphrase for private key"
     }
   }
