@@ -25,6 +25,9 @@ function _searchForHost (req, res, next) {
         if (!value) {
           subjectService.getServerRegion(nID_Server, function (httpError, sHost) {
             if (!httpError && !(sHost.code === 'BUSINESS_ERR')) {
+              if(config.server.sServerRegion.search("kievcity")!=-1){
+                sHost.sURL = `https://${config.activiti.hostname}/wf`;
+              }
               serversCache.set(nID_Server, sHost, 100000, function (cacheError, success) {
                 if (!cacheError && success) {
                   addRegion(req, sHost, false, nID_Server);

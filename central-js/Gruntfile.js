@@ -408,6 +408,7 @@ module.exports = function (grunt) {
             '.htaccess',
             'bower_components/**/*',
             'assets/images/{,*/}*.{webp}',
+            'assets/images/svg/*.svg',
             'assets/fonts/**/*',
             'app/fonts/**/*',
             'index.html'
