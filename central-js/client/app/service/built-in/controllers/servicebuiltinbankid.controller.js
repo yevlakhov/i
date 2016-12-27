@@ -540,7 +540,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
                     }
 
                     var nCRC = ValidationService.getLunaValue(oReturn.id);
-                    var sID_Order = (statesRepository.isKyivCity()?4:oServiceData.nID_Server) + "-" + oReturn.id + nCRC;
+                    var sID_Order = oServiceData.nID_Server + "-" + oReturn.id + nCRC;
                     submitted.data.id = sID_Order;
 
                     submitted.data.formData = $scope.data.formData;
