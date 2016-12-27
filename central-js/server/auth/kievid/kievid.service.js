@@ -11,7 +11,7 @@ module.exports.callback = (req, res, next)=> {
         state = req.query.state;
     var getToken = ()=> {
         return new Promise((resolve, reject)=> {
-            request.post("https://accounts.kitsoft.kiev.ua/oauth/token", {
+            request.post("https://accounts.kyivcity.gov.ua/oauth/token", {
                 form: {
                     code,
                     client_id: req.headers.host=="localhost:8443"?8443:8933,
@@ -27,7 +27,7 @@ module.exports.callback = (req, res, next)=> {
 
     var getUserId = (body)=> {
         return new Promise((resolve, reject)=> {
-            request(`https://accounts.kievcity.gov.ua/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
+            request(`https://accounts.kyivcity.gov.ua/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
                 // console.log(data);
                 resolve({user: data, access: body})
             })

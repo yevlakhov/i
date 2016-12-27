@@ -46,7 +46,7 @@ module.exports.getHistoryEvents = function(req, res) {
     }else{
         var getUserId = ()=> {
             return new Promise((resolve, reject)=> {
-                request(`https://accounts.kitsoft.kiev.ua/user/info?access_token=${req.headers.access_token}`, {json: true}, (error, response, data)=> {
+                request(`https://accounts.kyivcity.gov.ua/user/info?access_token=${req.headers.access_token}`, {json: true}, (error, response, data)=> {
                     resolve(data)
                 })
             })
