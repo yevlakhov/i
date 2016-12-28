@@ -99,10 +99,11 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
                       console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
                     }
-                  
+
                 } ); 
 
-            } 
+              } );
+
           }
         }
 
