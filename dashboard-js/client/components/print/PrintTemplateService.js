@@ -43,72 +43,66 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
 			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id
 			    	  console.log( " #1438 PrintForms count " + prints.length );
-
-              var label = '';
              
-			    	  for (var j = 0; j < prints.length; j++) {
-			    		  //console.log( " #1438 prints=" + prints[j].sName + " containsId=" + FieldMotionService.FieldMentioned.inPrintForm( form[i].id ) );
+			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) {
 
-                angular.forEach( form[i].aRow, function( item, key, obj ) { 
+		                  angular.forEach( form[i].aRow, function( item, key, obj ) { 
+		
+		                    var itemObject = { 
+		
+		                      oPrintForm: printsItem,
+		                      sPrintFormKey: printsKey, 
+		                      sPatternPath: printsItem.sPrintPattern, 
+		                      sTableName: form[i].id, 
+		                      nRowIndex: key, 
+		                      oRow: item, 
+		                      oField: null, 
+		                      sLabel: "", 
+		                      
+		                    };
+		
+		
+		                    if( printsItem.sTitleField ) { 
+		                      angular.forEach( item.aField, function( field, fieldKey ) { 
+		
+			                      if( field.name === printsItem.sTitleField )  { 
+		
+		                          itemObject.oField = field; 
+		                          itemObject.sLabel = field.value; 
+		                          console.log( " #1438 sTitleField found '" + form[i].id + "'=" + itemObject.sLabel ); 
+		
+		                          return; 
+			                      } 
+		
+		                      } ); 
+		                    } 
+		
+		                    if( itemObject.sLabel === "" ) { 
+		                      
+		                      itemObject.oField = item.aField[0]; 
+		                      itemObject.sLabel = item.aField[0].value;
+		                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
+		
+		                    } 
+		                    
+		                    if( itemObject.sLabel !== "" ) { 
+		                      var item = {
+		
+		                        id: form[i].id,
+		                        displayTemplate: printsItem.sName + ' (' + itemObject.sLabel + ')',
+		                        type: "prints",
+		                        value: itemObject,
+		
+		                      };
+		
+		                      topItems.unshift( item );
+		
+		                      console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
+		                    }
+		                  
+		                } ); 
+            } ); 
 
-                  label = ""; 
-                  if( prints[j].sTitleField ) { 
-                    angular.forEach( item.aField, function( field, fieldKey ) { 
-
-	                    if( field.name === prints[j].sTitleField )  { 
-
-                        label = field.value; 
-                        console.log( " #1438 sTitleField found '" + form[i].id + "'=" + label ); 
-
-                        return; 
-	                    } 
-
-                    } ); 
-                  } 
-
-                  if( label === "" ) {
-                    label = item.aField[0].value; 
-                    console.log( " #1438 '" + form[i].id + "'=" + label ); 
-                  } 
-                    
-                  // just PrintForm sName 
-                  var item = {
-
-                    id: form[i].id,
-                    displayTemplate: prints[j].sName + ' (' + label + ')',
-                    type: "markers",
-                    value: "{ tableId: form[i].id, printFormId: prints[j] }",
-
-                  };
-
-                  topItems.unshift( item );
-
-                  console.log( "Top item added " + prints[j].sName + " count:" + topItems.length);
-                  
-                } ); 
-
-                /*
-			    		  if( prints[j].sTitleField ) {
-
-                  // search sTitleField column inputs
-			    			  //selector = selector + ' [name^="' + prints[j].sTitleField + '"]';
-
-                  var item = {
-
-                    id: form[i].id,
-                    displayTemplate: prints[j].sName,
-                    type: "markers",
-                    value: "{ tableId: form[i].id, printFormId: prints[j] }",
-
-                  };
-
-                  topItems.unshift( item );
-
-			    		  }
-                else {
-                */ 
-
-            } 
           }
         }
 
@@ -162,6 +156,39 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
       return templates;
     },
+    /** 
+     * function getPrintTemplateByObject 
+     *  Returns template for PrintForm object combined with tables value 
+     * 
+     * @returns loaded template 
+     * @author Sysprog 
+     */ 
+    getPrintTemplateByObject( task, form, printTemplateObj ) { 
+      var deferred = $q.defer(); 
+      if(!printTemplateObject.sPatternPath) { 
+        deferred.reject('Неможливо завантажити форму: немає назви'); 
+        return deferred.promise; 
+      }
+      
+      var parsedForm; 
+      if(!angular.isDefined(loadedTemplates[printTemplateObject.sPatternPath])) { 
+         tasks.getPatternFile(printTemplateObject.sPatternPath).then(function(originalTemplate) { 
+
+           loadedTemplates[printTemplateObject.sPatternPath] = originalTemplate;
+           parsedForm = PrintTemplateProcessor.getPrintTemplate(task, form, originalTemplate); 
+           deferred.resolve(parsedForm);
+
+         }, function() { 
+           deferred.reject('Помилка завантаження форми "' + printTemplateObject.sPatternPath + '"'); 
+         });
+      }
+      else { 
+        parsedForm = PrintTemplateProcessor.getPrintTemplate(task, form, loadedTemplates[printTemplateObject.sPatternPath]); 
+        deferred.resolve(parsedForm);
+      }
+      return deferred.promise;
+    },
+
     // method to get parsed template
     getPrintTemplate: function(task, form, printTemplateName) {
       var deferred = $q.defer();
