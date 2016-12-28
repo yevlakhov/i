@@ -54,10 +54,17 @@ angular.module('app', [
     $rootScope.profile = {
         isKyivCity: !!statesRepository.isKyivCity()
     };
-    if (window.location.port == "8443")
-        $rootScope.clientIDRed = 8443;
-    else
-        $rootScope.clientIDRed = 8933;
+  if (window.location.hostname.search('localhost') != -1) {
+    $rootScope.clientIDRed = 8443;
+  }else if (window.location.hostname.search('central.es') != -1) {
+    $rootScope.clientIDRed = 8933;
+  }else if (window.location.hostname.search('test3.es') != -1) {
+    $rootScope.clientIDRed = 8922;
+  }else if (window.location.hostname == "es.kievcity.gov.ua") {
+    $rootScope.clientIDRed = 8911;
+  }else {
+    $rootScope.clientIDRed = 8433;
+  }
     $rootScope.loginPathRedirect = window.location.protocol + "//" + window.location.host + "/auth/myOAuth&state=" + window.location.pathname
 
     $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams, error) {

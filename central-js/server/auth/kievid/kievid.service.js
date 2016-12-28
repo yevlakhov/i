@@ -11,17 +11,29 @@ module.exports.callback = (req, res, next)=> {
         state = req.query.state;
     var getToken = ()=> {
         return new Promise((resolve, reject)=> {
-            request.post("https://accounts.kyivcity.gov.ua/oauth/token", {
-                form: {
-                    code,
-                    client_id: req.headers.host=="localhost:8443"?8443:8933,
-                    client_secret: req.headers.host=="localhost:8443"?'8443':'8933',
-                    grant_type: 'authorization_code'
-                }, json: true
-            }, (err, resp, body)=> {
-                //TODO доделать отправку токена на получение пользователя
-                resolve(body)
-            })
+          let clientIDRed;
+          if (req.headers.host.search('localhost') != -1) {
+            clientIDRed = 8443;
+          }else if (req.headers.host.search('central.es') != -1) {
+            clientIDRed = 8933;
+          }else if (req.headers.host.search('test3.es') != -1) {
+            clientIDRed = 8922;
+          }else if (req.headers.host == "es.kievcity.gov.ua") {
+            clientIDRed = 8911;
+          }else{
+            clientIDRed = 8443;
+          }
+          request.post("https://accounts.kyivcity.gov.ua/oauth/token", {
+            form: {
+              code,
+              client_id: clientIDRed,
+              client_secret: clientIDRed,
+              grant_type: 'authorization_code'
+            }, json: true
+          }, (err, resp, body)=> {
+            //TODO доделать отправку токена на получение пользователя
+            resolve(body)
+          })
         })
     };
 
