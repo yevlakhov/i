@@ -32,6 +32,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
           break;
         }
       }
+
       try {
 
         for(var i = 0; i < form.length; i++) {
