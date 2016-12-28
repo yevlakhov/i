@@ -46,63 +46,62 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
              
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) {
 
-                  angular.forEach( form[i].aRow, function( item, key, obj ) { 
-
-                    var itemObject = { 
-
-                      oPrintForm: printsItem,
-                      sPrintFormKey: printsKey, 
-                      sPatternPath: printsItem.sPrintPattern, 
-                      sTableName: form[i].id, 
-                      nRowIndex: key, 
-                      oRow: item, 
-                      oField: null, 
-                      sLabel: "", 
-                      
-                    };
-
-
-                    if( printsItem.sTitleField ) { 
-                      angular.forEach( item.aField, function( field, fieldKey ) { 
-
-	                      if( field.name === printsItem.sTitleField )  { 
-
-                          itemObject.oField = field; 
-                          itemObject.sLabel = field.value; 
-                          console.log( " #1438 sTitleField found '" + form[i].id + "'=" + itemObject.sLabel ); 
-
-                          return; 
-	                      } 
-
-                      } ); 
-                    } 
-
-                    if( itemObject.sLabel === "" ) { 
-                      
-                      itemObject.oField = item.aField[0]; 
-                      itemObject.sLabel = item.aField[0].value;
-                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
-
-                    } 
-                    
-                    if( itemObject.sLabel !== "" ) { 
-                      var item = {
-
-                        id: form[i].id,
-                        displayTemplate: printsItem.sName + ' (' + itemObject.sLabel + ')',
-                        type: "prints",
-                        value: itemObject,
-
-                      };
-
-                      topItems.unshift( item );
-
-                      console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
-                    }
-
-                } ); 
-
-              } );
+		                  angular.forEach( form[i].aRow, function( item, key, obj ) { 
+		
+		                    var itemObject = { 
+		
+		                      oPrintForm: printsItem,
+		                      sPrintFormKey: printsKey, 
+		                      sPatternPath: printsItem.sPrintPattern, 
+		                      sTableName: form[i].id, 
+		                      nRowIndex: key, 
+		                      oRow: item, 
+		                      oField: null, 
+		                      sLabel: "", 
+		                      
+		                    };
+		
+		
+		                    if( printsItem.sTitleField ) { 
+		                      angular.forEach( item.aField, function( field, fieldKey ) { 
+		
+			                      if( field.name === printsItem.sTitleField )  { 
+		
+		                          itemObject.oField = field; 
+		                          itemObject.sLabel = field.value; 
+		                          console.log( " #1438 sTitleField found '" + form[i].id + "'=" + itemObject.sLabel ); 
+		
+		                          return; 
+			                      } 
+		
+		                      } ); 
+		                    } 
+		
+		                    if( itemObject.sLabel === "" ) { 
+		                      
+		                      itemObject.oField = item.aField[0]; 
+		                      itemObject.sLabel = item.aField[0].value;
+		                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
+		
+		                    } 
+		                    
+		                    if( itemObject.sLabel !== "" ) { 
+		                      var item = {
+		
+		                        id: form[i].id,
+		                        displayTemplate: printsItem.sName + ' (' + itemObject.sLabel + ')',
+		                        type: "prints",
+		                        value: itemObject,
+		
+		                      };
+		
+		                      topItems.unshift( item );
+		
+		                      console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
+		                    }
+		                  
+		                } ); 
+            } ); 
 
           }
         }
