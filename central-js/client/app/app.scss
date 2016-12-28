@@ -48,6 +48,7 @@ body {
   font-size: 160%;
   /* Margin bottom by footer height */
   /*margin-bottom: 60px;*/
+  padding-bottom: 165px;
 }
 
 h1 {
@@ -427,7 +428,7 @@ ul.dropdown-menu {
 }
 
 .main.full-height {
-  margin-bottom: 165px;
+  /*margin-bottom: 200px;*/
 }
 
 @media (max-width: 767px) {
