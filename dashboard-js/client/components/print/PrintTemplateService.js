@@ -85,7 +85,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		
 		                    } 
 		                    
-		                    if( itemObject.sLabel !== "" ) { 
+		                    if( itemObject.sLabel ) { 
 		                      var item = {
 		
 		                        id: form[i].id,
@@ -164,7 +164,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
      * @returns loaded template 
      * @author Sysprog 
      */ 
-    getPrintTemplatebyObject: function( task, form, printTemplateObj ) { 
+
+    getPrintTemplateByObject: function( task, form, printTemplateObj ) { 
       var deferred = $q.defer(); 
       if(!printTemplateObject.sPatternPath) { 
         deferred.reject('Неможливо завантажити форму: немає назви'); 
