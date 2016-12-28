@@ -156,6 +156,40 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
       return templates;
     },
+
+    /** 
+     * function getPrintTemplateByObject 
+     *  Returns template for PrintForm object combined with tables value 
+     * 
+     * @returns loaded template 
+     * @author Sysprog 
+     */ 
+    getPrintTemplateByObject( task, form, printTemplateObj ) { 
+      var deferred = $q.defer(); 
+      if(!printTemplateObject.sPatternPath) { 
+        deferred.reject('Неможливо завантажити форму: немає назви'); 
+        return deferred.promise; 
+      }
+      
+      var parsedForm; 
+      if(!angular.isDefined(loadedTemplates[printTemplateObject.sPatternPath])) { 
+         tasks.getPatternFile(printTemplateObject.sPatternPath).then(function(originalTemplate) { 
+
+           loadedTemplates[printTemplateObject.sPatternPath] = originalTemplate;
+           parsedForm = PrintTemplateProcessor.getPrintTemplate(task, form, originalTemplate); 
+           deferred.resolve(parsedForm);
+
+         }, function() { 
+           deferred.reject('Помилка завантаження форми "' + printTemplateObject.sPatternPath + '"'); 
+         });
+      }
+      else { 
+        parsedForm = PrintTemplateProcessor.getPrintTemplate(task, form, loadedTemplates[printTemplateObject.sPatternPath]); 
+        deferred.resolve(parsedForm);
+      }
+      return deferred.promise;
+    },
+    
     // method to get parsed template
     getPrintTemplate: function(task, form, printTemplateName) {
       var deferred = $q.defer();
