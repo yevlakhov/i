@@ -62,7 +62,7 @@ angular.module('app', [
     $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
   } else if (window.location.hostname.search('test3.es') != -1) {
     $rootScope.clientIDRed = 8922;
-    $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';
+    $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
   } else if (window.location.hostname == "es.kievcity.gov.ua") {
     $rootScope.clientIDRed = 8911;
     $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
