@@ -9,6 +9,7 @@ angular.module('app').directive('serviceAuthBlock', function ($rootScope,$state,
     },
     link: function (scope, element, attrs) {
       scope.clientIDRed = $rootScope.clientIDRed;
+      scope.myAuthServer = $rootScope.myAuthServer;
       scope.loginPathRedirect = $rootScope.loginPathRedirect;
       scope.$location = $location;
 

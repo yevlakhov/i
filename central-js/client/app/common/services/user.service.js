@@ -45,17 +45,13 @@ angular.module('app').factory('UserService', function ($http, $q, $rootScope, Ad
 
         logout: function () {
 
-            $http.post('./auth/logout').then(function () {
-                function closeOnLoad(myLink) {
-                    var newWindow = window.open(myLink, "connectWindow", "width=600,height=400,scrollbars=yes");
-                    newWindow.close();
-                    return false;
-                }
-                $rootScope.$broadcast('event.logout');
-                closeOnLoad('https://accounts.kitsoft.kiev.ua/logout');
-                window.location.reload();
-                window.cookiesFunc.delete('admin')
-            });
+          $http.post('./auth/logout').then(function () {
+            $rootScope.$broadcast('event.logout');
+            $.get('https://'+$rootScope.myAuthServer+'/logout').success(function () {
+              window.location.reload();
+              window.cookiesFunc.delete('admin')
+            })
+          });
 
         },
 
