@@ -165,7 +165,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
      * @author Sysprog 
      */ 
 
-    getPrintTemplateByObject: function( task, form, printTemplateObj ) { 
+    getPrintTemplateByObject: function( task, form, printTemplateObject ) { 
       var deferred = $q.defer(); 
       if(!printTemplateObject.sPatternPath) { 
         deferred.reject('Неможливо завантажити форму: немає назви'); 
