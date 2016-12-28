@@ -528,7 +528,7 @@ execution.setVariable('sTextLetter', sMessage)</script>
         <omgdc:Bounds height="71.0" width="211.0" x="310.0" y="139.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer1" id="BPMNShape_boundarytimer1">
-        <omgdc:Bounds height="30.0" width="30.0" x="470.0" y="179.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="470.0" y="180.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway1" id="BPMNShape_parallelgateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="395.0" y="239.0"></omgdc:Bounds>
@@ -601,7 +601,7 @@ execution.setVariable('sTextLetter', sMessage)</script>
         <omgdi:waypoint x="415.0" y="139.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
-        <omgdi:waypoint x="485.0" y="209.0"></omgdi:waypoint>
+        <omgdi:waypoint x="485.0" y="210.0"></omgdi:waypoint>
         <omgdi:waypoint x="415.0" y="239.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow5" id="BPMNEdge_flow5">
