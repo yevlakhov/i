@@ -2636,10 +2636,10 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             return JsonRestUtils.toJsonResponse(values);
         } catch (Exception e) {
             String message = "The process of update variables fail.";
-            LOG.debug(message);
+            LOG.debug(e.getMessage() + " " + message);
             throw new CommonServiceException(
                     ExceptionCommonController.BUSINESS_ERROR_CODE,
-                    message,
+                    e.getMessage() + " " + message,
                     HttpStatus.FORBIDDEN);
         }
 
