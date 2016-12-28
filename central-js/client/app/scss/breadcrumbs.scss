@@ -20,12 +20,19 @@
       padding-right: 0;
     }
     li {
+      @media screen and (max-width: 991px) {
+        overflow: hidden;
+        display: inline-block;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        max-width: 200px;
+      }
       @media screen and (max-width: 600px) {
         overflow: hidden;
         display: inline-block;
         text-overflow: ellipsis;
         white-space: nowrap;
-        max-width: 40px;
+        max-width: 100px;
         position: relative;
         top: 3px;
       }

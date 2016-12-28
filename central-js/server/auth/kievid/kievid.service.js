@@ -7,46 +7,52 @@ var authService = require('../auth.service');
 var syncSubject = require('../../api/subject/subject.service');
 
 module.exports.callback = (req, res, next)=> {
-    let code = req.query.code,
-        state = req.query.state;
-    var getToken = ()=> {
-        return new Promise((resolve, reject)=> {
-          let clientIDRed;
-          if (req.headers.host.search('localhost') != -1) {
-            clientIDRed = 8443;
-          }else if (req.headers.host.search('central.es') != -1) {
-            clientIDRed = 8933;
-          }else if (req.headers.host.search('test3.es') != -1) {
-            clientIDRed = 8922;
-          }else if (req.headers.host == "es.kievcity.gov.ua") {
-            clientIDRed = 8911;
-          }else{
-            clientIDRed = 8443;
-          }
-          request.post("https://accounts.kyivcity.gov.ua/oauth/token", {
-            form: {
-              code,
-              client_id: clientIDRed,
-              client_secret: clientIDRed,
-              grant_type: 'authorization_code'
-            }, json: true
-          }, (err, resp, body)=> {
-            //TODO доделать отправку токена на получение пользователя
-            resolve(body)
-          })
-        })
-    };
+  let code = req.query.code,
+    state = req.query.state;
+  let clientIDRed;
+  let hostnameAuth;
+  if (req.headers.host.search('localhost') != -1) {
+    clientIDRed = 8443;
+    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+  }else if (req.headers.host.search('central.es') != -1) {
+    clientIDRed = 8933;
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
+  }else if (req.headers.host.search('test3.es') != -1) {
+    clientIDRed = 8922;
+    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+  }else if (req.headers.host == "es.kievcity.gov.ua") {
+    clientIDRed = 8911;
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
+  }else{
+    clientIDRed = 8443;
+    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+  }
+  var getToken = ()=> {
+    return new Promise((resolve, reject)=> {
+      request.post(`https://${hostnameAuth}/oauth/token`, {
+        form: {
+          code,
+          client_id: clientIDRed,
+          client_secret: clientIDRed,
+          grant_type: 'authorization_code'
+        }, json: true
+      }, (err, resp, body)=> {
+        //TODO доделать отправку токена на получение пользователя
+        resolve(body)
+      })
+    })
+  };
 
-    var getUserId = (body)=> {
-        return new Promise((resolve, reject)=> {
-            request(`https://accounts.kyivcity.gov.ua/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
-                // console.log(data);
-                resolve({user: data, access: body})
-            })
-        })
-    }
+  var getUserId = (body)=> {
+    return new Promise((resolve, reject)=> {
+      request(`https://${hostnameAuth}/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
+        // console.log(data);
+        resolve({user: data, access: body})
+      })
+    })
+  }
 
-    var getMyUser = (body)=> {
+  var getMyUser = (body)=> {
         var inn = undefined;
         if(body.user.social && body.user.social.BankID && body.user.social.BankID.inn != undefined){
             inn = body.user.social.BankID.inn
