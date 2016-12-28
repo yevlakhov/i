@@ -156,6 +156,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
       return templates;
     },
+
     /** 
      * function getPrintTemplateByObject 
      *  Returns template for PrintForm object combined with tables value 
@@ -163,7 +164,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
      * @returns loaded template 
      * @author Sysprog 
      */ 
-    getPrintTemplateByObject( task, form, printTemplateObj ) { 
+    getPrintTemplatebyObject: function( task, form, printTemplateObj ) { 
       var deferred = $q.defer(); 
       if(!printTemplateObject.sPatternPath) { 
         deferred.reject('Неможливо завантажити форму: немає назви'); 
@@ -188,7 +189,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
       }
       return deferred.promise;
     },
-
+    
     // method to get parsed template
     getPrintTemplate: function(task, form, printTemplateName) {
       var deferred = $q.defer();
