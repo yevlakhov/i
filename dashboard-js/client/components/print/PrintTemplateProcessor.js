@@ -158,8 +158,8 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
 
       angular.forEach ( printFormTableObject.oRow, function( field, fieldKey) { 
 
-        replacement = printFormTableObject.sLabel;
-    		tag = "["+ printFormTableObject.sTableName + "." + printFormTableObject.oField.name + "]";
+        replacement = field.value;
+    		tag = "["+ printFormTableObject.sTableName + "." + field.name + "]";
 
       	templateString = templateString.replace(new RegExp(this.escapeRegExp(tag)), replacement)); 
 
