@@ -1,0 +1,68 @@
+{
+  "attributes": {
+    "Line_Permit": {
+      "aElement_ID": ["sPermitOrganName"],
+      "sValue": "Дозвіл"        
+    },    
+    "Line_Object": {
+      "aElement_ID": ["sObjectName"],
+      "sValue": "Інформація про об'єкт"        
+    },
+    "Line_Applicant": {
+      "aElement_ID": ["sPersonLastName","sLegalForm"],
+      "sValue": "Замовник"        
+    },
+    "Line_ProjectDoc": {
+      "aElement_ID": ["sProjectDocName"],
+      "sValue": "Проектна документація"        
+    },
+    "Line_ProjectDocExp": {
+      "aElement_ID": ["sExpertResult"],
+      "sValue": "Експертиза проектної документації"        
+    },
+    "Line_BuildDates": {
+      "aElement_ID": ["sBuildDateDegin"],
+      "sValue": "Дати будівництва"        
+    },
+    "Line_Court": {
+      "aElement_ID": ["asCourt"],
+      "sValue": "Суд"        
+    },
+    "Line_Land": {
+      "aElement_ID": ["asConstructionOnBasis"],
+      "sValue": "Земельна ділянка"        
+    },
+    "Line_Contractor": {
+      "aElement_ID": ["asGeneralContractor"],
+      "sValue": "Генеральний підрядник"        
+    },
+    "Line_Designer": {
+      "aElement_ID": ["asProject"],
+      "sValue": "Генеральний проектувальник"        
+    },
+    "Line_DesignerSub": {
+      "aElement_ID": ["asDesignerSubContr"],
+      "sValue": "Субрідрядник генерального проектувальника"        
+    },
+    "Line_Indicators": {
+      "aElement_ID": ["tIndicators"],
+      "sValue": "Показники житлового будинку"        
+    },
+    "Line_KeyIndicators": {
+      "aElement_ID": ["tKeyIndicators"],
+      "sValue": "Основні показники"        
+    },
+    "Line_Appartment": {
+      "aElement_ID": ["tAppartments"],
+      "sValue": "Квартири"        
+    },
+    "Line_Cost": {
+      "aElement_ID": ["sObjectEstimatedCost"],
+      "sValue": "Кошторисна вартість"        
+    },
+    "Line_Fee": {
+      "aElement_ID": ["sObjectShareDate"],
+      "sValue": "Пайова участь"        
+    }
+  }
+}
