@@ -148,7 +148,7 @@
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow7" sourceRef="parallelgateway1" targetRef="usertask4"></sequenceFlow>
-    <userTask id="usertask6" name="7. Перевірка повноти данних і прийняття рішення прореєстрацію або повернення на доопрацювання">
+    <userTask id="usertask6" name="7. Перевірка повноти данних і прийняття рішення прореєстрацію або повернення на доопрацювання" activiti:candidateGroups="kyiv_dabi_permit_empl">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації  вхідного документу" type="string" writable="false"></activiti:formProperty>
