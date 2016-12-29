@@ -32,7 +32,7 @@
       "sURL_Back_Central": "https://central.es.kievcity.gov.ua/wf/service",
       "sLogin_Back_Central": "system",
       "sPassword_Back_Central": "system",
-      "nID_Server_Back_Central": 0
+      "nID_Server_Back_Central": 6
     },
 
     "Auth_BankID":{
