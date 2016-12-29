@@ -237,7 +237,7 @@
           <activiti:value id="sEnumNoActual" name="не достовірні"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible1" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis12.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible1" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis2.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
@@ -505,7 +505,7 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow35" sourceRef="usertask_step5" targetRef="parallelgateway8"></sequenceFlow>
     <parallelGateway id="parallelgateway8" name="Exclusive Gateway"></parallelGateway>
     <sequenceFlow id="flow36" sourceRef="parallelgateway7" targetRef="usertask_step9"></sequenceFlow>
-    <userTask id="usertask_step6" name="6. Ознайомлення з документом начальника відділу">
+    <userTask id="usertask_step6" name="6. Ознайомлення з документом начальника відділу" activiti:candidateGroups="kyiv_dabi_permit_doc_boss">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
