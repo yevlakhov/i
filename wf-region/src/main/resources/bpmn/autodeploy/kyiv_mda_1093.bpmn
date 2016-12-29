@@ -64,7 +64,7 @@
         <activiti:formProperty id="sObjectReference" name="Посилання на картку об’єкта" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sCommentBossDepartment" name="Коментар заступника начальника Управління контролю за будівництвом" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLoginAsignee_step11" name="Відповідальний співробітник;sSelectType=UserByGroup,sSourceFieldID_sID_Group=sID_Group_step11" type="select" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sID_Group_step11" name="Група виконавців наступного кроку" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sID_Group_step11" name="Група виконавців наступного кроку" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sCommentBossInspectionDepartment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
@@ -339,7 +339,7 @@
       </extensionElements>
     </userTask>
     <parallelGateway id="parallelgateway2" name="Parallel Gateway"></parallelGateway>
-    <userTask id="usertask10" name="15. Автоматичне формування постанови про накладення штрафів та передача заступнику директора на підпис." activiti:candidateGroups="kyiv_dabi_doc">
+    <userTask id="usertask10" name="15. Автоматичне формування постанови про накладення штрафів та передача заступнику директора на підпис." activiti:candidateGroups="kyiv_dabi_law">
       <extensionElements>
         <activiti:formProperty id="clFio" name="Співробітник сектору документообігу ДАБК" type="string" default="${bankIdlastName} ${bankIdfirstName} ${bankIdmiddleName}" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер документообігу АСКОД" type="string" writable="false"></activiti:formProperty>
@@ -382,7 +382,7 @@
         <activiti:formProperty id="sBody_resolutionAdmin" name="[pattern/print/kiev/DABI_insp_postanova_admin.html]" type="invisible" default="Постанова по справі про адміністративне правопорушення" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBody_resolutionCloseAdmin" name="[pattern/print/kiev/DABI_insp_postanova_zakruta_admin.html]" type="invisible" default="Постанова про закриття справи по правопорушення" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBody_resolutionFine" name="[pattern/print/kiev/DABI_insp_postanova_mistobud.html]" type="invisible" default="Постанова про накладання штрафу за правопорушення в сфері містобудівної діяльності" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="markers4_req" name="requiredFields4" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_4_required.json')}"></activiti:formProperty>
+        <!--activiti:formProperty id="markers4_req" name="requiredFields4" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_4_required.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers5" name="hideShowFields5" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_5.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers5_req" name="requiredFields5" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_5_required.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers6" name="hideShowFields6" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_6.json')}"></activiti:formProperty>
@@ -392,7 +392,7 @@
         <activiti:formProperty id="markers8_req" name="requiredFields8" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_8_required.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers9" name="hideShowFields9" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_9.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers9_req" name="requiredFields9" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_9_required.json')}"></activiti:formProperty>
-        <activiti:formProperty id="markers10" name="hideShowFields10" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_10.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers10" name="hideShowFields10" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_10.json')}"></activiti:formProperty!-->
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${tPrescription},${tOffenses},${nFile1},${nFileDirection},${nOrderSchedule},${nLetter_1},${nAnswer_1},${nLetter_2},${nAnswer_2},${nLetter_3},${nAnswer_3},${nLetter_4},${nAnswer_4},${nLetter_5},${nAnswer_5},${nLetter_6},${nAnswer_6},${nLetter_7},${nAnswer_7},${nLetter_8},${nAnswer_8},${nLetter_9},${nAnswer_9},${nLetter_10},${nAnswer_10}]]></activiti:expression>
@@ -480,7 +480,7 @@
     <sequenceFlow id="flow33" sourceRef="parallelgateway3" targetRef="usertask13"></sequenceFlow>
     <sequenceFlow id="flow34" name="Є оскарження" sourceRef="usertask13" targetRef="usertask12"></sequenceFlow>
     <endEvent id="endevent6" name="End"></endEvent>
-    <sequenceFlow id="flow36" sourceRef="usertask12" targetRef="endevent6"></sequenceFlow>
+    <sequenceFlow id="flow36" sourceRef="usertask12" targetRef="parallelgateway6"></sequenceFlow>
     <sequenceFlow id="flow38" sourceRef="parallelgateway2" targetRef="usertask5"></sequenceFlow>
     <sequenceFlow id="flow39" sourceRef="usertask3" targetRef="usertask8"></sequenceFlow>
     <sequenceFlow id="flow40" sourceRef="usertask8" targetRef="parallelgateway2"></sequenceFlow>
@@ -554,7 +554,8 @@
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nFile1}]]></activiti:expression>
           </activiti:field>
-        </activiti:taskListener>      </extensionElements>
+        </activiti:taskListener>
+      </extensionElements>
     </userTask>
     <boundaryEvent id="boundarytimer1" name="Timer" attachedToRef="usertask17" cancelActivity="true">
       <timerEventDefinition>
@@ -593,6 +594,10 @@
     </boundaryEvent>
     <sequenceFlow id="flow57" name="Є сплата" sourceRef="usertask11" targetRef="endevent5"></sequenceFlow>
     <sequenceFlow id="flow58" sourceRef="startevent1" targetRef="usertask17"></sequenceFlow>
+    <parallelGateway id="parallelgateway6" name="Parallel Gateway"></parallelGateway>
+    <sequenceFlow id="flow59" sourceRef="usertask14" targetRef="parallelgateway6"></sequenceFlow>
+    <sequenceFlow id="flow60" sourceRef="usertask15" targetRef="parallelgateway6"></sequenceFlow>
+    <sequenceFlow id="flow61" sourceRef="parallelgateway6" targetRef="endevent6"></sequenceFlow>
     <textAnnotation id="textannotation1">
       <text>Управління дозвільних документів</text>
     </textAnnotation>
@@ -674,7 +679,7 @@
         <omgdc:Bounds height="30.0" width="30.0" x="873.0" y="430.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent6" id="BPMNShape_endevent6">
-        <omgdc:Bounds height="35.0" width="35.0" x="525.0" y="507.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="193.0" y="507.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway5" id="BPMNShape_parallelgateway5">
         <omgdc:Bounds height="40.0" width="40.0" x="190.0" y="237.0"></omgdc:Bounds>
@@ -699,6 +704,9 @@
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent7" id="BPMNShape_endevent7">
         <omgdc:Bounds height="35.0" width="35.0" x="991.0" y="392.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway6" id="BPMNShape_parallelgateway6">
+        <omgdc:Bounds height="40.0" width="40.0" x="323.0" y="505.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="textannotation1" id="BPMNShape_textannotation1">
         <omgdc:Bounds height="50.0" width="100.0" x="991.0" y="265.0"></omgdc:Bounds>
@@ -775,7 +783,7 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow36" id="BPMNEdge_flow36">
         <omgdi:waypoint x="613.0" y="525.0"></omgdi:waypoint>
-        <omgdi:waypoint x="560.0" y="524.0"></omgdi:waypoint>
+        <omgdi:waypoint x="363.0" y="525.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow38" id="BPMNEdge_flow38">
         <omgdi:waypoint x="1170.0" y="148.0"></omgdi:waypoint>
@@ -836,7 +844,7 @@
         <omgdi:waypoint x="903.0" y="445.0"></omgdi:waypoint>
         <omgdi:waypoint x="1008.0" y="427.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="91.0" x="918.0" y="430.0"></omgdc:Bounds>
+          <omgdc:Bounds height="13.0" width="91.0" x="948.0" y="400.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
@@ -844,7 +852,7 @@
         <omgdi:waypoint x="664.0" y="579.0"></omgdi:waypoint>
         <omgdi:waypoint x="665.0" y="555.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="66.0" x="685.0" y="568.0"></omgdc:Bounds>
+          <omgdc:Bounds height="13.0" width="66.0" x="655.0" y="538.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
@@ -857,6 +865,19 @@
       <bpmndi:BPMNEdge bpmnElement="flow58" id="BPMNEdge_flow58">
         <omgdi:waypoint x="97.0" y="101.0"></omgdi:waypoint>
         <omgdi:waypoint x="97.0" y="265.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow59" id="BPMNEdge_flow59">
+        <omgdi:waypoint x="343.0" y="427.0"></omgdi:waypoint>
+        <omgdi:waypoint x="343.0" y="505.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow60" id="BPMNEdge_flow60">
+        <omgdi:waypoint x="542.0" y="427.0"></omgdi:waypoint>
+        <omgdi:waypoint x="542.0" y="524.0"></omgdi:waypoint>
+        <omgdi:waypoint x="363.0" y="525.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow61" id="BPMNEdge_flow61">
+        <omgdi:waypoint x="323.0" y="525.0"></omgdi:waypoint>
+        <omgdi:waypoint x="228.0" y="524.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="association1" id="BPMNEdge_association1">
         <omgdi:waypoint x="991.0" y="290.0"></omgdi:waypoint>
