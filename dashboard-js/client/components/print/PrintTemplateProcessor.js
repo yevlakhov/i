@@ -150,7 +150,7 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
 
       if( printFormTableObject.oRow ) { 
     		replacement = printFormTableObject.sLabel;
-    		tag = "["+ printFormTableObject.sTableName + ".aRow" + printFormTableObject.nRowIndex + "." + printFormTableObject.oField.name + "]";
+    		tag = "["+ printFormTableObject.sTableName + "." + printFormTableObject.oField.name + "]";
 
         if( printTemplate.length ) { 
            templateString = printTemplate;
