@@ -33,7 +33,7 @@ angular.module('dashboardJsApp').directive('printDialog', [
               templatePromise.then(function(template){
                 $scope.processedPrintTemplate = template;
               }, function(error) {
-                $scope.processedPrintTemplate = 'При завантаженні форми сталася помилка';
+                $scope.processedPrintTemplate = 'При завантаженні форми сталася помилка ' + error ;
               });
             }
           }
