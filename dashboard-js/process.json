@@ -1,5 +1,6 @@
 {
   "type": "region",
+  "name": "region",
   "script": "./server/app.js",
   "error_file": "/sybase/logs/region_front/region-js_err.log",
   "out_file": "/sybase/logs/region_front/region-js_out.log",
@@ -27,13 +28,13 @@
       "sPassword_Back_Region": "system",
       "nID_Server_Back_Region": 2
     },
-    
+
     "Back_Central":{
       "sURL_Back_Central": "https://central.es.kievcity.gov.ua:443/wf/service",
       "sLogin_Back_Central": "system",
       "sPassword_Back_Central": "system"
     },
-    
+
     "BackProxy_Region": {
       "sURL_BackProxy_Region": "https://office.kievcity.gov.ua:8444",
       "sKeyPath_BackProxy_Region": "cert/server.key",
