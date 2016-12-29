@@ -65,9 +65,12 @@
 }
 
 .category-container {
-  min-height: 340px;
+  min-height: 360px;
+  @media screen and (max-width: 1200px) {
+    min-height: 400px;
+  }
   @media screen and (max-width: 991px) {
-    min-height: 300px;
+    min-height: 290px;
   }
   @media screen and (max-width: 768px) {
     min-height: 180px;
@@ -122,6 +125,7 @@
       li{
         line-height: 12px;
         margin-top: .3em;
+        cursor: pointer;
         a {
           display: inline;
           margin-bottom: .2em;
@@ -134,21 +138,40 @@
           transition: .5s ease all;
           border-bottom: 1px solid transparent;
           font-family: $font-semi;
-          &:hover {
-            -webkit-transition: .3s ease all;
-            -moz-transition: .3s ease all;
-            -ms-transition: .3s ease all;
-            -o-transition: .3s ease all;
-            transition: .3s ease all;
-            color: $main-color-hover;
-            border-bottom: 1px solid $main-color-hover;
-          }
+        }
+        &:hover a{
+          -webkit-transition: .3s ease all;
+          -moz-transition: .3s ease all;
+          -ms-transition: .3s ease all;
+          -o-transition: .3s ease all;
+          transition: .3s ease all;
+          color: $main-color-hover;
+          border-bottom: 1px solid $main-color-hover;
         }
         &:last-child {
           margin-bottom: 1em;
         }
       }
     }
+  }
+}
+
+.header__login-dropdown i {
+  cursor: pointer!important;
+}
+
+@media only screen
+and (min-device-width : 768px)
+and (max-device-width : 1024px)
+and (orientation : portrait) {
+  .js-search {
+    padding-right: 2em;
+  }
+  .category-container {
+    min-height: 290px;
+  }
+  .hide-ipad {
+    height: 0!important;
   }
 }
 
