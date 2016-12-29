@@ -156,19 +156,21 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
          templateString = $sce.getTrustedHtml( printTemplate );
       } 
 
-      angular.forEach ( printFormTableObject.oRow, function( field, fieldKey) { 
+      angular.forEach ( printFormTableObject.oRow.aField, function( field, fieldKey) { 
 
         replacement = field.value;
     		tag = "["+ printFormTableObject.sTableName + "." + field.name + "]";
 
-      	templateString = templateString.replace(new RegExp(this.escapeRegExp(tag)), replacement)); 
+      	templateString = templateString.replace(new RegExp(this.escapeRegExp(tag)), replacement); 
 
       } );
       
-      if( printTemplate.length )
+      if( printTemplate.length ) { 
          return templateString; 
-      else 
+      }
+      else { 
          return $sce.trustAsHtml( templateString ); 
+      } 
     },
     escapeRegExp: function (str) {
       return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
