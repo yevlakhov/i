@@ -52,7 +52,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		
 		                      oPrintForm: printsItem,
 		                      sPrintFormKey: printsKey, 
-		                      sPatternPath: printsItem.sPrintPattern, 
+		                      sPatternPath: printsItem.sPatternPath, 
 		                      sTableName: form[i].id, 
 		                      nRowIndex: key, 
 		                      oRow: item, 
