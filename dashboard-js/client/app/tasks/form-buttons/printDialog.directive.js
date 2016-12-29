@@ -28,7 +28,7 @@ angular.module('dashboardJsApp').directive('printDialog', [
                  templatePromise = PrintTemplateService.getPrintTemplate($scope.selectedTask, $scope.taskForm, $scope.model.printTemplate.id);
               } 
               else { 
-                 templatePromise = PrintTemplateService.getPrintTemplateByObject($scope.selectedTask, $scope.taskForm, $scope.model.printTemplate ); 
+                 templatePromise = PrintTemplateService.getPrintTemplateByObject($scope.selectedTask, $scope.taskForm, $scope.model.printTemplate.value ); 
               } 
               templatePromise.then(function(template){
                 $scope.processedPrintTemplate = template;
