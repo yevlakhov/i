@@ -168,7 +168,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
     getPrintTemplateByObject: function( task, form, printTemplateObject ) { 
       var deferred = $q.defer(); 
       if(!printTemplateObject.sPatternPath) { 
-        deferred.reject('Неможливо завантажити форму: немає назви'); 
+        deferred.reject('Неможливо завантажити форму: "' + printTemplateObject.sPatternPath + '"'); 
         return deferred.promise; 
       }
       
