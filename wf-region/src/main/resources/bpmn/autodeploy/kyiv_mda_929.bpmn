@@ -348,7 +348,7 @@
         <timeDuration>PT5S</timeDuration>
       </timerEventDefinition>
     </boundaryEvent>
-    <userTask id="usertask10" name="6. Ознайомлення з документом начальника відділу дозвільних документів" activiti:candidateGroups="kyiv_dabi_permit_dep_boss">
+    <userTask id="usertask10" name="6. Ознайомлення з документом начальника відділу дозвільних документів" activiti:candidateGroups="kyiv_dabi_permit_doc_boss">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації  вхідного документу" type="string" writable="false"></activiti:formProperty>
