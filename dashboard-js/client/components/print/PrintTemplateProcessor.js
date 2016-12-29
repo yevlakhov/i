@@ -135,6 +135,24 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
         return printTemplate.replace(new RegExp(this.escapeRegExp(tag), 'g'), replacement);
       }
     },
+    /** 
+     * function populateTableField (printTemplate, printFormTableObject) 
+     *  Searches printTemplate for [oTableName.aRow2.sTableField] and replaces 
+     *   with data of specified row of printFormTableObject.nRowIndex 
+     * 
+     * @returns original template with replaced values   
+     * @author Sysprog   
+     */
+    populateTableField: function( printTemplate, printFormTableObject ) { 
+    	var replacement;
+    	var tag;
+    	if( printFormTableObject.oRow ) { 
+    		replacement = printFormTableObject.sLabel;
+    		tag = "["+ printFormTableObject.sTableName + ".aRow" + printFormTableObject.nRowIndex + "." + printFormTableObject.oField.name + "]";
+    	} 
+    	
+    	return printTemplate.replace(new RegExp(this.escapeRegExp(tag)), replacement);
+    },
     escapeRegExp: function (str) {
       return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
     },
