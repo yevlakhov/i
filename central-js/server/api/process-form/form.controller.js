@@ -83,6 +83,7 @@ module.exports.submit = function (req, res) {
       properties: properties
     };
 
+    console.log('/service/form/form-data', qs, body);
     activiti.post('/service/form/form-data', qs, body, callback, sHost);
   }
 
