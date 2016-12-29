@@ -3875,4 +3875,4 @@ nID;nID_Service;nID_Place;nID_City;nID_Region;nID_ServiceType;oData;sURL;bHidden
 5021;2518;6;6;NULL;4;{"processDefinitionId":"dabi_works_declar_cancel:1:1"};;false;1;true;;BankID,EDS;0
 5022;2519;6;6;NULL;4;{"processDefinitionId":"dabi_build_declar_cancel:1:1"};;false;1;true;;BankID,EDS;0
 5023;2520;6;6;NULL;4;{"processDefinitionId":"dabi_build_permit_cancel:1:1"};;false;1;true;;BankID,EDS;0
-5024;2521;6;6;NULL;4;{"processDefinitionId":"dabi_build_certificate:1:1"};;false;1;true;;BankID,EDS;0
+5024;2521;6;6;NULL;4;{"processDefinitionId":"dabi_ready_certificate:1:1"};;false;1;true;;BankID,EDS;0
