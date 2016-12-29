@@ -24,7 +24,7 @@
         <activiti:formProperty id="nAct" name="Акт готовності до об’єкта експлуатації" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="nApplication" name="Заява про прийняття в експлуатацію закінченого будівництвом об’єкта та видачу сертифіката" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis11.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis1.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required_marker" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_valid.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_lines.json')}"></activiti:formProperty>
@@ -51,7 +51,7 @@
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBossComment" name="Коментар Директора ДАБК" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis11.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis1.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
@@ -81,7 +81,7 @@
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBossComment" name="Коментар Директора ДАБК" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis11.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis1.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nApplication},${nAct}]]></activiti:expression>
@@ -114,7 +114,7 @@
         <activiti:formProperty id="sID_Group_step7" name="Група виконавців" type="invisible" default="kyiv_dabi_permit_empl"></activiti:formProperty>
         <activiti:formProperty id="sAssigneeName_step7" name="Виконавець" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis11.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis1.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nApplication},${nAct}]]></activiti:expression>
@@ -440,7 +440,7 @@
         <activiti:formProperty id="sID_Group_step11" name="Група виконавців" type="invisible" default="kyiv_dabi_insp_empl"></activiti:formProperty>
         <activiti:formProperty id="sAssigneeName_step11" name="Виконавець" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sControlBossComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis11.json')}"></activiti:formProperty>
+        <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_vis1.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nApplication},${nAct}]]></activiti:expression>
