@@ -171,13 +171,14 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         deferred.reject('Неможливо завантажити форму: "' + printTemplateObject.sPatternPath + '"'); 
         return deferred.promise; 
       }
-      
+
       var parsedForm; 
       if(!angular.isDefined(loadedTemplates[printTemplateObject.sPatternPath])) { 
          tasks.getPatternFile(printTemplateObject.sPatternPath).then(function(originalTemplate) { 
 
-           loadedTemplates[printTemplateObject.sPatternPath] = originalTemplate;
+           loadedTemplates[printTemplateObject.sPatternPath] = originalTemplate; 
            parsedForm = PrintTemplateProcessor.getPrintTemplate(task, form, originalTemplate); 
+           parsedForm = PrintTemplateProcessor.populateTableField( parsedForm, printTemplateObject ); 
            deferred.resolve(parsedForm);
 
          }, function() { 
