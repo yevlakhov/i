@@ -221,7 +221,7 @@
         <activiti:formProperty id="tIndicators" name="Показники житлового будинку" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tIndicators.json')}"></activiti:formProperty>
         <activiti:formProperty id="tKeyIndicators" name="Основні показники" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tKeyIndicators2.json')}"></activiti:formProperty>
         <activiti:formProperty id="sProductionBegin" name="Початок випуску продукції із зазначенням обсягу" type="string"></activiti:formProperty>
-        <activiti:formProperty id="tKeyIndicators" name="Квартири" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tAppartments2.json')}"></activiti:formProperty>
+        <activiti:formProperty id="tKeyIndicators" name="Квартири" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tAppartment2.json')}"></activiti:formProperty>
         <activiti:formProperty id="sObjectEstimatedCost" name="Кошторисна вартість будівництва за затвердженою проектною документацією, тис.грн." type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectEstimatedConstruction" name="у тому числі витрати на будівельні роботи, тис.грн." type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectEstimatedEquipment" name="витрати на машини, обладнання та інвентар, тис.грн." type="string"></activiti:formProperty>
@@ -568,13 +568,11 @@ execution.setVariable('sAnswerEmail', res)
         </activiti:taskListener>
       </extensionElements>
     </userTask>
-    <exclusiveGateway id="exclusivegateway4" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow41" sourceRef="usertask_step6" targetRef="exclusivegateway4"></sequenceFlow>
+    <sequenceFlow id="flow41" sourceRef="usertask_step6" targetRef="parallelgateway16"></sequenceFlow>
     <sequenceFlow id="flow43" sourceRef="usertask_step9" targetRef="parallelgateway9"></sequenceFlow>
     <parallelGateway id="parallelgateway9" name="Exclusive Gateway"></parallelGateway>
     <parallelGateway id="parallelgateway10" name="Parallel Gateway"></parallelGateway>
-    <sequenceFlow id="flow44" sourceRef="usertask_step7" targetRef="parallelgateway10"></sequenceFlow>
-    <sequenceFlow id="flow45" sourceRef="exclusivegateway4" targetRef="parallelgateway10"></sequenceFlow>
+    <sequenceFlow id="flow44" sourceRef="usertask_step7" targetRef="parallelgateway16"></sequenceFlow>
     <sequenceFlow id="flow46" sourceRef="parallelgateway9" targetRef="usertask_step11"></sequenceFlow>
     <sequenceFlow id="flow47" sourceRef="parallelgateway7" targetRef="usertask_step8"></sequenceFlow>
     <sequenceFlow id="flow49" sourceRef="parallelgateway9" targetRef="parallelgateway11"></sequenceFlow>
@@ -583,9 +581,7 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow51" sourceRef="parallelgateway11" targetRef="exclusivegateway6"></sequenceFlow>
     <sequenceFlow id="flow52" sourceRef="usertask_step10" targetRef="exclusivegateway6"></sequenceFlow>
     <parallelGateway id="parallelgateway11" name="Exclusive Gateway"></parallelGateway>
-    <sequenceFlow id="flow53" sourceRef="parallelgateway8" targetRef="parallelgateway16"></sequenceFlow>
-    <sequenceFlow id="flow54" sourceRef="parallelgateway16" targetRef="exclusivegateway4"></sequenceFlow>
-    <sequenceFlow id="flow55" sourceRef="parallelgateway16" targetRef="usertask_step6"></sequenceFlow>
+    <sequenceFlow id="flow53" sourceRef="parallelgateway8" targetRef="usertask_step6"></sequenceFlow>
     <sequenceFlow id="flow56" sourceRef="usertask_step8" targetRef="parallelgateway10"></sequenceFlow>
     <sequenceFlow id="flow57" sourceRef="usertask_step11" targetRef="parallelgateway10"></sequenceFlow>
     <sequenceFlow id="flow58" sourceRef="exclusivegateway6" targetRef="parallelgateway10"></sequenceFlow>
@@ -869,7 +865,6 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow73" sourceRef="usertask_step17" targetRef="parallelgateway15"></sequenceFlow>
     <sequenceFlow id="flow74" sourceRef="usertask_step16" targetRef="parallelgateway15"></sequenceFlow>
     <sequenceFlow id="flow75" sourceRef="parallelgateway15" targetRef="usertask_step21"></sequenceFlow>
-    <parallelGateway id="parallelgateway16" name="Parallel Gateway"></parallelGateway>
     <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow77" sourceRef="usertask_step21" targetRef="exclusivegateway9"></sequenceFlow>
     <sequenceFlow id="flow78" sourceRef="exclusivegateway9" targetRef="servicetask_step21.1">
@@ -894,9 +889,11 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:field name="text">
           <activiti:expression><![CDATA[Сертифікат переданий до ЦНАП]]></activiti:expression>
         </activiti:field>
-      </extensionElements>        
+      </extensionElements>
     </serviceTask>
     <sequenceFlow id="flow81" sourceRef="exclusivegateway10" targetRef="endevent1"></sequenceFlow>
+    <parallelGateway id="parallelgateway16" name="Parallel Gateway"></parallelGateway>
+    <sequenceFlow id="flow82" sourceRef="parallelgateway16" targetRef="parallelgateway10"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_ready_certificate">
     <bpmndi:BPMNPlane bpmnElement="dabi_ready_certificate" id="BPMNPlane_dabi_ready_certificate">
@@ -949,13 +946,10 @@ execution.setVariable('sAnswerEmail', res)
         <omgdc:Bounds height="40.0" width="40.0" x="790.0" y="49.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask_step6" id="BPMNShape_usertask_step6">
-        <omgdc:Bounds height="71.0" width="117.0" x="931.0" y="89.0"></omgdc:Bounds>
+        <omgdc:Bounds height="71.0" width="117.0" x="880.0" y="34.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask_step10" id="BPMNShape_usertask_step10">
         <omgdc:Bounds height="72.0" width="115.0" x="638.0" y="216.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="exclusivegateway4" id="BPMNShape_exclusivegateway4">
-        <omgdc:Bounds height="40.0" width="40.0" x="890.0" y="160.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway9" id="BPMNShape_parallelgateway9">
         <omgdc:Bounds height="40.0" width="40.0" x="486.0" y="169.0"></omgdc:Bounds>
@@ -993,9 +987,6 @@ execution.setVariable('sAnswerEmail', res)
       <bpmndi:BPMNShape bpmnElement="usertask_step17" id="BPMNShape_usertask_step17">
         <omgdc:Bounds height="62.0" width="105.0" x="1390.0" y="94.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallelgateway16" id="BPMNShape_parallelgateway16">
-        <omgdc:Bounds height="40.0" width="40.0" x="890.0" y="49.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway9" id="BPMNShape_exclusivegateway9">
         <omgdc:Bounds height="40.0" width="40.0" x="1422.0" y="406.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -1004,6 +995,9 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask_step21.1" id="BPMNShape_servicetask_step21.1">
         <omgdc:Bounds height="81.0" width="137.0" x="1374.0" y="471.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway16" id="BPMNShape_parallelgateway16">
+        <omgdc:Bounds height="40.0" width="40.0" x="790.0" y="242.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="103.0" y="87.0"></omgdi:waypoint>
@@ -1044,9 +1038,9 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="810.0" y="133.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow41" id="BPMNEdge_flow41">
-        <omgdi:waypoint x="989.0" y="160.0"></omgdi:waypoint>
-        <omgdi:waypoint x="990.0" y="180.0"></omgdi:waypoint>
-        <omgdi:waypoint x="930.0" y="180.0"></omgdi:waypoint>
+        <omgdi:waypoint x="938.0" y="105.0"></omgdi:waypoint>
+        <omgdi:waypoint x="938.0" y="261.0"></omgdi:waypoint>
+        <omgdi:waypoint x="830.0" y="262.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow43" id="BPMNEdge_flow43">
         <omgdi:waypoint x="461.0" y="189.0"></omgdi:waypoint>
@@ -1054,13 +1048,7 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow44" id="BPMNEdge_flow44">
         <omgdi:waypoint x="810.0" y="204.0"></omgdi:waypoint>
-        <omgdi:waypoint x="810.0" y="430.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
-        <omgdi:waypoint x="910.0" y="200.0"></omgdi:waypoint>
-        <omgdi:waypoint x="910.0" y="229.0"></omgdi:waypoint>
-        <omgdi:waypoint x="810.0" y="229.0"></omgdi:waypoint>
-        <omgdi:waypoint x="810.0" y="430.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="242.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow46" id="BPMNEdge_flow46">
         <omgdi:waypoint x="506.0" y="209.0"></omgdi:waypoint>
@@ -1091,16 +1079,7 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow53" id="BPMNEdge_flow53">
         <omgdi:waypoint x="830.0" y="69.0"></omgdi:waypoint>
-        <omgdi:waypoint x="890.0" y="69.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow54" id="BPMNEdge_flow54">
-        <omgdi:waypoint x="910.0" y="89.0"></omgdi:waypoint>
-        <omgdi:waypoint x="910.0" y="160.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow55" id="BPMNEdge_flow55">
-        <omgdi:waypoint x="930.0" y="69.0"></omgdi:waypoint>
-        <omgdi:waypoint x="990.0" y="69.0"></omgdi:waypoint>
-        <omgdi:waypoint x="989.0" y="89.0"></omgdi:waypoint>
+        <omgdi:waypoint x="880.0" y="69.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow56" id="BPMNEdge_flow56">
         <omgdi:waypoint x="447.0" y="451.0"></omgdi:waypoint>
@@ -1133,7 +1112,7 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="1126.0" y="210.0"></omgdi:waypoint>
         <omgdi:waypoint x="1127.0" y="110.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="100.0" x="1077.0" y="156.0"></omgdc:Bounds>
+          <omgdc:Bounds height="13.0" width="58.0" x="1077.0" y="156.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow67" id="BPMNEdge_flow67">
@@ -1162,7 +1141,7 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="1146.0" y="230.0"></omgdi:waypoint>
         <omgdi:waypoint x="1220.0" y="230.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="100.0" x="1146.0" y="230.0"></omgdc:Bounds>
+          <omgdc:Bounds height="13.0" width="42.0" x="1146.0" y="230.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow73" id="BPMNEdge_flow73">
@@ -1197,6 +1176,10 @@ execution.setVariable('sAnswerEmail', res)
       <bpmndi:BPMNEdge bpmnElement="flow81" id="BPMNEdge_flow81">
         <omgdi:waypoint x="1312.0" y="531.0"></omgdi:waypoint>
         <omgdi:waypoint x="1312.0" y="570.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow82" id="BPMNEdge_flow82">
+        <omgdi:waypoint x="810.0" y="282.0"></omgdi:waypoint>
+        <omgdi:waypoint x="810.0" y="430.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
