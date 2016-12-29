@@ -146,12 +146,23 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
     populateTableField: function( printTemplate, printFormTableObject ) { 
     	var replacement;
     	var tag;
-    	if( printFormTableObject.oRow ) { 
+      var templateString = ""; 
+
+      if( printFormTableObject.oRow ) { 
     		replacement = printFormTableObject.sLabel;
     		tag = "["+ printFormTableObject.sTableName + ".aRow" + printFormTableObject.nRowIndex + "." + printFormTableObject.oField.name + "]";
-    	} 
-    	
-    	return printTemplate.replace(new RegExp(this.escapeRegExp(tag)), replacement);
+
+        if( printTemplate.length ) { 
+           templateString = printTemplate;
+        }
+        else { 
+           templateString = $sce.getTrustedHtml( printTemplate );
+        } 
+
+      	return $sce.trustAsHtml(templateString.replace(new RegExp(this.escapeRegExp(tag)), replacement)); 
+      }
+
+      return printTemplate; 
     },
     escapeRegExp: function (str) {
       return str.replace(/([.*+?^=!:${}()|\[\]\/\\])/g, "\\$1");
