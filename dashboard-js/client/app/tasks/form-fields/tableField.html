@@ -32,7 +32,7 @@
 
           <div ng-if="['string'].indexOf(field.type) > -1">
             <input class="inputs-in-table"
-                   ng-init="field.value = (((field.value || {}) || field.default) || '')"
+                   ng-init="field.value = ((field.value || field.default) || '')"
                    ng-if='field.hasOwnProperty("default") || !field.hasOwnProperty("default") && !field.hasOwnProperty("value")'
                    name="{{field.id + rowIndex}}"
                    ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
