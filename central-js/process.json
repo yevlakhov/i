@@ -16,8 +16,8 @@
 
     "BackProxy_Central": {
       "sURL_BackProxy_Central": "https://central.es.kievcity.gov.ua:8443/",
-      "sKeyPath_BackProxy_Central": "./cert/server.key",
-      "sCertPath_BackProxy_Central": "./cert/server.crt"
+      "sKeyPath_BackProxy_Central": "/sybase/central-js/cert/server.key",
+      "sCertPath_BackProxy_Central": "/sybase/central-js/cert/server.crt"
     },
 
     "BackProxySession_Central":{
