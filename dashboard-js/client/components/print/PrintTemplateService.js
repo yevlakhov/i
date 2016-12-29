@@ -178,7 +178,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
            loadedTemplates[printTemplateObject.sPatternPath] = originalTemplate; 
            parsedForm = PrintTemplateProcessor.getPrintTemplate(task, form, originalTemplate); 
-           parsedForm = $sce.trustAsHtml( PrintTemplateProcessor.populateTableField( $sce.getTrustedHtml( parsedForm ), printTemplateObject ) ); 
+           parsedForm = PrintTemplateProcessor.populateTableField( parsedForm , printTemplateObject ); 
            deferred.resolve(parsedForm);
 
          }, function() { 
