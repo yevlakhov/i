@@ -1,6 +1,6 @@
 {
   "type": "region",
-  "name": "region",
+  "name": "dashboard-js",
   "script": "./server/app.js",
   "error_file": "/sybase/logs/region_front/region-js_err.log",
   "out_file": "/sybase/logs/region_front/region-js_out.log",
