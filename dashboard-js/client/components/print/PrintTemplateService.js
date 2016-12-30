@@ -46,6 +46,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
              
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) {
 
+                 if( printsItem.aField_ID.indexOf(form[i].id) > -1 ) { 
+
 		                  angular.forEach( form[i].aRow, function( item, key, obj ) { 
 		
 		                    var itemObject = { 
@@ -101,6 +103,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                    }
 		                  
 		                } ); 
+                 }
             } ); 
 
           }
