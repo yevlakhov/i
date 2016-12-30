@@ -674,7 +674,7 @@ execution.setVariable('sAnswerEmail', res)
     </userTask>
     <sequenceFlow id="flow60" sourceRef="usertask_step13" targetRef="usertask_step14"></sequenceFlow>
     <sequenceFlow id="flow61" sourceRef="usertask_step14" targetRef="scripttask1"></sequenceFlow>
-    <userTask id="usertask_step15" name="15. Підтвердження сплати послуги">
+    <userTask id="usertask_step15" name="15. Підтвердження сплати послуги" activiti:candidateGroups="kyiv_dabi_audit">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
