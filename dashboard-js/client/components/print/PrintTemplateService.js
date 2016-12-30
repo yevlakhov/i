@@ -65,7 +65,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                    if( printsItem.sTitleField ) { 
 		                      angular.forEach( item.aField, function( field, fieldKey ) { 
 		
-			                      if( field.name === printsItem.sTitleField )  { 
+			                      if( field.id === printsItem.sTitleField )  { 
 		
 		                          itemObject.oField = field; 
 		                          itemObject.sLabel = field.value; 
