@@ -157,6 +157,8 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
       } 
 
       if(printFormTableObject.oRow) {
+        var tagexp = new RegExp(this.escapeRegExp(tag)); 
+
         angular.forEach ( printFormTableObject.oRow.aField, function( field, fieldKey) { 
 
           replacement = field.value;
@@ -164,7 +166,7 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
           
           console.log(" #1438 table form '" + tag + "'=" + replacement); 
 
-      	  templateString = templateString.replace(new RegExp(this.escapeRegExp(tag)), replacement); 
+      	  templateString = templateString.replace(tagexp, replacement); 
 
         } );
       } 
