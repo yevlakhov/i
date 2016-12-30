@@ -46,8 +46,9 @@ module.exports.getHistoryEvents = function(req, res) {
     }else{
         var getUserId = ()=> {
             return new Promise((resolve, reject)=> {
-                request(`https://accounts.kyivcity.gov.ua/user/info?access_token=${req.headers.access_token}`, {json: true}, (error, response, data)=> {
-                    resolve(data)
+                request(`https://accounts.kyivcity.gov.ua/user/info?access_token=${req.query.access_token}`, {json: true}, (error, response, data)=> {
+                  if(response.statusCode==401){return reject(data)};
+                  resolve(data)
                 })
             })
         }
@@ -84,7 +85,9 @@ module.exports.getHistoryEvents = function(req, res) {
             }, callback);
         }
 
-        getUserId().then(getMyUser).then(getHistory)
+        getUserId().then(getMyUser).then(getHistory).catch((err)=>{
+          res.status(401).send(err);
+        })
     }
 
 };
