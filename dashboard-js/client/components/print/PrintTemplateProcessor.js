@@ -157,18 +157,18 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
       } 
 
       if(printFormTableObject.oRow) {
-        var tagexp = new RegExp(this.escapeRegExp(tag)); 
 
-        angular.forEach ( printFormTableObject.oRow.aField, function( field, fieldKey) { 
+        for ( var fieldIndex in printFormTableObject.oRow.aField ) { 
 
+          var field = printFormTableObject.oRow.aField[fieldIndex];
           replacement = field.value;
     		  tag = "["+ printFormTableObject.sTableName + "." + field.id + "]";
-          
+
           console.log(" #1438 table form '" + tag + "'=" + replacement); 
 
-      	  templateString = templateString.replace(tagexp, replacement); 
+      	  templateString = templateString.replace(new RegExp(this.escapeRegExp(tag)), replacement); 
 
-        } );
+        }
       } 
       
       if( printTemplate.length ) { 
