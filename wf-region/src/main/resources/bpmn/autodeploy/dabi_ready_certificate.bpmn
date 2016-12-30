@@ -143,7 +143,7 @@
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBossComment" name="Коментар Директора ДАБК" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPermitBossComment" name="Коментар" type="textArea"></activiti:formProperty>
+        <activiti:formProperty id="sPermitBossComment" name="Коментар" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitOrganName" name="Найменування органу, який видав дозвіл на виконання будівельних робіт" type="string"></activiti:formProperty>
         <activiti:formProperty id="sBuildPermitDate" name="Дата видачі дозволу" type="date"></activiti:formProperty>
         <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу" type="string"></activiti:formProperty>
@@ -476,7 +476,7 @@
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
-            <activiti:expression><![CDATA[sLoginAsignee_step9]]></activiti:expression>
+            <activiti:expression><![CDATA[sLoginAsignee_step11]]></activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
@@ -575,16 +575,12 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow44" sourceRef="usertask_step7" targetRef="parallelgateway16"></sequenceFlow>
     <sequenceFlow id="flow46" sourceRef="parallelgateway9" targetRef="usertask_step11"></sequenceFlow>
     <sequenceFlow id="flow47" sourceRef="parallelgateway7" targetRef="usertask_step8"></sequenceFlow>
-    <sequenceFlow id="flow49" sourceRef="parallelgateway9" targetRef="parallelgateway11"></sequenceFlow>
-    <sequenceFlow id="flow50" sourceRef="parallelgateway11" targetRef="usertask_step10"></sequenceFlow>
-    <exclusiveGateway id="exclusivegateway6" name="Exclusive Gateway"></exclusiveGateway>
-    <sequenceFlow id="flow51" sourceRef="parallelgateway11" targetRef="exclusivegateway6"></sequenceFlow>
-    <sequenceFlow id="flow52" sourceRef="usertask_step10" targetRef="exclusivegateway6"></sequenceFlow>
-    <parallelGateway id="parallelgateway11" name="Exclusive Gateway"></parallelGateway>
+    <sequenceFlow id="flow49" sourceRef="parallelgateway9" targetRef="usertask_step10"></sequenceFlow>
+    <sequenceFlow id="flow52" sourceRef="usertask_step10" targetRef="parallelgateway17"></sequenceFlow>
     <sequenceFlow id="flow53" sourceRef="parallelgateway8" targetRef="usertask_step6"></sequenceFlow>
     <sequenceFlow id="flow56" sourceRef="usertask_step8" targetRef="parallelgateway10"></sequenceFlow>
-    <sequenceFlow id="flow57" sourceRef="usertask_step11" targetRef="parallelgateway10"></sequenceFlow>
-    <sequenceFlow id="flow58" sourceRef="exclusivegateway6" targetRef="parallelgateway10"></sequenceFlow>
+    <sequenceFlow id="flow57" sourceRef="usertask_step11" targetRef="parallelgateway17"></sequenceFlow>
+    <sequenceFlow id="flow58" sourceRef="parallelgateway17" targetRef="parallelgateway10"></sequenceFlow>
     <sequenceFlow id="flow59" sourceRef="parallelgateway10" targetRef="usertask_step12"></sequenceFlow>
     <userTask id="usertask_step13" name="13. Підготовка та підписання протоколу та наказу за результатами роботи комісії" activiti:candidateGroups="kyiv_dabi_law">
       <extensionElements>
@@ -894,6 +890,7 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow81" sourceRef="exclusivegateway10" targetRef="endevent1"></sequenceFlow>
     <parallelGateway id="parallelgateway16" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow82" sourceRef="parallelgateway16" targetRef="parallelgateway10"></sequenceFlow>
+    <parallelGateway id="parallelgateway17" name="Exclusive Gateway"></parallelGateway>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_ready_certificate">
     <bpmndi:BPMNPlane bpmnElement="dabi_ready_certificate" id="BPMNPlane_dabi_ready_certificate">
@@ -949,19 +946,13 @@ execution.setVariable('sAnswerEmail', res)
         <omgdc:Bounds height="71.0" width="117.0" x="880.0" y="34.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask_step10" id="BPMNShape_usertask_step10">
-        <omgdc:Bounds height="72.0" width="115.0" x="638.0" y="216.0"></omgdc:Bounds>
+        <omgdc:Bounds height="72.0" width="115.0" x="609.0" y="154.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway9" id="BPMNShape_parallelgateway9">
         <omgdc:Bounds height="40.0" width="40.0" x="486.0" y="169.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway10" id="BPMNShape_parallelgateway10">
         <omgdc:Bounds height="40.0" width="40.0" x="790.0" y="430.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
-        <omgdc:Bounds height="40.0" width="40.0" x="589.0" y="295.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallelgateway11" id="BPMNShape_parallelgateway11">
-        <omgdc:Bounds height="40.0" width="40.0" x="589.0" y="169.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask_step13" id="BPMNShape_usertask_step13">
         <omgdc:Bounds height="88.0" width="135.0" x="1061.0" y="407.0"></omgdc:Bounds>
@@ -998,6 +989,9 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway16" id="BPMNShape_parallelgateway16">
         <omgdc:Bounds height="40.0" width="40.0" x="790.0" y="242.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="parallelgateway17" id="BPMNShape_parallelgateway17">
+        <omgdc:Bounds height="40.0" width="40.0" x="646.0" y="361.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="103.0" y="87.0"></omgdi:waypoint>
@@ -1061,21 +1055,11 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow49" id="BPMNEdge_flow49">
         <omgdi:waypoint x="526.0" y="189.0"></omgdi:waypoint>
-        <omgdi:waypoint x="589.0" y="189.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow50" id="BPMNEdge_flow50">
-        <omgdi:waypoint x="629.0" y="189.0"></omgdi:waypoint>
-        <omgdi:waypoint x="696.0" y="189.0"></omgdi:waypoint>
-        <omgdi:waypoint x="695.0" y="216.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow51" id="BPMNEdge_flow51">
-        <omgdi:waypoint x="609.0" y="209.0"></omgdi:waypoint>
-        <omgdi:waypoint x="609.0" y="295.0"></omgdi:waypoint>
+        <omgdi:waypoint x="609.0" y="190.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow52" id="BPMNEdge_flow52">
-        <omgdi:waypoint x="695.0" y="288.0"></omgdi:waypoint>
-        <omgdi:waypoint x="696.0" y="314.0"></omgdi:waypoint>
-        <omgdi:waypoint x="629.0" y="315.0"></omgdi:waypoint>
+        <omgdi:waypoint x="666.0" y="226.0"></omgdi:waypoint>
+        <omgdi:waypoint x="666.0" y="361.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow53" id="BPMNEdge_flow53">
         <omgdi:waypoint x="830.0" y="69.0"></omgdi:waypoint>
@@ -1087,12 +1071,12 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow57" id="BPMNEdge_flow57">
         <omgdi:waypoint x="504.0" y="361.0"></omgdi:waypoint>
-        <omgdi:waypoint x="504.0" y="449.0"></omgdi:waypoint>
-        <omgdi:waypoint x="790.0" y="450.0"></omgdi:waypoint>
+        <omgdi:waypoint x="505.0" y="381.0"></omgdi:waypoint>
+        <omgdi:waypoint x="646.0" y="381.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow58" id="BPMNEdge_flow58">
-        <omgdi:waypoint x="609.0" y="335.0"></omgdi:waypoint>
-        <omgdi:waypoint x="609.0" y="449.0"></omgdi:waypoint>
+        <omgdi:waypoint x="666.0" y="401.0"></omgdi:waypoint>
+        <omgdi:waypoint x="665.0" y="449.0"></omgdi:waypoint>
         <omgdi:waypoint x="790.0" y="450.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow59" id="BPMNEdge_flow59">
