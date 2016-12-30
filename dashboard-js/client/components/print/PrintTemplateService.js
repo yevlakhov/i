@@ -152,7 +152,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
         angular.forEach( topItems, function( item ) { templates.unshift(item); } );
       }
 
-      templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
+      //templates.unshift({ id: "Id1438", displayTemplate: "Testing", type: "markers", value: "Test 1438" });
 
       return templates;
     },
@@ -187,6 +187,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
       }
       else { 
         parsedForm = PrintTemplateProcessor.getPrintTemplate(task, form, loadedTemplates[printTemplateObject.sPatternPath]); 
+        parsedForm = PrintTemplateProcessor.populateTableField( parsedForm, printTemplateObject );
         deferred.resolve(parsedForm);
       }
       return deferred.promise;
