@@ -160,7 +160,7 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
         angular.forEach ( printFormTableObject.oRow.aField, function( field, fieldKey) { 
 
           replacement = field.value;
-    		  tag = "["+ printFormTableObject.sTableName + "." + field.name + "]";
+    		  tag = "["+ printFormTableObject.sTableName + "." + field.id + "]";
           
           console.log(" #1438 table form '" + tag + "'=" + replacement); 
 
