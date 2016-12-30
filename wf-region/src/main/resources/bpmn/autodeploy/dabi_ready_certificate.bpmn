@@ -476,7 +476,7 @@
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
-            <activiti:expression><![CDATA[sLoginAsignee_step11]]></activiti:expression>
+            <activiti:expression><![CDATA[sLoginAsignee_step9]]></activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
@@ -674,7 +674,7 @@ execution.setVariable('sAnswerEmail', res)
     </userTask>
     <sequenceFlow id="flow60" sourceRef="usertask_step13" targetRef="usertask_step14"></sequenceFlow>
     <sequenceFlow id="flow61" sourceRef="usertask_step14" targetRef="scripttask1"></sequenceFlow>
-    <userTask id="usertask_step15" name="15. Підтвердження сплати послуги" activiti:candidateGroups="kyiv_dabi_audit">
+    <userTask id="usertask_step15" name="15. Підтвердження сплати послуги">
       <extensionElements>
         <activiti:formProperty id="sID_NumberASKOD" name="Реєстраційний номер вхідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateASKOD" name="Дата реєстрації вхідного документу" type="date" writable="false"></activiti:formProperty>
@@ -733,7 +733,6 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow69" sourceRef="exclusivegateway8" targetRef="exclusivegateway2">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sAnswerEmail == 'noSendEmail'}]]></conditionExpression>
     </sequenceFlow>
-    <parallelGateway id="parallelgateway15" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow70" sourceRef="usertask_step15" targetRef="usertask_step17"></sequenceFlow>
     <sequenceFlow id="flow71" sourceRef="exclusivegateway2" targetRef="usertask_step15"></sequenceFlow>
     <userTask id="usertask_step16" name="16. Друк відмови за шаблоном">
@@ -858,9 +857,9 @@ execution.setVariable('sAnswerEmail', res)
         </activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow73" sourceRef="usertask_step17" targetRef="parallelgateway15"></sequenceFlow>
-    <sequenceFlow id="flow74" sourceRef="usertask_step16" targetRef="parallelgateway15"></sequenceFlow>
-    <sequenceFlow id="flow75" sourceRef="parallelgateway15" targetRef="usertask_step21"></sequenceFlow>
+    <sequenceFlow id="flow73" sourceRef="usertask_step17" targetRef="exclusivegateway11"></sequenceFlow>
+    <sequenceFlow id="flow74" sourceRef="usertask_step16" targetRef="exclusivegateway11"></sequenceFlow>
+    <sequenceFlow id="flow75" sourceRef="exclusivegateway11" targetRef="usertask_step21"></sequenceFlow>
     <exclusiveGateway id="exclusivegateway9" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow77" sourceRef="usertask_step21" targetRef="exclusivegateway9"></sequenceFlow>
     <sequenceFlow id="flow78" sourceRef="exclusivegateway9" targetRef="servicetask_step21.1">
@@ -891,6 +890,7 @@ execution.setVariable('sAnswerEmail', res)
     <parallelGateway id="parallelgateway16" name="Parallel Gateway"></parallelGateway>
     <sequenceFlow id="flow82" sourceRef="parallelgateway16" targetRef="parallelgateway10"></sequenceFlow>
     <parallelGateway id="parallelgateway17" name="Exclusive Gateway"></parallelGateway>
+    <exclusiveGateway id="exclusivegateway11" name="Parallel Gateway"></exclusiveGateway>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_ready_certificate">
     <bpmndi:BPMNPlane bpmnElement="dabi_ready_certificate" id="BPMNPlane_dabi_ready_certificate">
@@ -969,9 +969,6 @@ execution.setVariable('sAnswerEmail', res)
       <bpmndi:BPMNShape bpmnElement="exclusivegateway8" id="BPMNShape_exclusivegateway8">
         <omgdc:Bounds height="40.0" width="40.0" x="1107.0" y="70.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="parallelgateway15" id="BPMNShape_parallelgateway15">
-        <omgdc:Bounds height="40.0" width="40.0" x="1422.0" y="209.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask_step16" id="BPMNShape_usertask_step16">
         <omgdc:Bounds height="72.0" width="105.0" x="1220.0" y="194.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
@@ -992,6 +989,9 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway17" id="BPMNShape_parallelgateway17">
         <omgdc:Bounds height="40.0" width="40.0" x="646.0" y="361.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="exclusivegateway11" id="BPMNShape_exclusivegateway11">
+        <omgdc:Bounds height="40.0" width="40.0" x="1422.0" y="209.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
         <omgdi:waypoint x="103.0" y="87.0"></omgdi:waypoint>
