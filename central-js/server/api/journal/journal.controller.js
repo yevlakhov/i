@@ -31,7 +31,6 @@ module.exports.getHistoryEvents = function(req, res) {
         res.end();
     };
 
-  let clientIDRed;
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
     hostnameAuth = 'accounts.kitsoft.kiev.ua';
@@ -39,14 +38,11 @@ module.exports.getHistoryEvents = function(req, res) {
     hostnameAuth = 'accounts.kyivcity.gov.ua';
     // hostnameAuth = 'accounts.kitsoft.kiev.ua';
   }else if (req.headers.host.search('test3.es') != -1) {
-    clientIDRed = 8922;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
     // hostnameAuth = 'accounts.kitsoft.kiev.ua';
   }else if (req.headers.host == "es.kievcity.gov.ua") {
-    clientIDRed = 8911;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else{
-    clientIDRed = 8443;
     hostnameAuth = 'accounts.kitsoft.kiev.ua';
   }
 
@@ -75,13 +71,12 @@ module.exports.getHistoryEvents = function(req, res) {
 
         var getMyUser = (body)=> {
           var inn = undefined;
-          if(body.user.services && body.user.services.bankid && body.user.services.bankid.inn != undefined){
-            inn = body.user.services.bankid.inn
-          }else if(body.user.services && body.user.services.eds && body.user.services.eds.edrpoucode != undefined){
-            inn = body.user.services.eds.edrpoucode
-          }/*else{
-            inn = '3119325858'
-          }*/
+          if(body.user.services){
+            for(let key in body.user.services){
+              if(typeof inn == 'undefined' && (typeof body.user.services[key].inn != "undefined" || typeof body.user.services[key].edrpoucode != "undefined"))
+                inn = body.user.services[key].inn || body.user.services[key].edrpoucode;
+            }
+          }
           if(inn==undefined){
             return reject({errorCode:401,message:"User haven`t personal code"});
           }

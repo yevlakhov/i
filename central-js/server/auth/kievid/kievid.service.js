@@ -14,18 +14,18 @@ module.exports.callback = (req, res, next)=> {
   if (req.headers.host.search('localhost') != -1) {
     clientIDRed = 8443;
     hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  }else if (req.headers.host.search('central.es') != -1) {
+  } else if (req.headers.host.search('central.es') != -1) {
     clientIDRed = 8933;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
     // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  }else if (req.headers.host.search('test3.es') != -1) {
+  } else if (req.headers.host.search('test3.es') != -1) {
     clientIDRed = 8922;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
     // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  }else if (req.headers.host == "es.kievcity.gov.ua") {
+  } else if (req.headers.host == "es.kievcity.gov.ua") {
     clientIDRed = 8911;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
-  }else{
+  } else {
     clientIDRed = 8443;
     hostnameAuth = 'accounts.kitsoft.kiev.ua';
   }
@@ -49,8 +49,8 @@ module.exports.callback = (req, res, next)=> {
     return new Promise((resolve, reject)=> {
       request(`https://${hostnameAuth}/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
         // console.log(data);
-        if(data==undefined){
-          return res.status(400).redirect(decodeURIComponent(state||"/"));
+        if (data == undefined) {
+          return res.status(400).redirect(decodeURIComponent(state || "/"));
         }
         resolve({user: data, access: body})
       })
@@ -58,49 +58,48 @@ module.exports.callback = (req, res, next)=> {
   }
 
   var getMyUser = (body)=> {
-        var inn = undefined;
-    if(body.user.services && body.user.services.bankid && body.user.services.bankid.inn != undefined){
-      inn = body.user.services.bankid.inn
-    }else if(body.user.services && body.user.services.eds && body.user.services.eds.edrpoucode != undefined){
-      inn = body.user.services.eds.edrpoucode
-    }/*else{
-            inn = '3119325858'
-        }*/
+    var inn = undefined;
+    if (body.user.services) {
+      for (let key in body.user.services) {
+        if (typeof inn == 'undefined' && (typeof body.user.services[key].inn != "undefined" || typeof body.user.services[key].edrpoucode != "undefined"))
+          inn = body.user.services[key].inn || body.user.services[key].edrpoucode;
+      }
+    }
 
 
-    if(inn==undefined){
-      return res.status(400).redirect(decodeURIComponent(state||"/"));
+    if (inn == undefined) {
+      return res.status(400).redirect(decodeURIComponent(state || "/"));
     }
 
 
     syncSubject.sync(inn, function (error, response, data) {
-            let user = {
-                    customer: {
-                        firstName: body.user.first_name,
-                        middleName: body.user.middle_name != undefined ? body.user.middle_name : null,
-                        lastName: body.user.last_name,
-                    },
-                    subject: data
-                },
-                access = {
-                    accessToken: body.access.access_token,
-                    refreshToken: body.access.refresh_token
-                }
-            req.session = authService.createSessionObject('kyivid', user, access);
-            delete req.session.prepare;
-            res.redirect(decodeURIComponent(state||"/"));
-        })
-    }
+      let user = {
+          customer: {
+            firstName: body.user.first_name,
+            middleName: body.user.middle_name != undefined ? body.user.middle_name : null,
+            lastName: body.user.last_name,
+          },
+          subject: data
+        },
+        access = {
+          accessToken: body.access.access_token,
+          refreshToken: body.access.refresh_token
+        }
+      req.session = authService.createSessionObject('kyivid', user, access);
+      delete req.session.prepare;
+      res.redirect(decodeURIComponent(state || "/"));
+    })
+  }
 
-    getToken().then(getUserId).then(getMyUser)
+  getToken().then(getUserId).then(getMyUser)
 
 }
 module.exports.convertToCanonical = function (customer) {
-    // сохранение признака для отображения надписи о необходимости проверки регистрационных данных, переданых от BankID
-    // console.log(customer);
-    customer.isAuthTypeFromBankID = true;
-    return customer;
+  // сохранение признака для отображения надписи о необходимости проверки регистрационных данных, переданых от BankID
+  // console.log(customer);
+  customer.isAuthTypeFromBankID = true;
+  return customer;
 };
-module.exports.getUserKeyFromSession = function (session){
-    return session.access.accessToken;
+module.exports.getUserKeyFromSession = function (session) {
+  return session.access.accessToken;
 };
