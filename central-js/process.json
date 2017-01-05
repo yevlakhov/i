@@ -7,7 +7,7 @@
   "merge_logs" : true,
   "log_date_format" : "YYYY-MM-DD_HH:mm:ss.SSS",
   "env": {
-    "sServerRegion": "https://alpha.test.region.igov.org.ua",
+    "sServerRegion": "https://test.office.kievcity.gov.ua",
     "bCompile_Application": "FALSE",
     "sProfile_Application": "test-alpha",
     "sDomain": "http://localhost:9000",
