@@ -17,9 +17,11 @@ module.exports.callback = (req, res, next)=> {
   }else if (req.headers.host.search('central.es') != -1) {
     clientIDRed = 8933;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
+    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
   }else if (req.headers.host.search('test3.es') != -1) {
     clientIDRed = 8922;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
+    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
   }else if (req.headers.host == "es.kievcity.gov.ua") {
     clientIDRed = 8911;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
@@ -47,6 +49,9 @@ module.exports.callback = (req, res, next)=> {
     return new Promise((resolve, reject)=> {
       request(`https://${hostnameAuth}/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
         // console.log(data);
+        if(data==undefined){
+          return res.status(400).redirect(decodeURIComponent(state||"/"));
+        }
         resolve({user: data, access: body})
       })
     })
@@ -54,16 +59,21 @@ module.exports.callback = (req, res, next)=> {
 
   var getMyUser = (body)=> {
         var inn = undefined;
-        if(body.user.social && body.user.social.BankID && body.user.social.BankID.inn != undefined){
-            inn = body.user.social.BankID.inn
-        }else if(body.user.social && body.user.social.eds && body.user.social.eds.edrpoucode != undefined){
-            inn = body.user.social.eds.edrpoucode
-        }else{
+    if(body.user.services && body.user.services.bankid && body.user.services.bankid.inn != undefined){
+      inn = body.user.services.bankid.inn
+    }else if(body.user.services && body.user.services.eds && body.user.services.eds.edrpoucode != undefined){
+      inn = body.user.services.eds.edrpoucode
+    }/*else{
             inn = '3119325858'
-        }
+        }*/
 
 
-        syncSubject.sync(inn, function (error, response, data) {
+    if(inn==undefined){
+      return res.status(400).redirect(decodeURIComponent(state||"/"));
+    }
+
+
+    syncSubject.sync(inn, function (error, response, data) {
             let user = {
                     customer: {
                         firstName: body.user.first_name,
@@ -78,7 +88,7 @@ module.exports.callback = (req, res, next)=> {
                 }
             req.session = authService.createSessionObject('kyivid', user, access);
             delete req.session.prepare;
-            res.redirect(decodeURIComponent(state));
+            res.redirect(decodeURIComponent(state||"/"));
         })
     }
 

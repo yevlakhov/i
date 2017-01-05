@@ -71,7 +71,20 @@ angular.module('app', [
     $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';
   }
   $rootScope.loginPathRedirect = window.location.protocol + "//" + window.location.host + "/auth/myOAuth&state=" + window.location.pathname
-
+  $rootScope.share = function (type) {
+    var myLink;
+    switch (type){
+      case 'facebook':
+        myLink = 'http://www.facebook.com/share.php?u='+encodeURIComponent(window.location.href);break;
+      case 'twitter':
+        myLink = 'http://twitter.com/home?status='+encodeURIComponent(window.location.href);break;
+      case 'link':
+        myLink = 'https://www.linkedin.com/shareArticle?mini=true&url='+encodeURIComponent(window.location.href)+'&title=&summary=&source=';break;
+      case 'google':
+        myLink = 'https://plus.google.com/share?url='+encodeURIComponent(window.location.href);break;
+    }
+    window.open(myLink, "connectWindow", "width=800,height=600,scrollbars=yes");
+  }
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams, error) {
     $rootScope.loginPathRedirect = window.location.protocol + "//" + window.location.host + "/auth/myOAuth&state=" + $location.$$path
   });

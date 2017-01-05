@@ -14,7 +14,8 @@ angular.module('app')
                 $scope.mailInputText = '';
                 $scope.sendMailRequest = function () {
                     $.post('/api/messages/sendMail',{message:$scope.mailInputText}).success(function () {
-                        $scope.mailInputText = '';
+                      alert('Дякуемо. Ваш запит успішно відправлений');
+                      $scope.mailInputText = '';
                         $scope.$apply()
                     })
                 }

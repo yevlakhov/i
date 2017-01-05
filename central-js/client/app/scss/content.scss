@@ -121,32 +121,28 @@
         }
       }
     }
+
     ul {
       li{
-        line-height: 12px;
-        margin-top: .3em;
-        cursor: pointer;
+        //line-height: 12px;
+        padding-top: .3em;
+        //cursor: pointer;
         a {
-          display: inline;
+          display: inline-block;
           margin-bottom: .2em;
           font-size: 13px;
+          line-height: 16px;
           color: $main-color!important;
           -webkit-transition: .5s ease all;
           -moz-transition: .5s ease all;
           -ms-transition: .5s ease all;
           -o-transition: .5s ease all;
           transition: .5s ease all;
-          border-bottom: 1px solid transparent;
+          //border-bottom: 1px solid transparent;
           font-family: $font-semi;
         }
         &:hover a{
-          -webkit-transition: .3s ease all;
-          -moz-transition: .3s ease all;
-          -ms-transition: .3s ease all;
-          -o-transition: .3s ease all;
-          transition: .3s ease all;
-          color: $main-color-hover;
-          border-bottom: 1px solid $main-color-hover;
+          text-decoration: underline
         }
         &:last-child {
           margin-bottom: 1em;

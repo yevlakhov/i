@@ -30,6 +30,26 @@ module.exports.getHistoryEvents = function(req, res) {
         res.send(body);
         res.end();
     };
+
+  let clientIDRed;
+  let hostnameAuth;
+  if (req.headers.host.search('localhost') != -1) {
+    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+  }else if (req.headers.host.search('central.es') != -1) {
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
+  }else if (req.headers.host.search('test3.es') != -1) {
+    clientIDRed = 8922;
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
+  }else if (req.headers.host == "es.kievcity.gov.ua") {
+    clientIDRed = 8911;
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
+  }else{
+    clientIDRed = 8443;
+    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+  }
+
     if(!req.query.access_token){
         return request.get({
             'url': url,
@@ -46,7 +66,7 @@ module.exports.getHistoryEvents = function(req, res) {
     }else{
         var getUserId = ()=> {
             return new Promise((resolve, reject)=> {
-                request(`https://accounts.kyivcity.gov.ua/user/info?access_token=${req.query.access_token}`, {json: true}, (error, response, data)=> {
+                request(`https://${hostnameAuth}/user/info?access_token=${req.query.access_token}`, {json: true}, (error, response, data)=> {
                   if(response.statusCode==401){return reject(data)};
                   resolve(data)
                 })
@@ -55,12 +75,15 @@ module.exports.getHistoryEvents = function(req, res) {
 
         var getMyUser = (body)=> {
           var inn = undefined;
-          if(body.social && body.social.BankID && body.social.BankID.inn != undefined){
-            inn = body.social.BankID.inn
-          }else if(body.social && body.social.eds && body.social.eds.edrpoucode != undefined){
-            inn = body.social.eds.edrpoucode
-          }else{
+          if(body.user.services && body.user.services.bankid && body.user.services.bankid.inn != undefined){
+            inn = body.user.services.bankid.inn
+          }else if(body.user.services && body.user.services.eds && body.user.services.eds.edrpoucode != undefined){
+            inn = body.user.services.eds.edrpoucode
+          }/*else{
             inn = '3119325858'
+          }*/
+          if(inn==undefined){
+            return reject({errorCode:401,message:"User haven`t personal code"});
           }
 
             return new Promise((resolve,reject)=>{

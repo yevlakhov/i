@@ -206,15 +206,15 @@ angular.module('app').service('ActivitiService', function ($q, $http, $location,
         if(ErrorsFactory.bSuccessResponse(oResponse.data)){
             return oResponse.data;
         }
-    }).catch(function (error) {
+    })/*.catch(function (error) {
         if(!ErrorsFactory.bSuccessResponse(error.data)){
             return $q.reject(error.data);
         }
-      /*ErrorsFactory.push({
+      /!*ErrorsFactory.push({
         type: "danger",
         text: [error.data.code, error.data.message].join(" ")
-      });*/
-    });
+      });*!/
+    });*/
   };
 
   this.autoUploadScans = function (oServiceData, scans) {

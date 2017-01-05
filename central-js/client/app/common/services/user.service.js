@@ -47,10 +47,13 @@ angular.module('app').factory('UserService', function ($http, $q, $rootScope, Ad
 
           $http.post('./auth/logout').then(function () {
             $rootScope.$broadcast('event.logout');
-            $.get('https://'+$rootScope.myAuthServer+'/logout').success(function () {
-              window.location.reload();
-              window.cookiesFunc.delete('admin')
-            })
+            window.cookiesFunc.delete('admin');
+            window.location.replace('https://'+$rootScope.myAuthServer+'/logout?redirect_uri='+window.location.href)
+            /* $.get('https://'+$rootScope.myAuthServer+'/logout').success(function () {
+             // redirect_uri={{loginPathRedirect}}
+             window.location.reload();
+             window.cookiesFunc.delete('admin')
+             })*/
           });
 
         },

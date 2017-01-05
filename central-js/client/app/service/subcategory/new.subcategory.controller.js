@@ -12,7 +12,8 @@ angular.module('app')
 
                 $scope.sendMailRequest = function () {
                     $.post('/api/messages/sendMail',{message:$scope.mailInputText}).success(function () {
-                        $scope.mailInputText = '';
+                      alert('Дякуемо. Ваш запит успішно відправлений');
+                      $scope.mailInputText = '';
                         $scope.$apply()
                     })
                 }
@@ -30,16 +31,18 @@ angular.module('app')
                     $scope.catalog = data;
                     if ($scope.catalog) {
                         $scope.subcategory = data;
+                      try {
                         $scope.subcategory = $scope.subcategory.map(function (val) {
-                            if (Array.isArray(val.aServiceTag_Child)) {
-                                val.aServiceTag_Child = val.aServiceTag_Child.map(function (item) {
-                                    var to = item.sName_UA.indexOf(']');
-                                    item.sName_UA = item.sName_UA.substr(to + 1);
-                                    return item
-                                })
-                            }
-                            return val
+                          if (Array.isArray(val.aServiceTag_Child)) {
+                            val.aServiceTag_Child = val.aServiceTag_Child.map(function (item) {
+                              var to = item.sName_UA.indexOf(']');
+                              item.sName_UA = item.sName_UA.substr(to + 1);
+                              return item
+                            })
+                          }
+                          return val
                         })
+                      }catch (e){}
                     } else {
                         $scope.subcategory = null;
                     }
