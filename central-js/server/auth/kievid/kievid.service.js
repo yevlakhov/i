@@ -13,21 +13,20 @@ module.exports.callback = (req, res, next)=> {
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
     clientIDRed = 8443;
-    hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  } else if (req.headers.host.search('central.es') != -1) {
+    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
+  }else if (req.headers.host.search('central.es') != -1) {
     clientIDRed = 8933;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  } else if (req.headers.host.search('test3.es') != -1) {
+  }else if (req.headers.host.search('test3.es') != -1) {
     clientIDRed = 8922;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  } else if (req.headers.host == "es.kievcity.gov.ua") {
+  }else if (req.headers.host == "es.kievcity.gov.ua") {
     clientIDRed = 8911;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
-  } else {
+  }else{
     clientIDRed = 8443;
-    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
   }
   var getToken = ()=> {
     return new Promise((resolve, reject)=> {
@@ -84,7 +83,11 @@ module.exports.callback = (req, res, next)=> {
         access = {
           accessToken: body.access.access_token,
           refreshToken: body.access.refresh_token
-        }
+        };
+
+      if(typeof body.user.phone!="undefined") user.customer.phone = body.user.phone;
+      if(typeof body.user.birthday!="undefined") user.customer.birthDay = body.user.birthday.replace(/\//gi,".");
+      if(typeof body.user.email!="undefined") user.customer.email = body.user.email;
       req.session = authService.createSessionObject('kyivid', user, access);
       delete req.session.prepare;
       res.redirect(decodeURIComponent(state || "/"));

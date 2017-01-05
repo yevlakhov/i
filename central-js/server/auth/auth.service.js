@@ -65,11 +65,7 @@ function createSessionObjectFromPrepare(prepare){
 function createSessionObject(type, user, access) {
   return {
     type: type,
-    account: {
-      firstName: user.customer.firstName,
-      middleName: user.customer.middleName,
-      lastName: user.customer.lastName
-    },
+    account: user.customer,
     subject: user.subject,
     access: access,
     usercacheid: user.usercacheid

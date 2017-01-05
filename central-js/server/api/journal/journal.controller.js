@@ -34,15 +34,9 @@ module.exports.getHistoryEvents = function (req, res) {
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
     hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  } else if (req.headers.host.search('central.es') != -1) {
+  }else if (req.headers.host.search('kyivcity.gov.ua') != -1) {
     hostnameAuth = 'accounts.kyivcity.gov.ua';
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  } else if (req.headers.host.search('test3.es') != -1) {
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-  } else if (req.headers.host == "es.kievcity.gov.ua") {
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
-  } else {
+  }else{
     hostnameAuth = 'accounts.kyivcity.gov.ua';
   }
 
