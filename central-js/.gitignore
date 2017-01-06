@@ -6,6 +6,5 @@ client/bower_components
 client/build
 dist
 server/config/local.env.js
-process-custom.json
 *_.js
 *_.json
