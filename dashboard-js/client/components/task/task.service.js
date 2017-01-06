@@ -23,6 +23,7 @@ angular.module('dashboardJsApp')
       filterTypes: {
         selfAssigned: 'selfAssigned',
         unassigned: 'unassigned',
+        documents: 'documents',
         finished: 'finished',
         tickets: 'tickets',
         all: 'all'
@@ -700,6 +701,15 @@ angular.module('dashboardJsApp')
           url: 'api/documents/setDocument',
           params: {
             sID_BP: bpID
+          }
+        })
+      },
+      getFilterFieldsList: function (login) {
+        return simpleHttpPromise({
+          method: 'GET',
+          url: '/api/fields-list',
+          params: {
+            sLogin: login
           }
         })
       }

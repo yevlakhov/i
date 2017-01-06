@@ -1,6 +1,7 @@
-<div class="row">
+<div class="row" ng-controller="NavbarCtrl">
+  <div ng-hide="hideNaviWhenLoginPage()">
   <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-    <div class="navbar navbar-default navbar-static-top i-gov-navbar" ng-controller="NavbarCtrl">
+    <div class="navbar navbar-default navbar-static-top i-gov-navbar">
 
       <div ng-if="iGovNavbarHelper.auth.isLoggedIn()" class="navbar-header i-gov-navbar-instruments-container">
         <a href="#" class="i-gov-navbar-instruments"
@@ -61,15 +62,15 @@
 
 
         <div class="nav navbar-nav navbar-right right-menu-group">
-          <div class="nav navbar-nav document-button" ng-if="usersDocumentsBPs.length > 0">
-            <!--<a ng-click="openCloseUsersSelect()"-->
-               <!--class="btn btn-info">Створити документ-->
-            <!--</a>-->
-            <a ng-click="temporaryCreate()"
+          <div class="nav navbar-nav document-button" ng-if="usersDocumentsBPs.length > 0 && showCreateDocButton()">
+            <a ng-click="openCloseUsersSelect()"
                class="btn btn-info">Створити документ
             </a>
             <div class="document-select-block" ng-show="showOrHideSelect">
-                <ui-select ng-model="document.selected" theme="bootstrap" on-select="onSelectDocList($item)">
+                <ui-select style="border: 6px solid white; bottom: 6px; border-radius: 5px;"
+                           ng-model="document.selected"
+                           theme="bootstrap"
+                           on-select="onSelectDocList($item)">
 
                   <ui-select-match placeholder="Оберіть документ зі списку">
                     <span title="{{$select.selected.sName}} ({{$select.selected.sID}})">
@@ -127,5 +128,6 @@
 
       </div>
     </div>
+  </div>
   </div>
 </div>
