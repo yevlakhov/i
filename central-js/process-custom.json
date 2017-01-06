@@ -21,9 +21,9 @@
     },
 
     "BackProxySession_Central":{
-      "sSecret_BackProxySession_Central": "put yor session secret here",
-      "sKey1_BackProxySession_Central": "solt1 for session",
-      "sKey2_BackProxySession_Central": "solt2 for session",
+      "sSecret_BackProxySession_Central": "4a9mEAPAio6GbycjXWMJVA4h7WNtiC",
+      "sKey1_BackProxySession_Central": "iEjjqJYLPOmSwZUIpNdk2lbLcnBgfD",
+      "sKey2_BackProxySession_Central": "kY615vZh3IYo3tfSfiT6pNzDgKGuyv",
       "bSecure_BackProxySession_Central": "FALSE",
       "nLiveMS_BackProxySession_Central": 14400000
     },
