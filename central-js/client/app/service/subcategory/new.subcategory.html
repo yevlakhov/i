@@ -68,22 +68,11 @@
             <span style="font-size: 20px; font-family: 'Open Sans Semibold'; display: inline-block;">Пов'язані послуги</span>
           </div>
         </div>
-<style>
-  .servises-status{
-    width: 10px;
-    height: 10px;
-    border-radius: 5px;
-    position: absolute;
-    left: 0;
-    top: 11px;
-  }
-</style>
         <div class="container" style="padding-right: 50px">
           <div class="row category__item-list services-in-situations">
           <!--<div class="row igov-columns-3 services-in-situations">-->
             <div class="col-md-6 category__item-list-item" ng-repeat="service in subcategory.aService | orderBy: 'nOrder'">
-              <div class="servises-status" style="background: #017582" ng-if ="service.nStatus==2"></div>
-              <div class="servises-status" style="background: #a1a1a1" ng-if ="service.nStatus!==2"></div>
+              <div class="servises-status" ng-class ="{'inactive':service.nStatus!==2}"></div>
               <a ui-sref="index.service.general({'id': service.nID })">{{service.sName}}</a>
             </div>
           </div>
