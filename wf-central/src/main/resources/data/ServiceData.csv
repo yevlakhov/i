@@ -3852,7 +3852,7 @@
 
 5000;2500;NULL;NULL;NULL;4;{"processDefinitionId":"_test_print_table:1:1"};;false;1;true;;BankID;0
 5001;2501;NULL;NULL;NULL;4;{"processDefinitionId":"_test_choose_employee:1:1"};;false;1;true;;BankID;0
-5002;2502;NULL;NULL;NULL;4;{"processDefinitionId":"_test_skuhtin:1:1"};;false;1;true;;BankID;0
+5002;2502;NULL;NULL;NULL;4;{"processDefinitionId":"_test_skuhtin:1:1"};;false;1;true;;BankID;6
 5003;499;6;6;NULL;4;{"processDefinitionId":"dabi_build_notification:1:1"};;false;1;true;;BankID,EDS;0
 5004;647;6;6;NULL;4;{"processDefinitionId":"kmda_works_notification:1:1"};;false;1;true;;BankID,EDS;0
 5005;55;6;6;NULL;4;{"processDefinitionId":"kyiv_mda_929:1:1"};;false;1;true;;BankID,EDS;0
