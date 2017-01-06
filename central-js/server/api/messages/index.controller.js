@@ -261,8 +261,8 @@ module.exports.findServiceMessages = function(req, res){
 
 module.exports.sendMail = function(req, res){
     var mailOptions = {
-        from: 'answer@es.kievcity.gov.ua', // sender address
-        to: 'answer@es.kievcity.gov.ua', // list of receivers
+        from: 'answer@poslugy.kyivcity.gov.ua', // sender address
+        to: 'answer@poslugy.kyivcity.gov.ua', // list of receivers
         subject: 'Запит на послугу чи розділ', // Subject line
         text: `Користувач запросив послугу ${req.body.message}`, // plaintext body
         html: `Користувач запросив послугу ${req.body.message}` // html body

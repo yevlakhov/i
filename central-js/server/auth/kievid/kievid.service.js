@@ -21,7 +21,7 @@ module.exports.callback = (req, res, next)=> {
   }else if (req.headers.host.search('test3.es') != -1) {
     clientIDRed = 8922;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
-  }else if (req.headers.host == "es.kievcity.gov.ua") {
+  }else if (req.headers.host == "poslugy.kyivcity.gov.ua") {
     clientIDRed = 8911;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else{

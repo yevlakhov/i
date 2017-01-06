@@ -60,13 +60,10 @@ angular.module('app', [
   } else if (window.location.hostname.search('central.es') != -1) {
     $rootScope.clientIDRed = 8933;
     $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
-  }  else if (window.location.hostname.search('poslugy') != -1) {
-    $rootScope.clientIDRed = 8933;
-    $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
   } else if (window.location.hostname.search('test3.es') != -1) {
     $rootScope.clientIDRed = 8922;
     $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
-  } else if (window.location.hostname == "es.kievcity.gov.ua") {
+  } else if (window.location.hostname == "poslugy.kyivcity.gov.ua") {
     $rootScope.clientIDRed = 8911;
     $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
   } else {
