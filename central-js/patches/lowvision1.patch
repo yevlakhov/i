@@ -1,0 +1,565 @@
+Index: client/app/header/kyiv.header.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/app/header/kyiv.header.html	(revision 694b8ed2f7b10f72372c15ea5f214ae063b095fb)
++++ client/app/header/kyiv.header.html	(revision )
+@@ -54,7 +54,7 @@
+         <div class="header__logo">
+           <a href="/">
+             <div class="header__logo-img">
+-              <img src="../assets/images/svg/logo_white.svg" alt="ПОСЛУГИ. Офіційний портал Києва"/>
++              <img src="../assets/images/svg/logo_white.svg" alt="ПОСЛУГИ. Офіційний портал Києва" title="ПОСЛУГИ. Офіційний портал Києва"/>
+             </div>
+           </a>
+         </div>
+@@ -87,7 +87,7 @@
+       </div>
+       <div class="col-md-3 col-sm-6 col-xs-6 hide-ipad">
+         <div class="header__lowvision">
+-          <a href="#" class="header__lowvision--low" onclick="LowVision(1); return false;">
++          <a href="#" class="header__lowvision--low" ng-click="LowVision()">
+             <div class="header__lowvision-img">
+               <img src="../assets/images/svg/eye.svg" alt="lowvision" />
+             </div>
+@@ -97,9 +97,9 @@
+               <span class="hidden-sm hidden-xs">сайту</span>
+             </div>
+           </a>
+-          <a href="#" class="header__lowvision--normal" onclick="LowVision(0); return false;">
++          <a href="#" class="header__lowvision--normal" ng-click="LowVision()">
+             <div class="header__lowvision-img">
+-              <img src="../assets/images/eye_open.svg" alt="lowvision" />
++              <img src="../assets/images/svg/eye_open.svg" alt="lowvision" />
+             </div>
+             <div class="header__lowvision-text">
+               <div>Змінити</div>
+@@ -122,7 +122,8 @@
+           </a>
+           <div ng-if="userName" class="btn-group relative">
+             <a href="#" target="_blank" ng-href="{{myAuthServer=='accounts.kitsoft.kiev.ua'?'https://kyiv-myaccount.kitsoft.kiev.ua/#!/services':'https://myaccount.kyivcity.gov.ua/#!/services'}}" style="display: block;">
+-              <img src="../assets/images/svg/login_1-blue.svg" alt="avatar" class="header__login-avatar">
++              <img ng-if="!isLowVision" src="../assets/images/svg/login_1-blue.svg" alt="avatar" class="header__login-avatar">
++              <img ng-if="isLowVision" src="../assets/images/svg/login_1-black.svg" alt="avatar" class="header__login-avatar">
+             </a>
+             <div class="header__login-dropdown">
+               <small>
+Index: client/assets/images/svg/login_1-black.svg
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/assets/images/svg/login_1-black.svg	(revision )
++++ client/assets/images/svg/login_1-black.svg	(revision )
+@@ -0,0 +1,23 @@
++<?xml version="1.0" encoding="utf-8"?>
++<!-- Generator: Adobe Illustrator 19.2.1, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
++<svg version="1.1"
++	 id="Слой_1" inkscape:version="0.91 r13725" sodipodi:docname="login_1.svg" xmlns:cc="http://creativecommons.org/ns#" xmlns:dc="http://purl.org/dc/elements/1.1/" xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape" xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#" xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd" xmlns:svg="http://www.w3.org/2000/svg"
++	 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" x="0px" y="0px" viewBox="0 0 595.3 841.9"
++	 style="enable-background:new 0 0 595.3 841.9;" xml:space="preserve">
++<style type="text/css">
++	.st0{fill:#646565;}
++</style>
++<g>
++
++		<sodipodi:namedview  bordercolor="#666666" borderopacity="1" gridtolerance="10" guidetolerance="10" id="namedview3443" inkscape:current-layer="Слой_1" inkscape:cx="297.64999" inkscape:cy="420.95001" inkscape:pageopacity="0" inkscape:pageshadow="2" inkscape:window-height="837" inkscape:window-maximized="1" inkscape:window-width="1600" inkscape:window-x="-8" inkscape:window-y="-8" inkscape:zoom="0.28031832" objecttolerance="10" pagecolor="#33a5b1" showgrid="false">
++		</sodipodi:namedview>
++	<path id="path3441" inkscape:connector-curvature="0" class="st0" d="M436.2,426h-28.8c55.7-36.1,92.4-98.7,92.4-169.5
++		c0-111.4-90.5-201.9-201.9-201.9S96,145,96,256.5c0,71.1,37,133.7,92.4,169.5h-28.8C85.5,426,25.5,486.3,25.5,560v187.5
++		c0,12.5,9.8,22.3,22.3,22.3h499.9c12.5,0,22.3-10.2,22.3-22.3V560C570.6,486.3,510.3,426,436.2,426L436.2,426L436.2,426z
++		 M140.9,256.5c0-86.5,70.5-157.3,157.3-157.3s157.3,70.5,157.3,157.3c0,86.5-70.5,157.3-157.3,157.3S140.9,343,140.9,256.5
++		L140.9,256.5z M363.5,447.6l-65.2,65.2L233,447.6c20.7,6.9,42.6,10.8,65.2,10.8C321.2,458.4,343.1,454.5,363.5,447.6L363.5,447.6z
++		 M525.7,725.2h-60.6V618c0-12.5-9.8-22.3-22.3-22.3c-12.5,0-22.3,10.2-22.3,22.3v107.2H176V618c0-12.5-9.8-22.3-22.3-22.3
++		s-22.3,10.2-22.3,22.3v107.2H70.7V560c0-49.5,40.3-89.5,89.5-89.5H193l89.5,89.5c4.3,4.3,10.2,6.6,15.7,6.6
++		c5.6,0,11.5-2.3,15.7-6.6l89.5-89.5h32.8c49.5,0,89.5,40.3,89.5,89.5L525.7,725.2L525.7,725.2z"/>
++</g>
++</svg>
+Index: client/index.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/index.html	(revision 694b8ed2f7b10f72372c15ea5f214ae063b095fb)
++++ client/index.html	(revision )
+@@ -76,7 +76,7 @@
+     </script>
+ </head>
+
+-<body errors-container>
++<body errors-container ng-class="{'lowvision':isLowVision}">
+
+ <!-- Google Tag Manager -->
+ <noscript>
+Index: client/app/scss/content.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/app/scss/content.scss	(revision 694b8ed2f7b10f72372c15ea5f214ae063b095fb)
++++ client/app/scss/content.scss	(revision )
+@@ -13,6 +13,19 @@
+     padding-left: 5px;
+     padding-right: 5px;
+   }
++
++  .servises-status{
++    width: 10px;
++    height: 10px;
++    border-radius: 5px;
++    position: absolute;
++    left: 0;
++    top: 11px;
++    background: #017582;
++    &.inactive{
++      background: #a1a1a1 !important;
++    }
++  }
+ }
+
+ .igov-container {
+Index: client/app/scss/lowvision.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/app/scss/lowvision.scss	(revision )
++++ client/app/scss/lowvision.scss	(revision )
+@@ -0,0 +1,344 @@
++.lowvision{
++  .scrollToTop {
++    background-color: #585a5a;
++  }
++
++  .header {
++    background-color: #585a5a;
++    background: linear-gradient(to bottom right, #727373, #585a5a);
++    background: -webkit-linear-gradient(to bottom right, #727373, #585a5a);
++    background: -o-linear-gradient(to bottom right, #727373, #585a5a);
++    background: -ms-linear-gradient(to bottom right, #727373, #585a5a);
++    background: linear-gradient(to bottom right, #727373, #585a5a);
++    color: #fff;
++  }
++
++  .header__lowvision--low {
++    display: none !important;
++  }
++
++  .header__lowvision--normal {
++    display: inline-block !important;
++  }
++
++  .theme__item {
++    margin-top: 2em;
++    min-height: 140px;
++  }
++
++  .theme__item-block img {
++    display: none;
++  }
++
++  .theme__item-link a {
++    color: #585a5a;
++  }
++
++  .theme__item-link a:hover {
++    border-bottom: 1px solid #727373;
++    color: #727373;
++  }
++
++  .js-news-crumb.fix-crumb{
++    background-color: #585a5a !important;
++  }
++
++  .category__item-list-item {
++    .servises-status{
++      background: #000000;
++    }
++    a{
++      color: #000000;
++      &:hover{
++        color: #727373 !important;
++        border-bottom-color: #727373 !important;
++      }
++    }
++    > p > i.glyphicon {
++      color: #585a5a !important;
++    };
++    > div > a{
++      color: #585a5a !important;
++      &:hover{
++        color: #727373 !important;
++        border-bottom-color: #727373 !important;
++      }
++    }
++  }
++
++  .link-main{
++    color: #585a5a !important;
++    &:hover{
++      color: #727373 !important;
++      border-bottom-color: #727373 !important;
++    }
++  }
++  .instructions ul{
++    &:before,&:after{
++      border-color: #585a5a;
++    }
++    li{
++      &:before{
++        background-color: #585a5a;
++      }
++    }
++  }
++  .service-content-form-massege--red{
++    color: #585a5a !important;
++  }
++  .service-content-form-label{
++    color: #585a5a !important;
++  }
++  .nav.nav-tabs{
++    &.longTabs{
++      li{
++        margin-right: 9px;
++        a{
++          line-height: 45px;
++          color: black;
++        }
++        &.active{
++          z-index: 1;
++          a{
++            background-color: #ffffff !important;
++            &:after{
++              content: '';
++              position: absolute;
++              left: 0;
++              right: 0;
++              bottom: -3px;
++              height: 3px;
++              background: #ffffff;
++            }
++          }
++        }
++      }
++    }
++    li{
++      a{
++        border: 3px solid black;
++        margin-bottom: -3px;
++        background-color: #d6d6d6 !important;
++        position: relative;
++        line-height: 2.42857143;
++        &.active-tab{
++          z-index: 1;
++          background-color: #ffffff !important;
++          &:after{
++            content: '';
++            position: absolute;
++            left: 0;
++            right: 0;
++            bottom: -3px;
++            height: 3px;
++            background: #ffffff;
++          }
++        }
++      }
++    }
++  }
++
++  .igov-container,.service-content{
++    border: 3px solid black;
++  }
++
++  .category-container-text{
++    ul{
++      li{
++        a{
++          color:#585a5a !important;
++        }
++      }
++    }
++  }
++
++  .category-container-img a{
++    display: none !important;
++  }
++
++
++  .footer__sidebar-dev a {
++    color: #fff;
++  }
++
++  .footer__sidebar-dev a:hover {
++    color: #fff;
++    border-bottom: 1px solid #fff;
++  }
++
++  .button-timeline {
++    background-color: #585a5a;
++  }
++
++  .button-timeline:hover {
++    background-color: #585a5a;
++  }
++
++  .message__subscribe-arrow {
++    display: none !important;
++  }
++
++  #parallax {
++    display: none !important;
++  }
++
++  .timeline__list li:last-child .timeline__item-inner::before {
++    background: -moz-linear-gradient(top, white 0%, #000 100%);
++    background: -webkit-linear-gradient(top, white 0%, #000 100%);
++    background: -o-linear-gradient(top, white 0%, #000 100%);
++    background: -ms-linear-gradient(top, white 0%, #000 100%);
++    background: linear-gradient(to top, white 0%, #000 100%);
++    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#000', endColorstr='#000', GradientType=1);
++  }
++
++  .message__subscribe {
++    width: 100%;
++    padding-bottom: 3em;
++  }
++
++  .button-subscribe,
++  .button-timeline {
++    background-color: #585a5a !important;
++  }
++
++  .button-subscribe:hover,
++  .button-timeline:hover {
++    background-color: #717474 !important;
++  }
++
++  *::selection {
++    color: #fff;
++    background: #585a5a !important;
++  }
++
++  .subtheme__link a:before {
++    display: none;
++  }
++
++  .fullpage__inner a {
++    color: #585a5a;
++    border-bottom: 1px solid #717474;
++  }
++
++  .fullpage__inner a:hover {
++    color: #717474;
++    border-bottom: 1px solid #717474;
++  }
++
++  .news__inner-crumb span a {
++    background: #d7d7d7;
++  }
++
++  .news__inner-crumb span a:hover {
++    background: #cddde1 !important;
++  }
++
++  .news__inner-crumb span a:before {
++    border-right: 7px solid #d7d7d7;
++  }
++
++  .news__inner-crumb span a:hover::before {
++    border-right: 7px solid #cddde1 !important;
++  }
++
++  .fullpage__inner ul li:before {
++    background-color: #585a5a;
++    border: 5px solid #585a5a;
++  }
++
++  .news__inner-attach li > a,
++  .news__inner-attach li > a:hover {
++    color: #000000;
++  }
++
++  .news__inner-btn svg,
++  .news__inner-btn:hover svg {
++    fill: #000000;
++  }
++
++  .fullpage__inner ol li:before {
++    color: #585a5a;
++  }
++
++  .button-service, .button-main {
++    background-color: #585a5a !important;
++  }
++
++  .button-service:hover, .button-main:hover {
++    background-color: #3f4040 !important;
++  }
++
++  .media__attach-img,
++  .media__attach-img:before {
++    background-image: url("../img/svg/trash/arrow-left-big-link-black.svg");
++  }
++
++  .media__attach li > a,
++  .media__attach li:hover > a {
++    color: #585a5a;
++  }
++
++  .media__pagination .news__inner-btn-next svg {
++    right: 8px;
++  }
++
++  .button-acreditation {
++    background-color: #585a5a !important;
++  }
++
++  .button-acreditation:hover {
++    background: #717474 !important;
++  }
++
++  .button-calendar {
++    background-color: #717474 !important;
++  }
++
++  .button-calendar:hover {
++    background-color: #8b8d8d !important;
++  }
++
++  .events__sidebar .dropdown-menu > li > a {
++    color: #000;
++  }
++  .article-block a:not(.button-subscribe){
++    color: #585a5a !important;
++  }
++
++  .similar-situation li a{
++    color: #585a5a !important;
++    &:hover{
++      color: #727373 !important;
++      border-bottom-color: #727373 !important;
++    }
++  }
++
++  .social-share a .a{
++    fill: #000 !important;
++  }
++  .social-share a:hover .a{
++    fill: #585a5a !important;
++  }
++  .igov-container ol li:before{
++    background-color: #585a5a !important;
++  }
++
++  .notfound{
++    &__inner {
++      &-error {
++        color: #585a5a;
++      }
++      &-title{
++        color: #585a5a;
++      }
++      &-text{
++        a{
++          color: #585a5a;
++        }
++      }
++    }
++  }
++
++
++  /*----------------------- Vars LowVision ------------------------*/
++}
+\ No newline at end of file
+Index: central-js/client/app/app.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- central-js/client/app/app.js	(revision 694b8ed2f7b10f72372c15ea5f214ae063b095fb)
++++ central-js/client/app/app.js	(revision )
+@@ -86,6 +86,19 @@
+         }
+         window.open(myLink, "connectWindow", "width=800,height=600,scrollbars=yes");
+     }
++    $rootScope.isLowVision = false;
++    if(window.localStorage.getItem('lowvision')){
++        $rootScope.isLowVision = true;
++    }
++    $rootScope.LowVision = function () {
++        if(window.localStorage.getItem('lowvision')){
++            window.localStorage.removeItem('lowvision');
++            $rootScope.isLowVision = false;
++        }else{
++            window.localStorage.setItem('lowvision',1);
++            $rootScope.isLowVision = true;
++        }
++    }
+
+     $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams, error) {
+         $rootScope.loginPathRedirect = window.location.protocol + "//" + window.location.host + "/auth/myOAuth&state=" + $location.$$path
+Index: client/app/service/subcategory/new.subcategory.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/app/service/subcategory/new.subcategory.html	(revision 694b8ed2f7b10f72372c15ea5f214ae063b095fb)
++++ client/app/service/subcategory/new.subcategory.html	(revision )
+@@ -68,22 +68,11 @@
+             <span style="font-size: 20px; font-family: 'Open Sans Semibold'; display: inline-block;">Пов'язані послуги</span>
+           </div>
+         </div>
+-<style>
+-  .servises-status{
+-    width: 10px;
+-    height: 10px;
+-    border-radius: 5px;
+-    position: absolute;
+-    left: 0;
+-    top: 11px;
+-  }
+-</style>
+         <div class="container" style="padding-right: 50px">
+           <div class="row category__item-list services-in-situations">
+           <!--<div class="row igov-columns-3 services-in-situations">-->
+             <div class="col-md-6 category__item-list-item" ng-repeat="service in subcategory.aService | orderBy: 'nOrder'">
+-              <div class="servises-status" style="background: #017582" ng-if ="service.nStatus==2"></div>
+-              <div class="servises-status" style="background: #a1a1a1" ng-if ="service.nStatus!==2"></div>
++              <div class="servises-status" ng-class ="{'inactive':service.nStatus!==2}"></div>
+               <a ui-sref="index.service.general({'id': service.nID })">{{service.sName}}</a>
+             </div>
+           </div>
+\ No newline at end of file
+Index: client/app/footer/kyiv.footer.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/app/footer/kyiv.footer.html	(revision 694b8ed2f7b10f72372c15ea5f214ae063b095fb)
++++ client/app/footer/kyiv.footer.html	(revision )
+@@ -105,7 +105,7 @@
+                 <div class="footer__sidebar">
+                     <div class="footer__sidebar-brand col-sm-2">
+                         <a href="/">
+-                            <img src="../assets/images/svg/logo(2).png" alt="logo">
++                            <img src="../assets/images/svg/logo(2).png"  title="ПОСЛУГИ. Офіційний портал Києва"  alt="ПОСЛУГИ. Офіційний портал Києва">
+                         </a>
+                         <div class="clear"></div><!--
+                         <div class="footer__sidebar-brand-title">
+Index: client/app/app.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- client/app/app.scss	(revision 694b8ed2f7b10f72372c15ea5f214ae063b095fb)
++++ client/app/app.scss	(revision )
+@@ -2644,6 +2644,7 @@
+ @import "scss/button";
+ @import "scss/404";
+ @import "scss/more";
++@import "scss/lowvision";
+
+ .intl-tel-input .flag-dropdown {
+   display: none;
+\ No newline at end of file
