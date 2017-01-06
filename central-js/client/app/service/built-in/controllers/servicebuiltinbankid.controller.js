@@ -544,7 +544,7 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
               window.location.hostname.search('localhost') != -1
               || window.location.hostname.search('central.es') != -1
               || window.location.hostname.search('test3.es') != -1
-              || window.location.hostname == "es.kievcity.gov.ua" ? 6 : oServiceData.nID_Server
+              || window.location.hostname == "poslugy.kyivcity.gov.ua" ? 9 : oServiceData.nID_Server
             ) + "-" + oReturn.id + nCRC;
           submitted.data.id = sID_Order;
 
