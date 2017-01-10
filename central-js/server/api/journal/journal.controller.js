@@ -34,6 +34,7 @@ module.exports.getHistoryEvents = function (req, res) {
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
     hostnameAuth = 'accounts.kitsoft.kiev.ua';
+    hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else if (req.headers.host.search('kyivcity.gov.ua') != -1) {
     hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else{
@@ -68,10 +69,10 @@ module.exports.getHistoryEvents = function (req, res) {
 
     var getMyUser = (body)=> {
       var inn = undefined;
-      if (body.user.services) {
-        for (let key in body.user.services) {
-          if (typeof inn == 'undefined' && (typeof body.user.services[key].inn != "undefined" || typeof body.user.services[key].edrpoucode != "undefined"))
-            inn = body.user.services[key].inn || body.user.services[key].edrpoucode;
+      if (body.services) {
+        for (let key in body.services) {
+          if (typeof inn == 'undefined' && (typeof body.services[key].inn != "undefined" || typeof body.services[key].edrpoucode != "undefined"))
+            inn = body.services[key].inn || body.services[key].edrpoucode;
         }
       }
       if (inn == undefined) {
