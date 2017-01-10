@@ -85,6 +85,19 @@ angular.module('app', [
     }
     window.open(myLink, "connectWindow", "width=800,height=600,scrollbars=yes");
   }
+  $rootScope.isLowVision = false;
+  if(window.localStorage.getItem('lowvision')){
+    $rootScope.isLowVision = true;
+  }
+  $rootScope.LowVision = function () {
+    if(window.localStorage.getItem('lowvision')){
+      window.localStorage.removeItem('lowvision');
+      $rootScope.isLowVision = false;
+    }else{
+      window.localStorage.setItem('lowvision',1);
+      $rootScope.isLowVision = true;
+    }
+  }
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams, error) {
     $rootScope.loginPathRedirect = window.location.protocol + "//" + window.location.host + "/auth/myOAuth&state=" + $location.$$path
   });
@@ -153,32 +166,6 @@ angular.module('app', [
     } else {
       $(newsCrumb).removeClass('fix-crumb');
       $(newsCrumb).next().css('marginTop', '0');
-    }
-    $rootScope.isLowVision = false;
-    if(window.localStorage.getItem('lowvision')){
-        $rootScope.isLowVision = true;
-    }
-    $rootScope.LowVision = function () {
-        if(window.localStorage.getItem('lowvision')){
-            window.localStorage.removeItem('lowvision');
-            $rootScope.isLowVision = false;
-        }else{
-            window.localStorage.setItem('lowvision',1);
-            $rootScope.isLowVision = true;
-        }
-    }
-    $rootScope.isLowVision = false;
-    if(window.localStorage.getItem('lowvision')){
-        $rootScope.isLowVision = true;
-    }
-    $rootScope.LowVision = function () {
-        if(window.localStorage.getItem('lowvision')){
-            window.localStorage.removeItem('lowvision');
-            $rootScope.isLowVision = false;
-        }else{
-            window.localStorage.setItem('lowvision',1);
-            $rootScope.isLowVision = true;
-        }
     }
 
   });
