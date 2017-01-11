@@ -154,8 +154,9 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	if( element.length > 0 && element[0].attributes["ng-switch-when"] != null) {
     		formFieldType = element[0].attributes["ng-switch-when"].value;
     	}
-	else if  ( element.length > 0 && element[0].parentNode !== null && element[0].parentNode.parentNode !== null && element[0].parentNode.parentNode.attributes["ng-if"] !== null) { 
-		formFieldType = element[0].parentNode.parentNode.attributes["ng-if"].value; 
+	else if  ( element.length > 0 && element[0].parentNode != null && element[0].parentNode.parentNode != null && 
+		 element[0].parentNode.parentNode.parentNode != null && element[0].parentNode.parentNode.parentNode.attributes["ng-if"] != null) { 
+		formFieldType = element[0].parentNode.parentNode.parentNode.attributes["ng-if"].value; 
 	} 
 
     	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, formFieldType)  > -1); 
@@ -165,7 +166,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     }
 
     if(formField && (fieldNameIsListedInMarker || fieldTypeIsListedInMarker) ) 
-    	console.log( markerName + " formField.$name=" + formField.$name + " formField.attributes[ng-switch-when]=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
+    	console.log( markerName + " formField.$name=" + formField.$name + " formField.attributes[ng-switch-when] | formField.attributes[ng-if]=" + formFieldType + " fieldNameIsListedInMarker=" + fieldNameIsListedInMarker + " fieldTypeIsListedInMarker=" + fieldTypeIsListedInMarker );
    
     // для того чтобы валидация работала в таблице, нужно добраться до полей, вводится доп проверка.
     if(!fieldNameIsListedInMarker && !fieldTypeIsListedInMarker) {
