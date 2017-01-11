@@ -384,13 +384,16 @@
 [options="header"]
 |===
 |Name|Description|Required|Schema|Default
+|aProcessSubjectChilds||false|<<ProcessSubject>> array|
 |aUser||false|<<ProcessUser>> array|
 |nID||false|integer (int64)|
 |nOrder||false|integer (int64)|
 |oProcessSubjectStatus||false|<<ProcessSubjectStatus>>|
 |sDateEdit||false|<<DateTime>>|
+|sDateFact||false|<<DateTime>>|
 |sDatePlan||false|<<DateTime>>|
 |sLogin||false|string|
+|sReport||false|string|
 |snID_Process_Activiti||false|string|
 |===
 
@@ -401,11 +404,19 @@
 |aProcessSubject||false|<<ProcessSubject>> array|
 |===
 
+=== ProcessSubjectResultTree
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|aProcessSubjectTree||false|<<ProcessSubject>> array|
+|===
+
 === ProcessSubjectStatus
 [options="header"]
 |===
 |Name|Description|Required|Schema|Default
 |nID||false|integer (int64)|
+|sID||false|string|
 |sName||false|string|
 |===
 

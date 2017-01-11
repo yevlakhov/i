@@ -1,39 +1,74 @@
 <span ng-transclude></span>
 <button style="display: none;" class="btn btn-info"><i class="icon-door-lock"></i><span
   class="btn-text">igov.org.ua</span></button>
-<a class="btn btn-info" target="_self"
-   ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/bankID?link={{redirectUri}}"
-   ng-if="!authMethods || authMethods.indexOf('BankID') > -1">
-  <i class="icon-bank-id"></i>
-  <span class="btn-text">BankID</span>
-</a>
-<a class="btn btn-info" target="_self"
-   ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/bankid-nbu?link={{redirectUri}}"
-   ng-if="!authMethods || authMethods.indexOf('BankID-NBU') > -1">
-  <i class="icon-bank-id"></i>
-  <span class="btn-text">BankID-NBU</span>
-</a>
-<button style="display: none;" class="btn"><i class="icon-mobil-id"></i></button>
-<a class="btn btn-info_ btn-success i-btn-badge" target="_self"
-   ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/eds?link={{redirectUri}}"
-   ng-if="!authMethods || authMethods.indexOf('EDS') > -1">
-  <i class="icon-badge"></i>
-  <span class="btn-text"><div>Сертифікат електронно-</div><div>цифрового підпису</div></span>
-</a>
-<button style="display: none;" class="btn"><i class="icon-mobil-id"></i></button>
-<a class="btn btn-info_ btn-success i-btn-badge" target="_self"
-   ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/mpbds?link={{redirectUri}}"
-   ng-if="!authMethods || authMethods.indexOf('mpbds') > -1">
-  <i class="icon-badge"></i>
-  <span class="btn-text">IDcard</span>
-</a>
-<button ng-click="loginWithEmail()"
-        ng-if="!authMethods || authMethods.indexOf('email') > -1"
-        class="btn btn-info">
-  <span class="btn-info"><div>Email</div></span>
-</button>
-<a class="btn btn-info_ btn-success_ icon-auth-kk" target="_self"
-   ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/soccard?link={{redirectUri}}"
-   ng-if="!authMethods || authMethods.indexOf('KK') > -1">
-</a>
-<button-create-cookie></button-create-cookie>
+
+<div class="text-center">
+    <a class="btn btn-info button-main" ng-href="https://{{myAuthServer}}/authorise?client_id={{clientIDRed}}&redirect_uri={{loginPathRedirect}}" rel="nofollow noreferrer">
+        <!--<i class="icon-bank-id icon-bank-id-new"></i>-->
+        <span class="">Увійти</span>
+    </a>
+</div>
+<br>
+<div class="text-center">
+    <a class="link link-main js-service-about-btn" ng-href="#">
+        Як це працює?
+    </a>
+</div>
+
+<div class="js-service-about-container">
+    <div>Крок 1</div>
+    <p>Увійдіть в систему через КиївІД.</p>
+    <div>Крок 2</div>
+    <p>Заповніть коротку форму та завантажте відскановані документи. Натисніть кнопку "Замовити послугу". Ваша заявка буде прийнята в роботу.</p>
+    <div>Крок 3</div>
+    <p>Ви будете отримувати листи на e-mail з інформацією про стан Вашої заяви:</p>
+    <p>у разі неможливості надання послуги Ви отримаєте лист з зазначенням підстави для відмови</p>
+    <p>у разі вірного заповнення форми Ви отримаєте подальші інструкції (дату/час візиту, адресу, пакет необхідних документів, реквізитів для сплати вартості послуги)</p>
+</div>
+
+<span class="dropdown bank-id-banks-dropdown" ng-class="{'open':showBankIdDropdown}">
+  <!--<button class="btn btn-info"  ng-click="bankIdClick()"-->
+          <!--ng-if="!authMethods || authMethods.indexOf('BankID') > -1 || authMethods.indexOf('BankID-NBU') > -1">-->
+    <!--<i class="icon-bank-id"></i>-->
+    <!--<span class="btn-text">BankID</span>-->
+  <!--</button>-->
+
+  <ul class="dropdown-menu">
+    <li ng-repeat="provider in bankidProvidersList">
+      <a ng-href="{{::getBankIdAuthUrl(provider)}}"
+         target="_self"
+         ng-if="(authMethods.indexOf('BankID') > -1 && provider.auth=='BankID')
+             || (authMethods.indexOf('BankID-NBU') > -1 && provider.auth=='BankID-NBU') || true">
+        <span>
+          <img ng-src="{{provider.icon}}">
+        </span>
+        <span ng-bind="::provider.name"></span>
+      </a>
+    </li>
+  </ul>
+</span>
+
+<!--<button style="display: none;" class="btn"><i class="icon-mobil-id"></i></button>-->
+<!--<a class="btn btn-info_ btn-success i-btn-badge" target="_self"-->
+   <!--ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/eds?link={{redirectUri}}"-->
+   <!--ng-if="!authMethods || authMethods.indexOf('EDS') > -1">-->
+  <!--<i class="icon-badge"></i>-->
+  <!--<span class="btn-text"><div>Сертифікат електронно-</div><div>цифрового підпису</div></span>-->
+<!--</a>-->
+<!--<button style="display: none;" class="btn"><i class="icon-mobil-id"></i></button>-->
+<!--<a class="btn btn-info_ btn-success i-btn-badge" target="_self"-->
+   <!--ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/mpbds?link={{redirectUri}}"-->
+   <!--ng-if="!authMethods || authMethods.indexOf('mpbds') > -1">-->
+  <!--<i class="icon-badge"></i>-->
+  <!--<span class="btn-text">IDcard</span>-->
+<!--</a>-->
+<!--<button ng-click="loginWithEmail()"-->
+        <!--ng-if="!authMethods || authMethods.indexOf('email') > -1"-->
+        <!--class="btn btn-info">-->
+  <!--<span class="btn-info"><div>Email</div></span>-->
+<!--</button>-->
+<!--<a class="btn btn-info_ btn-success_ icon-auth-kk" target="_self"-->
+   <!--ng-href="{{$location.protocol()}}://{{$location.host()}}:{{$location.port()}}/auth/soccard?link={{redirectUri}}"-->
+   <!--ng-if="!authMethods || authMethods.indexOf('KK') > -1">-->
+<!--</a>-->
+<!--<button-create-cookie></button-create-cookie>-->

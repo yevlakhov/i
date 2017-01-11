@@ -14,15 +14,21 @@ import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.igov.io.GeneralConfig;
+import org.igov.io.Log;
 import org.igov.io.mail.NotificationPatterns;
 import org.igov.io.web.HttpRequester;
 import org.igov.model.action.event.HistoryEvent_Service_StatusType;
 import org.igov.service.business.action.event.HistoryEventService;
+import org.igov.service.business.action.execute.ActionExecuteService;
 import org.igov.service.business.action.task.bp.handler.BpServiceHandler;
 import org.igov.service.business.escalation.EscalationHistoryService;
+import org.igov.service.business.feedback.FeedBackService;
+import org.igov.service.exception.TaskAlreadyUnboundException;
+import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
+import org.json.simple.parser.ParseException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,19 +38,10 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-
 import java.io.BufferedReader;
 import java.io.IOException;
-import java.util.Enumeration;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.regex.Pattern;
-
-import org.igov.io.Log;
-import org.igov.service.business.feedback.FeedBackService;
-import org.igov.service.exception.TaskAlreadyUnboundException;
 
 import static org.igov.util.Tool.sCut;
 
@@ -53,7 +50,7 @@ import static org.igov.util.Tool.sCut;
  */
 public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 
-    private static final String DNEPR_MVK_291_COMMON_BP = "dnepr_mvk_291_common|_test_UKR_DOC|dnepr_mvk_889|justice_incoming";
+    private static final String DNEPR_MVK_291_COMMON_BP = "dnepr_mvk_291_common|_test_UKR_DOC|dnepr_mvk_889|justice_incoming|_doc_justice_171";
     private static final String asID_BP_SkipSendMail = "dnepr_mvk_291_common";
     private static final Logger LOG = LoggerFactory.getLogger(RequestProcessingInterceptor.class);
     private static final Logger LOG_BIG = LoggerFactory.getLogger("ControllerBig");
@@ -89,6 +86,8 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
     private EscalationHistoryService escalationHistoryService;
     @Autowired
     private FeedBackService feedBackService;
+    @Autowired
+    private ActionExecuteService actionExecuteService;
 
     private JSONParser oJSONParser = new JSONParser();
 
@@ -224,7 +223,25 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
             if (isSaveTask(oRequest, sResponseBody)) {
                 sType = "Save";
                 LOG.info("saveNewTaskInfo block started");
-                saveNewTaskInfo(sRequestBody, sResponseBody, mRequestParam);
+                if (oResponse.getStatus() < 200 || oResponse.getStatus() >= 300 
+                        || (sResponseBody != null && sResponseBody.contains("SYSTEM_ERR"))) { //SYSTEM_ERR
+                    try {
+                        new Log(this.getClass(), LOG)//this.getClass()
+                                ._Case("Activiti_FailStartTask")
+                                ._Status(Log.LogStatus.ERROR)
+                                ._Head("Error hapened while start process!")
+                                ._Body(oResponse.toString())
+                                ._Param("sRequestBody", sRequestBody)
+                                ._Param("sResponseBody", sResponseBody)
+                                ._Param("mRequestParam", mRequestParam)
+                                .save();
+                    } catch (Exception ex) {
+                        LOG.error("Can't save error to MSG", ex);
+                    }
+                    return;
+                } else {
+                    saveNewTaskInfo(sRequestBody, sResponseBody, mRequestParam);
+                }
                 LOG.info("saveNewTaskInfo block finished");
             } else if (isCloseTask(oRequest, sResponseBody)) {
                 sType = "Close";
@@ -253,7 +270,7 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
                         ._LogTrace()
                         .save();
             } catch (Exception e) {
-                LOG.error("Cann't send an error message to service MSG\n", e);
+                LOG.error("Can't send an error message to service MSG\n", e);
             }
 
         }
@@ -307,17 +324,23 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
             if (sID_UA != null) {
                 mParam.put("sID_UA", sID_UA);
             }
+            
+            LOG.info("RequestProcessingInterceptor sID_UA: " + sID_UA);
 
-            //TODO: need remove infuture
+            //TODO: need remove in future
             String snID_Region = mParamRequest.get("nID_Region");
             if (snID_Region != null) {
                 mParam.put("nID_Region", snID_Region);
             }
-
+            
+            LOG.info("RequestProcessingInterceptor snID_Region: " + snID_Region);
+            
             String snID_ServiceData = mParamRequest.get("nID_ServiceData");
             if (snID_ServiceData != null) {
                 mParam.put("nID_ServiceData", snID_ServiceData);
             }
+            
+            LOG.info("RequestProcessingInterceptor snID_ServiceData: " + snID_ServiceData);
 
             HistoricProcessInstance oHistoricProcessInstance
                     = historyService.createHistoricProcessInstanceQuery().processInstanceId(snID_Process).singleResult();
@@ -369,7 +392,7 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
             historyEventService.addHistoryEvent(sID_Order, sUserTaskName, mParam);
             //LOG.info("ok!");
             LOG.info("Before calling set action process count {}, {}", mParam, oProcessDefinition.getKey());
-            if (DNEPR_MVK_291_COMMON_BP.contains(oProcessDefinition.getKey())) {
+            if (oProcessDefinition.getKey().startsWith("_doc_") || DNEPR_MVK_291_COMMON_BP.contains(oProcessDefinition.getKey())) {
                 ActionProcessCountUtils.callSetActionProcessCount(httpRequester, generalConfig, oProcessDefinition.getKey(), Long.valueOf(snID_Service));
             }
         }
@@ -553,7 +576,7 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
 
                             Long countClaim = Long.valueOf(sResponse);
                             LOG.info("countClaimmmmmmmmmmmmmmmm ", countClaim);
-                            if (countClaim.compareTo(50L) < 0) {
+                            if (countClaim.compareTo(50L) > 0) {
                                 String snID_Proccess_Feedback = feedBackService.runFeedBack(snID_Task);
 
                                 /* String snID_Proccess_Feedback = bpHandler
@@ -623,8 +646,8 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
                         try {
                             saveCommentSystemEscalation(sID_Order, omRequestBody, oHistoricTaskInstance);
                         } catch (Exception oException) {
-                            new Log(oException, LOG)._Case("IC_SaveCommentVolonter")._Status(Log.LogStatus.ERROR)
-                                    ._Head("Can't save volonter's comment")._Param("nID_Process", nID_Process).save();
+                            new Log(oException, LOG)._Case("IC_SaveCommentVolunteer")._Status(Log.LogStatus.ERROR)
+                                    ._Head("Can't save volunteer's comment")._Param("nID_Process", nID_Process).save();
                         }
                     }
                 }
@@ -729,8 +752,8 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
             LOG.info("Found {} escalation processes", escalationProceses.size());
 
             Map<String, String> mParam = new HashMap<>();
-            mParam.put("nID_Proccess_Escalation", "-1");
-            LOG.info(" >>Clearing nID_Proccess_Escalation field for the process . (sID_Process={})", sID_Process);
+            mParam.put("nID_Process_Escalation", "-1");
+            LOG.info(" >>Clearing nID_Process_Escalation field for the process . (sID_Process={})", sID_Process);
             try {
                 LOG.info(" updateHistoryEvent: " + sID_Process + " mParam: " + mParam);
                 historyEventService.updateHistoryEvent(generalConfig.getOrderId_ByProcess(Long.valueOf(sID_Process)), null, false, HistoryEvent_Service_StatusType.UNKNOWN, mParam);
@@ -754,4 +777,24 @@ public class RequestProcessingInterceptor extends HandlerInterceptorAdapter {
         LOG.info(" not found escalations for process {}", sID_Process);
     }
 
+
+    private void saveActionExecute(String sRequestBody) {
+        LOG.info("Started saveActionExecute method");
+        try{
+            JSONObject omRequestBody = (JSONObject) oJSONParser.parse(sRequestBody);
+            Long nID_ActionExecuteStatus = (Long) omRequestBody.get("nID_ActionExecuteStatus");
+            DateTime oDateMake = (DateTime) omRequestBody.get("oDateMake");
+            DateTime oDateEdit = (DateTime) omRequestBody.get("oDateEdit");
+            String sObject = (String) omRequestBody.get("sObject");
+            String sMethod = (String) omRequestBody.get("sMethod");
+            String smParam = (String) omRequestBody.get("smParam");
+            String sReturn = (String) omRequestBody.get("sReturn");
+            Integer nTry = (Integer) omRequestBody.get("nTry");
+            byte[] soRequest = (byte[]) omRequestBody.get("soRequest");
+            actionExecuteService.setActionExecute(nID_ActionExecuteStatus,oDateMake,oDateEdit,nTry,sObject,sMethod,soRequest,smParam,sReturn);
+        }
+        catch(ParseException oParseException) {
+
+        }
+    }
 }

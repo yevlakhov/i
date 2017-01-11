@@ -656,7 +656,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         if (bIncludeStartForm.equals(Boolean.TRUE)) {
             response.put("aFieldStartForm", oActionTaskService.getStartFormData(nID_Task));
         }
+        
+        LOG.info("Attach is not triggered!");
+        
         if (bIncludeAttachments.equals(Boolean.TRUE)) {
+            LOG.info("Attach is triggered!");
             response.put("aAttachment", oActionTaskService.getAttachmentsByTaskID(nID_Task));
         }
         if (bIncludeMessages.equals(Boolean.TRUE)) {
@@ -1009,6 +1013,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         }
         SimpleDateFormat sdfFileName = new SimpleDateFormat(
                 "yyyy-MM-ddHH-mm-ss", Locale.ENGLISH);
+        LOG.info("111sdfFileName: " + sdfFileName);
         String fileName = "!" + sID_BP_Name + "_"
                 + sdfFileName.format(Calendar.getInstance().getTime()) + ".xlsx";
         LOG.debug("File name for statistics : {%s}", fileName);
@@ -1171,10 +1176,15 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             @ApiParam(value = "начальная дата закрытия таски", required = false) @RequestParam(value = "sTaskEndDateAt", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date sTaskEndDateAt,
             @ApiParam(value = "конечная дата закрытия таски", required = false) @RequestParam(value = "sTaskEndDateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date sTaskEndDateTo,
             HttpServletResponse httpResponse) throws IOException, CommonServiceException, EmailException {
-
+LOG.info("!!!!!!!!!!!!!!begin");
+LOG.info("1dateAt= " + dateAt);
+LOG.info("2dateTo= " + dateTo);
+LOG.info("3sTaskEndDateAt= " + sTaskEndDateAt);
+LOG.info("4sTaskEndDateTo= " + sTaskEndDateTo);
 //      'sID_State_BP': '',//'usertask1'
 //      'saFieldsCalc': '', // поля для калькуляций
 //      'saFieldSummary': '' // поля для агрегатов
+        
         if ("".equalsIgnoreCase(sID_State_BP) || "null".equalsIgnoreCase(sID_State_BP)) {
             sID_State_BP = null;
         }
@@ -1193,10 +1203,17 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                     + "' not found. Wrong BP name.", Task.class);
         }
         Date dBeginDate = oActionTaskService.getBeginDate(dateAt);
+        LOG.info("dBeginDate: " + dBeginDate);
+        LOG.info("dateAt: " + dateAt);
         Date dEndDate = oActionTaskService.getEndDate(dateTo);
+        LOG.info("dEndDate: " + dEndDate);
+        LOG.info("dateAt: " + dateAt);
         String separator = oActionTaskService.getSeparator(sID_BP, nASCI_Spliter);
+        //LOG.info("4444separator " + separator);
+        //LOG.info("7777nASCI_Spliter " + nASCI_Spliter);
+        //LOG.info("6666separator " + separator.chars());
         Charset charset = oActionTaskService.getCharset(sID_Codepage);
-
+        //LOG.info("5555charset " + charset);
         // 2. query
         TaskQuery query = taskService.createTaskQuery()
                 .processDefinitionKey(sID_BP);
@@ -1245,6 +1262,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         // 3. response
         SimpleDateFormat sdfFileName = new SimpleDateFormat(
                 "yyyy-MM-ddHH-mm-ss", Locale.ENGLISH);
+        LOG.info("222sdfFileName: " + sdfFileName);
         String sTaskDataFileName = fileName != null ? fileName : "data_BP-"
                 + sID_BP + "_"
                 + sdfFileName.format(Calendar.getInstance().getTime()) + ".txt";
@@ -1417,6 +1435,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             + "\n```\n")
     @RequestMapping(value = "/getLoginBPs", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
     @Transactional
+    @Deprecated //новый: getBPs 
     public @ResponseBody
     String getBusinessProcessesForUser(
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
@@ -2333,12 +2352,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
      */
     @RequestMapping(value = "/getListBP", method = RequestMethod.GET)
     @ResponseBody
-    public List<ProcDefinitionI> getListBP(@ApiParam(value = "строка-ИД БП //опциональный фильтр, иначе все", required = false)
-            @RequestParam(value = "sID_BP", required = false) String sID_BP,
-            @ApiParam(value = "строка-типа поля //опциональный фильтр, иначе все", required = false)
-            @RequestParam(value = "sFieldType", required = false) String sFieldType,
-            @ApiParam(value = "строка-ИД поля //опциональный фильтр, иначе все", required = false)
-            @RequestParam(value = "sID_Field", required = false) String sID_Field) {
+    public List<ProcDefinitionI> getListBP(
+            @ApiParam(value = "строка-ИД БП //опциональный фильтр, иначе все", required = false) @RequestParam(value = "sID_BP", required = false) String sID_BP,
+            @ApiParam(value = "строка-типа поля //опциональный фильтр, иначе все", required = false) @RequestParam(value = "sFieldType", required = false) String sFieldType,
+            @ApiParam(value = "строка-ИД поля //опциональный фильтр, иначе все", required = false) @RequestParam(value = "sID_Field", required = false) String sID_Field
+    ) {
         List<ProcessDefinition> processDefinitions = repositoryService
                 .createProcessDefinitionQuery().processDefinitionId(sID_BP).list();
 
@@ -2568,16 +2586,6 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     public @ResponseBody
     Map<String,Object> getDocumentStepRights(@ApiParam(value = "sLogin", required = true) @RequestParam(value = "sLogin", required = true) String sLogin, //String
             @ApiParam(value = "nID_Process", required = true) @RequestParam(value = "nID_Process", required = true) String nID_Process) throws Exception {
-        /*Task task = taskService.createTaskQuery().processInstanceId(sID_Process.trim()).active().singleResult();
-        LOG.info("task.getId: " + (task != null ? task.getId() : "no active task for sID_Process = " + sID_Process));
-        String asID_Attach_Dfs = "";
-        if (task != null) {
-            asID_Attach_Dfs = dfsService_new.getAnswer(task.getId(), sID_Process, INN);
-            if (asID_Attach_Dfs != null && asID_Attach_Dfs.length() > 0) {
-                taskService.complete(task.getId());
-            }
-        }
-        return asID_Attach_Dfs;*/
         return oDocumentStepService.getDocumentStepRights(sLogin, nID_Process+"");
     }
 
@@ -2585,17 +2593,8 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     @RequestMapping(value = "/getDocumentStepLogins", method = RequestMethod.GET)
     public @ResponseBody
     //Map<String,Object> getDocumentStepLogins(@ApiParam(value = "nID_Process", required = true) @RequestParam(value = "nID_Process", required = true) String nID_Process) throws Exception {//String
-    List<Map<String,Object>> getDocumentStepLogins(@ApiParam(value = "nID_Process", required = true) @RequestParam(value = "nID_Process", required = true) String nID_Process) throws Exception {//String
-        /*Task task = taskService.createTaskQuery().processInstanceId(sID_Process.trim()).active().singleResult();
-        LOG.info("task.getId: " + (task != null ? task.getId() : "no active task for sID_Process = " + sID_Process));
-        String asID_Attach_Dfs = "";
-        if (task != null) {
-            asID_Attach_Dfs = dfsService_new.getAnswer(task.getId(), sID_Process, INN);
-            if (asID_Attach_Dfs != null && asID_Attach_Dfs.length() > 0) {
-                taskService.complete(task.getId());
-            }
-        }
-        return asID_Attach_Dfs;*/
+    List<Map<String,Object>> getDocumentStepLogins(@ApiParam(value = "nID_Process", required = true)
+    @RequestParam(value = "nID_Process", required = true) String nID_Process) throws Exception {//String
         return oDocumentStepService.getDocumentStepLogins(nID_Process+"");
     }
     
@@ -2652,5 +2651,95 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         }
 
     }
+
+    
+    
+    /**
+     * Returns business processes which belong to a specified user
+     *
+     * @param sLogin - login of user in user activity
+     * @param bDocOnly
+     * @return 
+     */
+    @ApiOperation(value = "Получение списка бизнес процессов к которым у пользователя есть доступ", notes = "#####  ActionCommonTaskController: Получение списка бизнес процессов к которым у пользователя есть доступ #####\n\n"
+            + "HTTP Context: https://test.region.igov.org.ua/wf/service/action/task/getLoginBPs?sLogin=userId\n\n"
+            + "Метод возвращает json со списком бизнес процессов, к которым у пользователя есть доступ, в формате:\n"
+            + "\n```json\n"
+            + "[\n"
+            + "  {\n"
+            + "    \"sID\": \"[process definition key]\"\"sName\": \"[process definition name]\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"[process definition key]\"\"sName\": \"[process definition name]\"\n"
+            + "  }\n"
+            + "]\n"
+            + "\n```\n"
+            + "Принадлежность пользователя к процессу проверяется по вхождению в группы, которые могут запускать usertask-и внутри процесса, или по вхождению в группу, которая может стартовать процесс\n\n"
+            + "Пример:\n\n"
+            + "https://test.region.igov.org.ua/wf/service/action/task/getLoginBPs?sLogin=kermit\n"
+            + "Пример результата\n"
+            + "\n```json\n"
+            + "[\n"
+            + "{\n"
+            + "    \"sID\": \"dnepr_spravka_o_doxodax\",\n"
+            + "    \"sName\": \"Дніпропетровськ - Отримання довідки про доходи фіз. осіб\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"dnepr_subsidies2\",\n"
+            + "    \"sName\": \"Отримання субсидії на оплату житлово-комунальних послуг2\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"khmelnitskij_mvk_2\",\n"
+            + "    \"sName\": \"Хмельницький - Надання інформації, що підтверджує відсутність (наявність) земельної ділянки\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"khmelnitskij_zemlya\",\n"
+            + "    \"sName\": \"Заява про наявність земельної ділянки\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"kiev_spravka_o_doxodax\",\n"
+            + "    \"sName\": \"Київ - Отримання довідки про доходи фіз. осіб\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"kuznetsovsk_mvk_5\",\n"
+            + "    \"sName\": \"Кузнецовськ МВК - Узгодження графіка роботи підприємства торгівлі\\/обслуговування\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"post_spravka_o_doxodax_pens\",\n"
+            + "    \"sName\": \"Отримання довідки про доходи (пенсійний фонд)\"\n"
+            + "  }\n"
+            + "]\n"
+            + "\n```\n")
+    @RequestMapping(value = "/getBPs", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @Transactional
+    public @ResponseBody
+    List<Map<String, String>> getBusinessProcesses(
+            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin", required = true) String sLogin,
+            @ApiParam(value = "Выводить только список БП документов", required = false) @RequestParam(value = "bDocOnly", required = false, defaultValue = "true") Boolean bDocOnly
+                    )
+            
+            throws IOException {
+
+        //String jsonRes = JSONValue.toJSONString(oActionTaskService.getBusinessProcessesForUser(sLogin));
+        //LOG.info("Result: {}", jsonRes);
+        return oActionTaskService.getBusinessProcessesOfLogin(sLogin, bDocOnly);
+    }    
+    
+
+    @ApiOperation(value = "/setDocument", notes = "##### Получение списка прав у логина по документу#####\n\n")
+    @RequestMapping(value = "/setDocument", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String,Object> setDocument(@ApiParam(value = "sLogin", required = false) @RequestParam(value = "sLogin", required = false, defaultValue = "kermit") String sLogin, //String
+            @ApiParam(value = "sID_BP", required = true) @RequestParam(value = "sID_BP", required = true) String sID_BP
+    ) throws Exception {
+        //return oDocumentStepService.getDocumentStepRights(sLogin, nID_Process+"");
+        Map<String, Object> mParam = new HashMap<>();        
+        ProcessInstance oProcessInstanceChild = runtimeService.startProcessInstanceByKey(sID_BP, mParam);
+        Map<String, Object> mReturn = new HashMap<>();
+        mReturn.put("snID_Process", oProcessInstanceChild.getProcessInstanceId());
+        return mReturn;
+    }    
+
+    
     
 }

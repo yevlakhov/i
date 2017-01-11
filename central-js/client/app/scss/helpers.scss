@@ -1,0 +1,37 @@
+/*----------------------- Helpers ------------------------*/
+
+.relative {
+  position: relative;
+}
+
+.absolute {
+  position: absolute;
+}
+
+.btn-link:hover, .btn-link:focus {
+  text-decoration: none!important;
+}
+
+.white-hr {
+  border-top: 1px solid #fff;
+}
+
+.pull-right {
+  float: right;
+}
+
+.pull-left {
+  float: left;
+}
+
+.mb991 {
+  @media screen and (max-width: 991px) {
+    margin-bottom: 2em;
+  }
+}
+
+.tac991 {
+  @media screen and (max-width: 991px) {
+    text-align: center;
+  }
+}

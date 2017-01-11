@@ -1,0 +1,63 @@
+/*----------------------- Instuctions ------------------------*/
+
+.instructions {
+  font-size: 16px;
+  p {
+    font-family: $font-reg;
+    font-size: 16px;
+    &:last-child {
+      margin-bottom: 1em;
+    }
+  }
+  h3 {
+    margin: .5em 0;
+    font-size: 22px;
+  }
+  ul {
+    padding: .5em;
+    margin: .5em 0;
+    font-size: 16px;
+    position: relative;
+    &:before {
+      border-bottom: 2px solid $main-color;
+      position: absolute;
+      top: 0;
+      width: 100%;
+      display: block;
+      content: '';
+      right: 0;
+      left: 0;
+    }
+    &:after {
+      left: 0;
+      right: 0;
+      border-bottom: 2px solid $main-color;
+      position: absolute;
+      bottom: 0;
+      width: 100%;
+      display: block;
+      content: '';
+    }
+    li {
+      position: relative;
+      padding-left: 20px;
+      margin-bottom: .5em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+      &:before {
+        top: 3px;
+        content: '';
+        position: absolute;
+        left: 0;
+        width: 10px;
+        height: 10px;
+        -webkit-border-radius: 50%;
+        -moz-border-radius: 50%;
+        border-radius: 50%;
+        background-color: $main-color;
+        display: block;
+      }
+    }
+  }
+}

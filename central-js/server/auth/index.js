@@ -11,6 +11,7 @@ var express = require('express')
 require('./bankid/bankid.passport').setup(config, authProviderRegistry);
 require('./bankid-nbu/bankid.passport').setup(config, authProviderRegistry);
 require('./email/email.passport').setup(config, authProviderRegistry);
+require('./kievid/kievid.passport').setup(config, authProviderRegistry);
 
 //Mock bankId process
 router.use('/bankID', require('./bankid-mock'));
@@ -22,6 +23,7 @@ router.use('/eds', require('./eds-mock'));
 router.use('/eds', require('./eds'));
 router.use('/mpbds', require('./mpbds'));
 router.use('/email', require('./email'));
+router.use('/myOAuth', require('./kievid'));
 
 if(config.hasSoccardAuth()){
   require('./soccard/soccard.passport').setup(config, authProviderRegistry);

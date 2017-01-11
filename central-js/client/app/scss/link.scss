@@ -1,0 +1,50 @@
+/*----------------------- Link ------------------------*/
+
+.link {
+  font-size: 14px;
+  text-decoration: none;
+  &-green {
+    color: #247d76;
+    font-family: $font-reg;
+    font-size: 14px;
+    border-bottom: 1px solid transparent;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    &:hover {
+      color: #00a99f;
+      border-bottom: 1px solid #00a99f;
+      -webkit-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      -ms-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      transition: .3s ease all;
+    }
+  }
+  &-main {
+    color: $main-color;
+    border-bottom: 1px solid transparent;
+    -webkit-transition: .3s ease all;
+    -moz-transition: .3s ease all;
+    -ms-transition: .3s ease all;
+    -o-transition: .3s ease all;
+    transition: .3s ease all;
+    &:hover,
+    &:focus,
+    &:visited {
+      color: lighten($main-color, 10);
+      border-bottom: 1px solid $main-color;
+      -webkit-transition: .3s ease all;
+      -moz-transition: .3s ease all;
+      -ms-transition: .3s ease all;
+      -o-transition: .3s ease all;
+      transition: .3s ease all;
+    }
+  }
+}
+.js-service-about-btn {
+  margin-bottom: 2em;
+  display: inline-block;
+}

@@ -73,7 +73,7 @@ angular.module('appBoilerPlate').provider('statesRepository', function StatesRep
 
 
     if (domen.split(':')[0] !== 'localhost') {
-      if (domen.indexOf('kievcity') >= 0 || domen.indexOf('kiev.test.') >= 0 || domen.indexOf('test.kiev.') >= 0) {
+      if (domen.indexOf('kievcity') >= 0 || domen.indexOf('kyivcity') >= 0 || domen.indexOf('kiev.test.') >= 0 || domen.indexOf('test.kiev.') >= 0) {
         //https://es.kievcity.gov.ua
         this.mode = 'kyiv';
         //this.mode = modes.kyiv;
@@ -114,7 +114,8 @@ angular.module('appBoilerPlate').provider('statesRepository', function StatesRep
       }
 
     } else {
-      this.mode = 'local';
+      this.mode = 'kyiv';
+
     }
 
   };
@@ -161,7 +162,7 @@ angular.module('appBoilerPlate').provider('statesRepository', function StatesRep
           controller: 'IndexController'
         },
         'main@': {
-          templateUrl: 'app/service/index/new.services.html',
+          templateUrl: this.isDFS() ? 'app/service/index/services.html' : 'app/service/index/new.services.html',
           controller: 'ServiceController'
         },
         footer: {

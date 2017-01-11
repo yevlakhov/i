@@ -28,12 +28,14 @@
     "multer": "^0.1.8",
     "node-cache": "~2.1.1",
     "node-uuid": "1.4.3",
+    "nodemailer": "^2.7.0",
     "oauth": "0.9.14",
     "passport": "~0.2.0",
     "passport-oauth2": "1.1.2",
     "request": "^2.55.0",
     "serve-favicon": "~2.0.1",
     "winston": "2.2.0",
+    "phantom-html-to-pdf": "^0.4.8",
     "xml2js": "^0.4.17"
   },
   "devDependencies": {

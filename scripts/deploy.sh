@@ -124,7 +124,7 @@ build_central-js ()
 		npm install
 		bower install
 		npm install grunt-contrib-imagemin
-		grunt build
+		grunt build --force
 		cd dist
 		npm install --production
 		cd ..
@@ -136,7 +136,7 @@ build_central-js ()
 		npm install
 		bower install
 		npm install grunt-contrib-imagemin
-		grunt build
+		grunt build --force
 		cd dist
 		npm install --production
 		cd ..

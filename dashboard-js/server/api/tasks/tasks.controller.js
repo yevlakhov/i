@@ -123,6 +123,9 @@ exports.index = function (req, res) {
     } else if (req.query.filterType === 'finished') {
       path = 'history/historic-task-instances';
       query.taskAssignee = user.id;
+    } else if (req.query.filterType === 'documents') {
+      query.candidateOrAssigned = user.id;
+      query.size = 100;
     } else if (req.query.filterType === 'tickets') {
       path = 'action/flow/getFlowSlotTickets';
       query.sLogin = user.id;
@@ -213,7 +216,8 @@ exports.uploadFile = function (req, res) {
       path: 'object/file/upload_file_as_attachment',
       query: {
         taskId: req.params.taskId,
-        description: req.query.description
+        description: req.query.description,
+        sID_Field: req.params.field
       }
     })
   };
@@ -369,83 +373,16 @@ exports.getTasksByText = function (req, res) {
   });
 };
 
-/*
- exports.getProcesses = function (req, res) {
- var user = JSON.parse(req.cookies.user);
- var roles = JSON.stringify(user.roles);
- //query.bEmployeeUnassigned = req.query.bEmployeeUnassigned;
- var options = {
- path: 'analytic/process/getProcesses',
- query: {
- 'sID_': req.query.sID,
- 'asID_Group': roles
- }
- };
- activiti.get(options, function (error, statusCode, result) {
- error ? res.send(error) : res.status(statusCode).json(result);
- //error ? res.send(error) : res.status(statusCode).json("[\"4585243\"]");
- });
- };
- */
 exports.getProcesses = function (req, res) {
-  var currentUser = JSON.parse(req.cookies.user);
-  var userRoles = authService.getCashedUserGroups(currentUser);
-  if (userRoles) {
-    currentUser.roles = userRoles;
-    var options = {
-      path: 'analytic/process/getProcesses',
-      query: {
-        'sID_': req.query.sID,
-        'asID_Group': currentUser.roles
-      }
-    };
-    activiti.get(options, function (error, statusCode, result) {
-      error ? res.send(error) : res.status(statusCode).json(result);
-    });
-  } else {
-    async.waterfall([
-      function (callback) {
-        activiti.get({
-          path: 'action/identity/getGroups',
-          query: {
-            sLogin: currentUser.id
-          },
-          json: true
-        }, function (error, statusCode, result) {
-          if (error) {
-            callback(error, null);
-          } else {
-            var resultGroups;
-            if ((typeof result == "object") && (result instanceof Array)) {
-              currentUser['roles'] = result.map(function (group) {
-                return group.id;
-              });
-            } else {
-              currentUser['roles'] = [];
-            }
-            callback(null, {
-              currentUser: currentUser
-            });
-          }
-        });
-      },
-      function (user, callback) {
-        var options = {
-          path: 'analytic/process/getProcesses',
-          query: {
-            'sID_': req.query.sID,
-            'asID_Group': currentUser.roles
-          }
-        };
-        activiti.get(options, function (error, statusCode, result) {
-          callback(error, result);
-        });
-      }
-    ], function (error, result) {
-      authService.setCashedUserGroups(currentUser, currentUser.roles);
-      error ? res.send(error) : res.json(result);
-    });
-  }
+  var options = {
+    path: 'analytic/process/getProcesses',
+    query: {
+      'sID_': req.query.sID
+    }
+  };
+  activiti.get(options, function (error, statusCode, result) {
+    error ? res.send(error) : res.status(statusCode).json(result);
+  });
 };
 
 exports.getFile = function (req, res) {
@@ -510,7 +447,8 @@ exports.upload_content_as_attachment = function (req, res) {
             nTaskId: req.params.taskId,
             sContentType: data.contentType,
             sDescription: req.body.sDescription,
-            sFileName: req.body.sFileName
+            sFileName: req.body.sFileName,
+            sID_Field: req.body.sID_Field
           },
           headers: {
             'Content-Type': data.contentType + ';charset=utf-8'
@@ -526,6 +464,7 @@ exports.upload_content_as_attachment = function (req, res) {
           taskId: req.params.taskId,
           stream: data.content,
           description: req.body.sDescription,
+          sID_Field: req.body.sID_Field,
           headers: {
             'Content-Type': data.contentType + ';charset=utf-8'
           }

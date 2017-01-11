@@ -1,30 +1,172 @@
-<nav class="navbar-top-fixed" ng-show="navBarStatusVisible">
-  <div class="container">
-    <a ng-click="logout()" style="top: -1px; margin-bottom: 1px; margin-left: 10px;height:27px;vertical-align: middle;" class="glyphicon glyphicon-log-out pull-right" aria-hidden="true">
-      <span style="font-size: 15px">Вийти</span>
-    </a>
-    <span style="margin-top: 1px; font-size: 15px;" class="pull-right">{{userName}}</span>
-  </div>
-</nav>
-<nav class="navbar navbar-static-top kyiv-header-container">
-  <div class="container">
-    <span class="kyiv-header"></span>
-    <a href="/">
-        <span class="kyiv-header-title"></span>
-    </a>
-    <div class="collapse navbar-collapse navbar-kyiv" collapse="navBarIsCollapsed">
-      <ul class="nav navbar-nav navbar-right">
-        <li class="menu-item" ng-class="{selected: state.is('index')}">
-          <a ui-sref="index">
-            Послуги
-          </a>
-        </li>
-        <li class="menu-item" ui-sref-active="selected">
-          <a ui-sref="index.journal">
-            Мій журнал
-          </a>
-        </li>
-      </ul>
+<!--<nav class="navbar-top-fixed" ng-show="navBarStatusVisible">-->
+<!--<div class="container">-->
+<!--<a ng-click="logout()" style="top: -1px; margin-bottom: 1px; margin-left: 10px;height:27px;vertical-align: middle;" class="glyphicon glyphicon-log-out pull-right" aria-hidden="true">-->
+<!--<span style="font-size: 15px">Вийти</span>-->
+<!--</a>-->
+<!--<span style="margin-top: 1px; font-size: 15px;" class="pull-right">{{userName}}</span>-->
+<!--</div>-->
+<!--</nav>-->
+<!--<nav class="navbar navbar-static-top kyiv-header-container">-->
+<!--<div class="container">-->
+<!--<span class="kyiv-header"></span>-->
+<!--<a href="/">-->
+<!--<span class="kyiv-header-title"></span>-->
+<!--</a>-->
+<!--<div class="collapse navbar-collapse navbar-kyiv" collapse="navBarIsCollapsed">-->
+<!--<ul class="nav navbar-nav navbar-right">-->
+<!--<li class="menu-item" ng-class="{selected: state.is('index')}">-->
+<!--<a ui-sref="index">-->
+<!--Послуги-->
+<!--</a>-->
+<!--</li>-->
+<!--<li class="menu-item" ui-sref-active="selected">-->
+<!--<a ui-sref="index.journal">-->
+<!--Мій журнал-->
+<!--</a>-->
+<!--</li>-->
+<!--</ul>-->
+<!--</div>-->
+<!--</div>-->
+<!--</nav>-->
+
+
+<div class="cookie" ng-if="!cookieAccept">
+  <div class="alert alert-warning alert-dismissible fade in" role="alert">
+    <div class="row">
+      <div class="col-md-8">
+        <p>Ми використовуємо cookie-файли для зручності та продуктивності наших веб-сайтів. Якщо ви перейдете по будь-якому посиланню на цьому сайті, ви даєте згоду на використання файлів cookie.</p>
+      </div>
+      <div class="col-md-2">
+        <a href="#" ng-click="isCookiesAccept()" class="button-access js-get-cookie">погоджуюсь</a>
+      </div>
+      <div class="col-md-2">
+          <span>
+            <a href="https://uk.wikipedia.org/wiki/%D0%9A%D1%83%D0%BA%D0%B8" target="_blank" rel="nofollow noreferer" style="color: white">Ні, дізнатись більше про cookie</a>
+          </span>
+      </div>
     </div>
   </div>
-</nav>
+</div>
+<div class="container-fluid">
+  <header class="container">
+    <div class="row">
+      <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="header__logo">
+          <a href="/">
+            <div class="header__logo-img">
+              <img src="../assets/images/svg/logo_white.svg" alt="ПОСЛУГИ. Офіційний портал Києва" title="ПОСЛУГИ. Офіційний портал Києва"/>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6 js-search">
+    <span class="js-search-icon" ng-click="customSearchApadtive();">
+      <span></span>
+      <span></span>
+    </span>
+      </div>
+      <div class="col-sm-12 col-xs-12 js-search-container">
+        <div class="header__search">
+          <form ng-submit="searchOrder(this)">
+            <div class="input-group">
+              <input ng-model="sSearch"
+                     ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }"
+                     ng-change="searching()"
+                     type="text"
+                     class="form-control header__search-input"
+                     placeholder="паспорт">
+              <button type="submit" class="header__search-btn" ng-show="sSearch.length<3">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+              <button class="header__search-btn" ng-show="sSearch.length>=3" ng-click="clear()">
+                <i class="fa fa-remove" aria-hidden="true"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6 hide-ipad">
+        <div class="header__lowvision">
+          <a href="#" class="header__lowvision--low" ng-click="LowVision()">
+            <div class="header__lowvision-img">
+              <img src="../assets/images/svg/eye.svg" alt="lowvision" />
+            </div>
+            <div class="header__lowvision-text">
+              <div>Змінити</div>
+              <div>відображення</div>
+              <span class="hidden-sm hidden-xs">сайту</span>
+            </div>
+          </a>
+          <a href="#" class="header__lowvision--normal" ng-click="LowVision()">
+            <div class="header__lowvision-img">
+              <img src="../assets/images/svg/eye_open.svg" alt="lowvision" />
+            </div>
+            <div class="header__lowvision-text">
+              <div>Змінити</div>
+              <div>відображення</div>
+              <span class="hidden-sm hidden-xs">сайту</span>
+            </div>
+          </a>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6 col-xs-6">
+        <div class="header__login" ng-style="">
+          <a ng-if="!userName" ng-href="https://{{myAuthServer}}/authorise?client_id={{clientIDRed}}&redirect_uri={{loginPathRedirect}}" rel="nofollow noreferrer">
+            <div class="header__login-img">
+              <img src="../assets/images/svg/login_1.svg" alt="login" />
+            </div>
+            <div class="header__login-text">
+              <div>Вхід та</div>
+              <div>реєстрація</div>
+            </div>
+          </a>
+          <div ng-if="userName" class="btn-group relative">
+            <a href="#" target="_blank" ng-href="{{myAuthServer=='accounts.kitsoft.kiev.ua'?'https://kyiv-myaccount.kitsoft.kiev.ua/#!/services':'https://myaccount.kyivcity.gov.ua/#!/services'}}" style="display: block;">
+              <img ng-if="!isLowVision" src="../assets/images/svg/login_1-blue.svg" alt="avatar" class="header__login-avatar">
+              <img ng-if="isLowVision" src="../assets/images/svg/login_1-black.svg" alt="avatar" class="header__login-avatar">
+            </a>
+            <div class="header__login-dropdown">
+              <small>
+                <span class="header-user-first-name">{{userName.firstName}}</span>
+                <span class="header-user-last-name">{{userName.lastName}}</span>
+              </small>
+              <i ng-click="logout()">Вихід</i>
+            </div>
+          </div>
+          <!--<div ng-if="userName" class="header__login-in">-->
+          <!--<a href="#" ng-href="/journal">-->
+          <!--<div class="header__login-img header__login-in-img">-->
+          <!--<img src="../assets/images/svg/login_1-blue.svg" alt="login" />-->
+          <!--</div>-->
+          <!--</a>-->
+          <!--<div class="header__login-text header__login-in-text">-->
+          <!--<div style="font-size: 14px">{{userName.firstName}} {{userName.lastName}}</div>-->
+          <!--<div style="font-size: 12px" ng-click="logout()">Вихід</div>-->
+          <!--</div>-->
+          <!--</div>-->
+        </div>
+      </div>
+      <div class="col-md-3 hidden-sm hidden-xs">
+        <div class="header__search">
+          <form ng-submit="searchOrder(this)">
+            <div class="input-group">
+              <input ng-model="sSearch"
+                     ng-model-options="{ updateOn: 'default', debounce: {'default': 500} }"
+                     ng-change="searching()"
+                     type="text"
+                     class="form-control header__search-input"
+                     placeholder="паспорт">
+              <button type="submit" class="header__search-btn" ng-show="sSearch.length<3">
+                <i class="fa fa-search" aria-hidden="true"></i>
+              </button>
+              <button class="header__search-btn" ng-show="sSearch.length>=3" ng-click="clear()">
+                <i class="fa fa-remove" aria-hidden="true"></i>
+              </button>
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </header>
+</div>
+

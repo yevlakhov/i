@@ -1,0 +1,147 @@
+/*----------------------- More ------------------------*/
+
+.more {
+  &__text {
+    font-size: 15px;
+    line-height: 18px;
+    font-family: $font-reg;
+    color: #000;
+    p {
+      margin-bottom: 1em;
+      b {
+        font-weight: 400;
+        font-size: 22px;
+        color: #000;
+        font-family: $font-reg;
+      }
+    }
+    ul {
+      padding-top: 1em;
+      padding-bottom: 1em;
+      margin-bottom: 1em;
+      &:before {
+        width: 100%;
+        height: 2px;
+        background-color: #45a1ab;
+        content: '';
+        display: block;
+        margin-bottom: 1em;
+      }
+      &:after {
+        width: 100%;
+        height: 2px;
+        background-color: #45a1ab;
+        content: '';
+        display: block;
+        margin-top: 1em;
+      }
+      li {
+        padding-left: 20px;
+        position: relative;
+        margin-bottom: .7em;
+        &:before {
+          position: absolute;
+          display: block;
+          content: '';
+          left: 0;
+          top: 3px;
+          width: 10px;
+          height: 10px;
+          background-color: #45a1ab;
+          -webkit-border-radius: 50%;
+          -moz-border-radius: 50%;
+          border-radius: 50%;
+        }
+      }
+    }
+  }
+  &__title {
+    font-size: 24px;
+    font-family: $font-semi;
+    color: #000;
+    margin-bottom: .5em;
+  }
+  &__list {
+    margin-bottom: 1em;
+    li {
+      font-size: 14px;
+      font-family: $font-reg;
+      color: #000;
+      margin-bottom: 1em;
+      &:last-child {
+        margin-bottom: 0;
+      }
+    }
+  }
+  &__accordion {
+    .card-header {
+      h5 {
+        a {
+          color: #247d76;
+          text-decoration: none;
+          border-bottom: 1px dashed #247d76;
+          -webkit-transition: .3s ease all;
+          -moz-transition: .3s ease all;
+          -ms-transition: .3s ease all;
+          -o-transition: .3s ease all;
+          transition: .3s ease all;
+          font-family: $font-reg;
+          font-size: 14px;
+          &:hover {
+            -webkit-transition: .3s ease all;
+            -moz-transition: .3s ease all;
+            -ms-transition: .3s ease all;
+            -o-transition: .3s ease all;
+            transition: .3s ease all;
+            border-bottom: 1px dashed #00a99f;
+            color: #00a99f;
+          }
+        }
+      }
+    }
+    .card-block {
+      padding: 1em;
+      background-color: #efefef;
+      font-size: 14px;
+      font-family: $font-reg;
+      margin-top: .5em;
+      margin-bottom: .5em;
+      padding-bottom: 2em;
+      >div {
+        text-align: center;
+        h3 {
+          text-transform: uppercase;
+          color: #808080;
+          font-size: 16px;
+          font-family: $font-semi;
+        }
+        time {
+          font-family: $font-semi;
+          font-size: 16px;
+          color: #000;
+        }
+        p {
+          font-size: 14px;
+          color: #000;
+          margin-bottom: 1.2em;
+        }
+      }
+      >span {
+        text-align: left;
+        p {
+          margin-bottom: .3em;
+        }
+        a {
+          margin-left: 0;
+          float: left;
+          &:after {
+            content: '';
+            display: block;
+            height: 0;
+            clear: both;
+          }
+        }
+      }
+    }
+  }
+}

@@ -65,17 +65,39 @@ function createSessionObjectFromPrepare(prepare){
 function createSessionObject(type, user, access) {
   return {
     type: type,
-    account: {
-      firstName: user.customer.firstName,
-      middleName: user.customer.middleName,
-      lastName: user.customer.lastName
-    },
+    account: user.customer,
     subject: user.subject,
     access: access,
     usercacheid: user.usercacheid
   }
 }
+function setCors(req, res, next) {
+    var oneof = false;
+    if (req.headers.origin) { //req.headers.origin.match(/whateverDomainYouWantToWhitelist/g) ) {
+        res.header('Access-Control-Allow-Origin', req.headers.origin);
+        oneof = true;
+    }
+    if (req.headers['access-control-request-method']) {
+        res.header('Access-Control-Allow-Methods', req.headers['access-control-request-method']);
+        oneof = true;
+    }
+    if (req.headers['access-control-request-headers']) {
+        res.header('Access-Control-Allow-Headers', req.headers['access-control-request-headers']);
+        oneof = true;
+    }
+    if (oneof) {
+        res.header('Access-Control-Max-Age', 60 * 60 * 24 * 365);
+    }
 
+    // intercept OPTIONS method
+    if (oneof && req.method == 'OPTIONS') {
+        res.sendStatus(200);
+    } else {
+        next();
+    }
+}
+
+exports.setCORS = setCors;
 exports.isAuthenticated = isAuthenticated;
 exports.isAuthenticationInProgress = isAuthenticationInProgress;
 exports.isDocumentOwner = isDocumentOwner;

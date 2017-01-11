@@ -1,54 +1,60 @@
-﻿<div class="list-group">
+﻿﻿<div class="list-group">
   <place></place>
 
-  <style>
-    .ui-select-match-text {
-      overflow: hidden;
-      width: inherit;
-      padding-right: 10px;
-    }
-    .ui-select-match-text * {
-      overflow: hidden;
-      display: block;
-    }
-    .form-control.ui-select-search {
-      width: 100% !important;
-    }
+  <!--<style>-->
+    <!--.ui-select-match-text {-->
+      <!--overflow: hidden;-->
+      <!--width: inherit;-->
+      <!--padding-right: 10px;-->
+    <!--}-->
+    <!--.ui-select-match-text * {-->
+      <!--overflow: hidden;-->
+      <!--display: block;-->
+    <!--}-->
+    <!--.form-control.ui-select-search {-->
+      <!--width: 100% !important;-->
+    <!--}-->
 
-    .dropdown-menu {
-      padding-top: 0;
-    }
-  </style>
+    <!--.dropdown-menu {-->
+      <!--padding-top: 0;-->
+    <!--}-->
+  <!--</style>-->
 
-  <div class="list-group-item disabled" ng-if="!spinner">
-    <div class="row no-margin-bottom">
-      <div ng-if="!profile.isKyivCity" class="col-md-11">Крок 2. Ви увійшли як
-        {{account.customer.firstName}} {{account.customer.middleName}} {{account.customer.lastName}}
-      </div>
-      <div ng-if="profile.isKyivCity" class="col-md-11">Крок 1. Ви увійшли як
-        {{account.customer.firstName}} {{account.customer.middleName}} {{account.customer.lastName}}
-      </div>
-      <div class="col-md-1">
-        <div class="link-button">
-          <a ng-click="editBankId()">Змінити</a>
-        </div>
-      </div>
-    </div>
-  </div>
+  <!--<div class="list-group-item disabled" ng-if="!spinner">-->
+  <!--<div class="list-group-item" ng-if="!spinner">-->
+    <!--<div class="row no-margin-bottom">-->
+      <!--<div ng-if="!profile.isKyivCity" class="col-md-11 service-step"><b>Крок 2:</b> Ви увійшли як-->
+        <!--{{account.customer.firstName}} {{account.customer.middleName}} {{account.customer.lastName}}-->
+      <!--</div>-->
+      <!--<div ng-if="profile.isKyivCity" class="col-md-11 service-step"><b>Крок 1:</b> Ви увійшли як-->
+        <!--{{account.customer.firstName}} {{account.customer.middleName}} {{account.customer.lastName}}-->
+      <!--</div>-->
+      <!--<div class="col-md-1">-->
+        <!--<div class="link-button">-->
+          <!--<a ng-click="editBankId()">Змінити</a>-->
+        <!--</div>-->
+      <!--</div>-->
+    <!--</div>-->
+  <!--</div>-->
 
   <div class="list-group-item" ng-if="!spinner">
     <div class="row">
-      <div ng-if="!profile.isKyivCity" class="col-md-6 pull-left">Крок 3.
-        {{data.formData.params["processName"].name==null?"":data.formData.params["processName"].name}}
+      <div style="font-size: 12px; margin-top: 1.5em;" class="service-step col-md-12">
+        Поля, відмічені *, обов'язкові
       </div>
-      <div ng-if="profile.isKyivCity" class="col-md-6 pull-left">Крок 2.
-        {{data.formData.params["processName"].name==null?"":data.formData.params["processName"].name}}
-      </div>
-      <div ng-show="bAdmin" class="col-md-6 pull-right">
+    </div>
+    <div class="row">
+      <!--<div ng-if="!profile.isKyivCity" class="col-md-6 service-step pull-left"><b>Крок 3:</b>-->
+        <!--{{data.formData.params["processName"].name==null?"":data.formData.params["processName"].name}}-->
+      <!--</div>-->
+      <!--<div ng-if="profile.isKyivCity" class="col-md-6 pull-left service-step"><b>Крок 2:</b> Заповніть форму-->
+        <!--{{data.formData.params["processName"].name==null?"":data.formData.params["processName"].name}}-->
+      <!--</div>-->
+      <!--<div ng-show="bAdmin" class="col-md-6 pull-right">-->
         <!--div ng-if="bAdmin" style="/*display:none;*/" class="col-md-6 pull-right"-->
-        <label for="ref" class="pull-right"> Заповнення референтом</label>
-        <input type="checkbox" ng-model="data.formData.params.bReferent.value" ng-change="onReferent" id="ref" class="pull-right">
-      </div>
+        <!--<label for="ref" class="pull-right"> Заповнення референтом</label>-->
+        <!--<input type="checkbox" ng-model="data.formData.params.bReferent.value" ng-change="onReferent" id="ref" class="pull-right">-->
+      <!--</div>-->
     </div>
     <div class="row" ng-if="data.formData.params.bReferent.value">
       <div class="col-md-12">
@@ -87,21 +93,19 @@
     <div class="row">
       <div class="col-md-12">
         <div class="highlight">
-          <form name="form" novalidate>
-            <div class="clearfix" ng-if="oServiceData.oPlace">
-                <a class="pull-right" ng-hide="paramsBackup !== null" href ng-click="fillSelfPrevious()">Заповнити даними попередньої заявки</a>
-                <a class="pull-right" ng-hide="paramsBackup === null" href ng-click="fillSelfPreviousBack()">Відмінити авто-заповнені дані</a>
-            </div>
+          <form class="service-content-form" name="form" novalidate>
+            <!--<div class="clearfix" ng-if="oServiceData.oPlace">-->
+                <!--<a class="pull-right" ng-hide="paramsBackup !== null" href ng-click="fillSelfPrevious()">Заповнити даними попередньої заявки</a>-->
+                <!--<a class="pull-right" ng-hide="paramsBackup === null" href ng-click="fillSelfPreviousBack()">Відмінити авто-заповнені дані</a>-->
+            <!--</div>-->
 
-              <div class="row col-md-8 col-md-push-2 update-bankid-message" ng-show="isShowMessageRequiringToValidateUserData()">
-                  Якщо ці або будь-які інші дані, які були передані з Вашого банку, вже не актуальні,
-                  просимо Вас звернутися до цього банку для актуалізації.
-              </div>
+            <div class="row col-md-12 service-content-form-massege service-content-form-massege--red" ng-show="isShowMessageRequiringToValidateUserData()">
+              Якщо ці дані, які були передані з Вашого банку, не актуальні, зверніться до банку для уточнення.
+            </div>
 
             <div class="row"
                  ng-repeat="property in activitiForm.formProperties track by property.id"
                  ng-if="isFieldVisible(property)">
-
               <div class="addition-hr" ng-if="insertSeparator(property.id).bShow">
                 <table style="width: 100%">
                   <tr ng-if="insertSeparator(property.id).sText.length > 0">
@@ -154,11 +158,14 @@
                 </table>
               </div>
 
-              <div class="col-md-5"
+              <div class="col-md-5 service-content-form-fieldset"
                    ng-if="property.type!='invisible' && property.type!='markers' && property.type!='table'">
                 <label style="color: red;"
+                       class="service-content-form-label"
                        ng-if="isFieldRequired(property)==true">* </label>
-                <span ng-if="property.sFieldLabel">{{property.sFieldLabel}} :</span>
+                <span ng-if="property.sFieldLabel"
+                      class="service-content-form-span"
+                >{{property.sFieldLabel}} :</span>
 
                 <div class="s-field-notes"
                      ng-if="property.sFieldNotes!=null">
@@ -167,7 +174,7 @@
               </div>
 
 
-              <div class="col-md-3"
+              <div class="col-md-7 service-content-form-text"
                    ng-class="{'has-error': form.$submitted && form[property.id].$invalid, 'col-md-12': property.type === 'table'}"
                    ng-if="showFormField(property)"
                    ng-switch
@@ -514,6 +521,15 @@
                        class="form-control"
                        value="">
 
+                <input ng-switch-when="double"
+                       type="{{!!property.sFieldType?property.sFieldType : 'text'}}"
+                       name="{{property.id}}"
+                       ng-model="data.formData.params[property.id].value"
+                       ng-required="isFieldRequired(property)"
+                       ng-class="getBpAndFieldID(property)"
+                       class="form-control"
+                       value="">
+
                 <input ng-switch-when="tel"
                        type="text"
                        name="{{property.id}}"
@@ -637,6 +653,7 @@
                   </script>
 
                 </p>
+
                 <select ng-switch-when="enum"
                         name="{{property.id}}"
                         ng-model="data.formData.params[property.id].value"
@@ -723,7 +740,7 @@
                 </div>
               </div>
 
-              <div class="col-md-3" ng-if="renderAsLabel(property)" ng-hide="property.type === 'file'"
+              <div class="col-md-7 service-content-form-text" ng-if="renderAsLabel(property)" ng-hide="property.type === 'file'"
                    ng-bind="data.formData.params[property.id].value">
                 <input type="hidden"
                        name="{{property.id}}"
@@ -734,7 +751,8 @@
                        value="">
               </div>
 
-              <div class="col-md-4 validation-message"
+
+              <div class="col-md-4 col-md-offset-5 validation-message"
                    ng-if="form.$submitted"
                    ng-messages="form[property.id].$error">
                 <div ng-message="required">Необхідно заповнити.</div>
@@ -750,7 +768,7 @@
                 </div>
                 <div ng-message="string">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="long">{{ form[property.id].lastErrorMessage }}</div>
-                <div ng-message="double">{{ form[property.id].lastErrorMessage }}</div>               
+                <div ng-message="double">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="numberbetween">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="numberfractionalbetween">{{ form[property.id].lastErrorMessage }}</div>
                 <div ng-message="numbersaccounts">{{ form[property.id].lastErrorMessage }}</div>
@@ -767,7 +785,7 @@
             </div>
             <div class="row">
               <div class="col-md-5"></div>
-              <div class="col-md-3">
+              <div class="col-md-7">
 
 
                   <label ng-hide="!sign.checked">Після натискання "Замовити послугу"
@@ -784,14 +802,14 @@
               </div>
               <div class="col-md-4"></div>
               </div>
-            <div class="row col-md-8 col-md-push-3">
+            <div class="row col-md-12 service-content-form-massege service-content-form-massege--grey">
               Замовляючи послугу, Ви надаєте згоду на обробку Ваших персональних даних та підтверджуєте їх актуальність
             </div>
               <div class="row">
                 <div class="col-md-5"></div>
-                <div class="col-md-3">
+                <div class="col-md-7">
                   <br/>
-                  <button class="btn btn-info"
+                  <button class="btn btn-info button-subscribe"
                           ng-click="processForm(form, activitiForm.formProperties)"
                           ng-disable="cantSubmit(form)"
                           ng-hide="bSending(form)">

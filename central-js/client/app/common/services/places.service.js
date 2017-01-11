@@ -9,7 +9,7 @@
 
   Обговорення: https://github.com/e-government-ua/i/issues/550#issuecomment-128641486
 */
-angular.module('app').service('PlacesService', function($http, $state, ServiceService) {
+angular.module('app').service('PlacesService', function($http, $state, ServiceService,statesRepository) {
 
   var self = this;
 
@@ -296,7 +296,11 @@ angular.module('app').service('PlacesService', function($http, $state, ServiceSe
       // Помилка - сервіс відсутній
       0: 'index.service.general.place.error'
     };
-
+    /*if(statesRepository.isKyivCity() && serviceType.nID_ServiceType.nID==0 && ServiceService.oService.sInfo!=""){
+      stateByServiceType[0]='index.service.instruction'
+    }else if(statesRepository.isKyivCity() && serviceType.nID_ServiceType.nID==0 && ServiceService.oService.sInfo==""){
+      stateByServiceType[0]='404'
+    }*/
     return stateByServiceType[serviceType.nID_ServiceType.nID];
   };
 

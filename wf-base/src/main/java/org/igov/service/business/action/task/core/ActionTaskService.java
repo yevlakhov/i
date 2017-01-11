@@ -981,19 +981,43 @@ public class ActionTaskService {
         
     }
 
-    private void loadCandidateGroupsFromTasks(ProcessDefinition processDef, Set<String> candidateCroupsToCheck) {
-        BpmnModel bpmnModel = oRepositoryService.getBpmnModel(processDef.getId());
-        for (FlowElement flowElement : bpmnModel.getMainProcess().getFlowElements()) {
-            if (flowElement instanceof UserTask) {
-                UserTask userTask = (UserTask) flowElement;
-                List<String> candidateGroups = userTask.getCandidateGroups();
-                if (candidateGroups != null && !candidateGroups.isEmpty()) {
-                    candidateCroupsToCheck.addAll(candidateGroups);
-                    LOG.info(String.format("Added candidate groups %s from user task %s", candidateGroups,
-                            userTask.getId()));
+    private void loadCandidateGroupsFromTasks(ProcessDefinition oProcessDefinition, Set<String> asID_CandidateGroupToCheck) {
+        //LOG.info("oProcessDefinition.getId()={}", oProcessDefinition.getId());
+        BpmnModel oBpmnModel = oRepositoryService.getBpmnModel(oProcessDefinition.getId());
+        for (FlowElement oFlowElement : oBpmnModel.getMainProcess().getFlowElements()) {
+            if (oFlowElement instanceof UserTask) {
+                UserTask oUserTask = (UserTask) oFlowElement;
+                LOG.info("oUserTask.getId()={}", oUserTask.getId());
+                List<String> asID_CandidateGroup = oUserTask.getCandidateGroups();
+                if (asID_CandidateGroup != null && !asID_CandidateGroup.isEmpty()) {
+                    asID_CandidateGroupToCheck.addAll(asID_CandidateGroup);
+                    LOG.info("Added candidate groups asID_CandidateGroup={} from user task oUserTask.getId()={}", asID_CandidateGroup, oUserTask.getId());
                 }
             }
         }
+    }
+
+    private Set<String> getGroupsOfProcessTask(ProcessDefinition oProcessDefinition) {
+        Set<String> asID_Group_Return = new HashSet();
+        //LOG.info("oProcessDefinition.getId()={}", oProcessDefinition.getId());
+        BpmnModel oBpmnModel = oRepositoryService.getBpmnModel(oProcessDefinition.getId());
+        for (FlowElement oFlowElement : oBpmnModel.getMainProcess().getFlowElements()) {
+            if (oFlowElement instanceof UserTask) {
+                UserTask oUserTask = (UserTask) oFlowElement;
+                LOG.info("oUserTask.getId()={}", oUserTask.getId());
+                List<String> asID_CandidateGroup = oUserTask.getCandidateGroups();
+                if (asID_CandidateGroup != null && !asID_CandidateGroup.isEmpty()) {
+                    asID_Group_Return.addAll(asID_CandidateGroup);
+                    LOG.info("Added candidate groups asID_CandidateGroup={}", asID_CandidateGroup);
+                }
+                String sID_Assign = oUserTask.getAssignee();
+                if (sID_Assign != null) {
+                    asID_Group_Return.add(sID_Assign);
+                    LOG.info("Added candidate groups sID_Assign={}", sID_Assign);
+                }
+            }
+        }
+        return asID_Group_Return;
     }
     
     /**
@@ -1133,14 +1157,113 @@ public class ActionTaskService {
     /**
      * Получение списка бизнес процессов к которым у пользователя есть доступ
      * @param sLogin - Логин пользователя
+     * @param bDocOnly Выводить только список БП документов
      * @return
      */
+    public List<Map<String, String>> getBusinessProcessesOfLogin(String sLogin, Boolean bDocOnly){
+
+        if (sLogin==null || sLogin.isEmpty()) {
+            LOG.error("Unable to found business processes for sLogin="+sLogin);
+            throw new ActivitiObjectNotFoundException(
+                    "Unable to found business processes for sLogin="+sLogin,
+                    ProcessDefinition.class);
+        }
+        LOG.info("Selecting business processes for the user with login: {}", sLogin);
+
+        List<ProcessDefinition> aProcessDefinition_Return = new LinkedList<>();
+        List<ProcessDefinition> aProcessDefinition = oRepositoryService
+                .createProcessDefinitionQuery()
+                .active()
+                .latestVersion().list();
+
+        if (CollectionUtils.isNotEmpty(aProcessDefinition)) {
+            LOG.info("Found {} active process definitions", aProcessDefinition.size());
+//            aProcessDefinition_Return = getAvailabilityProcessDefinitionByLogin(sLogin, aProcessDefinition);
+            
+//            List<ProcessDefinition> aProcessDefinition_Return = new LinkedList<>();
+
+            List<Group> aGroup;
+            aGroup = oIdentityService.createGroupQuery().groupMember(sLogin).list();
+            if (aGroup != null && !aGroup.isEmpty()) {
+                StringBuilder sb = new StringBuilder();
+                for (Group oGroup : aGroup) {
+                    sb.append(oGroup.getId());
+                    sb.append(",");
+                }
+                LOG.info("Found {}  groups for the user {}:{}", aGroup.size(), sLogin, sb.toString());
+            }
+
+            for (ProcessDefinition oProcessDefinition : aProcessDefinition) {
+                
+                String sID_BP = oProcessDefinition.getId();
+                
+                LOG.info("process definition id: sID_BP={}", oProcessDefinition.getId());
+                
+                if(!bDocOnly || sID_BP.startsWith("_doc_")){
+//                    Set<String> aCandidateCroupsToCheck = getGroupsByProcessDefinition(oProcessDefinition);
+                    
+//                    Set<String> aCandidateCroupsToCheck = new HashSet<>();
+//                    loadCandidateGroupsFromTasks(oProcessDefinition, aCandidateCroupsToCheck);
+                    Set<String> aCandidateCroupsToCheck = getGroupsOfProcessTask(oProcessDefinition);
+                    
+                    loadCandidateStarterGroup(oProcessDefinition, aCandidateCroupsToCheck);
+                    //return aCandidateCroupsToCheck;
+                    
+
+                    /*if(checkIncludeProcessDefinitionIntoGroupList(aGroup, aCandidateCroupsToCheck)){
+                        aProcessDefinition_Return.add(oProcessDefinition);
+                    }*/
+
+                    for (Group oGroup : aGroup) {
+                        for (String sProcessGroupMask : aCandidateCroupsToCheck) {//asProcessGroupMask
+                            if (sProcessGroupMask.contains("${")) {
+                                sProcessGroupMask = sProcessGroupMask.replaceAll("\\$\\{?.*}", "(.*)");
+                            }
+                            if(!sProcessGroupMask.contains("*")){
+                                if (oGroup.getId().matches(sProcessGroupMask)) {
+                                    //return true;
+                                    aProcessDefinition_Return.add(oProcessDefinition);
+                                }
+                            }
+                        }
+                    }
+                    //return false;
+                }
+                
+            }
+            //return aProcessDefinition_Return;
+            
+            
+        } else {
+            LOG.info("Have not found active process definitions.");
+        }
+
+        List<Map<String, String>> amPropertyBP = new LinkedList<>();
+        for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return){
+            Map<String, String> mPropertyBP = new HashMap<>();
+            mPropertyBP.put("sID", oProcessDefinition.getKey());
+            mPropertyBP.put("sName", oProcessDefinition.getName());
+            LOG.info("Added record to response {}", mPropertyBP);
+            amPropertyBP.add(mPropertyBP);
+        }
+
+        return amPropertyBP;
+    }    
+    
+    
+    
+    /**
+     * Получение списка бизнес процессов к которым у пользователя есть доступ
+     * @param sLogin - Логин пользователя
+     * @return
+     */
+    @Deprecated //новый: getBusinessProcessesOfLogin 
     public List<Map<String, String>> getBusinessProcessesForUser(String sLogin){
 
-        if (sLogin.isEmpty()) {
-            LOG.error("Unable to found business processes for user with empty login");
+        if (sLogin==null || sLogin.isEmpty()) {
+            LOG.error("Unable to found business processes for sLogin="+sLogin);
             throw new ActivitiObjectNotFoundException(
-                    "Unable to found business processes for user with empty login",
+                    "Unable to found business processes for sLogin="+sLogin,
                     ProcessDefinition.class);
         }
 
@@ -1173,48 +1296,48 @@ public class ActionTaskService {
         return result;
     }
 
-    private List<ProcessDefinition> getAvailabilityProcessDefinitionByLogin(String sLogin, List<ProcessDefinition> processDefinitionsList) {
+    private List<ProcessDefinition> getAvailabilityProcessDefinitionByLogin(String sLogin, List<ProcessDefinition> aProcessDefinition) {
 
-        List<ProcessDefinition> resultList = new LinkedList<>();
+        List<ProcessDefinition> aProcessDefinition_Return = new LinkedList<>();
 
-        List<Group> groups;
-        groups = oIdentityService.createGroupQuery().groupMember(sLogin).list();
-        if (groups != null && !groups.isEmpty()) {
+        List<Group> aGroup;
+        aGroup = oIdentityService.createGroupQuery().groupMember(sLogin).list();
+        if (aGroup != null && !aGroup.isEmpty()) {
             StringBuilder sb = new StringBuilder();
-            for (Group group : groups) {
-                sb.append(group.getId());
+            for (Group oGroup : aGroup) {
+                sb.append(oGroup.getId());
                 sb.append(",");
             }
-            LOG.info("Found {}  groups for the user {}:{}", groups.size(), sLogin, sb.toString());
+            LOG.info("Found {}  groups for the user {}:{}", aGroup.size(), sLogin, sb.toString());
         }
 
-        for (ProcessDefinition processDef : processDefinitionsList) {
-            LOG.info("process definition id: {}", processDef.getId());
+        for (ProcessDefinition oProcessDefinition : aProcessDefinition) {
+            LOG.info("process definition id: {}", oProcessDefinition.getId());
 
-            Set<String> candidateCroupsToCheck = getGroupsByProcessDefinition(processDef);
+            Set<String> aCandidateCroupsToCheck = getGroupsByProcessDefinition(oProcessDefinition);
 
-            if(checkIncludeProcessDefinitionIntoGroupList(groups, candidateCroupsToCheck)){
-                resultList.add(processDef);
+            if(checkIncludeProcessDefinitionIntoGroupList(aGroup, aCandidateCroupsToCheck)){
+                aProcessDefinition_Return.add(oProcessDefinition);
             }
         }
-        return resultList;
+        return aProcessDefinition_Return;
     }
 
-    private Set<String> getGroupsByProcessDefinition(ProcessDefinition processDef) {
-        Set<String> candidateCroupsToCheck = new HashSet<>();
-        loadCandidateGroupsFromTasks(processDef, candidateCroupsToCheck);
-        loadCandidateStarterGroup(processDef, candidateCroupsToCheck);
-        return candidateCroupsToCheck;
+    private Set<String> getGroupsByProcessDefinition(ProcessDefinition oProcessDefinition) {
+        Set<String> aCandidateCroupsToCheck = new HashSet<>();
+        loadCandidateGroupsFromTasks(oProcessDefinition, aCandidateCroupsToCheck);
+        loadCandidateStarterGroup(oProcessDefinition, aCandidateCroupsToCheck);
+        return aCandidateCroupsToCheck;
     }
 
 
-    private boolean checkIncludeProcessDefinitionIntoGroupList(List<Group> groups, Set<String> candidateCroupsToCheck){
-        for (Group group : groups) {
-            for (String groupFromProcess : candidateCroupsToCheck) {
-                if (groupFromProcess.contains("${")) {
-                    groupFromProcess = groupFromProcess.replaceAll("\\$\\{?.*}", "(.*)");
+    private boolean checkIncludeProcessDefinitionIntoGroupList(List<Group> aGroup, Set<String> asProcessGroupMask){
+        for (Group oGroup : aGroup) {
+            for (String sProcessGroupMask : asProcessGroupMask) {
+                if (sProcessGroupMask.contains("${")) {
+                    sProcessGroupMask = sProcessGroupMask.replaceAll("\\$\\{?.*}", "(.*)");
                 }
-                if (group.getId().matches(groupFromProcess)) {
+                if (oGroup.getId().matches(sProcessGroupMask)) {
                     return true;
                 }
             }
@@ -1971,10 +2094,14 @@ public class ActionTaskService {
            LOG.info(String.format("No attachments in the Task [id = '%s']", nID_Task));
         } else {
             List<String> attachmetIDs = new ArrayList<>();
+            int index = 0;
             for (Attachment attachment : attachments){
+                    if(attachment.getDescription() == null || attachment.getDescription().equals("")){
+                        attachment.setDescription("Завантажений файл " + (++index));
+                    }
                 attachmetIDs.add(attachment.getId());
             }
-            LOG.info("Task attachmets: " + attachmetIDs.toString());
+            LOG.info("Task attachments: " + attachmetIDs.toString());
         }
         return attachments;
     }

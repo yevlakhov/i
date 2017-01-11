@@ -1,7 +1,10 @@
 nID;sID;sType;sURL_Alpha;sURL_Beta;sURL_Omega;sURL
 0;Common_Region_Old;Region;;;;https://alpha-old.test.region.igov.org.ua/wf
 1;Common_Central_Old;Central;;;;https://alpha-old.test.igov.org.ua/wf
-2;Kiev_Region;Region;;;;https://test.admin.es.kievcity.gov.ua/wf
+2;Kiev_Region;Region;;;;https://office.kievcity.gov.ua/wf
 3;Local_Region;Region;;;;http://10.1.11.86/wf-region
 4;Common_Central;Central;;;;https://alpha.test.igov.org.ua/wf
 5;Common_Region;Region;;;;https://alpha.test.region.igov.org.ua/wf
+6;Kiev_Central;Central;;;;https://central.es.kievcity.gov.ua/wf
+8;Common_Region_Kiev;Region;;;;https://office.kyivcity.gov.ua/wf
+9;Common_Central_Kiev;Central;;;;https://poslugy.kyivcity.gov.ua/wf

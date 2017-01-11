@@ -1,6 +1,5 @@
 package org.igov.model.process;
 
-import com.google.common.base.Optional;
 import java.util.Date;
 import org.hibernate.HibernateException;
 import org.igov.model.core.GenericEntityDao;
@@ -86,9 +85,28 @@ public class ProcessSubjectDaoImpl extends GenericEntityDao<Long, ProcessSubject
         ProcessSubject processSubject = findByProcessActiviti(snID_Process_Activiti);
         if (processSubject != null) {
             processSubject.setProcessSubjectStatus(processSubjectStatus);
+            processSubject.setsDateEdit(new DateTime(new Date()));
             processSubject = saveOrUpdate(processSubject);
             LOG.info(String.format("ProcessSubjectStatus=%s to entity with snID_Process_Activiti=%s was added",
                     processSubjectStatus.getId(), snID_Process_Activiti));
+        } else {
+            LOG.warn(String.format("Entity with snID_Process_Activiti = %s is absent!",
+                    snID_Process_Activiti));
+        }
+        return processSubject;
+    }
+    
+    @Transactional
+    @Override
+    public ProcessSubject setProcessSubjectStatusAndReport(String snID_Process_Activiti, ProcessSubjectStatus processSubjectStatus, String sReport) {
+        ProcessSubject processSubject = findByProcessActiviti(snID_Process_Activiti);
+        if (processSubject != null) {
+            processSubject.setProcessSubjectStatus(processSubjectStatus);
+            processSubject.setsReport(sReport);
+            processSubject.setsDateEdit(new DateTime(new Date()));
+            processSubject = saveOrUpdate(processSubject);
+            LOG.info(String.format("ProcessSubjectStatus=%s to entity with snID_Process_Activiti=%s  and sReport=%s was added",
+                    processSubjectStatus.getId(), snID_Process_Activiti, sReport));
         } else {
             LOG.warn(String.format("Entity with snID_Process_Activiti = %s is absent!",
                     snID_Process_Activiti));
