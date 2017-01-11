@@ -1165,9 +1165,7 @@
           }
           return true;
         };
-
-        $scope.updateTemplateList(); 
-        
+     
         $scope.tableIsLoaded = function (item) {
           return typeof item.aRow[0] !== 'number';
         };
@@ -1187,6 +1185,7 @@
               })
             }
           });
+          $scope.updateTemplateList(); 
         };
         $scope.searchingTablesForPrint();
 
