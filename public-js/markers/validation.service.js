@@ -154,7 +154,7 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	if( element.length > 0 && element[0].attributes["ng-switch-when"] != null) {
     		formFieldType = element[0].attributes["ng-switch-when"].value;
     	}
-	else if  ( element.length > 0 && self.oFormDataParams[formField.$name] != null) { 
+	else if  ( element.length > 0 && self.oFormDataParams != null && self.oFormDataParams[formField.$name] != null) { 
 		formFieldType = self.oFormDataParams[formField.$name].type; 
 	} 
 
