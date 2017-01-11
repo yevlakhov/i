@@ -154,9 +154,8 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     	if( element.length > 0 && element[0].attributes["ng-switch-when"] != null) {
     		formFieldType = element[0].attributes["ng-switch-when"].value;
     	}
-	else if  ( element.length > 0 && element[0].parentNode != null && element[0].parentNode.parentNode != null && 
-		 element[0].parentNode.parentNode.parentNode != null && element[0].parentNode.parentNode.parentNode.attributes["ng-if"] != null) { 
-		formFieldType = element[0].parentNode.parentNode.parentNode.attributes["ng-if"].value; 
+	else if  ( element.length > 0 && self.oFormDataParams[formField.$name] != null) { 
+		formFieldType = self.oFormDataParams[formField.$name].type; 
 	} 
 
     	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, formFieldType)  > -1); 
