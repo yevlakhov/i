@@ -11,7 +11,6 @@
     </startEvent>
     <userTask id="usertask1" name="Check POST" activiti:candidateGroups="sales">
       <extensionElements>
-        <activiti:formProperty id="tTechSupervisor" name="Таблиця" type="table" default="{&quot;aField&quot;:[             {&quot;id&quot;:&quot;sSupervisorName&quot;,&quot;name&quot;:&quot;Найменування посади, прізвище, ім’я та по батькові, номер телефону&quot;,&quot;type&quot;:&quot;string&quot;},             {&quot;id&quot;:&quot;sSupervisionNumberID&quot;,&quot;name&quot;:&quot;Назва, номер та дата документа, що підтверджує повноваження особи на здійснення технічного нагляду&quot;,&quot;type&quot;:&quot;string&quot;},             {&quot;id&quot;:&quot;sSupervisionCertificate&quot;,&quot;name&quot;:&quot;Серія та номер кваліфікаційного сертифіката&quot;,&quot;type&quot;:&quot;string&quot;}]}"></activiti:formProperty>
         <activiti:formProperty id="sName" name="Name" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSecondName" name="SecondName" type="string"></activiti:formProperty>
         <activiti:formProperty id="sThirdName" name="ThirdName" type="string"></activiti:formProperty>
@@ -19,31 +18,7 @@
     </userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
-    <serviceTask id="servicetask1" name="Отправка email" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
-      <extensionElements>
-        <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
-        </activiti:field>
-        <activiti:field name="from">
-          <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
-        </activiti:field>
-        <activiti:field name="subject">
-          <activiti:string><![CDATA[Ответ от тестовой таски]]></activiti:string>
-        </activiti:field>
-        <activiti:field name="text">
-          <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
-<b>Шановний(-а) ${bankIdfirstName} ${bankIdmiddleName}.</b><br /><br />
-Ваше звернення щодо надання аварійного дозволу на проведення земляних робіт успішно зареєстровано і буде опрацьовано впродовж 3 робочих днів.</h3><br /><br />
-Ви отримаєте додаткове повідомлення за результатами розгляду зверення.<br />
-[pattern/mail/_common_signature_start.html]
-Тестовая заявка<br />
-[pattern/mail/_common_signature_end.html]
-[pattern/mail/_common_footer.html]]]></activiti:expression>
-        </activiti:field>
-      </extensionElements>
-    </serviceTask>
-    <sequenceFlow id="flow3" sourceRef="startevent1" targetRef="servicetask1"></sequenceFlow>
-    <sequenceFlow id="flow4" sourceRef="servicetask1" targetRef="usertask1"></sequenceFlow>
+    <sequenceFlow id="flow3" sourceRef="startevent1" targetRef="usertask1"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram__test_skuhtin">
     <bpmndi:BPMNPlane bpmnElement="_test_skuhtin" id="BPMNPlane__test_skuhtin">
@@ -51,25 +26,18 @@
         <omgdc:Bounds height="35.0" width="35.0" x="180.0" y="130.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
-        <omgdc:Bounds height="55.0" width="105.0" x="520.0" y="130.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="340.0" y="120.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="700.0" y="130.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
-        <omgdc:Bounds height="55.0" width="105.0" x="300.0" y="123.0"></omgdc:Bounds>
-      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="625.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="445.0" y="147.0"></omgdi:waypoint>
         <omgdi:waypoint x="700.0" y="147.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
         <omgdi:waypoint x="215.0" y="147.0"></omgdi:waypoint>
-        <omgdi:waypoint x="300.0" y="150.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
-        <omgdi:waypoint x="405.0" y="150.0"></omgdi:waypoint>
-        <omgdi:waypoint x="520.0" y="157.0"></omgdi:waypoint>
+        <omgdi:waypoint x="340.0" y="147.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
