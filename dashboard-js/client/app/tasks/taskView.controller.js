@@ -334,7 +334,6 @@
 
         $scope.printTemplateList = {}; //PrintTemplateService.getTemplates($scope.taskForm);
 
-        $scope.updateTemplateList(); 
         //if ($scope.printTemplateList.length > 0) {
         //  $scope.model.printTemplate = $scope.printTemplateList[0];
         //}
@@ -1167,6 +1166,8 @@
           return true;
         };
 
+        $scope.updateTemplateList(); 
+        
         $scope.tableIsLoaded = function (item) {
           return typeof item.aRow[0] !== 'number';
         };
