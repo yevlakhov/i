@@ -331,13 +331,14 @@
         };
 
         $scope.taskForm = addIndexForFileItems(taskForm);
-        /* Print menu update on updateTemplateList 
-        console.log($scope.taskForm); */
-        $scope.printTemplateList = PrintTemplateService.getTemplates($scope.taskForm);
 
-        if ($scope.printTemplateList.length > 0) {
-          $scope.model.printTemplate = $scope.printTemplateList[0];
-        }
+        $scope.printTemplateList = {}; //PrintTemplateService.getTemplates($scope.taskForm);
+
+        $scope.updateTemplateList(); 
+        //if ($scope.printTemplateList.length > 0) {
+        //  $scope.model.printTemplate = $scope.printTemplateList[0];
+        //}
+
         $scope.taskForm.taskData = taskData;
 
         if (!oTask.endTime) {
@@ -1093,7 +1094,7 @@
         };
 
         TableService.init($scope.taskForm);
-
+/*
         try { 
         	angular.forEach($scope.taskForm, function(item, key, obj) { 
         		if(['table'].indexOf(item.type) > -1 && ['oPrescription2'].indexOf(item.id) > -1 ) {
@@ -1114,13 +1115,7 @@
         } catch( e ) { 
         	console.log("Mistake 1438 - " + e ); 
         }
-        
-        var inputChange = function( eventObject ) { 
-        	alert( eventObject.val() );
-        } 
-
-        //$rootScope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
-
+*/
         $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
 
         var idMatch = function () {
