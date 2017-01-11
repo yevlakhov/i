@@ -147,15 +147,18 @@ function ValidationService(moment, amMoment, angularMomentConfig, MarkersFactory
     var existingValidator = false; 
     
     if((formField != null) && (formField.$name != null)) { 
-    
-    	fieldNameIsListedInMarker = (formField != null) && (formField.$name != null) && (_.indexOf(marker.aField_ID, formField.$name) !== -1);
+
+    	fieldNameIsListedInMarker = (formField != null) && (formField.$name != null) && (_.indexOf(marker.aField_ID, formField.$name) > -1);
 
     	var element = document.getElementsByName(formField.$name); 
     	if( element.length > 0 && element[0].attributes["ng-switch-when"] != null) {
     		formFieldType = element[0].attributes["ng-switch-when"].value;
     	}
+	else if  ( element.length > 0 && element[0].parentNode !== null && element[0].parentNode.parentNode !== null && element[0].parentNode.parentNode.attributes["ng-if"] !== null) { 
+		formFieldType = element[0].parentNode.parentNode.attributes["ng-if"].value; 
+	} 
 
-    	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, formFieldType) !== -1); 
+    	fieldTypeIsListedInMarker = (formField != null) && (formFieldType != null) && (_.indexOf(marker.aField_Type, formFieldType)  > -1); 
     	
     	existingValidator = (formField != null) && formField.$validators && formField.$validators[keyByMarkerName];
 
