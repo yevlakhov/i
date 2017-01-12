@@ -1143,7 +1143,7 @@
             $scope.updateTemplateList(); 
           } 
 
-          if ($scope.printTemplateList.length === 0 && $scope.selectedTask && $scope.taskForm) { 
+          if ( ( $scope.printTemplateList.length === 0 || isMenuItem ) && $scope.selectedTask && $scope.taskForm) { 
             rollbackReadonlyEnumFields();
             $scope.printModalState.show = !$scope.printModalState.show;
           }
