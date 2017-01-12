@@ -534,8 +534,9 @@
 
         $scope.isFormPropertyDisabled = isItemFormPropertyDisabled;
 
-        $scope.print = function () {
-          if ($scope.selectedTask && $scope.taskForm) {
+        $scope.print = function () { 
+          updateTemplateList(); 
+          if ($scope.printTemplateList.length > 0 && $scope.selectedTask && $scope.taskForm) { 
             rollbackReadonlyEnumFields();
             $scope.printModalState.show = !$scope.printModalState.show;
           }
