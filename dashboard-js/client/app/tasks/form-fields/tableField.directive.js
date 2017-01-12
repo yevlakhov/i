@@ -16,7 +16,7 @@ angular.module('dashboardJsApp')
         $scope.isLoaded = false; 
 
         $scope.onLoad = function( item ) { 
-
+console.log( " #1438 " + item.id + " Loaded & Rendered "); 
             if( typeof item.aRow[0] !== 'number' )  { 
                 $scope.oTable = item; 
 
