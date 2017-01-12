@@ -1085,28 +1085,7 @@
         };
 
         TableService.init($scope.taskForm);
-/*
-        try { 
-        	angular.forEach($scope.taskForm, function(item, key, obj) { 
-        		if(['table'].indexOf(item.type) > -1 && ['oPrescription2'].indexOf(item.id) > -1 ) {
-        			console.log("oPrescription2 exists");
 
-        			if( item.aRow && typeof item.aRow[0] !== 'number' ) {
-        				console.log("oPrescription2 loaded");
-
-        				console.log(item.aRow[0].aField[0].sFieldLabel); 
-        			}
-
-        			//$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
-        		}
-        		else {
-        			console.log("Could not find oPrescription2"); 
-        		}
-        	}); 
-        } catch( e ) { 
-        	console.log("Mistake 1438 - " + e ); 
-        }
-*/ 
         $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
 
         var idMatch = function () {
@@ -1159,8 +1138,10 @@
         };
 
         $scope.print = function () { 
+          var initLength = $scope.printTemplateList.length;
           $scope.updateTemplateList(); 
-          if ($scope.printTemplateList.length === 0 && $scope.selectedTask && $scope.taskForm) { 
+
+          if ($scope.printTemplateList.length === initLength && $scope.selectedTask && $scope.taskForm) { 
             rollbackReadonlyEnumFields();
             $scope.printModalState.show = !$scope.printModalState.show;
           }
