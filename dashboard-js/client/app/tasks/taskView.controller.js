@@ -1116,7 +1116,6 @@
         }
 */ 
         $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
-        $scope.$on('TableLoaded', function( event, args ) { $scope.updateTemplateList(); }); 
 
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
