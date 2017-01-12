@@ -534,15 +534,6 @@
 
         $scope.isFormPropertyDisabled = isItemFormPropertyDisabled;
 
-        $scope.print = function () { 
-          updateTemplateList(); 
-          if ($scope.printTemplateList.length > 0 && $scope.selectedTask && $scope.taskForm) { 
-            rollbackReadonlyEnumFields();
-            $scope.printModalState.show = !$scope.printModalState.show;
-          }
-        };
-
-
         function getIdByName(item, asName) {
           var asId = new Array();
           for(var i = 0;i<asName.length;i++){
@@ -1166,7 +1157,15 @@
           }
           return true;
         };
-     
+
+        $scope.print = function () { 
+          $scope.updateTemplateList(); 
+          if ($scope.printTemplateList.length > 0 && $scope.selectedTask && $scope.taskForm) { 
+            rollbackReadonlyEnumFields();
+            $scope.printModalState.show = !$scope.printModalState.show;
+          }
+        };
+
         $scope.tableIsLoaded = function (item) {
           return typeof item.aRow[0] !== 'number';
         };
