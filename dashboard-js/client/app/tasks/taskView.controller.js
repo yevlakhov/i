@@ -534,8 +534,9 @@
 
         $scope.isFormPropertyDisabled = isItemFormPropertyDisabled;
 
-        $scope.print = function () {
-          if ($scope.selectedTask && $scope.taskForm) {
+        $scope.print = function () { 
+          updateTemplateList(); 
+          if ($scope.printTemplateList.length > 0 && $scope.selectedTask && $scope.taskForm) { 
             rollbackReadonlyEnumFields();
             $scope.printModalState.show = !$scope.printModalState.show;
           }
@@ -1116,7 +1117,6 @@
         }
 */ 
         $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
-        $scope.$on('TableLoaded', function( event, args ) { $scope.updateTemplateList(); }); 
 
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
