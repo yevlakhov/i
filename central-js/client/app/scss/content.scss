@@ -76,14 +76,25 @@
     }
   }
 }
-
-.category-container {
-  min-height: 360px;
+.business-category-container{
+  min-height: 235px;
   @media screen and (max-width: 1200px) {
-    min-height: 400px;
+    min-height: 280px;
   }
   @media screen and (max-width: 991px) {
-    min-height: 290px;
+    min-height: 200px;
+  }
+  @media screen and (max-width: 768px) {
+    min-height: 140px;
+  }
+}
+.category-container {
+  min-height: 300px;
+  @media screen and (max-width: 1200px) {
+    min-height: 345px;
+  }
+  @media screen and (max-width: 991px) {
+    min-height: 285px;
   }
   @media screen and (max-width: 768px) {
     min-height: 180px;

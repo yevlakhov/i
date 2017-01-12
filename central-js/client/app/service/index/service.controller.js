@@ -46,6 +46,13 @@ angular.module('app')
         $scope.spinner = false;
       }
       $rootScope.rand = (Math.random() * 10).toFixed(2);
+      setTimeout(function () {
+        $('.category-container-text a').liTextLength({
+          length: 50,                                   //Видимое кол-во символов
+          afterLength: '...',                                //Текст после видимого содержания
+          fullText:false                                    //Добавить ссылку для отображения скрытого текста
+        });
+      },50);
     }, false);
     subscriptions.push(subscriberId);
 
