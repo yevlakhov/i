@@ -28,7 +28,7 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" default="Після доопрацювання буде вибір з довідника" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="nLossNotice" name="Копія документа, який підтверджує розміщення у ЗМІ повідомлення про втрату документа" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="nDuplApplication" name="Заява на видачу дублікату" type="file" default=" "></activiti:formProperty>
@@ -67,7 +67,7 @@
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_dupl_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
@@ -105,7 +105,7 @@
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_declar_dupl_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
@@ -143,7 +143,7 @@
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLoginAsignee_step6" name="Відповідальний виконавець;sSelectType=UserByGroup,sSourceFieldID_sID_Group=sID_Group_step6,sDestinationFieldID_sName=sAssigneeName_step6" type="select" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_Group_step6" name="Група виконавців" type="invisible" default="kyiv_dabi_permit_empl"></activiti:formProperty>
@@ -187,7 +187,7 @@
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAssigneeName_step6" name="Відповідальний виконавець" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="string" writable="false"></activiti:formProperty>
@@ -215,7 +215,7 @@
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -351,7 +351,7 @@
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLoginAsignee_step8" name="Відповідальний виконавець;sSelectType=UserByGroup,sSourceFieldID_sID_Group=sID_Group_step8,sDestinationFieldID_sName=sAssigneeName_step8" type="select" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_Group_step8" name="Група виконавців" type="invisible" default="kyiv_dabi_law"></activiti:formProperty>
@@ -381,7 +381,7 @@
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -473,7 +473,7 @@
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -571,7 +571,7 @@
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
@@ -620,7 +620,7 @@
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildDeclarationNumber" name="Номер декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBuildDeclarationDate" name="Дата видачі декларації про початок виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
