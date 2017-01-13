@@ -7,7 +7,7 @@
   "merge_logs" : true,
   "log_date_format" : "YYYY-MM-DD_HH:mm:ss.SSS",
   "env": {
-    "sServerRegion": "https://office.kievcity.gov.ua",
+    "sServerRegion": "https://office.kyivcity.gov.ua",
     "bCompile_Application": "FALSE",
     "sProfile_Application": "test-alpha",
     "sDomain": "https://poslugy.kyivcity.gov.ua",
@@ -32,7 +32,7 @@
       "sURL_Back_Central": "https://poslugy.kyivcity.gov.ua/wf/service",
       "sLogin_Back_Central": "system",
       "sPassword_Back_Central": "system",
-      "nID_Server_Back_Central": 9
+      "nID_Server_Back_Central": 8
     },
 
     "Auth_BankID":{

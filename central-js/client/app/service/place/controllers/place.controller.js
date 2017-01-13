@@ -29,7 +29,8 @@ angular.module('app').controller('PlaceController',
 
         if (statesRepository.isKyivCity()) {
             try {
-                $rootScope.serviceNotFound = service.aServiceData.some(function (val) {
+              console.log(service);
+              $rootScope.serviceNotFound = service.aServiceData.some(function (val) {
                     return val.nID_Region && val.nID_Region.sID_UA == "8000000000" && val.nID_Region.sName == "Київ"
                 });
                 $rootScope.serviceNotFound = !$rootScope.serviceNotFound;
