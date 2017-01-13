@@ -332,11 +332,7 @@
 
         $scope.taskForm = addIndexForFileItems(taskForm);
 
-        $scope.printTemplateList = {}; //PrintTemplateService.getTemplates($scope.taskForm);
-
-        //if ($scope.printTemplateList.length > 0) {
-        //  $scope.model.printTemplate = $scope.printTemplateList[0];
-        //}
+        $scope.printTemplateList = {}; 
 
         $scope.taskForm.taskData = taskData;
 
