@@ -175,7 +175,7 @@
         <activiti:formProperty id="sLabel_Comments" name="----------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBossPermitComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
-                <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" required="true">
+        <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" required="true">
           <activiti:value id="sEnumDecisionOK" name="Надана повна інформація. Зареєструвати у реєстрі ДАБІ"></activiti:value>
           <activiti:value id="sEnumDecisionReturn" name="Відправити на доопрацювання. Підготувати інформаційний лист."></activiti:value>
         </activiti:formProperty>
