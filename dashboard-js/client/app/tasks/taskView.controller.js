@@ -991,7 +991,7 @@
         $scope.newPrint = function (form, id) {
           runCalculation(form);
           $scope.model.printTemplate = id;
-          $scope.print(form);
+          $scope.print(form, true);
         };
 
         $scope.isClarify = function (name) {
@@ -1137,11 +1137,13 @@
           return true;
         };
 
-        $scope.print = function () { 
-          var initLength = $scope.printTemplateList.length;
-          $scope.updateTemplateList(); 
+        $scope.print = function (form, isMenuItem) { 
 
-          if ($scope.printTemplateList.length === initLength && $scope.selectedTask && $scope.taskForm) { 
+          if( !isMenuItem ) { // Click on Button 
+            $scope.updateTemplateList(); 
+          } 
+
+          if ( ( $scope.printTemplateList.length === 0 || isMenuItem ) && $scope.selectedTask && $scope.taskForm) { 
             rollbackReadonlyEnumFields();
             $scope.printModalState.show = !$scope.printModalState.show;
           }
