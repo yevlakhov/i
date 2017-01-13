@@ -12,14 +12,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" default="Потрібна інтеграція з обліковою системою"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" default="+380"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string"></activiti:formProperty>
         <activiti:formProperty id="nAct" name="Акт готовності до об’єкта експлуатації" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="nApplication" name="Заява про прийняття в експлуатацію закінченого будівництвом об’єкта та видачу сертифіката" type="file" default=" "></activiti:formProperty>
@@ -39,14 +34,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -69,14 +59,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -98,14 +83,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -131,14 +111,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -182,12 +157,8 @@
           <activiti:value id="sEnumGenLegal" name="Юридична особа"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sGenPersonName" name="ПІБ фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenPersonPassport" name="Паспортні дані" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenPersonAddress" name="Місце проживання фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenPersonINN" name="Номер облікової картки платника податків" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalForm" name="Організаційно-правова форма юридичної особи" type="string" default="Потрібна інтеграція з обліковою системою"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenLegalAddress" name="Місцезнаходження" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalINN" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenContractorDid" name="Генеральний підрядник виконав" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sContractorName" name="Найменування субпідрядників" type="textArea"></activiti:formProperty>
@@ -197,12 +168,8 @@
           <activiti:value id="sEnumProjectLegal" name="Юридична особа"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sProjectPib" name="ПІБ фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sProjectPassport" name="Паспортні дані(серія, номер, ким і коли виданий)" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sProjectAddress" name="Місце проживання фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sProjectInn" name="Номер облікової картки платника податків" type="string"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationForm" name="Організаційно-правова форма юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sProjectOrganizationAddress" name="Місцезнаходження" type="string"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationInn" name="Код платника податків згідно з ЄДРПОУ або податковий номер генерального проектувальника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenDesignerDid" name="Генеральний проектувальник виконав" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="asDesignerSubContr" name="Субрідрядник генерального проектувальника" type="enum">
@@ -210,12 +177,8 @@
           <activiti:value id="sEnumLegal" name="Юридична особа"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sDesignerPib" name="ПІБ фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sDesignerPassport" name="Паспортні дані(серія, номер, ким і коли виданий)" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sDesignerAddress" name="Місце проживання фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sDesignerInn" name="Номер облікової картки платника податків" type="string"></activiti:formProperty>
         <activiti:formProperty id="sDesignerOrgForm" name="Організаційно-правова форма юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sDesignerOrgName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sDesignerOrgAddress" name="Місцезнаходження" type="string"></activiti:formProperty>
         <activiti:formProperty id="sDesignerOrgInn" name="Код платника податків згідно з ЄДРПОУ або податковий номер генерального проектувальника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenDesignerDid" name="Генеральний проектувальник виконав (назва частин або розділів документації)" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="tIndicators" name="Показники житлового будинку" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tIndicators.json')}"></activiti:formProperty>
@@ -278,14 +241,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comments" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу" type="string" writable="false"></activiti:formProperty>
@@ -310,14 +268,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Permit" name="-------" type="label" default="Дозвіл на виконання будівельних робіт   -------"></activiti:formProperty>
         <activiti:formProperty id="sPermitOrganName" name="Найменування органу, який видав дозвіл на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
@@ -367,14 +320,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -424,14 +372,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -457,14 +400,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comments" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -514,14 +452,9 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -546,14 +479,9 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -591,14 +519,9 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -635,14 +558,9 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -683,14 +601,9 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -744,14 +657,9 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -807,14 +715,9 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Comment" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
