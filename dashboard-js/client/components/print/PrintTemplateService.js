@@ -39,10 +39,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
            if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') {
 
-              console.log(  " #1438 " + form[i].id + " loaded");
-
 			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
-			    	  console.log( " #1438 PrintForms count " + prints.length );
 
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) { 
 
@@ -71,7 +68,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		
 		                          itemObject.oField = field; 
 		                          itemObject.sLabel = field.value; 
-		                          console.log( " #1438 sTitleField found '" + form[i].id + "'=" + itemObject.sLabel ); 
 		
 		                          return; 
 			                      } 
@@ -83,7 +79,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                      
 		                      itemObject.oField = item.aField[0]; 
 		                      itemObject.sLabel = item.aField[0].value;
-		                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
 		
 		                    } 
 		                    
@@ -98,10 +93,9 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                      };
 		
 		                      topItems.unshift( item );
-		
-		                      console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
+
 		                    }
-		                  
+
 		                } ); 
                  }
             } ); 
