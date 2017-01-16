@@ -21,7 +21,6 @@
     <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
     <serviceTask id="servicetask1" name="Отправка email" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
-<extensionElements>
         <activiti:field name="from">
           <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
         </activiti:field>
