@@ -5,3 +5,5 @@ nID;sID;sType;sURL_Alpha;sURL_Beta;sURL_Omega;sURL
 3;Local_Region;Region;;;;http://10.1.11.86/wf-region
 4;Common_Central;Central;;;;https://alpha.test.igov.org.ua/wf
 5;Common_Region;Region;;;;https://alpha.test.region.igov.org.ua/wf
+8;Common_Region_Kiev;Region;;;;https://test.office.kievcity.gov.ua/wf
+9;Common_Central_Kiev;Central;;;;https://test.es.kievcity.gov.ua/wf
