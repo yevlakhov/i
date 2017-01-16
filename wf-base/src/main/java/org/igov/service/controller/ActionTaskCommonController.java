@@ -2664,7 +2664,7 @@ LOG.info("4sTaskEndDateTo= " + sTaskEndDateTo);
     //save curretn values to Form
     @ApiOperation(value = "saveForm", notes = "saveForm")
     @RequestMapping(value = "/saveForm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public ResponseEntity saveForm(
+    public HttpServletRequest saveForm(
             @ApiParam(value = "проперти формы", required = false) @RequestBody String sParams, HttpServletRequest req)
             throws ParseException, CommonServiceException, IOException {
         StringBuilder osRequestBody = new StringBuilder();
@@ -2694,27 +2694,22 @@ LOG.info("4sTaskEndDateTo= " + sTaskEndDateTo);
                 LOG.error("Variable \"properties\" not found");
             }        
             LOG.info("properties = " + dates.toJSONString());
-            
-            List<String> oTypes = Arrays.asList("markers", "file", "table", "label");            
 
             org.json.simple.JSONObject result;
             Iterator<org.json.simple.JSONObject> datesIterator = dates.iterator();
             while (datesIterator.hasNext()) {
                 result = datesIterator.next();
-                boolean typeInclude = oTypes.contains(result.get("type").toString());
-                if (!typeInclude && result.get("value") != null) {
-                    values.put(result.get("id").toString(), (String) result.get("value"));
-                }
+                values.put(result.get("id").toString(), (String) result.get("value"));
             }
             formService.saveFormData(nID_Task, values);
             LOG.info("Process of update data finiched");
-            return JsonRestUtils.toJsonResponse(values);
+            return req;
         } catch (Exception e) {
             String message = "The process of update variables fail.";
-            LOG.debug(e.getMessage() + " " + message);
+            LOG.debug(message);
             throw new CommonServiceException(
                     ExceptionCommonController.BUSINESS_ERROR_CODE,
-                    e.getMessage() + " " + message,
+                    message,
                     HttpStatus.FORBIDDEN);
         }
 
@@ -2836,39 +2831,6 @@ LOG.info("4sTaskEndDateTo= " + sTaskEndDateTo);
         return mReturn;
     }    
 
-     @ApiOperation(value = "/getProcessByLogin", notes = "##### Получение списка процессов (доступных и уже назначеных) по логину#####\n\n")
-    @RequestMapping(value = "/getProcessByLogin", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public @ResponseBody String getProcessByLogin(
-            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
-            throws IOException {                
-        List<Task> tasksCandidate = taskService.createTaskQuery().taskCandidateUser(sLogin).list();        
-        List<Task> tasksAssigned = taskService.createTaskQuery().taskAssignee(sLogin).active().list();
-        Set<String> processesList = new HashSet<>();
-        tasksCandidate.stream().forEach((task) -> {        
-            processesList.add(task.getProcessDefinitionId());
-        });   
-        tasksAssigned.stream().forEach((task) -> {        
-            processesList.add(task.getProcessDefinitionId());
-        });       
-        List <ProcessDefinition> processes = new LinkedList<>();
-        processesList.stream().forEach((processId) -> {
-            processes.add(repositoryService.createProcessDefinitionQuery().processDefinitionId(processId).singleResult());
-        });
-        List<Map<String, String>> result = new LinkedList<>();
-        
-        processes.stream().map((processDef) -> {
-            Map<String, String> process = new HashMap<>();
-            process.put("sID", processDef.getKey());
-            process.put("sName", processDef.getName());
-            return process;
-        }).map((process) -> {
-            LOG.info(String.format("Added record to response %s", process.toString()));
-            return process;
-        }).forEach((process) -> {
-            result.add(process);
-        });
-        
-        return JSONValue.toJSONString(result);
-    }
+    
     
 }

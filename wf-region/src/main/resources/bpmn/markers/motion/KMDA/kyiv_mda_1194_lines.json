@@ -22,30 +22,6 @@
     "Line_6": {
       "aElement_ID": ["tNonLivingArea"],
       "sValue": "Нежитлові приміщення"        
-    },
-    "Line_7": {
-      "aElement_ID": ["sLastName","sTypeCompany"],
-      "sValue": "Замовник"        
-    },
-    "Line_8": {
-      "aElement_ID": ["sObjectName","asTypeBuilding"],
-      "sValue": "Об’єкт будівництва"        
-    },
-    "Line_9": {
-      "aElement_ID": ["sChangeNameDoc"],
-      "sValue": "Підстава для зміни даних"        
-    },
-    "Line_10": {
-      "aElement_ID": ["sContractor"],
-      "sValue": "Генеральний підрядник"        
-    },
-    "Line_11": {
-      "aElement_ID": ["asLandUsed"],
-      "sValue": "Земельна ділянка"        
-    },
-    "Line_12": {
-      "aElement_ID": ["sNumberConditions"],
-      "sValue": "Містобудівні умови і обмеження"        
-    }
+    }       
     }
 }

@@ -1,7 +1,7 @@
 'use strict';
 
 //angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'PrintTemplateProcessor', '$q', '$templateRequest', '$lunaService', function(tasks, PrintTemplateProcessor, $q, $templateRequest, lunaService) {
-angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'FieldMotionService', 'PrintTemplateProcessor', '$q', '$templateRequest', function(tasks, FieldMotionService, PrintTemplateProcessor, $q, $templateRequest) {
+angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'PrintTemplateProcessor', '$q', '$templateRequest', function(tasks, PrintTemplateProcessor, $q, $templateRequest) {
   // TODO: move code from PrintTemplateProcessor here
   // helper function to get path to a print template based on it's ID
   function findPrintTemplate (form, sCustomFieldID) {
@@ -20,8 +20,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
       if (!form) {
         return [];
       }
-
-      var templates = [];
+       var templates = [];
       var topItems = [];
 
       var markerExists = false;
@@ -39,10 +38,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
            if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') {
 
-              console.log(  " #1438 " + form[i].id + " loaded");
-
 			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
-			    	  console.log( " #1438 PrintForms count " + prints.length );
 
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) { 
 
@@ -71,7 +67,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		
 		                          itemObject.oField = field; 
 		                          itemObject.sLabel = field.value; 
-		                          console.log( " #1438 sTitleField found '" + form[i].id + "'=" + itemObject.sLabel ); 
 		
 		                          return; 
 			                      } 
@@ -159,7 +154,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
       return templates;
     },
-
+    
     /** 
      * function getPrintTemplateByObject 
      *  Returns template for PrintForm object combined with tables value 

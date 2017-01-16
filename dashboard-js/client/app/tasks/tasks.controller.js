@@ -184,7 +184,6 @@
       $scope.$storage[$stateParams.type + 'UserProcessFilter'] = $scope.model.userProcess;
       filterLoadedTasks();
     };
-    $scope.assigneeFilterChange = function () {filterLoadedTasks()};
     $scope.userProcessFilterChange();
     $scope.strictTaskDefinitionFilterChange = function () {
       filterLoadedTasks();
@@ -262,16 +261,10 @@
               var aTaskFiltered = _.filter(oResult.data, function (oTask) {
                 return oTask.endTime !== null;
               });
-              if (!$scope.tasks) {
+              if (!$scope.tasks)
                 $scope.tasks = [];
-                var asAssignee = $scope.asAssignee = ["Всі"];
-                for (var i = 0; i < aTaskFiltered.length; i++) {
-                  var item = aTaskFiltered[i];
-                  $scope.tasks.push(item);
-                  if (item && !asAssignee.includes(item.assignee)) asAssignee.push(item.assignee);
-                }
-                $scope.model.sAssignee = asAssignee[0];
-              }
+              for (var i = 0; i < aTaskFiltered.length; i++)
+                $scope.tasks.push(aTaskFiltered[i]);
               lastTasksResult = oResult;
               // build filtered tasks array
               filterLoadedTasks();

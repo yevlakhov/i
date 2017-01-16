@@ -288,8 +288,7 @@ angular.module('dashboardJsApp')
             if (formProperty && formProperty.writable) {
               properties.push({
                 id: formProperty.id,
-                value: formProperty.value,
-                type: formProperty.type
+                value: formProperty.value
               });
             }
           }
@@ -687,11 +686,9 @@ angular.module('dashboardJsApp')
       isUserHasDocuments: function (login) {
         return simpleHttpPromise({
           method: 'GET',
-       // url: '/api/documents/getBPs',
-          url: '/api/documents/getTasks',
+          url: '/api/documents/getBPs',
           params: {
-            sLogin: login,
-            bIncludeAlienAssignedTasks: true
+            sLogin: login
           }
         })
       },

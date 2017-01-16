@@ -55,28 +55,3 @@ exports.getLoginBPs = function (req, res) {
     });
   }
 };
-exports.getProcessByLogin = function (req, res) {
-  var user = JSON.parse(req.cookies.user);
-
-  var query = {
-    'sLogin' : user.id
-  };
-  var options = {
-    path: 'action/task/getProcessByLogin',
-    query: query
-  };
-  var cacheKey = JSON.stringify(options);
-  var cachedValue = cache.get(cacheKey);
-  if (cachedValue) {
-    res.json(cachedValue);
-  } else {
-    activiti.get(options, function (error, statusCode, result) {
-      if (error) {
-        res.send(error);
-      } else {
-        cache.set(cacheKey, result, 86400);
-        res.json(result);
-      }
-    });
-  }
-};

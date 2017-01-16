@@ -135,9 +135,10 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
         return printTemplate.replace(new RegExp(this.escapeRegExp(tag), 'g'), replacement);
       }
     },
+
     /** 
      * function populateTableField (printTemplate, printFormTableObject) 
-     *  Searches printTemplate for [oTableName.aRow2.sTableField] and replaces 
+     *  Searches printTemplate for [oTableName.sTableField] and replaces 
      *   with data of specified row of printFormTableObject.nRowIndex 
      * 
      * @returns original template with replaced values   
@@ -163,8 +164,6 @@ angular.module('dashboardJsApp').factory('PrintTemplateProcessor', ['$sce', 'Aut
           var field = printFormTableObject.oRow.aField[fieldIndex];
           replacement = field.value;
     		  tag = "["+ printFormTableObject.sTableName + "." + field.id + "]";
-
-          console.log(" #1438 table form '" + tag + "'=" + replacement); 
 
       	  templateString = templateString.replace(new RegExp(this.escapeRegExp(tag)), replacement); 
 

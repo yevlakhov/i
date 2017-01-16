@@ -1,4 +1,4 @@
-(function () {
+﻿(function () {
   'use strict';
 
   angular
@@ -8,12 +8,12 @@
       'taskForm', 'iGovNavbarHelper', 'Modal', 'Auth', 'defaultSearchHandlerService',
       '$state', 'stateModel', 'ValidationService', 'FieldMotionService', 'FieldAttributesService', '$rootScope',
       'lunaService', 'TableService', 'autocompletesDataFactory', 'documentRights', 'documentLogins', '$filter',
-      'processSubject', '$document', 
+      'processSubject', '$sce', 'eaTreeViewFactory',
       function ($scope, $stateParams, taskData, oTask, PrintTemplateService, iGovMarkers, tasks, user,
                 taskForm, iGovNavbarHelper, Modal, Auth, defaultSearchHandlerService,
                 $state, stateModel, ValidationService, FieldMotionService, FieldAttributesService, $rootScope,
                 lunaService, TableService, autocompletesDataFactory, documentRights, documentLogins, $filter,
-                processSubject, $document) {
+                processSubject, $sce, eaTreeViewFactory) {
         var defaultErrorHandler = function (response, msgMapping) {
           defaultSearchHandlerService.handleError(response, msgMapping);
           if ($scope.taskForm) {
@@ -31,14 +31,18 @@
           return null;
         }
 
+        FieldMotionService.reset();
+        iGovMarkers.reset();
+        iGovMarkers.init();
+
         var sLoginAsignee = "sLoginAsignee";
 
         function getObjFromTaskFormById(id) {
           if(id == null) return null;
           for (var i = 0; i < taskForm.length; i++) {
-            if (taskForm[i].id && taskForm[i].id.includes && taskForm[i].id.includes(id)) {
-              return taskForm[i];
-            }
+             if (taskForm[i].id && taskForm[i].id.includes && taskForm[i].id.includes(id)) {
+               return taskForm[i];
+             }
           }
           return null;
         }
@@ -68,18 +72,18 @@
         }
 
         $scope.updateAssigneeName = function(item){
-            if (item.id.includes(sLoginAsignee)) {
-              for(var i = 0; i < item.enumValues.length;i++) {
-                if (item.value == item.enumValues[i].id) {
-                  var sAssigneeName= getObjFromTaskFormById(getIdFromActivityProperty("sDestinationFieldID_sName"));
-                  if (sAssigneeName != null) {
-                    sAssigneeName.value = item.enumValues[i].name;
-                    break;
-                  }
+          if (item.id.includes(sLoginAsignee)) {
+            for(var i = 0; i < item.enumValues.length;i++) {
+              if (item.value == item.enumValues[i].id) {
+                var sAssigneeName= getObjFromTaskFormById(getIdFromActivityProperty("sDestinationFieldID_sName"));
+                if (sAssigneeName != null) {
+                  sAssigneeName.value = item.enumValues[i].name;
+                  break;
                 }
               }
             }
-          };
+          }
+        };
 
         fillingUsers();
 
@@ -100,6 +104,8 @@
                       item.value = item.enumValues[0].id;
                       $scope.updateAssigneeName(item);
                     }
+                    // hidden sAssignName
+                    hiddenObjById(getIdFromActivityProperty("sDestinationFieldID_sName"));
                   }
                 });
               }
@@ -109,6 +115,8 @@
         function print(t) {
           console.log(t);
         }
+
+
 
         function sortUsersByAlphabet(items) {
           items.sort(function (a, b) {
@@ -162,13 +170,13 @@
             if(!param || !typeof param === 'string') return null;
 
             var input = param.trim(),
-                finalArray,
-                result = {};
+              finalArray,
+              result = {};
 
             var checkboxExp = input.split(',').filter(function(item){
               return (item && typeof item === 'string' ? item.trim() : '')
-                      .split('=')[0]
-                      .trim() === 'sID_CheckboxTrue';
+                  .split('=')[0]
+                  .trim() === 'sID_CheckboxTrue';
             })[0];
 
             if(!checkboxExp) return null;
@@ -178,7 +186,7 @@
             if(!finalArray || !finalArray[1]) return null;
 
             var indexes = finalArray[1].trim().match(/\d+/ig),
-                index;
+              index;
 
             if(Array.isArray(indexes)){
               index = isNaN(+indexes[0]) || +indexes[0];
@@ -193,12 +201,12 @@
 
           function bindEnumToCheckbox(param){
             if(!param || !param.id || !param.enumValues ||
-                param.sID_CheckboxTrue === null ||
-                param.sID_CheckboxTrue === undefined) return;
+              param.sID_CheckboxTrue === null ||
+              param.sID_CheckboxTrue === undefined) return;
 
             var checkbox = {},
-                trueValues,
-                falseValues;
+              trueValues,
+              falseValues;
 
             if(isNaN(+param.sID_CheckboxTrue)){
               trueValues = param.enumValues.filter(function(o){return o.id === param.sID_CheckboxTrue});
@@ -211,38 +219,36 @@
               falseValues = param.enumValues.filter(function(o, i){return i !== param.sID_CheckboxTrue});
               checkbox[param.id] = {
                 trueValue: param.enumValues[param.sID_CheckboxTrue] ?
-                    param.enumValues[param.sID_CheckboxTrue].id : null,
+                  param.enumValues[param.sID_CheckboxTrue].id : null,
                 falseValue: falseValues[0] ? falseValues[0].id : null
               };
             }
 
             angular.extend(param.self, {
-                checkbox: checkbox
+              checkbox: checkbox
             });
           }
         }
 
         function searchSelectSubject() {
           angular.forEach(taskForm, function (item) {
-            if (item && item.name) { // v.serhiychuk only check other in this method create antonledkiy
-              var isExecutorSelect = item.name.split(';')[2];
-              if (item.type === 'select' || item.type === 'string' || isExecutorSelect && isExecutorSelect.indexOf('sID_SubjectRole=Executor') > -1) {
-                var match;
-                if (((match = item.id ? item.id.match(/^s(Currency|ObjectCustoms|SubjectOrganJoinTax|ObjectEarthTarget|Country|ID_SubjectActionKVED|ID_ObjectPlace_UA)(_(\d+))?/) : false))
-                  ||(item.type == 'select' && (match = item.id ? item.id.match(/^s(Country)(_(\d+))?/) : false)) || isExecutorSelect) {
-                  if (match && autocompletesDataFactory[match[1]] && !isExecutorSelect) {
-                    item.type = 'select';
-                    item.selectType = 'autocomplete';
-                    item.autocompleteName = match[1];
-                    if (match[2])
-                      item.autocompleteName += match[2];
-                    item.autocompleteData = autocompletesDataFactory[match[1]];
-                  } else if (!match && isExecutorSelect.indexOf('SubjectRole') > -1) {
-                    item.type = 'select';
-                    item.selectType = 'autocomplete';
-                    item.autocompleteName = 'SubjectRole';
-                    item.autocompleteData = autocompletesDataFactory[item.autocompleteName];
-                  }
+            var isExecutorSelect = item.name.split(';')[2];
+            if (item.type === 'select' || item.type === 'string' || isExecutorSelect && isExecutorSelect.indexOf('sID_SubjectRole=Executor') > -1) {
+              var match;
+              if (((match = item.id ? item.id.match(/^s(Currency|ObjectCustoms|SubjectOrganJoinTax|ObjectEarthTarget|Country|ID_SubjectActionKVED|ID_ObjectPlace_UA)(_(\d+))?/) : false))
+                ||(item.type == 'select' && (match = item.id ? item.id.match(/^s(Country)(_(\d+))?/) : false)) || isExecutorSelect) {
+                if (match && autocompletesDataFactory[match[1]] && !isExecutorSelect) {
+                  item.type = 'select';
+                  item.selectType = 'autocomplete';
+                  item.autocompleteName = match[1];
+                  if (match[2])
+                    item.autocompleteName += match[2];
+                  item.autocompleteData = autocompletesDataFactory[match[1]];
+                } else if (!match && isExecutorSelect.indexOf('SubjectRole') > -1) {
+                  item.type = 'select';
+                  item.selectType = 'autocomplete';
+                  item.autocompleteName = 'SubjectRole';
+                  item.autocompleteData = autocompletesDataFactory[item.autocompleteName];
                 }
               }
             }
@@ -279,6 +285,7 @@
         $scope.isClarifySending = false;
         $scope.tableIsInvalid = false;
         $scope.taskData.aTable = [];
+        $scope.usersHierarchyOpened = false;
 
         // todo соеденить с isUnasigned
         $scope.isDocument = function () {
@@ -312,7 +319,7 @@
         var isItemFormPropertyDisabled = function (oItemFormProperty){
           if (!$scope.selectedTask || (!$scope.selectedTask.assignee && !$scope.isDocument()) || !oItemFormProperty
             || !$scope.sSelectedTask || $scope.sSelectedTask === 'finished')
-          return true;
+            return true;
 
           var sID_Field = oItemFormProperty.id;
           if (sID_Field === null) {
@@ -336,13 +343,9 @@
         };
 
         $scope.taskForm = addIndexForFileItems(taskForm);
-        /* Print menu update on updateTemplateList 
-        console.log($scope.taskForm); */
-        $scope.printTemplateList = PrintTemplateService.getTemplates($scope.taskForm);
 
-        if ($scope.printTemplateList.length > 0) {
-          $scope.model.printTemplate = $scope.printTemplateList[0];
-        }
+        $scope.printTemplateList = {};
+
         $scope.taskForm.taskData = taskData;
 
         if (!oTask.endTime) {
@@ -539,14 +542,6 @@
 
         $scope.isFormPropertyDisabled = isItemFormPropertyDisabled;
 
-        $scope.print = function () {
-          if ($scope.selectedTask && $scope.taskForm) {
-            rollbackReadonlyEnumFields();
-            $scope.printModalState.show = !$scope.printModalState.show;
-          }
-        };
-
-
         function getIdByName(item, asName) {
           var asId = new Array();
           for(var i = 0;i<asName.length;i++){
@@ -570,7 +565,7 @@
 
           var variables = "";
           for (var name in item) {
-              variables += name + ",";
+            variables += name + ",";
           }
           var as = variables.split(",");
           var result = new Array();
@@ -635,7 +630,7 @@
           };
 
           for(var i=0; i < asVariablesName.length; i++) {
-              sFormula = sFormula.replaceAll(asVariablesName[i], "getVal(" + i + ")");
+            sFormula = sFormula.replaceAll(asVariablesName[i], "getVal(" + i + ")");
           }
           pushResultFormula(sResultName, eval(sFormula));
         }
@@ -650,7 +645,7 @@
 
             /*todo иногда oMotion возвращает undefined, что в итоге делает asNameField - null,
              *в итоге ломаеться принтформа
-            */
+             */
             if(asNameField){
               for (var i = 0; i < asNameField.length; i++) {
                 if(asNameField[i].includes("PrintFormFormula")) {
@@ -697,18 +692,18 @@
             $scope.taskForm.isSubmitted = true;
 
             var unpopulatedFields = $scope.unpopulatedFields();
-              if(documentRights) {
-                angular.forEach($scope.taskForm, function (item, key, obj) {
-                  if(item.type === 'date') {
-                    obj[key].value = $filter('checkDate')(item.value);
-                  }
-                });
-                var documentUnpopulatedFields = unpopulatedFields.filter(function (field) {
-                  return field.id.indexOf(documentRights.asID_Field_Write) === -1
-                })
-              }
+            if(documentRights) {
+              angular.forEach($scope.taskForm, function (item, key, obj) {
+                if(item.type === 'date') {
+                  obj[key].value = $filter('checkDate')(item.value);
+                }
+              });
+              var documentUnpopulatedFields = unpopulatedFields.filter(function (field) {
+                return field.id.indexOf(documentRights.asID_Field_Write) === -1
+              })
+            }
             if ((!documentUnpopulatedFields && unpopulatedFields.length > 0)
-                || (documentUnpopulatedFields && documentUnpopulatedFields.length > 0)) {
+              || (documentUnpopulatedFields && documentUnpopulatedFields.length > 0)) {
               // var errorMessage = 'Будь ласка, заповніть поля: ';
 
               // if (unpopulatedFields.length == 1) {
@@ -773,16 +768,16 @@
           }
         };
 
-     $scope.submitTaskQuestion = function (form) {
-        Modal.inform.submitTaskQuestion(function() {return $scope.submitTask(form);});
-     };
+        $scope.submitTaskQuestion = function (form) {
+          Modal.inform.submitTaskQuestion(function() {return $scope.submitTask(form);});
+        };
 
-      $scope.println = function (form) {
-        console.log("println");
-        console.log(form);
-        return true;
-      }
-      $scope.saveChangesTask = function (form) {
+        $scope.println = function (form) {
+          console.log("println");
+          console.log(form);
+          return true;
+        }
+        $scope.saveChangesTask = function (form) {
           if ($scope.selectedTask && $scope.taskForm) {
             console.log($scope.taskForm);
             $scope.taskForm.isSubmitted = true;
@@ -907,7 +902,7 @@
 
         $scope.getMessageFileUrl = function (oMessage, oFile) {
           if(oMessage && oFile)
-          return './api/tasks/' + $scope.nID_Process + '/getMessageFile/' + oMessage.nID + '/' + oFile.sFileName;
+            return './api/tasks/' + $scope.nID_Process + '/getMessageFile/' + oMessage.nID + '/' + oFile.sFileName;
         };
 
         $scope.getCurrentUserName = function () {
@@ -1004,7 +999,7 @@
         $scope.newPrint = function (form, id) {
           runCalculation(form);
           $scope.model.printTemplate = id;
-          $scope.print(form);
+          $scope.print(form, true);
         };
 
         $scope.isClarify = function (name) {
@@ -1056,7 +1051,6 @@
           });
 
           $scope.tableContentShow = !$scope.tableContentShow;
-          console.log($scope)
         };
 
         // проверяем имя поля на наличие заметок
@@ -1080,65 +1074,38 @@
          */
 
         var fixFieldsForTable = function (table) {
-            var tableRow;
-            fixName(table);
-            if('content' in table){
-              tableRow = table.content;
-            } else {
-              tableRow = table.aRow;
-            }
-            angular.forEach(tableRow, function (row) {
-              angular.forEach(row.aField, function (field) {
-                fixName(field);
-                if(field.type === 'date') {
-                  var match = /^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$/.test(field.props.value);
-                  if(!match) {
-                    var onlyDate = field.props.value.split('T')[0];
-                    var splitDate = onlyDate.split('-');
-                    field.props.value = splitDate[2] + '/' + splitDate[1] + '/' + splitDate[0]
+          var tableRow;
+          fixName(table);
+          if('content' in table){
+            tableRow = table.content;
+          } else {
+            tableRow = table.aRow;
+          }
+          angular.forEach(tableRow, function (row) {
+            angular.forEach(row.aField, function (field) {
+              fixName(field);
+              if(field.type === 'date') {
+                var match = /^[0-3]?[0-9].[0-3]?[0-9].(?:[0-9]{2})?[0-9]{2}$/.test(field.props.value);
+                if(!match) {
+                  var onlyDate = field.props.value.split('T')[0];
+                  var splitDate = onlyDate.split('-');
+                  field.props.value = splitDate[2] + '/' + splitDate[1] + '/' + splitDate[0]
+                }
+              }
+              if(field.type === 'enum') {
+                angular.forEach(field.a, function (item) {
+                  if(field.value === item.id){
+                    field.value = item.name;
                   }
-                }
-                if(field.type === 'enum') {
-                  angular.forEach(field.a, function (item) {
-                    if(field.value === item.id){
-                      field.value = item.name;
-                    }
-                  })
-                }
-              })
-            });
+                })
+              }
+            })
+          });
         };
 
         TableService.init($scope.taskForm);
 
-        try { 
-        	angular.forEach($scope.taskForm, function(item, key, obj) { 
-        		if(['table'].indexOf(item.type) > -1 && ['oPrescription2'].indexOf(item.id) > -1 ) {
-        			console.log("oPrescription2 exists");
-
-        			if( item.aRow && typeof item.aRow[0] !== 'number' ) {
-        				console.log("oPrescription2 loaded");
-
-        				console.log(item.aRow[0].aField[0].sFieldLabel); 
-        			}
-
-        			//$('input[type="text"]').change(inputChange);  // .inputs-in-table  [name^=sPrescriptionName] 
-        		}
-        		else {
-        			console.log("Could not find oPrescription2"); 
-        		}
-        	}); 
-        } catch( e ) { 
-        	console.log("Mistake 1438 - " + e ); 
-        }
-        
-        var inputChange = function( eventObject ) { 
-        	alert( eventObject.val() );
-        } 
-
-        //$rootScope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
-
-        $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
+        $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); });
 
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
@@ -1155,6 +1122,18 @@
           });
         };
         idMatch();
+
+        $scope.print = function (form, isMenuItem) {
+
+          if( !isMenuItem ) { // Click on Button
+            $scope.updateTemplateList();
+          }
+
+          if ( ( $scope.printTemplateList.length === 0 || isMenuItem ) && $scope.selectedTask && $scope.taskForm) {
+            rollbackReadonlyEnumFields();
+            $scope.printModalState.show = !$scope.printModalState.show;
+          }
+        };
 
         $scope.addRow = function (form, id, index) {
           ValidationService.validateByMarkers(form, null, true, null, true);
@@ -1208,6 +1187,7 @@
               })
             }
           });
+          $scope.updateTemplateList();
         };
         $scope.searchingTablesForPrint();
 
@@ -1272,7 +1252,7 @@
             })
             .catch(defaultErrorHandler);
         };
-
+        console.log($scope);
         $rootScope.$broadcast("update-search-counter");
       }
     ])

@@ -1,6 +1,18 @@
 {
     "motion": 
     {
+        "ShowFieldsOnCondition_3_1": 
+        {"aField_ID": 
+            ["sObjectOwnerNumber"], 
+                "asID_Field": {"sCondit":"asLandUsed"},
+                    "sCondition": "[sCondit] == 'sEnumObjectOwner'"
+        },
+        "ShowFieldsOnCondition_3_2": 
+        {"aField_ID": 
+            ["sObjectOwnerSuperfic"], 
+               "asID_Field": {"sCondit":"asLandUsed"},
+                    "sCondition": "[sCondit] == 'sEnumSuperfic'"
+        },
          "ShowFieldsOnCondition_3_3": 
         {"aField_ID": 
             ["sContractorPib", "sContractorPassport","sContractorInn", "sContractorAddress"], 
