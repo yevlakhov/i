@@ -13,7 +13,7 @@
        "sValue" : "Рішення"
     },
     "Line_11" : {
-       "aElement_ID" : ["sWorksDeclarationNumber"], 
+       "aElement_ID" : ["sWorksDeclarNumber"], 
        "sValue" : "Реквізити декларації"
     }
     
