@@ -13,7 +13,7 @@
        "sValue" : "Рішення"
     },
     "Line_11" : {
-       "aElement_ID" : ["sBuildPermitNumber"], 
+       "aElement_ID" : ["sBuildDeclarationNumber"], 
        "sValue" : "Реквізити документа"
     }
     
