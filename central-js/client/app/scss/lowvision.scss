@@ -342,3 +342,11 @@
 
   /*----------------------- Vars LowVision ------------------------*/
 }
+.journal{
+  &__title--label--processing{
+    background-color:#585a5a !important;
+  }
+  .service-item-title{
+    color:#585a5a !important;
+  }
+}
