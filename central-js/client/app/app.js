@@ -65,8 +65,8 @@ angular.module('app', [
     $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
   } else if (window.location.hostname == "poslugy.kyivcity.gov.ua") {
     $rootScope.clientIDRed = 8911;
-    $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
-    // $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';
+    // $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
+    $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';
   } else {
     $rootScope.clientIDRed = 8433;
     $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';

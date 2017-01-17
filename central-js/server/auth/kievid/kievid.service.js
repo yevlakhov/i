@@ -23,8 +23,8 @@ module.exports.callback = (req, res, next)=> {
     hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else if (req.headers.host == "poslugy.kyivcity.gov.ua") {
     clientIDRed = 8911;
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+    // hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else{
     clientIDRed = 8443;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
