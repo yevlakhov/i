@@ -44,9 +44,9 @@
     <div class="container subcategory-tmpl">
 
         <div class="row">
-            <div class="container igov-container" ng-if="category.aServiceTag_Child[0].sNote">
+            <div class="container igov-container" ng-if="category.aServiceTag_Child[0].sNote" ng-style="{'minHeight':trustAsHtml(category.aServiceTag_Child[0].sNote)!='[*]'?'':'200px'}">
 
-                <div class="social-share js-social-share">
+                <div class="social-share js-social-share" ng-style="{'top':trustAsHtml(category.aServiceTag_Child[0].sNote)!='[*]'?'':'0'}">
                     <ul>
                       <a ng-click="share('facebook')">
                         <li>
@@ -155,7 +155,7 @@
                         <a ui-sref="index.print(printParams)" target="_blank" rel="noreferrer nofollow" class="print"><i class="fa fa-print"></i> версія для друку</a>
                     </div>
                     <span class="situation-html default-styles-for-inner-html" compile-template
-                          data-ng-bind-html="trustAsHtml(category.aServiceTag_Child[0].sNote)"></span>
+                          data-ng-bind-html="trustAsHtml(category.aServiceTag_Child[0].sNote)!='[*]'?trustAsHtml(category.aServiceTag_Child[0].sNote):'Розділ у процесі наповнення'"></span>
                 </div>
             </div>
             <div class="container igov-container" style="padding-right: 0; padding-left: 0"

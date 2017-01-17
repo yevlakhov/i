@@ -13,8 +13,8 @@ module.exports.callback = (req, res, next)=> {
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
     clientIDRed = 8443;
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+    // hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else if (req.headers.host.search('central.es') != -1) {
     clientIDRed = 8933;
     hostnameAuth = 'accounts.kyivcity.gov.ua';
@@ -38,6 +38,7 @@ module.exports.callback = (req, res, next)=> {
           grant_type: 'authorization_code'
         }, json: true
       }, (err, resp, body)=> {
+        if(err!=null)return res.redirect(decodeURIComponent(state || "/"));
         //TODO доделать отправку токена на получение пользователя
         resolve(body)
       })
@@ -47,7 +48,6 @@ module.exports.callback = (req, res, next)=> {
   var getUserId = (body)=> {
     return new Promise((resolve, reject)=> {
       request(`https://${hostnameAuth}/user/info?access_token=${body.access_token}`, {json: true}, (error, response, data)=> {
-        // console.log(data);
         if (data == undefined) {
           return res.status(400).redirect(decodeURIComponent(state || "/"));
         }

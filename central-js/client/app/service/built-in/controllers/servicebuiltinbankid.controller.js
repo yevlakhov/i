@@ -541,10 +541,10 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
           var nCRC = ValidationService.getLunaValue(oReturn.id);
           var sID_Order = (
-              window.location.hostname.search('localhost') != -1
+              /*window.location.hostname.search('localhost') != -1
               || window.location.hostname.search('central.es') != -1
               || window.location.hostname.search('test3.es') != -1
-              || window.location.hostname == "poslugy.kyivcity.gov.ua" ? 9 : oServiceData.nID_Server
+              || window.location.hostname == "poslugy.kyivcity.gov.ua" ? 8 :*/ oServiceData.nID_Server
             ) + "-" + oReturn.id + nCRC;
           submitted.data.id = sID_Order;
 
