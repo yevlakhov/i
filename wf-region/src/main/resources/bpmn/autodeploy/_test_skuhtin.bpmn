@@ -19,7 +19,7 @@
     </userTask>
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow2" sourceRef="usertask1" targetRef="endevent1"></sequenceFlow>
-    <serviceTask id="servicetask1" name="Отправка email" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
+    <serviceTask id="servicetask1" name="Service Task" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
         <activiti:field name="from">
           <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
@@ -31,10 +31,7 @@
           <activiti:expression><![CDATA[Повідомлення щодо видачі дублікату декларації про початок виконання будівельних робіт]]></activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[<b>Шановний(-а) ${sSecontName} ${sThirdName}.</b><br /><br />
-Ваше звернення щодо надання аварійного дозволу на проведення земляних робіт успішно зареєстровано і буде опрацьовано впродовж 3 робочих днів.<br /><br />
-Ви отримаєте додаткове повідомлення за результатами розгляду зверення.<br />
-Тестовая заявка<br />]]></activiti:expression>
+          <activiti:expression><![CDATA[Тестове повідомлення]]></activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
@@ -44,28 +41,28 @@
   <bpmndi:BPMNDiagram id="BPMNDiagram__test_skuhtin">
     <bpmndi:BPMNPlane bpmnElement="_test_skuhtin" id="BPMNPlane__test_skuhtin">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="181.0" y="133.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="270.0" y="133.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask1" id="BPMNShape_usertask1">
-        <omgdc:Bounds height="55.0" width="105.0" x="500.0" y="123.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="570.0" y="123.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="endevent1" id="BPMNShape_endevent1">
-        <omgdc:Bounds height="35.0" width="35.0" x="700.0" y="133.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="840.0" y="133.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
-        <omgdc:Bounds height="55.0" width="105.0" x="300.0" y="123.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="390.0" y="123.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow2" id="BPMNEdge_flow2">
-        <omgdi:waypoint x="605.0" y="150.0"></omgdi:waypoint>
-        <omgdi:waypoint x="700.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="675.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="840.0" y="150.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow3" id="BPMNEdge_flow3">
-        <omgdi:waypoint x="216.0" y="150.0"></omgdi:waypoint>
-        <omgdi:waypoint x="300.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="305.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="390.0" y="150.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow4" id="BPMNEdge_flow4">
-        <omgdi:waypoint x="405.0" y="150.0"></omgdi:waypoint>
-        <omgdi:waypoint x="500.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="495.0" y="150.0"></omgdi:waypoint>
+        <omgdi:waypoint x="570.0" y="150.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>
