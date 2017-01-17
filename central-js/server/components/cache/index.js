@@ -27,12 +27,12 @@ function CachedStream (trackBy, getResourceId) {
   var newIndex = [];
 
   self.on('data', function (item) {
-    objectCache.set(item[trackBy], item);
+    objectCache.set(item[trackBy], item,86400);
     newIndex.push(item[trackBy]);
   });
 
   self.on('end', function () {
-    indexCache.set(getResourceId(), newIndex);
+    indexCache.set(getResourceId(), newIndex,86400);
   });
 
 

@@ -11,7 +11,7 @@ var request = require('request')
 var sHost = activiti.protocol + '://' + activiti.hostname + activiti.path;
 
 var cache = new NodeCache();
-var cacheTtl = 300; // 300 seconds = 5 minutes time to live for a cache
+var cacheTtl = 24*60*60; // 300 seconds = 5 minutes time to live for a cache
 
 var buildUrl = function (path) {
   var url = sHost + path;

@@ -8,7 +8,7 @@ var request = require('request');
 var catalogController = require('../catalog/catalog.controller.js');
 var NodeCache = require("node-cache");
 
-var nodeCache = new NodeCache({stdTTL: 10800, checkperiod: 11000});//Chache for 3 hours
+var nodeCache = new NodeCache({stdTTL: 86400, checkperiod: 87000});//Chache for 3 hours
 var sHost = config.protocol + '://' + config.hostname + config.path;
 
 var buildUrl = function (path) {
