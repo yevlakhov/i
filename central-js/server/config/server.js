@@ -32,6 +32,7 @@ module.exports = function (app) {
     }
 
     server.listen(config.server.port, function () {
+      app.set('address',server.address());
       logger.info('Express server listening on port', {port: config.server.port});
     });
   }
