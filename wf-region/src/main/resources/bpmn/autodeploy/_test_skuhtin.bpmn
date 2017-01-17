@@ -22,16 +22,16 @@
     <serviceTask id="servicetask1" name="Service Task" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
         <activiti:field name="from">
-          <activiti:expression><![CDATA[noreply@kyivcity.gov.ua]]></activiti:expression>
+          <activiti:expression>es.admin@gioc.kiev.ua</activiti:expression>
         </activiti:field>
         <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
+          <activiti:expression>${email}</activiti:expression>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression><![CDATA[Повідомлення щодо видачі дублікату декларації про початок виконання будівельних робіт]]></activiti:expression>
+          <activiti:expression>Повідомлення щодо видачі дублікату декларації про початок виконання будівельних робіт</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[Тестове повідомлення]]></activiti:expression>
+          <activiti:expression>Тестове повідомлення</activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
