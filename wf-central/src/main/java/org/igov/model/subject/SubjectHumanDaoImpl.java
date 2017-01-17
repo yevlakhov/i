@@ -7,10 +7,15 @@ import org.springframework.stereotype.Repository;
 import org.igov.model.core.GenericEntityDao;
 
 import java.util.Arrays;
+import org.igov.service.controller.ObjectController;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 @Repository
 public class SubjectHumanDaoImpl extends GenericEntityDao<Long, SubjectHuman> implements SubjectHumanDao {
 
+    private static final Logger LOG = LoggerFactory.getLogger(ObjectController.class);
+    
     @Autowired
     private SubjectDao subjectDao;
 
@@ -88,6 +93,9 @@ public class SubjectHumanDaoImpl extends GenericEntityDao<Long, SubjectHuman> im
         String subjectId = SubjectHuman.getSubjectId(oSubjectHuman.getSubjectHumanIdType(),
                 oSubjectHuman.getsINN());
         oSubjectHuman.getoSubject().setsID(subjectId);
+//        oSubjectHuman.getaSubjectHumanRole().get(0).getName();
+//        LOG.info("oSubjectHuman: " + oSubjectHuman);
+//        System.out.println("oSubjectHuman: " + oSubjectHuman);
         saveOrUpdate(oSubjectHuman);
         return oSubjectHuman;
     }

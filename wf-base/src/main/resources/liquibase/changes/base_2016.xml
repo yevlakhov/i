@@ -492,5 +492,5 @@
             </column>
         </addColumn>
     </changeSet>
-
+   
 </databaseChangeLog>

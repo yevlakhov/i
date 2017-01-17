@@ -5,8 +5,10 @@
  */
 package org.igov.service.business.subject;
 
+import com.google.common.base.Optional;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import org.igov.model.subject.Subject;
 import org.igov.model.subject.SubjectActionKVED;
 import org.igov.model.subject.SubjectActionKVEDDao;
@@ -18,6 +20,8 @@ import org.igov.model.subject.SubjectDao;
 import org.igov.model.subject.SubjectHuman;
 import org.igov.model.subject.SubjectHumanDao;
 import org.igov.model.subject.SubjectHumanIdType;
+import org.igov.model.subject.SubjectHumanRole;
+import org.igov.model.subject.SubjectHumanRoleDao;
 import org.igov.model.subject.organ.SubjectOrganDao;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -45,7 +49,9 @@ public class SubjectService {
     @Autowired
     private SubjectContactTypeDao subjectContactTypeDao;    
     @Autowired
-    private SubjectActionKVEDDao subjectActionKVEDDao; 
+    private SubjectActionKVEDDao subjectActionKVEDDao;
+    @Autowired
+    private SubjectHumanRoleDao subjectHumanRoleDao;
    
     
     public Subject syncSubject_Upload(String sID_Subject_Upload) {
@@ -341,4 +347,29 @@ public class SubjectService {
     public List<SubjectActionKVED> getSubjectActionKVED(String sFind ) {
 	return subjectActionKVEDDao.getSubjectActionKVED(sFind);
     }
+    
+    public SubjectHuman setSubjectHumanRole(Long nID_SubjectHuman, Long nID_SubjectHumanRole){
+        SubjectHuman oSubjectHuman = subjectHumanDao.findByIdExpected(nID_SubjectHuman);
+        SubjectHumanRole oSubjectHumanRole = subjectHumanRoleDao.findByIdExpected(nID_SubjectHumanRole);
+        if (oSubjectHuman != null && oSubjectHumanRole != null) {
+//            aSubjectHumanRole.toArray();
+            System.out.println("SubjectHuman & SubjectHumanRole not null");
+            String res = oSubjectHumanRole.toString();
+//            for (SubjectHumanRole oSubjectHumanRole : aSubjectHumanRole) {
+//               res = res + " " + oSubjectHumanRole.getName();
+//            }
+            System.out.println("oSubjectHumanRole.toString(): " + res);
+            
+            oSubjectHuman.setaSubjectHumanRole((List<SubjectHumanRole>) oSubjectHumanRole);
+            subjectHumanDao.saveOrUpdate(oSubjectHuman);
+            System.out.println("oSubjectHuman.getaSubjectHumanRole().toString(): " + oSubjectHuman.getaSubjectHumanRole().toString());
+            
+            } else {
+            System.out.println("SubjectHuman: " + oSubjectHuman.toString());
+            System.out.println("SubjectHumanRole: " + oSubjectHumanRole.toString());
+        } 
+         
+        
+        return oSubjectHuman;
+    }  
 }

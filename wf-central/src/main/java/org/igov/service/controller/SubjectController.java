@@ -45,6 +45,9 @@ public class SubjectController {
 
     @Autowired
     private SubjectHumanDao subjectHumanDao;
+    
+    @Autowired
+    private SubjectHumanRoleDao subjectHumanRoleDao;
 
     @Autowired
     private SubjectOrganDao subjectOrganDao;
@@ -182,14 +185,23 @@ public class SubjectController {
         @ApiResponse(code = 404, message = "Record not found")})
     @RequestMapping(value = "/getSubjectHuman", method = RequestMethod.GET)
     public @ResponseBody
-    SubjectHuman getSubjectHuman(@ApiParam(value = "номер-ИД субьекта", required = true) @RequestParam(value = "nID_Subject") Long nID_Subject) throws CommonServiceException {
+    String getSubjectHuman(@ApiParam(value = "номер-ИД субьекта", required = true) @RequestParam(value = "nID_Subject") Long nID_Subject) throws CommonServiceException {
         return getSubjectHuman_(nID_Subject);
     }
 
-    private SubjectHuman getSubjectHuman_(Long nID_Subject) throws CommonServiceException {
+    private String getSubjectHuman_(Long nID_Subject) throws CommonServiceException {
         Optional<SubjectHuman> subjectHuman = subjectHumanDao.findById(nID_Subject);
         if (subjectHuman.isPresent()) {
-            return subjectHuman.get();
+            String res = "";
+            
+            System.out.println("ControllerSubjectHumanRole.toArray(): " + res);
+            System.out.println("subjectHuman.get().getName(): " + subjectHuman.get().getName());
+            List<SubjectHumanRole> aSubjectHumanRole = subjectHuman.get().getaSubjectHumanRole();
+            for (SubjectHumanRole subjectHumanRole : aSubjectHumanRole) {
+                res = res + " " + subjectHumanRole.getName();
+                System.out.println("res: " + res);
+            }
+            return res;
         } else {
             throw new CommonServiceException(
                     ExceptionCommonController.BUSINESS_ERROR_CODE,
@@ -900,5 +912,15 @@ public class SubjectController {
         	    throws CommonServiceException {
 	return subjectService.getSubjectActionKVED(sID, sNote); 
     }
-    
+    @ApiOperation(value = "Предоставление сабджекту роли",notes = "Предоставление сабджекту роли")
+    @RequestMapping(value = "/setSubjectHumanRole", method = RequestMethod.GET, headers = {JSON_TYPE})
+    public @ResponseBody
+    SubjectHuman setSubjectHumanRole(
+            @ApiParam(value = "nID_SubjectHuman", required = true) @RequestParam(value = "nID_SubjectHuman", required = true) Long nID_SubjectHuman,
+            @ApiParam(value = "nID_SubjectHumanRole", required = true) @RequestParam(value = "nID_SubjectHumanRole", required = true) Long nID_SubjectHumanRole)
+            throws CommonServiceException {
+       return subjectService.setSubjectHumanRole(nID_SubjectHuman, nID_SubjectHumanRole);
+        
+    }
+     
 }

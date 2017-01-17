@@ -1,6 +1,8 @@
 package org.igov.model.subject;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.ArrayList;
 
 import java.util.List;
 
@@ -39,6 +41,9 @@ public class SubjectHuman extends NamedEntity {
         return newSubjectHuman;
     }
 
+    @ManyToMany(targetEntity=SubjectHumanRole.class, mappedBy = "aSubjectHuman")
+    private List<SubjectHumanRole> aSubjectHumanRole = new ArrayList<>();
+    
     @JsonProperty(value = "oSubject")
     @OneToOne
     @Cascade({CascadeType.SAVE_UPDATE})
@@ -179,12 +184,20 @@ public class SubjectHuman extends NamedEntity {
         this.aContact = aContact;
     }
 
-	public SubjectHumanSex getnID_Sex() {
+    public SubjectHumanSex getnID_Sex() {
 		return nID_Sex;
 	}
 
-	public void setnID_Sex(SubjectHumanSex nID_Sex) {
+    public void setnID_Sex(SubjectHumanSex nID_Sex) {
 		this.nID_Sex = nID_Sex;
 	}
+
     
+    public List<SubjectHumanRole> getaSubjectHumanRole() {
+        return aSubjectHumanRole;
+    }
+
+    public void setaSubjectHumanRole(List<SubjectHumanRole> aSubjectHumanRole) {
+        this.aSubjectHumanRole = aSubjectHumanRole;
+    }
 }
