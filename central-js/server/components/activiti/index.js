@@ -1,10 +1,10 @@
 var request = require('request')
   , async = require('async')
   , _ = require('lodash')
-  , NodeCache = require("node-cache")
+  , NodeCache = require("../cache/index")
   , FormData = require('form-data')
   , StringDecoder = require('string_decoder').StringDecoder
-  , aServerCache = new NodeCache();
+  , aServerCache = NodeCache.cache;
 
 var options;
 
@@ -323,7 +323,7 @@ module.exports.getServerRegion = function (nID_Server, fCompleted) {
     }, function (error, response, body) {
       console.log("[getServerRegion]:error=" + error + ",body=" + body + ",response=" + response);
       var oServer = JSON.parse(body);
-      aServerCache.set(sResourcePath, oServer, 86400); //'api/places/server?nID='+nID_Server
+      aServerCache.set(sResourcePath, oServer); //'api/places/server?nID='+nID_Server
       //console.log("body="+body);
       if (fCompleted !== null) {
         fCompleted(oServer);

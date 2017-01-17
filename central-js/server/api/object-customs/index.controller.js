@@ -1,7 +1,7 @@
 'use strict';
 var zlib = require('zlib');
 var activiti = require('../../components/activiti');
-var cache = require('../../components/cache');
+var cache = require('../../components/cache').CachedStream;
 var JSONStream = require('JSONStream');
 var etag = require('etag');
 var sURL = '/object/getObjectCustoms';

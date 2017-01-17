@@ -2,7 +2,7 @@
 
 var request = require('request')
   , _ = require('lodash')
-  , NodeCache = require("node-cache")
+  , NodeCache = require("../../components/cache/index")
   , config = require('../../config/environment')
   //, config = require('../../config')
   , activiti = config.activiti
@@ -10,8 +10,8 @@ var request = require('request')
 
 var sHost = activiti.protocol + '://' + activiti.hostname + activiti.path;
 
-var cache = new NodeCache();
-var cacheTtl = 24*60*60; // 300 seconds = 5 minutes time to live for a cache
+var cache = NodeCache.cache;
+// var cacheTtl = 24*60*60; // 300 seconds = 5 minutes time to live for a cache
 
 var buildUrl = function (path) {
   var url = sHost + path;
@@ -70,7 +70,7 @@ module.exports.getServicesTree = function (req, res) {
       var callback = function (error, response, body) {
         // set cache key for this particular request
         if (!error) {
-          cache.set(buildKey(options.params), body, cacheTtl);
+          cache.set(buildKey(options.params), body);
           res.json(body);
         } else {
           res.json(errors.createExternalServiceError('Something went wrong', error));
@@ -122,7 +122,7 @@ module.exports.getCatalogTreeTag = function (req, res) {
       var callback = function (error, response, body) {
         // set cache key for this particular request
         if (!error) {
-          cache.set(buildKey(options.params), body, cacheTtl);
+          cache.set(buildKey(options.params), body);
           res.status(response.statusCode).json(body);
         } else {
           res.json(errors.createExternalServiceError('Something went wrong', error));
@@ -220,7 +220,7 @@ module.exports.getCatalogTreeTagService = function (req, res) {
     } else {
       var callback = function (error, response, body) {
         if (!error) {
-          cache.set(buildKey(options.params), body, cacheTtl);
+          cache.set(buildKey(options.params), body);
           res.json(body);
         } else {
           res.json(errors.createExternalServiceError('Something went wrong', error));

@@ -1,8 +1,8 @@
 var request = require('request');
-var NodeCache = require("node-cache" );
+var NodeCache = require("../../components/cache/index" );
 var arrayQuery = require('array-query');
 
-var placesCache = new NodeCache();
+var placesCache = NodeCache.cache;
 
 function getStructure() {
 	var structureKey = 'api/places';
@@ -110,7 +110,7 @@ module.exports = {
       if(error){
         next(error)
       } else {
-        placesCache.set('api/places', JSON.parse(body), 86400);
+        placesCache.set('api/places', JSON.parse(body));
         next();
       }
 		});

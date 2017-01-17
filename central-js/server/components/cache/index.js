@@ -7,6 +7,7 @@ util.inherits(CachedStream, stream.PassThrough);
 
 var indexCache = new NodeCache();
 var objectCache = new NodeCache();
+var exportedCache = new NodeCache({ stdTTL: 24*60*60, checkperiod: 0 });
 
 function fetchObjects (key) {
   return this[key];
@@ -27,12 +28,12 @@ function CachedStream (trackBy, getResourceId) {
   var newIndex = [];
 
   self.on('data', function (item) {
-    objectCache.set(item[trackBy], item,86400);
+    objectCache.set(item[trackBy], item);
     newIndex.push(item[trackBy]);
   });
 
   self.on('end', function () {
-    indexCache.set(getResourceId(), newIndex,86400);
+    indexCache.set(getResourceId(), newIndex);
   });
 
 
@@ -54,4 +55,7 @@ function CachedStream (trackBy, getResourceId) {
   };
 }
 
-module.exports = CachedStream;
+module.exports = {
+  CachedStream:CachedStream,
+  cache:exportedCache
+};

@@ -1,12 +1,12 @@
 'use strict';
 
 var compose = require('composable-middleware')
-  , NodeCache = require("node-cache")
+  , NodeCache = require("../../components/cache/index")
   , errors = require('../errors')
   , subjectService = require('../../api/subject/subject.service')
   , config = require('../../config/environment');
 
-var serversCache = new NodeCache();
+var serversCache = NodeCache.cache;
 
 function addRegion(req, sHost, isCacheUsed, nID_Server){
   req.region = {};
@@ -28,7 +28,7 @@ function _searchForHost (req, res, next) {
               // if(config.server.sServerRegion.search("kievcity")!=-1){
               //   sHost.sURL = `https://${config.activiti.hostname}/wf`;
               // }
-              serversCache.set(nID_Server, sHost, 100000, function (cacheError, success) {
+              serversCache.set(nID_Server, sHost, function (cacheError, success) {
                 if (!cacheError && success) {
                   addRegion(req, sHost, false, nID_Server);
                   next();

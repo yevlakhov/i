@@ -6,9 +6,9 @@ var environmentConfig = require('../../config/environment');
 var config = environmentConfig.activiti;
 var request = require('request');
 var catalogController = require('../catalog/catalog.controller.js');
-var NodeCache = require("node-cache");
+var NodeCache = require("../../components/cache/index");
 
-var nodeCache = new NodeCache({stdTTL: 86400, checkperiod: 87000});//Chache for 3 hours
+var nodeCache = NodeCache.cache;//Chache for 3 hours
 var sHost = config.protocol + '://' + config.hostname + config.path;
 
 var buildUrl = function (path) {

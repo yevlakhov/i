@@ -1,8 +1,8 @@
-var NodeCache = require("node-cache" );
+var NodeCache = require("../cache/index" );
 //var uuid = require("uuid");
 var crypto = require('crypto');
 
-var adminKeysCache = new NodeCache();
+var adminKeysCache = NodeCache.cache;
 var cacheKey = 'admin-keys-map';
 // ��� �������
 var aAdminInn = [
@@ -238,7 +238,7 @@ var getAdminKeys = function () {
 };
 
 var setAdminKeys = function (value) {
-	adminKeysCache.set(cacheKey, value,86400);
+	adminKeysCache.set(cacheKey, value);
 };
 
 var generateAdminToken = function (inn) {
