@@ -12,14 +12,9 @@
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string"></activiti:formProperty>
-        <!--activiti:formProperty id="sPersonAddress" name="Місце проживання" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sPersonPassport" name="Паспортні дані" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sPersonINN" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string"></activiti:formProperty-->
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" default="Потрібна інтеграція з обліковою системою"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <!--activiti:formProperty id="sLegalAddress" name="Місцезнаходження" type="string"></activiti:formProperty-->
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
-        <!--activiti:formProperty id="phone" name="Номер телефону" type="string" required="true"></activiti:formProperty-->
         <activiti:formProperty id="email" name="Електронна адреса" type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" required="true"></activiti:formProperty>

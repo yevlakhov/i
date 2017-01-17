@@ -920,7 +920,9 @@ execution.setVariable('sAnswerEmail', res)
     </userTask>
     <exclusiveGateway id="exclusivegateway14" name="Exclusive Gateway"></exclusiveGateway>
     <boundaryEvent id="boundarytimer2" name="Timer" attachedToRef="usertask_Assignee11_Group" cancelActivity="true">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition>
+        <timeDuration>PT5S</timeDuration>
+      </timerEventDefinition>
     </boundaryEvent>
     <exclusiveGateway id="exclusivegateway15" name="Exclusive Gateway"></exclusiveGateway>
     <sequenceFlow id="flow92" sourceRef="boundarytimer2" targetRef="exclusivegateway15"></sequenceFlow>
