@@ -1,4 +1,4 @@
-.lowvision{
+.lowvision {
   .scrollToTop {
     background-color: #585a5a;
   }
@@ -39,69 +39,70 @@
     color: #727373;
   }
 
-  .js-news-crumb.fix-crumb{
+  .js-news-crumb.fix-crumb {
     background-color: #585a5a !important;
   }
 
   .category__item-list-item {
-    .servises-status{
+    .servises-status {
       background: #000000;
     }
-    a{
+    a {
       color: #000000;
-      &:hover{
+      &:hover {
         color: #727373 !important;
         border-bottom-color: #727373 !important;
       }
     }
     > p > i.glyphicon {
       color: #585a5a !important;
-    };
-    > div > a{
+    }
+  ;
+    > div > a {
       color: #585a5a !important;
-      &:hover{
+      &:hover {
         color: #727373 !important;
         border-bottom-color: #727373 !important;
       }
     }
   }
 
-  .link-main{
+  .link-main {
     color: #585a5a !important;
-    &:hover{
+    &:hover {
       color: #727373 !important;
       border-bottom-color: #727373 !important;
     }
   }
-  .instructions ul{
-    &:before,&:after{
+  .instructions ul {
+    &:before, &:after {
       border-color: #585a5a;
     }
-    li{
-      &:before{
+    li {
+      &:before {
         background-color: #585a5a;
       }
     }
   }
-  .service-content-form-massege--red{
+  .service-content-form-massege--red {
     color: #585a5a !important;
   }
-  .service-content-form-label{
+  .service-content-form-label {
     color: #585a5a !important;
   }
-  .nav.nav-tabs{
-    &.longTabs{
-      li{
+  .nav.nav-tabs {
+    &.longTabs {
+      li {
         margin-right: 9px;
-        a{
+        a {
           line-height: 45px;
           color: black;
         }
-        &.active{
+        &.active {
           z-index: 1;
-          a{
+          a {
             background-color: #ffffff !important;
-            &:after{
+            &:after {
               content: '';
               position: absolute;
               left: 0;
@@ -114,17 +115,17 @@
         }
       }
     }
-    li{
-      a{
+    li {
+      a {
         border: 3px solid black;
         margin-bottom: -3px;
         background-color: #d6d6d6 !important;
         position: relative;
         line-height: 2.42857143;
-        &.active-tab{
+        &.active-tab {
           z-index: 1;
           background-color: #ffffff !important;
-          &:after{
+          &:after {
             content: '';
             position: absolute;
             left: 0;
@@ -138,24 +139,23 @@
     }
   }
 
-  .igov-container,.service-content{
+  .igov-container, .service-content {
     border: 3px solid black;
   }
 
-  .category-container-text{
-    ul{
-      li{
-        a{
-          color:#585a5a !important;
+  .category-container-text {
+    ul {
+      li {
+        a {
+          color: #585a5a !important;
         }
       }
     }
   }
 
-  .category-container-img a{
+  .category-container-img a {
     display: none !important;
   }
-
 
   .footer__sidebar-dev a {
     color: #fff;
@@ -301,52 +301,71 @@
   .events__sidebar .dropdown-menu > li > a {
     color: #000;
   }
-  .article-block a:not(.button-subscribe){
+  .article-block a:not(.button-subscribe) {
     color: #585a5a !important;
   }
 
-  .similar-situation li a{
+  .similar-situation li a {
     color: #585a5a !important;
-    &:hover{
+    &:hover {
       color: #727373 !important;
       border-bottom-color: #727373 !important;
     }
   }
 
-  .social-share a .a{
+  .social-share a .a {
     fill: #000 !important;
   }
-  .social-share a:hover .a{
+  .social-share a:hover .a {
     fill: #585a5a !important;
   }
-  .igov-container ol li:before{
+  .igov-container ol li:before {
     background-color: #585a5a !important;
   }
 
-  .notfound{
+  .notfound {
     &__inner {
       &-error {
         color: #585a5a;
       }
-      &-title{
+      &-title {
         color: #585a5a;
       }
-      &-text{
-        a{
+      &-text {
+        a {
           color: #585a5a;
         }
       }
     }
   }
 
-
   /*----------------------- Vars LowVision ------------------------*/
 }
-.journal{
-  &__title--label--processing{
-    background-color:#585a5a !important;
+
+.journal {
+  &__title--label--processing {
+    background-color: #585a5a !important;
   }
-  .service-item-title{
-    color:#585a5a !important;
+  .service-item-title {
+    color: #585a5a !important;
+  }
+  .journal__body--massege .u21.my + .u31 {
+    background-color: #868787 !important;
+  }
+  &__body--massege .u31 {
+    a {
+      color: #585a5a !important;
+      &:hover {
+        color: #727373 !important;
+        border-bottom-color: #727373 !important;
+      }
+    }
+  }
+  .link-green {
+    color: #585a5a !important;
+    &:hover {
+      color: #727373 !important;
+      border-bottom-color: #727373 !important;
+    }
   }
 }
