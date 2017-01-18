@@ -217,7 +217,7 @@
         <activiti:formProperty id="sSupervisionPib" name="ПІБ особи, яка здійснює технічний нагляд;Наприклад, Іванов Петро Васильович" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionPhone" name="Номер телефону особи, яка здійснює технічний нагляд" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionCertificate" name="Серія та номер кваліфікаційного сертифікату" type="string"></activiti:formProperty>
-        <activiti:formProperty id="asConstructionOnBasis" name="Земельна ділянка використовується для будівництва на підставі:" type="string" ></activiti:formProperty>
+        <activiti:formProperty id="sConstructionOnBasis" name="Земельна ділянка використовується для будівництва на підставі:" type="string" ></activiti:formProperty>
         <activiti:formProperty id="sOwnershipDoc" name="Дата, серія та номер документу, що посвідчує право власності чи користування земельною ділянкою" type="string" ></activiti:formProperty>
         <activiti:formProperty id="landNumb" name="Кадастровий номер земельної ділянки" type="string" ></activiti:formProperty>
         <activiti:formProperty id="asGeneralContractor" name="Генеральний підрядник:;у разі, коли будівельні роботи виконуються без залучення субпідрядників – підрядник" type="enum" >
@@ -359,10 +359,7 @@
         <activiti:formProperty id="sSupervisionPib" name="ПІБ особи, яка здійснює технічний нагляд;Наприклад, Іванов Петро Васильович" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionPhone" name="Номер телефону особи, яка здійснює технічний нагляд" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionCertificate" name="Серія та номер кваліфікаційного сертифікату" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asConstructionOnBasis" name="Земельна ділянка використовується для будівництва на підставі:" type="enum" writable="false">
-          <activiti:value id="sEnumOwnership" name="Документ, що посвідчує право власності чи користування земельною ділянкою"></activiti:value>
-          <activiti:value id="sEnumSuperficies" name="Договір суперфіцію"></activiti:value>
-        </activiti:formProperty>
+        <activiti:formProperty id="sConstructionOnBasis" name="Земельна ділянка використовується для будівництва на підставі:" type="string" ></activiti:formProperty>
         <activiti:formProperty id="sOwnershipDoc" name="Дата, серія та номер документу, що посвідчує право власності чи користування земельною ділянкою" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sSuperficiesDoc" name="Дата та номер договору суперфіцію" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="landNumb" name="Кадастровий номер земельної ділянки" type="string" writable="false"></activiti:formProperty>
