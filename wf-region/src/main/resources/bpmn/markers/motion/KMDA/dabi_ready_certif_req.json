@@ -2,13 +2,12 @@
   "motion": 
     {
     "RequiredFieldsOnCondition_Person": 
-      {"aField_ID":
-        ["sPersonLastName","sPersonFirstName","sPersonMiddleName","sPersonAddress","sPersonPassport","sPersonINN"], 
+      {"aField_ID":  ["sPersonLastName","sPersonFirstName","sPersonMiddleName"], 
        "asID_Field": {"sCondit":"asApplicantType"},
        "sCondition": "[sCondit] == 'sEnumAppPerson'"
       },    
     "RequiredFieldsOnCondition_Legal": 
-      {"aField_ID": 	["sLegalForm","sLegalName","sLegalAddress","sLegalEDRPOU"], 
+      {"aField_ID": 	["sLegalForm","sLegalName","sLegalEDRPOU"], 
        "asID_Field": 	{"sCondit":"asApplicantType"},
        "sCondition": 	"[sCondit] == 'sEnumAppLegal'"
       },
@@ -23,37 +22,35 @@
        "sCondition": 	"[sCondit] == 'sEnumSuperficies'"
       },
     "RequiredFieldsOnCondition_ContrPers": 
-      {"aField_ID": 	["sGenPersonName","sGenPersonPassport","sGenPersonAddress","sGenPersonINN"], 
+      {"aField_ID": 	["sGenPersonName"], 
        "asID_Field": 	{"sCondit":"asGeneralContractor"},
        "sCondition": 	"[sCondit] == 'sEnumGenPerson'"
       },
     "RequiredFieldsOnCondition_ContrLegal": 
-      {"aField_ID": 	["sGenLegalForm","sGenLegalName","sGenLegalAddress","sGenLegalINN"], 
+      {"aField_ID": 	["sGenLegalForm","sGenLegalName","sGenLegalINN"], 
        "asID_Field": 	{"sCondit":"asGeneralContractor"},
        "sCondition": 	"[sCondit] == 'sEnumGenLegal'"
       },
     "RequiredFieldsOnCondition_DesignPers": 
-      {"aField_ID": 	["sProjectPib","sProjectPassport","sProjectAddress","sProjectInn"], 
+      {"aField_ID": 	["sProjectPib"], 
        "asID_Field": 	{"sCondit":"asProject"},
        "sCondition": 	"[sCondit] == 'sEnumProjectPerson'||[sCondit] == 'Фізична особа'"
       },
     "RequiredFieldsOnCondition_DesignLegal": 
-      {"aField_ID": 	["sProjectOrganizationForm","sProjectOrganizationName","sProjectOrganizationAddress","sProjectOrganizationInn"], 
+      {"aField_ID": 	["sProjectOrganizationForm","sProjectOrganizationName","sProjectOrganizationInn"], 
        "asID_Field": 	{"sCondit":"asProject"},
        "sCondition": 	"[sCondit] == 'sEnumProjectLegal'||[sCondit] == 'Юридична особа'"
       },
     "RequiredFieldsOnCondition_DesignSubPers": 
-      {"aField_ID": 	["sDesignerPib","sDesignerPassport","sDesignerAddress","sDesignerInn"], 
+      {"aField_ID": 	["sDesignerPib"], 
        "asID_Field": 	{"sCondit":"asDesignerSubContr"},
        "sCondition": 	"[sCondit] == 'sEnumPerson'||[sCondit] == 'Фізична особа'"
       },
     "RequiredFieldsOnCondition_DesignSubLegal": 
-      {"aField_ID": 	["sDesignerOrgForm","sDesignerOrgName","sDesignerOrgAddress","sDesignerOrgInn"], 
+      {"aField_ID": 	["sDesignerOrgForm","sDesignerOrgName","sDesignerOrgInn"], 
        "asID_Field": 	{"sCondit":"asDesignerSubContr"},
        "sCondition": 	"[sCondit] == 'sEnumLegal'||[sCondit] == 'Юридична особа'"
       },
-
-
     "RequiredFieldsOnCondition_DecisionYes": 
       {"aField_ID": 	["sID_NumberDABI"], 
        "asID_Field": 	{"sCondit":"asDecision"},
