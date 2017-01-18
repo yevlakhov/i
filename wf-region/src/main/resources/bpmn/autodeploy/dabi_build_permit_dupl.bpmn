@@ -732,7 +732,7 @@
             <activiti:expression><![CDATA[kyiv_dabi_permit_doc_boss]]></activiti:expression>
           </activiti:field>
           <activiti:field name="sUsernameListener">
-            <activiti:expression><![CDATA[${sLoginAsignee}]]></activiti:expression>
+            <activiti:expression><![CDATA[${sLoginAsignee_step6}]]></activiti:expression>
           </activiti:field>
           <activiti:field name="resultListener">
             <activiti:expression><![CDATA[sResult]]></activiti:expression>
