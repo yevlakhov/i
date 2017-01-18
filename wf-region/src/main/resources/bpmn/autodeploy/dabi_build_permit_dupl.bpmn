@@ -254,6 +254,7 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comment" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
@@ -432,6 +433,7 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comment" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
@@ -725,6 +727,17 @@
     <userTask id="usertask1" name="CheckAssigneeGroup" activiti:candidateGroups="kyiv_dabi_doc">
       <extensionElements>
         <activiti:formProperty id="sResult" name="Виконавець-керівник відділу?" type="string"></activiti:formProperty>
+        <activiti:taskListener event="create" delegateExpression="${checkUserGroup}">
+          <activiti:field name="sGroupListener">
+            <activiti:expression><![CDATA[kyiv_dabi_permit_doc_boss]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="sUsernameListener">
+            <activiti:expression><![CDATA[${sLoginAsignee}]]></activiti:expression>
+          </activiti:field>
+          <activiti:field name="resultListener">
+            <activiti:expression><![CDATA[sResult]]></activiti:expression>
+          </activiti:field>
+        </activiti:taskListener>
       </extensionElements>
     </userTask>
     <boundaryEvent id="boundarytimer6" name="Timer" attachedToRef="usertask1" cancelActivity="true">
