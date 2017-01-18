@@ -19,11 +19,8 @@
         <activiti:formProperty id="sPersonsInvolvedAudit" name="Особи, які залучені до перевірки (посади, прізвища та ініціали)" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкту, на якому необхідно здійснити перевірку" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Місцезнаходження об’єкту, на якому необхідно здійснити перевірку" type="string" writable="false"></activiti:formProperty>
-
-        <activiti:formProperty id="oPrescription1" name="Приписи про усунення порушення" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tPrescription1.json')}"></activiti:formProperty>
-        <activiti:formProperty id="oPrescription2" name="Приписи про зупинення робіт" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tPrescription1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="oPrescription1" name="Приписи" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tPrescription1.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker1" name="table_marker" type="markers" default="${markerService.loadFromFile('KMDA/_test_print_table.json')}"></activiti:formProperty>
-        
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nFile1}]]></activiti:expression>
@@ -35,8 +32,8 @@
     <endEvent id="endevent1" name="End"></endEvent>
     <sequenceFlow id="flow2" sourceRef="usertask6" targetRef="endevent1"></sequenceFlow>
   </process>
-  <bpmndi:BPMNDiagram id="BPMNDiagram_kyiv_mda_1093">
-    <bpmndi:BPMNPlane bpmnElement="kyiv_mda_1093" id="BPMNPlane_kyiv_mda_1093">
+  <bpmndi:BPMNDiagram id="BPMNDiagram__test_print_table">
+    <bpmndi:BPMNPlane bpmnElement="_test_print_table" id="BPMNPlane__test_print_table">
       <bpmndi:BPMNShape bpmnElement="startevent1" id="BPMNShape_startevent1">
         <omgdc:Bounds height="35.0" width="35.0" x="70.0" y="168.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
