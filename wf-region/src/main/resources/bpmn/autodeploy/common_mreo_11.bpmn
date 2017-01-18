@@ -21,7 +21,7 @@
     <serviceTask id="servicetask1" name="Service Task" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
         <activiti:field name="from">
-          <activiti:expression>noreply@kyivcity.gov.ua</activiti:expression>
+          <activiti:expression>es.admin@gioc.kiev.ua</activiti:expression>
         </activiti:field>
         <activiti:field name="to">
           <activiti:expression>${email}</activiti:expression>
