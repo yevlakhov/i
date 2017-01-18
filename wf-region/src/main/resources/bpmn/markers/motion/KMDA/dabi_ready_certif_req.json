@@ -2,8 +2,7 @@
   "motion": 
     {
     "RequiredFieldsOnCondition_Person": 
-      {"aField_ID":
-        ["sPersonLastName","sPersonFirstName","sPersonMiddleName"], 
+      {"aField_ID":  ["sPersonLastName","sPersonFirstName","sPersonMiddleName"], 
        "asID_Field": {"sCondit":"asApplicantType"},
        "sCondition": "[sCondit] == 'sEnumAppPerson'"
       },    
