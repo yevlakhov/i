@@ -6,7 +6,8 @@
         <activiti:formProperty id="sName" name="Name" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSecondName" name="SecondName" type="string"></activiti:formProperty>
         <activiti:formProperty id="sThirdName" name="ThirdName" type="string"></activiti:formProperty>
-        <activiti:formProperty id="email" name="Електронна адреса для зворотнього зв'язку" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="email" name="Електронна адреса для зворотнього зв'язку" type="string"></activiti:formProperty>
+        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/_test_no_email.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
     <userTask id="usertask1" name="Check POST" activiti:candidateGroups="sales">
