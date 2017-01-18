@@ -340,20 +340,27 @@
   }
 
   /*----------------------- Vars LowVision ------------------------*/
-}
 
-.journal {
-  &__title--label--processing {
-    background-color: #585a5a !important;
-  }
-  .service-item-title {
-    color: #585a5a !important;
-  }
-  .journal__body--massege .u21.my + .u31 {
-    background-color: #868787 !important;
-  }
-  &__body--massege .u31 {
-    a {
+  .journal {
+    &__title--label--processing {
+      background-color: #585a5a !important;
+    }
+    .service-item-title {
+      color: #585a5a !important;
+    }
+    .journal__body--massege .u21.my + .u31 {
+      background-color: #868787 !important;
+    }
+    &__body--massege .u31 {
+      a {
+        color: #585a5a !important;
+        &:hover {
+          color: #727373 !important;
+          border-bottom-color: #727373 !important;
+        }
+      }
+    }
+    .link-green {
       color: #585a5a !important;
       &:hover {
         color: #727373 !important;
@@ -361,11 +368,6 @@
       }
     }
   }
-  .link-green {
-    color: #585a5a !important;
-    &:hover {
-      color: #727373 !important;
-      border-bottom-color: #727373 !important;
-    }
-  }
+
+
 }
