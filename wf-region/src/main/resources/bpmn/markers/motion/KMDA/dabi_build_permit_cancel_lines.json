@@ -13,8 +13,8 @@
       "sValue": "Суд"        
     },
     "Line_Doc": {
-      "aElement_ID": ["sBuildDeclarNumber"],
-      "sValue": "Декларація про початок виконання будівельних робіт"        
+      "aElement_ID": ["sBuildPermitNumber"],
+      "sValue": "Реквізити документа"        
     }
   }
 }
