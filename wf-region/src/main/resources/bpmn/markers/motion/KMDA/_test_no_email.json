@@ -1,6 +1,6 @@
 {
 "validate" : {
     "Mail": 
-        {"aField_ID": ["email_"]}
+        {"aField_ID": ["email"]}
   }
 }
