@@ -250,14 +250,13 @@
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sObjectLink" name="Посилання на картку об’єкту" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_valid.json')}"></activiti:formProperty>
-        <activiti:taskListener event="create" delegateExpression="${assignUser}">
+            <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step8]]></activiti:expression>
           </activiti:field>
@@ -440,6 +439,7 @@
         <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sBuildPermitNumber" name="Номер дозволу на виконання будівельних робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBuildPermitDate" name="Дата видачі  дозволу на виконання будівельних робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
@@ -541,6 +541,7 @@
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
@@ -551,9 +552,7 @@
         <activiti:formProperty id="sObjectLink" name="Посилання на картку об’єкту" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sOrderAttr" name="Атрибути наказу" type="string"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_valid.json')}"></activiti:formProperty>
-        <activiti:taskListener event="create" delegateExpression="${assignUser}">
+       <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step10]]></activiti:expression>
           </activiti:field>
@@ -649,6 +648,7 @@
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
@@ -778,12 +778,11 @@
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="-------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sContrBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sContrEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_build_permit_cancel_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step9]]></activiti:expression>

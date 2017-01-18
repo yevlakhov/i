@@ -16,6 +16,10 @@
       {"aField_ID":  ["sCourtName","sJudgementNumber","sJudgementDate","sJudgement","sLabel_Court"], 
        "asID_Field": {"sCondit":"asCancelReason"},
        "sCondition": "[sCondit] == 'sEnumByCourt'||[sCondit] == 'за рішенням суду'"
-      }          
+      },
+    "ShowFieldsOnNotEmpty_Court": {
+      "aField_ID": ["sLabel_Court"],
+      "sField_ID_s": "sCourtName"
+      }         
     }
 }
