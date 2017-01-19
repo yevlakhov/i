@@ -99,6 +99,7 @@ angular.module('app', [
       $rootScope.isLowVision = true;
     }
   }
+  $rootScope.currentYear = new Date().getFullYear();
   $rootScope.$on("$stateChangeSuccess", function (event, toState, toParams, fromState, fromParams, error) {
     $rootScope.loginPathRedirect = window.location.protocol + "//" + window.location.host + "/auth/myOAuth&state=" + $location.$$path
   });
