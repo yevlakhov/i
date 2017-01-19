@@ -5,8 +5,8 @@
       <div class="row">
         <div class="col-md-12">
           <ol class="breadcrumb">
-            <li class="breadcrumb-item" ng-if="catalogTab != 2"><a href="/">Головна</a></li>
-            <li class="breadcrumb-item" ng-if="catalogTab == 2"><a href="/2">Головна</a></li>
+            <li class="breadcrumb-item" ng-click="clear()" ng-if="catalogTab != 2"><a href="/">Головна</a></li>
+            <li class="breadcrumb-item" ng-click="clear()" ng-if="catalogTab == 2"><a href="/2">Головна</a></li>
             <li class="breadcrumb-item active">{{subcategory.oServiceTag_Root.sName_UA}}</li>
           </ol>
         </div>
