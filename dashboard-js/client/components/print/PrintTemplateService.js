@@ -67,7 +67,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 			                      if( field.id === printsItem.sTitleField )  { 
 		
 		                          itemObject.oField = field; 
-		                          itemObject.sLabel = (field.type === 'enum' ? field.a[field.value].name : field.value); 
+		                          itemObject.sLabel = (field.type === 'enum' && field.a ? field.a[field.value].name : field.value); 
 		
 		                          return; 
 			                      } 
@@ -78,7 +78,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                    if( itemObject.sLabel === "" ) { 
 		                      
 		                      itemObject.oField = item.aField[0]; 
-		                      itemObject.sLabel = (itemObject.oField.type === 'enum' ? itemObject.oField.a[itemObject.oField.value].name : itemObject.oField.value);
+		                      itemObject.sLabel = (itemObject.oField.type === 'enum' && itemObject.oField.a ? itemObject.oField.a[itemObject.oField.value].name : itemObject.oField.value);
 		
 		                    } 
 		                    
