@@ -8,7 +8,7 @@
       'taskForm', 'iGovNavbarHelper', 'Modal', 'Auth', 'defaultSearchHandlerService',
       '$state', 'stateModel', 'ValidationService', 'FieldMotionService', 'FieldAttributesService', '$rootScope',
       'lunaService', 'TableService', 'autocompletesDataFactory', 'documentRights', 'documentLogins', '$filter',
-      'processSubject', '$document', 
+      'processSubject', '$document',
       function ($scope, $stateParams, taskData, oTask, PrintTemplateService, iGovMarkers, tasks, user,
                 taskForm, iGovNavbarHelper, Modal, Auth, defaultSearchHandlerService,
                 $state, stateModel, ValidationService, FieldMotionService, FieldAttributesService, $rootScope,
@@ -22,10 +22,12 @@
           }
         };
         function getRegexContains(str, splitBy, part) {
-          var as = str.split(splitBy);
-          for (var i = 0; i < as.length; i++) {
-            if (as[i].includes(part)) {
-              return as[i];
+          if(str.includes(splitBy)) {
+            var as = str.split(splitBy);
+            for (var i = 0; i < as.length; i++) {
+              if (as[i].includes(part)) {
+                return as[i];
+              }
             }
           }
           return null;
@@ -60,9 +62,11 @@
           var item = getObjFromTaskFormById(sLoginAsignee);
           if (item !== null) {
             var as = getRegexContains(item.name, ';', param);
-            as = getRegexContains(as, ',', param);
-            var sID = as.split('=')[1];
-            return sID;
+            if(as != null) {
+              as = getRegexContains(as, ',', param);
+              var sID = as.split('=')[1];
+              return sID;
+            }
           }
           return null;
         }
@@ -332,7 +336,7 @@
 
         $scope.taskForm = addIndexForFileItems(taskForm);
 
-        $scope.printTemplateList = {}; 
+        $scope.printTemplateList = {};
 
         $scope.taskForm.taskData = taskData;
 
@@ -1082,7 +1086,7 @@
 
         TableService.init($scope.taskForm);
 
-        $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); }); 
+        $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); });
 
         var idMatch = function () {
           angular.forEach($scope.taskForm, function (item, key, obj) {
@@ -1133,13 +1137,13 @@
           return true;
         };
 
-        $scope.print = function (form, isMenuItem) { 
+        $scope.print = function (form, isMenuItem) {
 
-          if( !isMenuItem ) { // Click on Button 
-            $scope.updateTemplateList(); 
-          } 
+          if( !isMenuItem ) { // Click on Button
+            $scope.updateTemplateList();
+          }
 
-          if ( ( $scope.printTemplateList.length === 0 || isMenuItem ) && $scope.selectedTask && $scope.taskForm) { 
+          if ( ( $scope.printTemplateList.length === 0 || isMenuItem ) && $scope.selectedTask && $scope.taskForm) {
             rollbackReadonlyEnumFields();
             $scope.printModalState.show = !$scope.printModalState.show;
           }
@@ -1164,7 +1168,7 @@
               })
             }
           });
-          $scope.updateTemplateList(); 
+          $scope.updateTemplateList();
         };
         $scope.searchingTablesForPrint();
 
