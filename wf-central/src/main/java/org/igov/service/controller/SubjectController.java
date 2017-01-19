@@ -186,28 +186,50 @@ public class SubjectController {
     @RequestMapping(value = "/getSubjectHuman", method = RequestMethod.GET)
     public @ResponseBody
     String getSubjectHuman(@ApiParam(value = "номер-ИД субьекта", required = true) @RequestParam(value = "nID_Subject") Long nID_Subject) throws CommonServiceException {
-        return getSubjectHuman_(nID_Subject);
+        try {
+            return getSubjectHuman_(nID_Subject).toString();
+        } catch (Exception ex) {
+          return ex.getMessage() + " : " + stackTraceToString(ex);
+        }
+
     }
 
+//    private String getSubjectHuman_(Long nID_Subject) throws CommonServiceException {
+//        Optional<SubjectHuman> subjectHuman = subjectHumanDao.findById(nID_Subject);
+//        if (subjectHuman.isPresent()) {
+//            String res = "";
+//            
+//            System.out.println("ControllerSubjectHumanRole.toArray(): " + res);
+//            System.out.println("subjectHuman.get().getName(): " + subjectHuman.get().getName());
+//            List<SubjectHumanRole> aSubjectHumanRole = subjectHuman.get().getaSubjectHumanRole();
+//            for (SubjectHumanRole subjectHumanRole : aSubjectHumanRole) {
+//                res = res + " " + subjectHumanRole.getName();
+//                System.out.println("res: " + res);
+//            }
+//            return res;
+//        } else {
+//            throw new CommonServiceException(
+//                    ExceptionCommonController.BUSINESS_ERROR_CODE,
+//                    "Record not found",
+//                    HttpStatus.NOT_FOUND);
+//        }
+//    }
+    
     private String getSubjectHuman_(Long nID_Subject) throws CommonServiceException {
         Optional<SubjectHuman> subjectHuman = subjectHumanDao.findById(nID_Subject);
-        if (subjectHuman.isPresent()) {
-            String res = "";
-            
-            System.out.println("ControllerSubjectHumanRole.toArray(): " + res);
-            System.out.println("subjectHuman.get().getName(): " + subjectHuman.get().getName());
-            List<SubjectHumanRole> aSubjectHumanRole = subjectHuman.get().getaSubjectHumanRole();
-            for (SubjectHumanRole subjectHumanRole : aSubjectHumanRole) {
-                res = res + " " + subjectHumanRole.getName();
-                System.out.println("res: " + res);
-            }
-            return res;
+        try {
+           if (subjectHuman.isPresent()) {
+            return subjectHuman.get().getName();
         } else {
             throw new CommonServiceException(
                     ExceptionCommonController.BUSINESS_ERROR_CODE,
                     "Record not found",
                     HttpStatus.NOT_FOUND);
+        } 
+        } catch (Exception ex) {
+            return ex.getMessage() + " : " + stackTraceToString(ex);
         }
+        
     }
 
     @ApiOperation(value = "/getSubjectOrgan", notes = "##### SubjectController - Субъекты  и смежные сущности. Получение объекта SubjectOrgan по номеру #####\n\n"
@@ -915,12 +937,19 @@ public class SubjectController {
     @ApiOperation(value = "Предоставление сабджекту роли",notes = "Предоставление сабджекту роли")
     @RequestMapping(value = "/setSubjectHumanRole", method = RequestMethod.GET, headers = {JSON_TYPE})
     public @ResponseBody
-    SubjectHuman setSubjectHumanRole(
+    String setSubjectHumanRole(
             @ApiParam(value = "nID_SubjectHuman", required = true) @RequestParam(value = "nID_SubjectHuman", required = true) Long nID_SubjectHuman,
             @ApiParam(value = "nID_SubjectHumanRole", required = true) @RequestParam(value = "nID_SubjectHumanRole", required = true) Long nID_SubjectHumanRole)
             throws CommonServiceException {
        return subjectService.setSubjectHumanRole(nID_SubjectHuman, nID_SubjectHumanRole);
         
     }
-     
+     public String stackTraceToString(Throwable e) {
+        StringBuilder sb = new StringBuilder();
+        for (StackTraceElement element : e.getStackTrace()) {
+            sb.append(element.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }

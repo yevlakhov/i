@@ -34,10 +34,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class SubjectService {
-    
-     private static final Logger LOG = LoggerFactory.getLogger(SubjectService.class);
 
-    
+    private static final Logger LOG = LoggerFactory.getLogger(SubjectService.class);
+
     @Autowired
     private SubjectDao subjectDao;
     @Autowired
@@ -47,13 +46,12 @@ public class SubjectService {
     @Autowired
     private SubjectHumanDao subjectHumanDao;
     @Autowired
-    private SubjectContactTypeDao subjectContactTypeDao;    
+    private SubjectContactTypeDao subjectContactTypeDao;
     @Autowired
     private SubjectActionKVEDDao subjectActionKVEDDao;
     @Autowired
     private SubjectHumanRoleDao subjectHumanRoleDao;
-   
-    
+
     public Subject syncSubject_Upload(String sID_Subject_Upload) {
         Subject subject_Upload = subjectDao.getSubject(sID_Subject_Upload);
         if (subject_Upload == null) {
@@ -61,234 +59,192 @@ public class SubjectService {
         }
         return subject_Upload;
     }
-    
-     public List<SubjectContact> syncContactsService(String snID_Subject, String sMail, String sPhone)
-    {
+
+    public List<SubjectContact> syncContactsService(String snID_Subject, String sMail, String sPhone) {
         LOG.info("(Вход в syncContactsService snID_Subject {}, sMail {})", snID_Subject, sMail);
         List<SubjectContact> listContacts = new ArrayList();
-        
+
         Long nID_Subject = convertStringToLong(snID_Subject);
         LOG.info("(before getSubject nID_Subject {})", nID_Subject);
         Subject subject = null;
         Subject subjectsID_Mail = null;
         Subject subjectsID_Phone = null;
         SubjectHuman oSubjectHuman = null;
-        if(nID_Subject != null)
-        {
+        if (nID_Subject != null) {
             subject = this.getSubjectObjectBynID(nID_Subject);
-            if(subject != null)
-              oSubjectHuman = getSubjectHuman(subject);
+            if (subject != null) {
+                oSubjectHuman = getSubjectHuman(subject);
+            }
+        } else {
+            if (sMail != null) {
+                String sID = this.getsID(sMail, null);
+                subjectsID_Mail = this.getSubjectObject(sID, sMail);
+            }
+            if (sPhone != null) {
+                String sID = this.getsID(null, sPhone);
+                subjectsID_Phone = this.getSubjectObject(sID, sPhone);
+            }
+
+            if (sMail != null && subjectsID_Mail == null) {
+                if (subjectsID_Phone != null && !subjectsID_Phone.getsID().startsWith("_")) {
+                    subjectsID_Mail = subjectsID_Phone;
+                } else {
+                    String sID = this.getsID(sMail, null);
+                    subjectsID_Mail = this.createSubject(sID);
+                }
+            }
+            if (sPhone != null && subjectsID_Phone == null) {
+                if (subjectsID_Mail != null && !subjectsID_Mail.getsID().startsWith("_")) {
+                    subjectsID_Phone = subjectsID_Mail;
+                } else {
+                    String sID = this.getsID(null, sPhone);
+                    subjectsID_Phone = this.createSubject(sID);
+                }
+            }
+
         }
-        else
-        {
-           if(sMail != null)
-           {
-              String sID = this.getsID(sMail, null);
-              subjectsID_Mail = this.getSubjectObject(sID, sMail);
-           }
-           if(sPhone != null)
-           {
-              String sID = this.getsID(null, sPhone);
-              subjectsID_Phone = this.getSubjectObject(sID, sPhone);
-           }  
-            
-             if(sMail != null && subjectsID_Mail == null)
-             {
-             if(subjectsID_Phone != null && !subjectsID_Phone.getsID().startsWith("_"))
-             {
-                 subjectsID_Mail = subjectsID_Phone;
-             }
-             else
-             {
-              String sID = this.getsID(sMail, null);
-              subjectsID_Mail = this.createSubject(sID);
-             }
-             }
-             if(sPhone != null && subjectsID_Phone == null)
-             {
-             if(subjectsID_Mail != null && !subjectsID_Mail.getsID().startsWith("_"))
-             {
-                 subjectsID_Phone = subjectsID_Mail;
-             }
-             else
-             {
-              String sID = this.getsID(null, sPhone);
-              subjectsID_Phone = this.createSubject(sID);
-             }
-             }
-           
-           
+
+        if (subject != null) {
+            List<SubjectContact> list_contacts = subjectContactDao.findContacts(subject);
+            LOG.info("(получаем список контактов субьекта)");
+            if (sMail != null) {
+                List<SubjectContact> list_mail = subjectContactDao.findAllBy("sValue", sMail);
+                LOG.info("(получаем список контактов по sMail {})", sMail);
+                SubjectContactType typeContact = subjectContactTypeDao.getEmailType();
+                SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_mail, subject, sMail, typeContact);
+                if (oSubjectHuman != null) {
+                    oSubjectHuman.setDefaultEmail(oSubjectContact);
+                    subjectHumanDao.saveOrUpdateHuman(oSubjectHuman);
+                }
+                listContacts.add(oSubjectContact);
+            }
+            if (sPhone != null) {
+                List<SubjectContact> list_phone = subjectContactDao.findAllBy("sValue", sPhone);
+                LOG.info("(получаем список контактов по sPhone {})", sPhone);
+                SubjectContactType typeContact = subjectContactTypeDao.getPhoneType();
+                SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_phone, subject, sPhone, typeContact);
+                listContacts.add(oSubjectContact);
+                if (oSubjectHuman != null) {
+                    oSubjectHuman.setDefaultPhone(oSubjectContact);
+                    subjectHumanDao.saveOrUpdateHuman(oSubjectHuman);
+                }
+
+            }
+        } else {
+
+            if (sMail != null) {
+                List<SubjectContact> list_contacts = subjectContactDao.findContacts(subjectsID_Mail);
+                LOG.info("(получаем список контактов субьекта)");
+                List<SubjectContact> list_mail = subjectContactDao.findAllBy("sValue", sMail);
+                LOG.info("(получаем список контактов по sMail {})", sMail);
+                SubjectContactType typeContact = subjectContactTypeDao.getEmailType();
+                SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_mail, subjectsID_Mail, sMail, typeContact);
+                listContacts.add(oSubjectContact);
+
+            }
+            if (sPhone != null) {
+                List<SubjectContact> list_contacts = subjectContactDao.findContacts(subjectsID_Phone);
+                LOG.info("(получаем список контактов субьекта)");
+                List<SubjectContact> list_phone = subjectContactDao.findAllBy("sValue", sPhone);
+                LOG.info("(получаем список контактов по sPhone {})", sPhone);
+                SubjectContactType typeContact = subjectContactTypeDao.getPhoneType();
+                SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_phone, subjectsID_Phone, sPhone, typeContact);
+                listContacts.add(oSubjectContact);
+
+            }
         }
-       
-       
-       if(subject != null)
-       {
-          List<SubjectContact> list_contacts = subjectContactDao.findContacts(subject);
-          LOG.info("(получаем список контактов субьекта)");
-          if(sMail != null)
-          {
-              List<SubjectContact> list_mail = subjectContactDao.findAllBy("sValue", sMail);
-              LOG.info("(получаем список контактов по sMail {})", sMail);
-              SubjectContactType typeContact = subjectContactTypeDao.getEmailType();
-              SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_mail, subject, sMail, typeContact);
-             if(oSubjectHuman != null)
-             {
-               oSubjectHuman.setDefaultEmail(oSubjectContact);
-               subjectHumanDao.saveOrUpdateHuman(oSubjectHuman);
-             }
-              listContacts.add(oSubjectContact);
-          }
-          if(sPhone != null)
-          {
-              List<SubjectContact> list_phone = subjectContactDao.findAllBy("sValue", sPhone);
-              LOG.info("(получаем список контактов по sPhone {})", sPhone);
-              SubjectContactType typeContact = subjectContactTypeDao.getPhoneType();
-              SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_phone, subject, sPhone, typeContact);
-              listContacts.add(oSubjectContact);
-              if(oSubjectHuman != null)
-              {
-                 oSubjectHuman.setDefaultPhone(oSubjectContact);
-                 subjectHumanDao.saveOrUpdateHuman(oSubjectHuman);
-              }
 
-          }
-       }
-       else
-       {
-           
-          if(sMail != null)
-          {
-             List<SubjectContact> list_contacts = subjectContactDao.findContacts(subjectsID_Mail);
-             LOG.info("(получаем список контактов субьекта)");
-             List<SubjectContact> list_mail = subjectContactDao.findAllBy("sValue", sMail);
-             LOG.info("(получаем список контактов по sMail {})", sMail);
-             SubjectContactType typeContact = subjectContactTypeDao.getEmailType();
-             SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_mail, subjectsID_Mail, sMail, typeContact);
-             listContacts.add(oSubjectContact);
-
-          
-          }
-          if(sPhone != null)
-          {
-             List<SubjectContact> list_contacts = subjectContactDao.findContacts(subjectsID_Phone);
-             LOG.info("(получаем список контактов субьекта)");
-             List<SubjectContact> list_phone = subjectContactDao.findAllBy("sValue", sPhone);
-             LOG.info("(получаем список контактов по sPhone {})", sPhone);
-             SubjectContactType typeContact = subjectContactTypeDao.getPhoneType();
-             SubjectContact oSubjectContact = this.synchronizationContacts(list_contacts, list_phone, subjectsID_Phone, sPhone, typeContact);
-             listContacts.add(oSubjectContact);
-
-         
-          }
-       }
-                
-       
-       return listContacts;
+        return listContacts;
     }
-    private SubjectContact synchronizationContacts(List<SubjectContact> list_contacts_subject, List<SubjectContact> list_contacts, Subject subject, String sContact, SubjectContactType typeContact)
-    {
-       SubjectContact res = null;
-       boolean bIsContact = this.isContact(list_contacts_subject, sContact);
-       boolean bIsDataBase = this.isContact(list_contacts, sContact);
-       if(bIsContact)
-       {
+
+    private SubjectContact synchronizationContacts(List<SubjectContact> list_contacts_subject, List<SubjectContact> list_contacts, Subject subject, String sContact, SubjectContactType typeContact) {
+        SubjectContact res = null;
+        boolean bIsContact = this.isContact(list_contacts_subject, sContact);
+        boolean bIsDataBase = this.isContact(list_contacts, sContact);
+        if (bIsContact) {
             res = this.updateContact(subject, sContact);
             LOG.info("(апдейтим контакт в списке контактов субьекта)");
-       }
-       else
-       {
-           if(bIsDataBase)
-           {
-              res = this.updateContact(subject, sContact);
-              LOG.info("(апдейтим контакт в списке контактов базы, переопределяя субьекта)");
-           }
-           else
-           {
-              res = this.createSubjectContact(sContact, subject, typeContact);
-              LOG.info("(создаем контакт)");
+        } else if (bIsDataBase) {
+            res = this.updateContact(subject, sContact);
+            LOG.info("(апдейтим контакт в списке контактов базы, переопределяя субьекта)");
+        } else {
+            res = this.createSubjectContact(sContact, subject, typeContact);
+            LOG.info("(создаем контакт)");
 
-           }
-       }
-       
-       return res;  
+        }
+
+        return res;
     }
-    private SubjectHuman getSubjectHuman(Subject subject)
-    {
-        return subjectHumanDao.findByExpected("oSubject", subject);
+
+    private SubjectHuman getSubjectHuman(Subject subject) { 
+       return subjectHumanDao.findByExpected("oSubject", subject);   
+   }
+
+    private SubjectContact createSubjectContact(String sContact, Subject subject, SubjectContactType typeContact) {
+        SubjectContact contact = new SubjectContact();
+        contact.setSubject(subject);
+        contact.setSubjectContactType(typeContact);
+        contact.setsDate();
+        contact.setsValue(sContact);
+        subjectContactDao.saveOrUpdate(contact);
+        SubjectContact res = subjectContactDao.findByExpected("sValue", sContact);
+
+        LOG.info("(создаем контакт subject Id {}, subject Label {}, subjectContact sValue {})", subject.getsID(), subject.getsLabel(), contact.getsValue());
+
+        return res;
     }
-      private SubjectContact createSubjectContact(String sContact, Subject subject, SubjectContactType typeContact)
-    {
-         SubjectContact contact = new SubjectContact();
-         contact.setSubject(subject);
-         contact.setSubjectContactType(typeContact);
-         contact.setsDate();
-         contact.setsValue(sContact);
-         subjectContactDao.saveOrUpdate(contact);
-         SubjectContact res = subjectContactDao.findByExpected("sValue", sContact);
-         
-         LOG.info("(создаем контакт subject Id {}, subject Label {}, subjectContact sValue {})", subject.getsID(), subject.getsLabel(), contact.getsValue());
-         
-         return res;
+
+    private SubjectContact updateContact(Subject subject, String sContact) {
+
+        SubjectContact res = null;
+        try {
+            SubjectContact contact = subjectContactDao.findByExpected("sValue", sContact);
+            contact.setSubject(subject);
+            contact.setsDate();
+            subjectContactDao.saveOrUpdate(contact);
+            res = subjectContactDao.findByIdExpected(contact.getId());
+
+            LOG.info("(апдейт контакта subject Id {}, subject Label {}, subjectContact sValue {})", subject.getsID(), subject.getsLabel(), contact.getsValue());
+        } catch (Exception ex) {
+            LOG.warn("(Fail update contact {})", ex.getMessage());
+        }
+
+        return res;
     }
-    private SubjectContact updateContact(Subject subject, String sContact)
-    {
-        
-         SubjectContact res = null;
-       try
-       {
-         SubjectContact contact = subjectContactDao.findByExpected("sValue", sContact);
-         contact.setSubject(subject);
-         contact.setsDate();
-         subjectContactDao.saveOrUpdate(contact);
-         res = subjectContactDao.findByIdExpected(contact.getId());
-         
-         LOG.info("(апдейт контакта subject Id {}, subject Label {}, subjectContact sValue {})", subject.getsID(), subject.getsLabel(), contact.getsValue());
-       }
-       catch(Exception ex)
-       {
-          LOG.warn("(Fail update contact {})", ex.getMessage());
-       }
-         
-         return res;
+
+    private boolean isContact(List<SubjectContact> list, String sContact) {
+
+        for (SubjectContact contact : list) {
+            if (contact.getsValue().equals(sContact)) {
+                return true;
+            }
+
+        }
+
+        return false;
     }
-    private boolean isContact(List<SubjectContact> list, String sContact )
-    {
-        
-         for(SubjectContact contact : list)
-         {
-             if(contact.getsValue().equals(sContact))
-                 return true; 
-             
-         }
-         
-         return false;
-    }
-    private Subject getSubjectObject(String sID, String sContact)
-    {
-             
-            LOG.info("(sID {})", sID);
-            Subject subject = subjectDao.getSubject(sID);
-            
-               try
-               {
-                List<SubjectContact> listContact = subjectContactDao.findAllBy("sValue", sContact);
-                for(SubjectContact oSubjectContact : listContact)
-                {
-                    if(oSubjectContact.getsValue().equals(sContact))
-                    {
-                       Subject subject_time = oSubjectContact.getSubject();
-                       if(!subject_time.getsID().startsWith("_"))
-                           subject = subject_time;
-                       break;
+
+    private Subject getSubjectObject(String sID, String sContact) {
+
+        LOG.info("(sID {})", sID);
+        Subject subject = subjectDao.getSubject(sID);
+
+        try {
+            List<SubjectContact> listContact = subjectContactDao.findAllBy("sValue", sContact);
+            for (SubjectContact oSubjectContact : listContact) {
+                if (oSubjectContact.getsValue().equals(sContact)) {
+                    Subject subject_time = oSubjectContact.getSubject();
+                    if (!subject_time.getsID().startsWith("_")) {
+                        subject = subject_time;
                     }
+                    break;
                 }
-               }
-               catch(Exception e)
-               {
-                   LOG.warn("({})", e.getMessage());
-               }
-            
-           /* if(subject == null)
+            }
+        } catch (Exception e) {
+            LOG.warn("({})", e.getMessage());
+        }
+
+        /* if(subject == null)
             {
                subject = new Subject();
                subject.setsID(sID);
@@ -296,80 +252,113 @@ public class SubjectService {
                subject = subjectDao.getSubject(sID);
                LOG.info("(Создаем subject Id {}, sID {})", subject.getId(), subject.getsID());
             }*/
-        
-        
         return subject;
     }
-    private Subject createSubject(String sID)
-    {
-         Subject subject = new Subject();
-         subject.setsID(sID);
-         subjectDao.saveOrUpdateSubject(subject);
-         subject = subjectDao.getSubject(sID);
-         LOG.info("(Создаем subject Id {}, sID {})", subject.getId(), subject.getsID());
-         
-       return subject;
+
+    private Subject createSubject(String sID) {
+        Subject subject = new Subject();
+        subject.setsID(sID);
+        subjectDao.saveOrUpdateSubject(subject);
+        subject = subjectDao.getSubject(sID);
+        LOG.info("(Создаем subject Id {}, sID {})", subject.getId(), subject.getsID());
+
+        return subject;
     }
-    private String getsID(String sMail, String sPhone)
-    {
-        return (sMail != null)? SubjectHuman.getSubjectId(SubjectHumanIdType.Email, sMail) : ((sPhone != null)? SubjectHuman.getSubjectId(SubjectHumanIdType.Phone, sPhone) : null);
+
+    private String getsID(String sMail, String sPhone) {
+        return (sMail != null) ? SubjectHuman.getSubjectId(SubjectHumanIdType.Email, sMail) : ((sPhone != null) ? SubjectHuman.getSubjectId(SubjectHumanIdType.Phone, sPhone) : null);
     }
-    private Subject getSubjectObjectBynID(Long nID_Subject)
-    {
-         LOG.info("(subject Id {})", nID_Subject);
-           if(subjectDao == null)
+
+    private Subject getSubjectObjectBynID(Long nID_Subject) {
+        LOG.info("(subject Id {})", nID_Subject);
+        if (subjectDao == null) {
             LOG.info("(subjectDao null)");
-           else
-             LOG.info("(subjectDao not null)");
-         return subjectDao.getSubject(nID_Subject);
-          
+        } else {
+            LOG.info("(subjectDao not null)");
+        }
+        return subjectDao.getSubject(nID_Subject);
+
     }
-    private Long convertStringToLong(String snID)
-    {
+
+    private Long convertStringToLong(String snID) {
         Long nID = null;
-       try
-       {
-           nID = Long.valueOf(snID);
-           LOG.info("(convertStringToLong nID {}, snID {})", nID, snID);
-       }
-       catch(Exception ex)
-       {
-          LOG.warn("(Exception for converting string to long {})", ex.getMessage());
-       }
-       
-       return nID;
-    } 
+        try {
+            nID = Long.valueOf(snID);
+            LOG.info("(convertStringToLong nID {}, snID {})", nID, snID);
+        } catch (Exception ex) {
+            LOG.warn("(Exception for converting string to long {})", ex.getMessage());
+        }
+
+        return nID;
+    }
 
     public List<SubjectActionKVED> getSubjectActionKVED(String sID, String sNote) {
-	return subjectActionKVEDDao.getSubjectActionKVED(sID, sNote);
+        return subjectActionKVEDDao.getSubjectActionKVED(sID, sNote);
     }
-    
-    public List<SubjectActionKVED> getSubjectActionKVED(String sFind ) {
-	return subjectActionKVEDDao.getSubjectActionKVED(sFind);
+
+    public List<SubjectActionKVED> getSubjectActionKVED(String sFind) {
+        return subjectActionKVEDDao.getSubjectActionKVED(sFind);
     }
-    
-    public SubjectHuman setSubjectHumanRole(Long nID_SubjectHuman, Long nID_SubjectHumanRole){
-        SubjectHuman oSubjectHuman = subjectHumanDao.findByIdExpected(nID_SubjectHuman);
-        SubjectHumanRole oSubjectHumanRole = subjectHumanRoleDao.findByIdExpected(nID_SubjectHumanRole);
-        if (oSubjectHuman != null && oSubjectHumanRole != null) {
-//            aSubjectHumanRole.toArray();
-            System.out.println("SubjectHuman & SubjectHumanRole not null");
-            String res = oSubjectHumanRole.toString();
+
+    public String setSubjectHumanRole(Long nID_SubjectHuman, Long nID_SubjectHumanRole) {
+        
+        try {
+            String res = "empty";    
+            Optional<SubjectHuman> oSubjectHuman = subjectHumanDao.findById(nID_SubjectHuman);
+//            System.out.println("oSubjectHuman");
+            Optional<SubjectHumanRole> oSubjectHumanRole = subjectHumanRoleDao.findById(nID_SubjectHumanRole);
+//            System.out.println("oSubjectHumanRole");
+            if (oSubjectHuman != null && oSubjectHumanRole != null) {
+
+//                System.out.println("SubjectHuman & SubjectHumanRole not null");
+//            String res = oSubjectHumanRole.toString();
+
 //            for (SubjectHumanRole oSubjectHumanRole : aSubjectHumanRole) {
 //               res = res + " " + oSubjectHumanRole.getName();
 //            }
-            System.out.println("oSubjectHumanRole.toString(): " + res);
-            
-            oSubjectHuman.setaSubjectHumanRole((List<SubjectHumanRole>) oSubjectHumanRole);
-            subjectHumanDao.saveOrUpdate(oSubjectHuman);
-            System.out.println("oSubjectHuman.getaSubjectHumanRole().toString(): " + oSubjectHuman.getaSubjectHumanRole().toString());
-            
+//            System.out.println("oSubjectHumanRole.toString(): " + res);
+                List<SubjectHumanRole> aCurrentSubjectHumanRole = oSubjectHuman.get().getaSubjectHumanRole();
+                if (aCurrentSubjectHumanRole.isEmpty()) {
+                    aCurrentSubjectHumanRole.add(oSubjectHumanRole.get());
+                } else {
+                    for (SubjectHumanRole subjectHumanRole : aCurrentSubjectHumanRole) {
+                        boolean bSubjectHumanRole = false;
+                        if (subjectHumanRole.getName().equals(oSubjectHumanRole.get().getName())) {
+                            bSubjectHumanRole = true;
+                        }
+                        if (bSubjectHumanRole == false) {
+                            aCurrentSubjectHumanRole.add(oSubjectHumanRole.get());
+                        }
+
+                    }
+                }
+                oSubjectHuman.get().setaSubjectHumanRole(aCurrentSubjectHumanRole);
+                subjectHumanDao.saveOrUpdate(oSubjectHuman.get());
+//                System.out.println("subjectHumanDao.saveOrUpdate(oSubjectHuman.get())");
+//                System.out.println("oSubjectHuman.getaSubjectHumanRole().toString(): " + oSubjectHuman.getaSubjectHumanRole().toString());
+                if (!oSubjectHuman.get().getaSubjectHumanRole().isEmpty()) {
+                    res = "";
+                    for (SubjectHumanRole oSubjectHumanRoleElem : oSubjectHuman.get().getaSubjectHumanRole()) {
+                        res = res + " " + oSubjectHumanRoleElem.getName();
+                    }
+                }
             } else {
-            System.out.println("SubjectHuman: " + oSubjectHuman.toString());
-            System.out.println("SubjectHumanRole: " + oSubjectHumanRole.toString());
-        } 
-         
-        
-        return oSubjectHuman;
-    }  
+//                System.out.println("SubjectHuman: " + oSubjectHuman.toString());
+//                System.out.println("SubjectHumanRole: " + oSubjectHumanRole.toString());
+            }
+            System.out.println("res: " + res);    
+            return res;
+        } catch (Exception ex) {
+            return ex.getMessage() + " : " + stackTraceToString(ex);
+        }
+    }
+
+    public String stackTraceToString(Throwable e) {
+        StringBuilder sb = new StringBuilder();
+        for (StackTraceElement element : e.getStackTrace()) {
+            sb.append(element.toString());
+            sb.append("\n");
+        }
+        return sb.toString();
+    }
 }
