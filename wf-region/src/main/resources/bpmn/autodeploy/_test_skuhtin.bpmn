@@ -46,7 +46,7 @@
 
     <sequenceFlow id="flow3" sourceRef="startevent1" targetRef="servicetask1"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="servicetask1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask2" name="Check File Name">
+    <userTask id="usertask2" name="Check File Name"  activiti:candidateGroups="sales">
       <extensionElements>
         <activiti:formProperty id="sName" name="Name" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSecondName" name="SecondName" type="string"></activiti:formProperty>
