@@ -43,6 +43,8 @@ import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 import org.igov.service.business.object.ObjectFileService;
 import org.igov.service.conf.AttachmetService;
+import org.igov.service.exception.CRCInvalidException;
+import org.igov.service.exception.RecordNotFoundException;
 import org.json.simple.JSONArray;
 import static org.igov.util.Tool.sTextTranslit;
 
@@ -345,7 +347,7 @@ public abstract class AbstractModelTask {
         try {
             oMultipartFile = oAttachmetService
                     .getAttachment(oExecution.getProcessInstanceId(), sFieldID, null, null);
-        } catch (ParseException | RecordInmemoryException | IOException | ClassNotFoundException ex) {
+        } catch (ParseException | RecordInmemoryException | IOException | ClassNotFoundException|CRCInvalidException|RecordNotFoundException ex) {
             LOG.info("getAttachment has some errors: " + ex);
         }
 
@@ -363,11 +365,12 @@ public abstract class AbstractModelTask {
                 }
 
                 byte[] aByteFile = oMultipartFile.getBytes();
-                oAttachmetService.createAttachment(oExecution.getProcessInstanceId(), sFieldID,
-                        (String) oJsonTaskAttachVO.get("sFileNameAndExt"),
-                        (boolean) oJsonTaskAttachVO.get("bSigned"), "Mongo", "text/html",
-                        aAttribute, aByteFile, true);
-            } catch (IOException ex) {
+                    oAttachmetService.createAttachment(oExecution.getProcessInstanceId(), sFieldID,
+                            (String) oJsonTaskAttachVO.get("sFileNameAndExt"),
+                            (boolean) oJsonTaskAttachVO.get("bSigned"), "Mongo", "text/html",
+                            aAttribute, aByteFile, true);
+
+            } catch (IOException|CRCInvalidException|RecordNotFoundException ex) {
                 LOG.info("createAttachment has some errors: " + ex);
             }
         } else {
@@ -495,15 +498,15 @@ public abstract class AbstractModelTask {
         
         DelegateExecution oExecution = oTask.getExecution();
         List<Attachment> aAttachment = new LinkedList<>();
-        LOG.info("Start FileTaskUploadListener");
+        LOG.info("Start FileTaskUploadListener...");
         LOG.info("SCAN:file");
         List<String> asFieldID = getListFieldCastomTypeFile(oFormData);
         LOG.info("[addAttachmentsToTask]");
-        LOG.info("(asFieldID={})", asFieldID);
+        LOG.info("(asFieldID in new schema={})", asFieldID);
         List<String> asFieldValue = getVariableValues(oExecution, asFieldID);
-        LOG.info("(asFieldValue={})", asFieldValue);
+        LOG.info("(asFieldValue in new schema ={})", asFieldValue);
         List<String> asFieldName = getListCastomFieldName(oFormData);
-        LOG.info("(asFieldName={})", asFieldName);
+        LOG.info("(asFieldName in new schema ={})", asFieldName);
 
         if (!asFieldValue.isEmpty()) {
             int n = 0;
@@ -527,7 +530,7 @@ public abstract class AbstractModelTask {
                         }
                         
                         if(oJsonTaskAttachVO != null && oJsonTaskAttachVO.get("sID_StorageType") != null){ //try to process field with new logic
-                        
+                            LOG.info("It is new JSON object");
                             addNewAttachmentToTask(oExecution, oJsonTaskAttachVO, sCurrFieldID);
                             
                         }else if (oJsonTaskAttachVO != null && oJsonTaskAttachVO.get("aRow") != null){ //try to process table
@@ -566,7 +569,7 @@ public abstract class AbstractModelTask {
                                                                 try {
                                                                     oMultipartFile = oAttachmetService
                                                                             .getAttachment(null, null, (String)oJsonTableTaskAttachVO.get("sKey"), "Redis");
-                                                                } catch (ParseException | RecordInmemoryException | IOException | ClassNotFoundException ex) {
+                                                                } catch (ParseException | RecordInmemoryException | IOException | ClassNotFoundException | CRCInvalidException | RecordNotFoundException ex) {
                                                                     LOG.info("getAttachment has some errors: " + ex);
                                                                 }
                                                                 
@@ -589,10 +592,9 @@ public abstract class AbstractModelTask {
                                                                                 (String) oJsonTaskAttachVO.get("sFileNameAndExt"),
                                                                                 (boolean) oJsonTaskAttachVO.get("bSigned"), "Mongo", "text/html",
                                                                                 aAttribute, aByteFile, false);
-                                                                        
                                                                         oJsonMap.replace("value", sNewTableElemValue);
                                                                     
-                                                                    } catch (IOException ex) {
+                                                                    } catch (IOException|CRCInvalidException|RecordNotFoundException ex) {
                                                                         LOG.info("createAttachment has some errors: " + ex);
                                                                     }
                                                                 } else {
@@ -615,13 +617,15 @@ public abstract class AbstractModelTask {
                                     }
                                 }
                                 oJSONObject.replace("aRow", aJsonRow);
-                                oRuntimeService.setVariable(oExecution.getProcessInstanceId(), sCurrFieldID, oJSONObject.toJSONString());
-                                
+                                //oRuntimeService.setVariable(oExecution.getProcessInstanceId(), sCurrFieldID, oJSONObject.toJSONString());
+                                //LOG.info()
+                                taskService.setVariable(oTask.getId(), sCurrFieldID, oJSONObject.toJSONString());
                             } catch (ParseException ex) {
                                 LOG.info("Some error during table parsing : ", ex);
                             }
                         }
                         else{ //Old logic
+                            LOG.info("It is old object");
                             addOldAttachmentToTask(oTask, oExecution, oFormData, sFieldValue, aAttachment, sCurrFieldID, sCurrFieldName);
                     
                         }

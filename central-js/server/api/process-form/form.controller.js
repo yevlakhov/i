@@ -12,7 +12,9 @@ var url = require('url')
   , formService = require('./form.service')
   , activiti = require('../../components/activiti')
   , admZip = require('adm-zip')
-  , errors = require('../../components/errors');
+  , errors = require('../../components/errors')
+  , loggerFactory = require('../../components/logger')
+  , logger = loggerFactory.createLogger(module);
 
   var createError = function (error, error_description, response) {
     return {
@@ -95,13 +97,23 @@ module.exports.submit = function (req, res) {
   if(keys.length > 0) {
     async.forEach(keys, function (key, next) {
         function putTableToRedis (table, callback) {
-          var url = '/object/file/setProcessAttach';
-          var nameAndExt = table.id + '.json';
-          var  params = {
-            sID_StorageType:'Redis',
-            sID_Field:table.id,
-            sFileNameAndExt:nameAndExt
-          };
+          var url,
+              params = {},
+              nameAndExt = table.id + '.json',
+              checkForNewService = table.name.split(';');
+
+          // now we have two services for saving table, so we checking what service is needed;
+          if(checkForNewService.length === 3 && checkForNewService[2].indexOf('bNew=true') > -1) {
+            url = '/object/file/setProcessAttach';
+            params = {
+              sID_StorageType:'Redis',
+              sID_Field:table.id,
+              sFileNameAndExt:nameAndExt
+            }
+          } else {
+            url = '/object/file/upload_file_to_redis';
+          }
+
           activiti.upload(url, params, nameAndExt, JSON.stringify(table), callback);
         }
         putTableToRedis(formData.params[key], function (error, response, data) {
@@ -152,13 +164,17 @@ module.exports.scanUpload = function (req, res) {
           headers: form.getHeaders()
         };
 
-        pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
-          console.log('[scanUpload]:scan redis id ' + result.data);
-          uploadResults.push({
-            fileID: result.data,
-            scanField: documentScan
-          });
-          callback();
+        pipeFormDataToRequest(form, requestOptionsForUploadContent, function (error, result) {
+          logger.info('[scanUpload]: scan redis id ', {redisanswer: result, error : error});
+          if(error){
+            callback(error);
+          } else {
+            uploadResults.push({
+              fileID: result.data,
+              scanField: documentScan
+            });
+            callback();
+          }
         });
       }
     });
@@ -684,12 +700,40 @@ module.exports.signFormCallback = function (req, res) {
     return;
   }
 
-  var signedFormForUpload = userService
-    .prepareSignedContentRequest(req.session.access.accessToken, codeValue);
+  var accessToken = req.session.access.accessToken;
+  function downloadSignedContent(formData, callback) {
+    logger.info('[signFormCallback] downloading signed content....', {accessToken: accessToken, codeValue: codeValue});
+    userService.downloadSignedContent(accessToken, codeValue, function (error, result) {
+      logger.info('[signFormCallback] ....downloaded signed content', { error: error, contentType: result.contentType, fileName: result.fileName });
+      callback(error, {signedContent : result, formData: formData});
+    });
+  }
+
+  function uploadSignedForm(downloadResult, callback) {
+    logger.info('[signFormCallback] uploading signed content to redis....');
+    uploadFileService.upload([{
+      name: 'file',
+      options: {
+        filename: 'signedForm.pdf'
+      },
+      buffer: downloadResult.signedContent.buffer
+    }], function (error, response, body) {
+      logger.info('[signFormCallback] ....uploaded signed content to redis', {result: body});
+      if (!body) {
+        callback(errors.createExternalServiceError('Can\'t save signed content to storage. Unknown error', error), null);
+      } else if (body.code && body.message) {
+        callback(errors.createExternalServiceError('Can\'t save signed content to storage. ' + body.message, body), null);
+      } else if (body.fileID) {
+        downloadResult.signedFormID = body.fileID;
+        callback(null, downloadResult);
+      }
+    }, sHost);
+  }
 
   async.waterfall([
     function (callback) {
       loadForm(formID, sURL, function (error, response, body) {
+        logger.info('[signFormCallback] ..... form is loaded');
         if (error) {
           callback(error, null);
         } else {
@@ -697,29 +741,16 @@ module.exports.signFormCallback = function (req, res) {
         }
       });
     },
-    function (formData, callback) {
-      var signedFormUpload = sURL + 'service/object/file/upload_file_to_redis';
-      var form = new FormData();
-      form.append('file', signedFormForUpload, {
-        filename: 'signedForm.pdf'
-      });
-
-      var requestOptionsForUploadContent = {
-        url: signedFormUpload,
-        auth: getAuth(),
-        headers: form.getHeaders()
-      };
-
-      pipeFormDataToRequest(form, requestOptionsForUploadContent, function (result) {
-        callback(null, {formData: formData, signedFormID: result.data});
-      });
-    }
+    downloadSignedContent,
+    uploadSignedForm
   ], function (err, result) {
     if (err) {
+      logger.error('error. go back to initial page', {error: err});
       res.redirect(result.formData.restoreFormUrl
         + '?formID=' + formID
         + '&error=' + JSON.stringify(err));
     } else {
+      logger.info('cool go back to initial page');
       res.redirect(result.formData.restoreFormUrl
         + '?formID=' + formID
         + '&signedFileID=' + result.signedFormID);
@@ -775,17 +806,34 @@ function loadForm(formID, sURL, callback) {
 function pipeFormDataToRequest(form, requestOptionsForUploadContent, callback) {
   var decoder = new StringDecoder('utf8');
   var result = {};
-  form.pipe(request.post(requestOptionsForUploadContent))
-    .on('response', function (response) {
-      result.statusCode = response.statusCode;
-    }).on('data', function (chunk) {
+  form.pipe(
+    request.post(requestOptionsForUploadContent)
+      .on('response', function (response) {
+        logger.info("[requestForUploadContent] response", {
+          loading_from: requestOptionsForUploadContent,
+          res_status: response.statusCode,
+          res_headers: response.headers
+        });
+      })
+      .on('error', function (e) {
+        callback(e, null)
+      })
+  ).on('response', function (response) {
+    logger.info("[pipeFormDataToRequest] response", {
+      res_status: response.statusCode,
+      res_headers: response.headers
+    });
+    result.statusCode = response.statusCode;
+  }).on('data', function (chunk) {
     if (result.data) {
       result.data += decoder.write(chunk);
     } else {
       result.data = decoder.write(chunk);
     }
+  }).on('error', function (e) {
+    callback(e, null)
   }).on('end', function () {
-    callback(result);
+    callback(null, result);
   });
 }
 
