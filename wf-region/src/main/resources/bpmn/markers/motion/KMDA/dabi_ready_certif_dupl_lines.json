@@ -5,7 +5,7 @@
       "sValue": "Інформація про об'єкт"        
     },
     "Line_2": {
-      "aElement_ID": ["sPersonLastName","sLegalForm"],    
+      "aElement_ID": ["asApplicantType"],    
       "sValue": "Замовник"
     },
     "Line_3": {
