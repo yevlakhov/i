@@ -1,16 +1,56 @@
 {
-  "attribute" : {
+  "attributes" : {
     "Line_1" : {
-       "aElement_ID" : ["asApplicantType"],    
+       "aElement_ID" : ["sPersonLastName","sLegalForm"],    
        "sValue" : "Замовник" 
     },
     "Line_2" : {
        "aElement_ID" : ["sObjectName"], 
-       "sValue" : "Інформація про об'єкт"
+       "sValue" : "Об'єктбудівництва"
     },
     "Line_3" : {
        "aElement_ID" : ["asGeneralContractor"], 
        "sValue" : "Підрядник"
+    },
+    "Line_4" : {
+       "aElement_ID" : ["sConstructionPassport"], 
+       "sValue" : "Будівельний паспорт"
+    },
+    "Line_5" : {
+       "aElement_ID" : ["asIsProjectDeveloped"], 
+       "sValue" : "Проект"
+    },
+    "Line_6" : {
+       "aElement_ID" : ["sProjectDocNumber"], 
+       "sValue" : "Розпорядчий документ"
+    },
+    "Line_7" : {
+       "aElement_ID" : ["tObjectIndivid"], 
+       "sValue" : "Основні показники"
+    },
+    "Line_8" : {
+       "aElement_ID" : ["sExpertName"], 
+       "sValue" : "Експертиза"
+    },
+    "Line_9" : {
+       "aElement_ID" : ["sExpertName"], 
+       "sValue" : "Авторський нагляд"
+    },
+    "Line_10" : {
+       "aElement_ID" : ["asIsTechSupervision"], 
+       "sValue" : "Технічний нагляд"
+    },
+    "Line_11" : {
+       "aElement_ID" : ["asDecision"], 
+       "sValue" : "Рішення"
+    },
+    "Line_12" : {
+       "aElement_ID" : ["tRespPersProject"], 
+       "sValue" : "Інформація про відповідальних осіб генерального проектувальника"
+    },
+    "Line_13" : {
+       "aElement_ID" : ["sConstructionOnBasis"], 
+       "sValue" : "Земельна ділянка"
     }
     
   }
