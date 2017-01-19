@@ -370,6 +370,7 @@
         </activiti:formProperty>
         <activiti:formProperty id="sInspEmpComment" name="Коментар співробітника інспекційного відділу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comission" name="-------" type="label" default="Комісія   -------"></activiti:formProperty>
         <activiti:formProperty id="sComissionDate" name="Дата комісії" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sComission" name="Склад комісії" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" writable="false">
@@ -377,8 +378,9 @@
           <activiti:value id="sEnumReject" name="Підготувати відмову"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар співробітника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sSertifSeries" name="Серія сертифікату" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sSertifNumber" name="Номер сертифікату" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Certif" name="-------" type="label" default="Сертифікат   -------"></activiti:formProperty>       
+        <activiti:formProperty id="sSertifSeries" name="Серія сертифікату" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sSertifNumber" name="Номер сертифікату" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Характер будівництва" type="enum" writable="false">
           <activiti:value id="sEnumNewConstr" name="Нове будівництво"></activiti:value>
           <activiti:value id="sEnumReconstr" name="Реконструкція"></activiti:value>

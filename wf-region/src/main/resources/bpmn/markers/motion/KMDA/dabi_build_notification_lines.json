@@ -47,6 +47,10 @@
     "Line_12" : {
        "aElement_ID" : ["tRespPersProject"], 
        "sValue" : "Інформація про відповідальних осіб генерального проектувальника"
+    },
+    "Line_13" : {
+       "aElement_ID" : ["sConstructionOnBasis"], 
+       "sValue" : "Земельна ділянка"
     }
     
   }

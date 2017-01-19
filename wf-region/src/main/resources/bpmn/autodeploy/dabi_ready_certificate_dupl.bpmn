@@ -255,6 +255,7 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comment" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitDepBossComment" name="Коментар начальника Відділу дозвільних документів" type="string" writable="false"></activiti:formProperty>
@@ -435,6 +436,7 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comment" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
@@ -534,6 +536,7 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comment" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
@@ -639,6 +642,7 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comment" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
@@ -648,8 +652,6 @@
         <activiti:formProperty id="sID_NumberOutputDoc" name="Реєстраційний номер вихідного документу" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLetter},${nCertifDupl}]]></activiti:expression>
@@ -693,17 +695,17 @@
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLossNotice" name="Посилання на інформацію у ЗМІ про втрату документу" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comment" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар співробітника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_OutDoc" name="---------------" type="label" default="Вихідний документ   -------"></activiti:formProperty>
         <activiti:formProperty id="sID_NumberOutputDoc" name="Реєстраційний номер вихідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sID_DateOutputDoc" name="Дата реєстрації вихідного документу" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment2" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_vis.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_required" name="Required" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_ready_certif_dupl_valid.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nLossNotice},${nDuplApplication},${nLetter},${nCertifDupl}]]></activiti:expression>
