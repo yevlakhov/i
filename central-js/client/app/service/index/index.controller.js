@@ -330,7 +330,7 @@ angular.module('app')
                 $scope.searching();
             }
         };
-        $scope.clear = function () {
+        $rootScope.clear = function () {
             restoreSettings(defaultSettings);
             if ($rootScope.mainFilterCatalog) $rootScope.mainFilterCatalog = false;
             $scope.searching();
