@@ -22,20 +22,20 @@
     },
 
     "Back_Region":{
-      "sURL_Back_Region": "https://alpha.test.region.igov.org.ua:443/wf/service",
+      "sURL_Back_Region": "https://test.office.kievcity.gov.ua:443/wf/service",
       "sLogin_Back_Region": "system",
       "sPassword_Back_Region": "system",
-      "nID_Server_Back_Region": 5
+      "nID_Server_Back_Region": 8
     },
 
     "Back_Central":{
-      "sURL_Back_Central": "https://alpha.test.igov.org.ua:443/wf/service",
+      "sURL_Back_Central": "https://test.es.kievcity.gov.ua:443/wf/service",
       "sLogin_Back_Central": "system",
       "sPassword_Back_Central": "system"
     },
     
     "BackProxy_Region": {
-      "sURL_BackProxy_Region": "http://localhost:9001",
+      "sURL_BackProxy_Region": "http://test.office.kievcity.gov.ua:8444",
       "sKeyPath_BackProxy_Region": "/sybase/cert/server.key",
       "sCertPath_BackProxy_Region": "/sybase/cert/server.cert"
     },
