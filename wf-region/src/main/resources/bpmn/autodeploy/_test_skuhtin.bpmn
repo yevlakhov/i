@@ -52,7 +52,7 @@
         <activiti:formProperty id="sName" name="Name" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSecondName" name="SecondName" type="string"></activiti:formProperty>
         <activiti:formProperty id="sThirdName" name="ThirdName" type="string"></activiti:formProperty>
-        <activiti:formProperty id="nInfLetter" name="Інформаційний лист" type="file" default=" " ></activiti:formProperty>
+        <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nBuildNotif},${nInfLetter}]]></activiti:expression>
