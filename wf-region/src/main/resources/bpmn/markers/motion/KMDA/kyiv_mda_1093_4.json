@@ -20,7 +20,7 @@
         {"aField_ID":   
             ["asIssuedPrescription", "asProtocolType", "asQuantityOffenses", "sContractorName", "sSupervisionPib", "sProjectName",
              "sArchitectPib", "sExpertName", "sArticleResponsibility","sDateCase", "sPlaceCase", "sAddressPlaceCase", 
-             "sDocumentCase", "sFine", "sOffensesResolution", "sPersonsControl", "sPaymentDetails", "sDecidedControl","tPrescription","tOffensesAdmin","tOffensesUrban"], 
+             "sDocumentCase", "sFine", "sOffensesResolution", "sPersonsControl", "sPaymentDetails", "sDecidedControl"], 
          "asID_Field":  {"sCondit":"asHowDecisionRemark"},
          "sCondition": "[sCondit] == 'sEnumDecisionRemarkYes'"
         },

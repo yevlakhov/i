@@ -13,7 +13,7 @@
        "sCondition": "[sCondit] == 'sEnumAppLegal'||[sCondit] == 'юридична особа'"
       },
     "ShowFieldsOnCondition_ByCourt": 
-      {"aField_ID":  ["sCourtName","sJudgementNumber","sJudgementDate","sJudgement","sLabel_Court"], 
+      {"aField_ID":  ["sCourtName","sJudgementNumber","sJudgementDate","sJudgement"], 
        "asID_Field": {"sCondit":"asCancelReason"},
        "sCondition": "[sCondit] == 'sEnumByCourt'||[sCondit] == 'за рішенням суду'"
       },

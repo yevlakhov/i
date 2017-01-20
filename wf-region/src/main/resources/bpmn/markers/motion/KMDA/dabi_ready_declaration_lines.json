@@ -1,7 +1,7 @@
 {
   "attributes": {
     "Line_1": {
-      "aElement_ID": ["sObjectName"],
+      "aElement_ID": ["bObjectInfo"],
       "sValue": "Інформація про об'єкт"        
     },
     "Line_2": {
@@ -9,7 +9,7 @@
       "sValue": "Інформація про відповідальну особу-інженера з технічного нагляду"
     },
     "Line_3": {
-      "aElement_ID": ["sInsuranceName"],
+      "aElement_ID": ["bInsuranceInfo"],
       "sValue": "Страхова організація"        
     },
     "Line_4": {
@@ -25,11 +25,11 @@
       "sValue": "Документ про затвердження проектної документації"        
     },
     "Line_7": {
-      "aElement_ID": ["sTechReportName"],
+      "aElement_ID": ["bTechInspInfo"],
       "sValue": "Технічне обстеження"        
     },
     "Line_8": {
-      "aElement_ID": ["sExpertName"],
+      "aElement_ID": ["bExpertInfo"],
       "sValue": "Експертиза"        
     },
     "Line_9": {
@@ -52,7 +52,7 @@
       "sValue": "Генеральний підрядник"        
     },
     "Line_14": {
-      "aElement_ID": ["nObjectTotalArea"],
+      "aElement_ID": ["bObjCharInfo"],
       "sValue": "Характеристики об'єкта будівництва"        
     },
     "Line_15": {
@@ -64,15 +64,15 @@
       "sValue": "Основні показники"        
     },
     "Line_17": {
-      "aElement_ID": ["bEquipmentColdWater"],
+      "aElement_ID": ["bObjEquipInfo"],
       "sValue": "Перелік інженерного обладнання об’єкта"        
     },
     "Line_18": {
-      "aElement_ID": ["sObjectEstimatedCost"],  
+      "aElement_ID": ["bObjCostInfo"],  
       "sValue": "Вартість"        
     },
     "Line_19": {
-      "aElement_ID": ["sObjectShareDate"],
+      "aElement_ID": ["bShareInfo"],
       "sValue": "Пайова участь"        
     },
     "Line_20": {
