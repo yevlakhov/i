@@ -40,7 +40,9 @@ setInterval(function () {
 
 function sendRequest() {
   var serverAddr = config.server.protocol + "://" + (addr.address == "::" ? "localhost" : addr.address) + ":" + addr.port;
+  console.time('get catalog');
   request(serverAddr + '/api/catalog?asIDPlaceUA=8000000000,8000000000&bShowEmptyFolders=false', {json: true}, function (err, resp, body) {
+    console.timeEnd('get catalog')
     var counter =0;
     body.forEach(function (category) {
       if (category.aSubcategory)
