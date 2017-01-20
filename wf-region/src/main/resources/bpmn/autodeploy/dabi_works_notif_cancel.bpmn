@@ -43,12 +43,11 @@
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" required="true"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="nCancelApplication" name="Заява про скасування реєстрації" type="file" default=" "></activiti:formProperty>
+        <activiti:formProperty id="nCancelApplication" name="Заява на видачу дублікату" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="nDoc" name="Документ" type="file" default=" "></activiti:formProperty>
         <activiti:formProperty id="marker_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_cancel_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_required" name="Required_marker" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_cancel_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_cancel_valid.json')}"></activiti:formProperty>
-        <activiti:formProperty id="marker_lines" name="lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_cancel_lines.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
     <userTask id="usertask_step3" name="3. Ознайомлення директором ДАБК" activiti:candidateGroups="kyiv_dabi_boss">
@@ -59,7 +58,6 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
@@ -73,7 +71,6 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -85,12 +82,10 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -110,7 +105,6 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
@@ -124,7 +118,6 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -136,12 +129,10 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -161,7 +152,6 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
@@ -175,7 +165,6 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -187,12 +176,10 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -215,8 +202,10 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
-        <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible"></activiti:formProperty>
+        <activiti:formProperty id="asApplicantType" name="Замовник" type="enum" writable="false">
+          <activiti:value id="sEnumAppPerson" name="фізична особа"></activiti:value>
+          <activiti:value id="sEnumAppLegal" name="юридична особа"></activiti:value>
+        </activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
@@ -229,10 +218,8 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -244,7 +231,6 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
@@ -349,7 +335,6 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
@@ -363,7 +348,6 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -375,12 +359,10 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -403,7 +385,6 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
@@ -417,7 +398,6 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -429,12 +409,10 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -503,7 +481,6 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
@@ -517,10 +494,8 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -532,7 +507,6 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
@@ -610,8 +584,10 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
-        <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible"></activiti:formProperty>
+        <activiti:formProperty id="asApplicantType" name="Замовник" type="enum" writable="false">
+          <activiti:value id="sEnumAppPerson" name="фізична особа"></activiti:value>
+          <activiti:value id="sEnumAppLegal" name="юридична особа"></activiti:value>
+        </activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
@@ -624,10 +600,8 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -639,7 +613,6 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
@@ -673,7 +646,6 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
         <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
@@ -687,7 +659,6 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -699,12 +670,10 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgement" name="Прийняте рішення суду" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
@@ -737,8 +706,10 @@
           <activiti:value id="sEnumFalseData" name="виявлення за результатами перевірки недостовірних даних, зазначених у повідомленні"></activiti:value>
           <activiti:value id="sEnumByCourt" name="за рішенням суду"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sLabel_Applicant" name="-------" type="label" default="Замовник   -------"></activiti:formProperty>
-        <activiti:formProperty id="asApplicantType" name="Замовник" type="invisible"></activiti:formProperty>
+        <activiti:formProperty id="asApplicantType" name="Замовник" type="enum" writable="false">
+          <activiti:value id="sEnumAppPerson" name="фізична особа"></activiti:value>
+          <activiti:value id="sEnumAppLegal" name="юридична особа"></activiti:value>
+        </activiti:formProperty>
         <activiti:formProperty id="sPersonLastName" name="Прізвище заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonFirstName" name="Ім'я заявника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string" writable="false"></activiti:formProperty>
@@ -751,10 +722,8 @@
         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Номер телефону" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Doc" name="-------" type="label" default="Реквізити документу   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifNumber" name="Реєстраційний номер повідомлення про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksNotifDate" name="Дата реєстрації повідомлення про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Object" name="-------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeOfConstruction" name="Вид будівництва" type="enum" writable="false">
@@ -766,7 +735,6 @@
         </activiti:formProperty>
         <activiti:formProperty id="sObjectCode" name="Код об’єкта;згідно з Державним класифікатором будівель та споруд ДК 018-2000" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectCategory" name="Категорія складності" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sLabel_Court" name="-------" type="label" default="Суд   -------"></activiti:formProperty>
         <activiti:formProperty id="sCourtName" name="Найменування суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementNumber" name="Номер рішення суду" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sJudgementDate" name="Дата прийняття рішення суду" type="date" writable="false"></activiti:formProperty>

@@ -1,18 +1,18 @@
 {
   "attributes": {
-    "Line_Object": {
-      "aElement_ID": ["sObjectName"],
+    "Line_1": {
+      "aElement_ID": ["bObjectInfo"],
       "sValue": "Інформація про об'єкт"        
     },
-    "Line_Applicant": {
-      "aElement_ID": ["sPersonLastName","sLegalForm"],
+    "Line_2": {
+      "aElement_ID": ["asApplicantType"],
       "sValue": "Замовник"        
     },
-    "Line_Court": {
+    "Line_3": {
       "aElement_ID": ["sCourtName"],
       "sValue": "Суд"        
     },
-    "Line_Doc": {
+    "Line_3": {
       "aElement_ID": ["sWorksNotifNumber"],
       "sValue": "Повідомлення про початок виконання підготовчих робіт"        
     }

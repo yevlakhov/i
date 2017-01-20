@@ -1,7 +1,7 @@
 'use strict';
 
 //angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'PrintTemplateProcessor', '$q', '$templateRequest', '$lunaService', function(tasks, PrintTemplateProcessor, $q, $templateRequest, lunaService) {
-angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'FieldMotionService', 'PrintTemplateProcessor', '$q', '$templateRequest', function(tasks, FieldMotionService, PrintTemplateProcessor, $q, $templateRequest) {
+angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'PrintTemplateProcessor', '$q', '$templateRequest', function(tasks, PrintTemplateProcessor, $q, $templateRequest) {
   // TODO: move code from PrintTemplateProcessor here
   // helper function to get path to a print template based on it's ID
   function findPrintTemplate (form, sCustomFieldID) {
@@ -20,8 +20,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
       if (!form) {
         return [];
       }
-
-      var templates = [];
+       var templates = [];
       var topItems = [];
 
       var markerExists = false;
@@ -67,7 +66,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 			                      if( field.id === printsItem.sTitleField )  { 
 		
 		                          itemObject.oField = field; 
-		                          itemObject.sLabel = (field.type === 'enum' && field.a ? field.a[field.value].name : field.value); 
+		                          itemObject.sLabel = field.value; 
 		
 		                          return; 
 			                      } 
@@ -76,19 +75,11 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                    } 
 		
 		                    if( itemObject.sLabel === "" ) { 
-
+		                      
 		                      itemObject.oField = item.aField[0]; 
-                          itemObject.sLabel = itemObject.oField.value;
-
-                          if(itemObject.oField.type === 'enum' && itemObject.oField.a != null) { 
-                             angular.forEach(itemObject.oField.a, function( item ) { 
-                               if( item.id === itemObject.oField.value ) { 
-                                  itemObject.sLabel = item.name; 
-                                  return; 
-                               } 
-                             }); 
-                          } 
-	
+		                      itemObject.sLabel = item.aField[0].value;
+		                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
+		
 		                    } 
 		                    
 		                    if( itemObject.sLabel ) { 
@@ -102,9 +93,10 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                      };
 		
 		                      topItems.unshift( item );
-
+		
+		                      console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
 		                    }
-
+		                  
 		                } ); 
                  }
             } ); 
@@ -162,7 +154,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
       return templates;
     },
-
+    
     /** 
      * function getPrintTemplateByObject 
      *  Returns template for PrintForm object combined with tables value 
