@@ -1131,7 +1131,7 @@
                              referencedColumnNames  = "nID"
                              deleteCascade          = "true" />
             </column>
-            <column name="nID_Server" type="int">
+            <column name="nID_Server" type="bigint">
                 <constraints nullable="true"/>
             </column>
             
