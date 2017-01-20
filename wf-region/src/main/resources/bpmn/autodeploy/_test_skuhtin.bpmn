@@ -7,8 +7,8 @@
         <activiti:formProperty id="sSecondName" name="SecondName" type="string"></activiti:formProperty>
         <activiti:formProperty id="sThirdName" name="ThirdName" type="string"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса для зворотнього зв'язку" type="string"></activiti:formProperty>
-        <activiti:formProperty id="nBuildNotif" name="Повідомлення про виконання будівельних робіт" type="file" default=" " required="true"></activiti:formProperty>       
-        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/_test_no_email.json')}"></activiti:formProperty>
+        <activiti:formProperty id="nBuildNotif" name="Повідомлення про виконання будівельних робіт" type="file" default=" " required="true"></activiti:formProperty>
+        <activiti:formProperty id="marker_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/_test_no_email.json')}" required="true"></activiti:formProperty>
       </extensionElements>
     </startEvent>
     <userTask id="usertask1" name="Check POST" activiti:candidateGroups="sales">
@@ -17,13 +17,13 @@
         <activiti:formProperty id="sName" name="Name" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSecondName" name="SecondName" type="string"></activiti:formProperty>
         <activiti:formProperty id="sThirdName" name="ThirdName" type="string"></activiti:formProperty>
-        <activiti:formProperty id="nInfLetter" name="Інформаційний лист" type="file" default=" " ></activiti:formProperty>
+        <activiti:formProperty id="nInfLetter" name="Інформаційний лист" type="file" default=" "></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nBuildNotif}]]></activiti:expression>
+            <activiti:expression>${nBuildNotif}</activiti:expression>
           </activiti:field>
-        </activiti:taskListener>      
+        </activiti:taskListener>
       </extensionElements>
     </userTask>
     <endEvent id="endevent1" name="End"></endEvent>
@@ -31,23 +31,22 @@
     <serviceTask id="servicetask1" name="Service Task" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
         <activiti:field name="from">
-          <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
+          <activiti:expression>noreply@dabi.gov.ua</activiti:expression>
         </activiti:field>
         <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
+          <activiti:expression>${email}</activiti:expression>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression><![CDATA[Повідомлення щодо видачі дублікату декларації про початок виконання будівельних робіт]]></activiti:expression>
+          <activiti:expression>Повідомлення щодо видачі дублікату декларації про початок виконання будівельних робіт</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[Тестове повідомлення]]></activiti:expression>
+          <activiti:expression>Тестове повідомлення</activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
-
     <sequenceFlow id="flow3" sourceRef="startevent1" targetRef="servicetask1"></sequenceFlow>
     <sequenceFlow id="flow4" sourceRef="servicetask1" targetRef="usertask1"></sequenceFlow>
-    <userTask id="usertask2" name="Check File Name"  activiti:candidateGroups="sales">
+    <userTask id="usertask2" name="Check File Name" activiti:candidateGroups="sales">
       <extensionElements>
         <activiti:formProperty id="sName" name="Name" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSecondName" name="SecondName" type="string"></activiti:formProperty>
@@ -55,10 +54,10 @@
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nBuildNotif},${nInfLetter}]]></activiti:expression>
+            <activiti:expression>${nBuildNotif},${nInfLetter}</activiti:expression>
           </activiti:field>
-        </activiti:taskListener>      
-      </extensionElements>        
+        </activiti:taskListener>
+      </extensionElements>
     </userTask>
     <sequenceFlow id="flow5" sourceRef="usertask2" targetRef="endevent1"></sequenceFlow>
   </process>
