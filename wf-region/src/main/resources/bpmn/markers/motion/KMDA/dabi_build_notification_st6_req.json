@@ -10,7 +10,7 @@
       },
                 
     "RequiredFieldsOnCondition_TechSupervision": 
-      {"aField_ID": 	["sSupervisionPib","sSupervisionPhone","sSupervisionCertificate"], 
+      {"aField_ID": 	["sSupervisionPib","sSupervisionCertificate"], 
        "asID_Field": 	{"sCondit":"asIsTechSupervision"},
        "sCondition": 	"[sCondit] == 'sEnumTechYes'"
       },

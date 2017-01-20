@@ -3,27 +3,25 @@
     {
     "RequiredFieldsOnCondition_Person": 
       {"aField_ID":
-        ["sPersonLastName","sPersonFirstName","sPersonMiddleName",
-         "sPersonAddress","sPersonPassport","sPersonINN"], 
+        ["sPersonLastName","sPersonFirstName","sPersonMiddleName"], 
        "asID_Field": {"sCondit":"asApplicantType"},
        "sCondition": "[sCondit] == 'sEnumAppPerson'"
       },
-                      
     "RequiredFieldsOnCondition_Legal": 
-      {"aField_ID": 	["sLegalForm","sLegalName","sLegalAddress","sLegalEDRPOU"], 
+      {"aField_ID": 	["sLegalForm","sLegalName","sLegalEDRPOU"], 
        "asID_Field": 	{"sCondit":"asApplicantType"},
        "sCondition": 	"[sCondit] == 'sEnumAppLegal'"
       },
     "RequiredFieldsOnCondition_ProjectDev": 
       {"aField_ID":
-        ["sDesignerName","sResponsiblePerson","sApprovalPerson","sApprovalDate",
+        ["sDesignerName","sResponsiblePerson","sApprovalPerson","sApprovalDate", 
          "sAdminDoc","sAdminDocDate","sKeyIndicators","sTotalNonResidentialArea"], 
        "asID_Field": {"sCondit":"asIsProjectDeveloped"},
        "sCondition": "[sCondit] == 'sEnumDeveloped'"
       },
                 
     "RequiredFieldsOnCondition_TechSupervision": 
-      {"aField_ID": 	["sTechSupervisorName","sTechSupervisorPhone","sTechSupervisorSertif"], 
+      {"aField_ID": 	["sTechSupervisorName","sTechSupervisorSertif"], 
        "asID_Field": 	{"sCondit":"asIsTechSupervision"},
        "sCondition": 	"[sCondit] == 'sEnumTechYes'"
       },
@@ -38,12 +36,12 @@
        "sCondition": 	"[sCondit] == 'sEnumSuperficies'"
       },
     "RequiredFieldsOnCondition_ContrPers": 
-      {"aField_ID": 	["sGenPersonName","sGenPersonPassport","sGenPersonAddress","sGenPersonINN"], 
+      {"aField_ID": 	["sGenPersonName"], 
        "asID_Field": 	{"sCondit":"asGeneralContractor"},
        "sCondition": 	"[sCondit] == 'sEnumGenPerson'"
       },
     "RequiredFieldsOnCondition_ContrLegal": 
-      {"aField_ID": 	["sGenLegalForm","sGenLegalName","sGenLegalAddress","sGenLegalINN","sGenPhone"], 
+      {"aField_ID": 	["sGenLegalForm","sGenLegalName","sGenLegalINN"], 
        "asID_Field": 	{"sCondit":"asGeneralContractor"},
        "sCondition": 	"[sCondit] == 'sEnumGenLegal'"
       },
