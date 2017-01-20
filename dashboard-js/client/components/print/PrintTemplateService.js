@@ -75,11 +75,24 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Prin
 		                    } 
 		
 		                    if( itemObject.sLabel === "" ) { 
-		                      
+
 		                      itemObject.oField = item.aField[0]; 
 		                      itemObject.sLabel = item.aField[0].value;
-		                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
-		
+		                      // console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
+
+                          if( itemObject.oField.type === 'enum' && itemObject.oField.a != null ) { 
+
+                              angular.forEach( itemObject.oField.a, function( enumItem, enumKey ) { 
+
+                                 if ( enumItem.id === itemObject.oField.value ) { 
+                                    itemObject.sLabel = enumItem.name; 
+                                    return ; 
+                                 } 
+
+                              }); 
+
+                          }
+
 		                    } 
 		                    
 		                    if( itemObject.sLabel ) { 
