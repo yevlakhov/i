@@ -1,7 +1,7 @@
 angular.module('app')
   .controller('ServiceController',
-  ['$scope', '$rootScope', '$timeout', 'CatalogService', 'AdminService', '$filter', 'statesRepository', 'RegionListFactory', 'LocalityListFactory', 'messageBusService', 'EditServiceTreeFactory', '$location', '$stateParams', '$state', '$anchorScroll', 'TitleChangeService',
-  function($scope, $rootScope, $timeout, CatalogService, AdminService, $filter, statesRepository, RegionListFactory, LocalityListFactory, messageBusService, EditServiceTreeFactory, $location, $stateParams, $state, $anchorScroll, TitleChangeService) {
+  ['$scope', '$rootScope', '$timeout', 'CatalogService', 'AdminService', '$filter', 'statesRepository', 'RegionListFactory', 'LocalityListFactory', 'messageBusService', 'EditServiceTreeFactory', '$location', '$stateParams', '$state', '$anchorScroll', 'TitleChangeService', '$modal',
+  function($scope, $rootScope, $timeout, CatalogService, AdminService, $filter, statesRepository, RegionListFactory, LocalityListFactory, messageBusService, EditServiceTreeFactory, $location, $stateParams, $state, $anchorScroll, TitleChangeService,$modal) {
     $rootScope.isOldStyleView = !!statesRepository.isDFS();
     if ($rootScope.isOldStyleView) $scope.spinner = true;
     $rootScope.catalogTab = 1;
@@ -22,11 +22,41 @@ angular.module('app')
 
     $scope.mailInputText = '';
     $scope.sendMailRequest = function () {
-      $.post('/api/messages/sendMail',{message:$scope.mailInputText}).success(function () {
-        alert('Дякуемо. Ваш запит успішно відправлений');
+      var modalInstance = $modal.open({
+        animation: true,
+        size: 'md',
+        templateUrl: 'app/common/components/submitSendMessageModal/submitSendMessageModal.html',
+        controller: 'submitSendMessageModalController',
+        resolve: {
+          title: function() {
+            return 'Запит про сервіс або послугу'
+          },
+          message: function() {
+            return {
+              message:'Підтвердіть відправку повідомлення',
+              mailInputText:$scope.mailInputText
+            }
+          },
+        }
+      });
+
+      modalInstance.result.then(function () {
+        $modal.open({
+          animation: true,
+          size: 'md',
+          templateUrl: 'app/common/components/submitSendMessageModal/submitSendMessageSendedModal.html',
+          controller: 'submitSendMessageModalController',
+          resolve: {
+            title: function() {
+              return 'Запит про сервіс або послугу'
+            },
+            message: function() {
+              return {message:'Дякуемо. Ваш запит успішно відправлений'}
+            }
+          }
+        });
         $scope.mailInputText = '';
-        $scope.$apply()
-      })
+      });
     }
     /*$scope.isCatalogCategoryShowAll = function(nID){
         return statesRepository.isSearch(nID);

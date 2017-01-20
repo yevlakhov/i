@@ -1,7 +1,7 @@
 angular.module('app')
     .controller('NewSubcategoryController',
-        ['$scope', '$stateParams', '$filter', '$location', '$anchorScroll', 'messageBusService', 'chosenCategory', 'EditServiceTreeFactory', 'AdminService', '$state', '$rootScope', 'TitleChangeService',
-            function ($scope, $stateParams, $filter, $location, $anchorScroll, messageBusService, chosenCategory, EditServiceTreeFactory, AdminService, $state, $rootScope, TitleChangeService) {
+        ['$scope', '$stateParams', '$filter', '$location', '$anchorScroll', 'messageBusService', 'chosenCategory', 'EditServiceTreeFactory', 'AdminService', '$state', '$rootScope', 'TitleChangeService', '$modal',
+            function ($scope, $stateParams, $filter, $location, $anchorScroll, messageBusService, chosenCategory, EditServiceTreeFactory, AdminService, $state, $rootScope, TitleChangeService,$modal) {
                 $scope.category = $stateParams.catID;
                 $scope.subcategory = chosenCategory;
                 // $scope.spinner = false;
@@ -11,11 +11,42 @@ angular.module('app')
 
 
                 $scope.sendMailRequest = function () {
-                    $.post('/api/messages/sendMail',{message:$scope.mailInputText}).success(function () {
-                      alert('Дякуемо. Ваш запит успішно відправлений');
-                      $scope.mailInputText = '';
-                        $scope.$apply()
-                    })
+
+                  var modalInstance = $modal.open({
+                    animation: true,
+                    size: 'md',
+                    templateUrl: 'app/common/components/submitSendMessageModal/submitSendMessageModal.html',
+                    controller: 'submitSendMessageModalController',
+                    resolve: {
+                      title: function() {
+                        return 'Запит про сервіс або послугу'
+                      },
+                      message: function() {
+                        return {
+                          message:'Підтвердіть відправку повідомлення',
+                          mailInputText:$scope.mailInputText
+                        }
+                      },
+                    }
+                  });
+
+                  modalInstance.result.then(function () {
+                    $modal.open({
+                      animation: true,
+                      size: 'md',
+                      templateUrl: 'app/common/components/submitSendMessageModal/submitSendMessageSendedModal.html',
+                      controller: 'submitSendMessageModalController',
+                      resolve: {
+                        title: function() {
+                          return 'Запит про сервіс або послугу'
+                        },
+                        message: function() {
+                          return {message:'Дякуемо. Ваш запит успішно відправлений'}
+                        }
+                      }
+                    });
+                    $scope.mailInputText = '';
+                  });
                 }
 
                 var subscribers = [];

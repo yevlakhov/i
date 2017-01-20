@@ -35,9 +35,10 @@
                      ng-bind-html="getHtml(data.formData.params.response.value)"></div>
             </div>
             <div class="col-md-12 col-sm-12 col-xs-12">
-                <form class="ng-pristine ng-valid category__item-subscribe category__item-subscribe-grey">
+                <form class="ng-pristine ng-valid category__item-subscribe category__item-subscribe-grey" ng-submit="sendMailRequest()">
                     <div class="input-group">
                         <input type="text" style="border: 1px solid #ccc!important;" name="txt" class="form-control"
+                               ng-model='mailInputText'
                                placeholder="Ваш коментар або запитання до співробітника держ. органу">
                         <span class="input-group-btn">
                         <button class="btn btn-default button-subscribe" type="submit">Надіслати</button>

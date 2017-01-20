@@ -1,0 +1,22 @@
+<div class="modal-header">
+  <h3 class="modal-title">{{title}}</h3>
+</div>
+
+<form class="form" name="deleteForm" novalidate ng-submit="send()">
+  <div class="modal-body">
+    <div class="form-group" >
+      <label class="control-label">{{message}}</label>
+    </div>
+    <div class="form-group">
+      <div class="g-recaptcha" id="g_recaptcha" name="g_recaptcha" placeholder="g_recaptcha"></div>
+    </div>
+  </div>
+
+  <div class="modal-footer">
+    <button type="submit" class="btn btn-primary">
+      Надіслати
+    </button>
+  </div>
+</form>
+
+

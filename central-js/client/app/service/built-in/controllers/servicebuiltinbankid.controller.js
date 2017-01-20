@@ -736,6 +736,45 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
       }
     };
 
+    $scope.mailInputText = '';
+    $scope.sendMailRequest = function () {
+      var modalInstance = $modal.open({
+        animation: true,
+        size: 'md',
+        templateUrl: 'app/common/components/submitSendMessageModal/submitSendMessageModal.html',
+        controller: 'submitSendMessageModalController',
+        resolve: {
+          title: function() {
+            return 'Ваш коментар або запитання до співробітника держ. органу'
+          },
+          message: function() {
+            return {
+              message:'Підтвердіть відправку повідомлення',
+              mailInputText:$scope.mailInputText
+            }
+          },
+        }
+      });
+
+      modalInstance.result.then(function () {
+        $modal.open({
+          animation: true,
+          size: 'md',
+          templateUrl: 'app/common/components/submitSendMessageModal/submitSendMessageSendedModal.html',
+          controller: 'submitSendMessageModalController',
+          resolve: {
+            title: function() {
+              return 'Ваш коментар або запитання до співробітника держ. органу'
+            },
+            message: function() {
+              return {message:'Дякуемо. Ваш запит успішно відправлений'}
+            }
+          }
+        });
+        $scope.mailInputText = '';
+      });
+    }
+
     $scope.getHtml = function (html) {
       return $sce.trustAsHtml(html);
     };
