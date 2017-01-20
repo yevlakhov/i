@@ -1,0 +1,20 @@
+{
+  "attributes": {
+    "Line_Object": {
+      "aElement_ID": ["sObjectName"],
+      "sValue": "Інформація про об'єкт"        
+    },
+    "Line_Applicant": {
+      "aElement_ID": ["sPersonLastName","sLegalForm"],
+      "sValue": "Замовник"        
+    },
+    "Line_Court": {
+      "aElement_ID": ["sCourtName"],
+      "sValue": "Суд"        
+    },
+    "Line_Doc": {
+      "aElement_ID": ["sWorksDeclarNumber"],
+      "sValue": "Декларація про початок виконання підготовчих робіт"        
+    }
+  }
+}

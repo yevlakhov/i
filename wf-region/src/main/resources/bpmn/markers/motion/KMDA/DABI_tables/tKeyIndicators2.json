@@ -1,0 +1,20 @@
+{"aField":[ 
+    {"id":"sKeyIndicatorName",
+     "name":"Найменування основного показника",
+     "type":"string"}, 
+    {"id":"sKeyIndicatorUnit",
+     "name":"Одиниця вимірювання",
+     "type":"string"},
+    {"id":"sByProjectTotal",
+     "name":"Загальний за проектом",
+     "type":"string"}, 
+    {"id":"sByProjectQueue",
+     "name":"У т.ч. пускового комплексу або черги за проектом",
+     "type":"string"}, 
+    {"id":"sByTechInventTotal",
+     "name":"загальний за результатами технічної інфентаризації",
+     "type":"string"}, 
+    {"id":"sByTechInventQueue",
+     "name":"У т.ч. пускового комплексу або черги за результатами технічної інвентаризації",
+     "type":"string"}
+]}

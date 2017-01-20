@@ -1,0 +1,27 @@
+{"aField":[
+  {"id":"sArchitectPosition",
+   "name":"Найменування посади відповідальної особи",
+   "type":"string"},
+
+  {"id":"sArchitectPib",
+   "name":"ПІБ (напр. Іванов Петро Васильович)",
+   "type":"string",
+   "required":"true"},
+
+  {"id":"sArchitectDocName",
+   "name":"Найменування документа про призначення",
+   "type":"string"},
+
+  {"id":"sArchitectDocDate",
+   "name":"Дата видачі документа про призначення",
+   "type":"string"},
+
+  {"id":"sArchitectDocNumber",
+   "name":"Номер документа про призначення",
+   "type":"string"},
+
+  {"id":"sArchitectCertificate",
+   "name":"Серія та номер кваліфікаційного сертифіката",
+   "type":"string",
+   "required":"true"}
+]}
