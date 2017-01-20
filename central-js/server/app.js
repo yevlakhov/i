@@ -43,6 +43,7 @@ function sendRequest() {
   console.time('get catalog');
   request(serverAddr + '/api/catalog?asIDPlaceUA=8000000000,8000000000&bShowEmptyFolders=false', {json: true}, function (err, resp, body) {
     console.timeEnd('get catalog')
+    if(err!=null)return sendRequest();
     var counter =0;
     body.forEach(function (category) {
       if (category.aSubcategory)
