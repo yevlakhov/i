@@ -64,15 +64,21 @@ public class AttachmetService {
     public String createAttachment (String nID_Process, String sID_Field, String sFileNameAndExt,
         	boolean bSigned, String sID_StorageType, String sContentType, List<Map<String, Object>> saAttribute_JSON,
 		byte[] aContent, boolean bSetVariable) throws JsonProcessingException, CRCInvalidException, RecordNotFoundException{
-            
+        
+        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
+        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        
+        LOG.info(" ----------- " + dtf.format(new Date()) + " ----------- ");
         LOG.info("createAttachment nID_Process: " + nID_Process);
+        LOG.info("createAttachment sID_Field: " + sID_Field);
         LOG.info("createAttachment sFileNameAndExt: " + sFileNameAndExt);
         LOG.info("createAttachment bSigned: " + bSigned);
         LOG.info("createAttachment sID_StorageType: " + sID_StorageType);
         LOG.info("createAttachment sContentType: " + sContentType);
         LOG.info("createAttachment saAttribute_JSON size: " + saAttribute_JSON.size());
         LOG.info("createAttachment aContent: " + new String(aContent));
-
+        LOG.info("----------------------------------------------------");
+        
         TaskAttachVO oTaskAttachVO = new TaskAttachVO();
             
         String sKey = null;
@@ -94,8 +100,6 @@ public class AttachmetService {
             
         LOG.info("database sKey: " + sKey);
             
-        SimpleDateFormat df = new SimpleDateFormat("yyyy-MM-dd");
-        SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
            
         oTaskAttachVO.setsID_StorageType(sID_StorageType);
         oTaskAttachVO.setsKey(sKey);
@@ -111,15 +115,14 @@ public class AttachmetService {
         String sID_Field_Value = JsonRestUtils.toJson((Object)oTaskAttachVO);
         
         if(nID_Process != null && bSetVariable == true){
-            String taskId = Long.toString(oActionTaskService.getTaskIDbyProcess(Long.parseLong(nID_Process), null, true));
             
-            LOG.info("UserTask id is:" + taskId);
-            LOG.info("UserTask sID_Field is:" + sID_Field);
-            LOG.info("UserTask sID_Field_Value is:" + sID_Field_Value);
+            //String taskId = Long.toString(oActionTaskService.getTaskIDbyProcess(Long.parseLong(nID_Process), null, true));
+            //LOG.info("UserTask id is:" + taskId);
+            //LOG.info("UserTask sID_Field is:" + sID_Field);
+            //LOG.info("UserTask sID_Field_Value is:" + sID_Field_Value);
+            //oTaskService.setVariable(taskId, sID_Field, sID_Field_Value);
             
-            oTaskService.setVariable(taskId, sID_Field, sID_Field_Value);
-            
-            //oRuntimeService.setVariable(nID_Process, sID_Field, sID_Field_Value);
+            oRuntimeService.setVariable(nID_Process, sID_Field, sID_Field_Value);
         }
 	
         return sID_Field_Value;
@@ -138,9 +141,10 @@ public class AttachmetService {
         
         if(nID_Process != null && sID_Field != null){
             
-            //Map<String, Object> variables = oRuntimeService.getVariables(nID_Process);
-            Map<String, Object> variables = oTaskService.getVariables(Long.toString(oActionTaskService.getTaskIDbyProcess(Long.parseLong(nID_Process), null, true)));
-            
+            Map<String, Object> variables = oRuntimeService.getVariables(nID_Process);
+            //Map<String, Object> variables = oTaskService.getVariables(Long.toString(oActionTaskService.getTaskIDbyProcess(Long.parseLong(nID_Process), null, true)));
+            SimpleDateFormat dtf = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+            LOG.info("getAttachment started in " + dtf.format(new Date()));
             LOG.info("VariableMap: " + variables);
 
             if (variables != null) {
@@ -156,7 +160,12 @@ public class AttachmetService {
                     sFileName = (String)result.get("sFileNameAndExt");
                     sVersion = (String)result.get("sVersion");
                     sContentType = (String)result.get("sContentType");      
-
+                    
+                    LOG.info("getProcessAttach sID_StorageType: " + sID_StorageType);
+                    LOG.info("getProcessAttach sKey: " + sKey);
+                    LOG.info("getProcessAttach sFileName: " + sFileName);
+                    LOG.info("getProcessAttach sVersion: " + sVersion);
+                    LOG.info("getProcessAttach sContentType: " + sContentType);
                 }
             }
 
