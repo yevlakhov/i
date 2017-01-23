@@ -29,9 +29,13 @@
 
         <dropTable tableName="Flow_ServiceData_Tmp"/>
     </changeSet>
-
+    
     <changeSet id="Update data" author="brunneng" runOnChange="true">
-
+        
+        <delete tableName="SubjectGroupTree"/>
+        
+        <delete tableName="SubjectGroup"/>
+    
         <sql splitStatements="true" dbms="postgresql"><![CDATA[
             SET CONSTRAINTS ALL DEFERRED;
             DELETE FROM "SubjectOrganJoinAttribute";
@@ -237,22 +241,6 @@
             <column name="nID_AccessServiceRole" type="NUMERIC"/>
         </loadData>
         
-        <delete tableName="SubjectGroup"/>
-        
-        <loadData encoding="UTF-8" file="data/SubjectGroup.csv" tableName="SubjectGroup" separator=";">
-            <column name="nID" type="NUMERIC"/>
-            <column name="sName" type="STRING"/>
-            <column name="sID_Group_Activiti" type="STRING"/>
-            <column name="sChain" type="STRING"/>
-        </loadData>
-        
-        <delete tableName="SubjectGroupTree"/>
-        
-        <loadData encoding="UTF-8" file="data/SubjectGroupTree.csv" tableName="SubjectGroupTree" separator=";">
-            <column name="nID_SubjectGroup_Parent" type="NUMERIC"/>
-            <column name="nID_SubjectGroup_Child" type="NUMERIC"/>
-        </loadData>
-        
         <delete tableName="ProcessSubjectStatus"/>
         
         <loadData tableName="ProcessSubjectStatus" file="data/ProcessSubjectStatus.csv" encoding="UTF-8" separator=";">
@@ -306,7 +294,20 @@
             <column name="sName" type="STRING"/>
             <column name="sNameFull" type="STRING"/>
         </loadUpdateData>
-
+        
+        <loadData encoding="UTF-8" file="data/SubjectGroup.csv" tableName="SubjectGroup" separator=";">
+            <column name="nID" type="NUMERIC"/>
+            <column name="sName" type="STRING"/>
+            <column name="sID_Group_Activiti" type="STRING"/>
+            <column name="sChain" type="STRING"/>
+            <column name="nID_Subject" type="NUMERIC"/>
+        </loadData>
+        
+        <loadData encoding="UTF-8" file="data/SubjectGroupTree.csv" tableName="SubjectGroupTree" separator=";">
+            <column name="nID_SubjectGroup_Parent" type="NUMERIC"/>
+            <column name="nID_SubjectGroup_Child" type="NUMERIC"/>
+        </loadData>
+        
         
         <!-- 3 связанные таблицы SubjectOrganJoin, SubjectOrganJoinAttribute
         перезагружаются каждый раз -->

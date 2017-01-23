@@ -22,8 +22,8 @@ public class DefaultFlowSlotGenerator {
     protected static final Logger LOG = LoggerFactory.getLogger(DefaultFlowSlotGenerator.class);
 
     public List<FlowSlot> generateObjects(Map<String, String> configuration, DateTime startDate, DateTime endDate,
-            int maxGeneratedSlotsCount, String defaultFlowSlotName) {
-
+            int maxGeneratedSlotsCount, String defaultFlowSlotName, List<DateTime> aDateRange_Exclude) {
+        LOG.info("generateObjects slots is started");
         TreeMap<DateTime, FlowSlot> res = new TreeMap<>();
 
         for (Map.Entry<String, String> entry : configuration.entrySet()) {
@@ -44,7 +44,21 @@ public class DefaultFlowSlotGenerator {
                 if (endDate.compareTo(currDateTime) <= 0) {
                     break;
                 }
-
+                
+                boolean continueFlaf = false;
+                
+                if(aDateRange_Exclude != null){
+                    for(DateTime excludeDate : aDateRange_Exclude){
+                        if (currDateTime.compareTo(excludeDate) == 0){
+                            continueFlaf = true;
+                        }
+                    }
+                }
+                
+                if(continueFlaf){
+                    continue;
+                }
+                
                 if (res.containsKey(currDateTime)) {
                     if (LOG.isDebugEnabled()) {
                         LOG.debug(String.format(
