@@ -78,7 +78,18 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
 		                      itemObject.oField = item.aField[0];
 		                      itemObject.sLabel = item.aField[0].value;
-		                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel );
+
+                          if( itemObject.oField.type == "enum" && itemObject.oField.a != null ) { 
+ 
+                            angular.forEach( itemObject.oField.a, function (enumItem, enumKey) { 
+                               console.log( " enumItem.name=" + enumItem.name + ", enumKey=" + enumKey + ", oField.value=" + itemObject.oField.value ); 
+                               if( enumKey == itemObject.oField.value ) { 
+                                  itemObject.sLabel = enumItem.name; 
+                               } 
+                            }); 
+
+                          }   
+		                      //console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel );
 
 		                    }
 
