@@ -386,6 +386,7 @@
         <activiti:formProperty id="sLabel_Doc" name="---------------" type="label" default="Реквізити документа   -------"></activiti:formProperty>
         <activiti:formProperty id="sWorksDeclarationNumber" name="Номер декларації про початок виконання підготовчих робіт" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sWorksDeclarationDate" name="Дата видачі декларації про початок виконання підготовчих робіт" type="date" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар працівника сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLoginAsignee_step8" name="Відповідальний виконавець;sSelectType=UserByGroup,sSourceFieldID_sID_Group=sID_Group_step8,sDestinationFieldID_sName=sAssigneeName_step8" type="select" required="true"></activiti:formProperty>
         <activiti:formProperty id="sID_Group_step8" name="Група виконавців" type="invisible" default="kyiv_dabi_law"></activiti:formProperty>
@@ -540,7 +541,7 @@
         <activiti:formProperty id="sLawBossComment" name="Коментар Керівника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitEmpComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLawEmpComment" name="Коментар співробітника Юридичного сектору" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="asDesision" name="Прийняте рішення" type="enum" required="true">
+        <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" required="true">
           <activiti:value id="sEnumYes" name="Зауваження відсутні. Підготувати дублікат"></activiti:value>
           <activiti:value id="sEnumNo" name="Підготувати відмову"></activiti:value>
         </activiti:formProperty>
