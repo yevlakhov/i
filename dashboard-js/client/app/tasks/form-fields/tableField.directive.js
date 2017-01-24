@@ -9,6 +9,8 @@ angular.module('dashboardJsApp')
         
         $scope.broadcast = function(eventName, obj) { 
 
+            console.log("Field change testing2!"); 
+          
            $rootScope.$broadcast(eventName, obj); 
 
            return true;
