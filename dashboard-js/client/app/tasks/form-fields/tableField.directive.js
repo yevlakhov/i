@@ -5,9 +5,12 @@ angular.module('dashboardJsApp')
       restrict: 'E',
       controller: ['$scope', '$rootScope', function TableFieldController( $scope, $rootScope ) {
 
+        console.log("Field change testing!"); 
+        
         $scope.broadcast = function(eventName, obj) { 
 
-          console.log("Field change testing"); 
+            console.log("Field change testing2!"); 
+          
            $rootScope.$broadcast(eventName, obj); 
 
            return true;
