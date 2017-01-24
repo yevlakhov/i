@@ -22,10 +22,12 @@
           }
         };
         function getRegexContains(str, splitBy, part) {
-          var as = str.split(splitBy);
-          for (var i = 0; i < as.length; i++) {
-            if (as[i].indexOf(part) >= 0) {
-              return as[i];
+          if(str.includes(splitBy)) {
+            var as = str.split(splitBy);
+            for (var i = 0; i < as.length; i++) {
+              if (as[i].indexOf(part) >= 0) {
+                return as[i];
+              }
             }
           }
           return null;
@@ -67,9 +69,11 @@
           var item = getObjFromTaskFormById(sLoginAsignee);
           if (item !== null) {
             var as = getRegexContains(item.name, ';', param);
-            as = getRegexContains(as, ',', param);
-            var sID = as.split('=')[1];
-            return sID;
+            if(as != null) {
+              as = getRegexContains(as, ',', param);
+              var sID = as.split('=')[1];
+              return sID;
+            }
           }
           return null;
         }
@@ -107,8 +111,6 @@
                       item.value = item.enumValues[0].id;
                       $scope.updateAssigneeName(item);
                     }
-                    // hidden sAssignName
-                    hiddenObjById(getIdFromActivityProperty("sDestinationFieldID_sName"));
                   }
                 });
               }
