@@ -54,7 +54,7 @@
 
           <div ng-if="['enum'].indexOf(field.type) > -1">
             <select name="{{field.id + rowIndex}}"
-                    ng-init="field.value - ((field.value || field.default) || '')"
+                    ng-init="field.value = ((field.value || field.default) || '')"
                     ng-required="field.required"
                     ng-model="field.value"
                     ng-class="{'table-field-invalid': form.$submitted && form[tableName][field.id + rowIndex].$invalid || tableIsInvalid && form[tableName][field.id + rowIndex].$invalid && invalidTableNum === tableName}"
