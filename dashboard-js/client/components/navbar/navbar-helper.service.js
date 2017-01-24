@@ -44,12 +44,6 @@
       showCount: false,
       tab: 'documents'
     }, {
-      title: 'Мій розклад',
-      type: tasks.filterTypes.tickets,
-      count: 0,
-      showCount: true,
-      tab: 'tickets'
-    }, {
       title: 'Усі',
       type: tasks.filterTypes.all,
       count: 0,
