@@ -14,7 +14,7 @@
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" default="Потрібна інтеграція з обліковою системою"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>        <activiti:formProperty id="phone" name="Номер телефону" type="string" default="+380" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>       
         <activiti:formProperty id="email" name="Електронна адреса" type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" required="true"></activiti:formProperty>
@@ -148,6 +148,7 @@
         <activiti:formProperty id="sLabel_Object" name="---------------" type="label" default="Об'єкт будівництва   -------"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sLabel_Comments" name="---------------" type="label" default="Коментарі   -------"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAssigneeName" name="Відповідальний виконавець" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sPermitBossComment" name="Коментар Керівника Управління дозвільних процедур" type="string" writable="false"></activiti:formProperty>
@@ -208,14 +209,9 @@
           <activiti:value id="sEnumGenLegal" name="Юридична особа"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sGenPersonName" name="ПІБ фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenPersonPassport" name="Паспортні дані (серія, номер, ким і коли виданий)" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenPersonAddress" name="Місце проживання фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenPersonINN" name="Номер облікової картки платника податків" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalForm" name="Організаційно-правова форма юридичної особи" type="string" default="Потрібна інтеграція з обліковою системою"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sGenLegalAddress" name="Місцезнаходження" type="string"></activiti:formProperty>
         <activiti:formProperty id="sGenLegalINN" name="Код платника податків згідно з ЄДРПОУ або податковий номе" type="string"></activiti:formProperty>
-        <activiti:formProperty id="workPhone" name="Номер телефону підрядника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sDocEmpComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBossPermitComment" name="Коментар Керівника Управління дозвільних процедур" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asDecision" name="Прийняте рішення" type="enum" required="true">
@@ -391,9 +387,9 @@
         <activiti:field name="text">
           <activiti:expression><![CDATA[${sTextLetter}]]></activiti:expression>
         </activiti:field>
-        <activiti:field name="saAttachmentsForSend">
+        <!--activiti:field name="saAttachmentsForSend">
           <activiti:expression><![CDATA[]]></activiti:expression>
-        </activiti:field>
+        </activiti:field-->
       </extensionElements>
     </serviceTask>
     <userTask id="usertask_upload" name="Upload File" activiti:candidateGroups="kyiv_dabi_doc">
