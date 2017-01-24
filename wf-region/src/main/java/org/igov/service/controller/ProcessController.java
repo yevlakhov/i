@@ -9,43 +9,38 @@ import com.google.common.base.Optional;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
-
-import java.text.ParseException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.stream.Collectors;
-import javax.servlet.http.HttpServletResponse;
-
-import org.apache.commons.lang3.StringUtils;
-import org.igov.io.db.kv.statical.exceptions.RecordNotFoundException;
-
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.history.HistoricVariableInstance;
 import org.igov.analytic.model.access.AccessGroup;
 import org.igov.analytic.model.access.AccessUser;
-import org.igov.model.action.task.core.entity.ProcDefinitionI;
+import org.igov.analytic.model.attribute.*;
+import org.igov.analytic.model.process.CustomProcess;
+import org.igov.analytic.model.process.Process;
+import org.igov.analytic.model.process.ProcessDao;
+import org.igov.analytic.model.process.ProcessTask;
+import org.igov.analytic.model.source.SourceDB;
+import org.igov.analytic.model.source.SourceDBDao;
+import org.igov.io.db.kv.analytic.IFileStorage;
+import org.igov.io.db.kv.statical.exceptions.RecordNotFoundException;
+import org.igov.service.ArchiveServiceImpl;
+import org.igov.util.VariableMultipartFile;
+import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.igov.analytic.model.process.Process;
-import org.igov.analytic.model.process.ProcessTask;
-import org.igov.analytic.model.attribute.Attribute;
-import org.igov.analytic.model.attribute.AttributeDao;
-import org.igov.analytic.model.attribute.AttributeType;
-import org.igov.analytic.model.attribute.AttributeTypeDao;
-import org.igov.analytic.model.attribute.Attribute_File;
-import org.igov.analytic.model.attribute.Attribute_FileDao;
-import org.igov.analytic.model.attribute.Attribute_StringShort;
-import org.igov.analytic.model.process.ProcessDao;
-import org.igov.analytic.model.source.SourceDB;
-import org.igov.analytic.model.source.SourceDBDao;
-import org.igov.io.db.kv.analytic.IFileStorage;
-import org.igov.service.ArchiveServiceImpl;
-import org.igov.util.VariableMultipartFile;
-import org.joda.time.DateTime;
-import org.springframework.beans.factory.annotation.Autowired;
+
+import javax.servlet.http.HttpServletResponse;
+import java.text.ParseException;
+import java.util.ArrayList;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * @author olga
@@ -82,6 +77,9 @@ public class ProcessController {
     @Autowired
     private ArchiveServiceImpl archiveService;
 
+    @Autowired
+    HistoryService historyService;
+
     @ApiOperation(value = "/backup", notes = "##### Process - сохранение процесса #####\n\n")
     @RequestMapping(value = "/backup", method = RequestMethod.GET)
     public
@@ -90,6 +88,68 @@ public class ProcessController {
         LOG.info("/backup!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! :)");
         archiveService.archiveData();
         LOG.info("/backup ok!!!");
+    }
+
+    //http://localhost:8080/wf-region/service/analytic/process/duplicate
+    @RequestMapping(value = "/duplicate", method = RequestMethod.GET, produces = MediaType.TEXT_PLAIN_VALUE)
+    @ResponseBody
+    public String duplicate() {
+       StringBuilder stringBuilder = new StringBuilder();
+
+        List<HistoricProcessInstance> processInstances = historyService.createHistoricProcessInstanceQuery().finished().list();
+
+        for(HistoricProcessInstance instance: processInstances) {
+            stringBuilder.append(createNewArchiveProcess(instance)).append("\n").append(createNewCustomArchiveProcess(instance)).append("\n-------------------");
+
+        }
+        return "Size of processInstances: " + processInstances.size() + "\n" + stringBuilder.toString();
+    }
+
+    //TODO rewrite this method as it provides multiple objects each time it is called
+    private Process createNewArchiveProcess(HistoricProcessInstance instance) {
+        Process archiveProcess = new  Process();
+        SourceDB sourceDB = new SourceDB();
+        sourceDB.setName("iGov");
+        archiveProcess.setoSourceDB(sourceDB);
+        archiveProcess.setoDateStart(new DateTime(instance.getStartTime()));
+        archiveProcess.setoDateFinish(new DateTime(instance.getEndTime()));
+        String currentProcessInstanceId = instance.getId();
+
+        List<HistoricVariableInstance> variablesList = historyService.createHistoricVariableInstanceQuery().processInstanceId(currentProcessInstanceId).list();
+        archiveProcess.setaAttribute(createAttributeForArchiveProcess(variablesList));
+
+
+
+        return archiveProcess;
+    }
+
+    //TODO write this method up to the end, it doesn't work now, ask Olga
+    private List<Attribute> createAttributeForArchiveProcess(List<HistoricVariableInstance> variableInstances) {
+        List<Attribute> resultList = new LinkedList<>();
+
+        for(HistoricVariableInstance instance: variableInstances) {
+            Attribute attribute = new Attribute();
+        }
+        return null;
+    }
+
+
+    private CustomProcess createNewCustomArchiveProcess(HistoricProcessInstance instance) {
+        CustomProcess archiveCustomProcess = new CustomProcess();
+
+        archiveCustomProcess.setnDuration(instance.getDurationInMillis());
+        archiveCustomProcess.setsBusinessKey(instance.getBusinessKey());
+        archiveCustomProcess.setsDeleteReason(instance.getDeleteReason());
+        archiveCustomProcess.setsName(instance.getName());
+        archiveCustomProcess.setsTenantId(instance.getTenantId());
+        archiveCustomProcess.setsSuperProcessInstanceId(instance.getSuperProcessInstanceId());
+        archiveCustomProcess.setsStartActivityId(instance.getStartActivityId());
+        archiveCustomProcess.setsStartUserId(instance.getStartUserId());
+        archiveCustomProcess.setsProcessDefinitionId(instance.getProcessDefinitionId());
+        archiveCustomProcess.setsProcessInstanceId(instance.getProcessDefinitionId());
+
+        archiveCustomProcess.setoProcess(createNewArchiveProcess(instance));
+        return archiveCustomProcess;
     }
 
     //http://localhost:8080/wf-region/service/analytic/process/getProcesses?sID_=1
@@ -101,30 +161,26 @@ public class ProcessController {
             @ApiParam(value = "внутренний ид заявки", required = true) @RequestParam(value = "sID_") String sID_,
             @ApiParam(value = "ид источника", required = false) @RequestParam(value = "nID_Source", required = false) Long nID_Source) {
         LOG.info("/getProcess!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! :)");
-        List<Process> result = new ArrayList();
+        List<Process> result = new ArrayList<>();
         try {
             LOG.info("/getProcess!!!!!!!!!!!!!!!!!!!!string sID_: " + sID_.trim());
-            sID_ = sID_.trim();
+            sID_ = sID_.trim().toUpperCase();
             if (sID_.length() >= 3) {
-                List<String> sIDInValues = new ArrayList<>();
-                sIDInValues.add(sID_);
-                sIDInValues.add(sID_.toLowerCase());
-                sIDInValues.add(sID_.toUpperCase());
-                List<Process> processes = processDao.findAllByInValues("sID_", sIDInValues);
+                List<Process> processes = processDao.findAllBy("sID_", sID_);
                 LOG.info("processes: " + processes.size());
                 result.addAll(processes);
             }
         } catch (Exception ex) {
             LOG.error("ex: ", ex);
-            Process process = creatStub();
+            Process process = createStub();
             process.setsID_(ex.getMessage());
             result.add(process);
         }
         return result;
     }
 
-    private Process creatStub() {
-        LOG.info("/creatStub!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! :)");
+    private Process createStub() {
+        LOG.info("/createStub!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! :)");
         Process process = new Process();
         ProcessTask processTask = new ProcessTask();
         Attribute attribute = new Attribute();

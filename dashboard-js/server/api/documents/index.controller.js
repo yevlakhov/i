@@ -74,28 +74,6 @@ exports.getBPs = function (req, res) {
   })
 };
 
-exports.getTasks = function (req, res) {
-  cache.get(buildKey(req.query), function (error, value) {
-    if (value) {
-      res.send(value);
-    } else {
-      var callback = function (error, statusCode, result) {
-        if (!error) {
-          cache.set(buildKey(req.query), result, cacheTtl);
-          res.statusCode = statusCode;
-          res.send(result);
-        } else {
-          console.error(error);
-        }
-      };
-      activiti.get({
-        path: '/action/task/getTasks',
-        query: req.query
-      }, callback)
-    }
-  })
-};
-
 exports.setDocument = function (req, res) {
   activiti.get({
     path: '/action/task/setDocument',

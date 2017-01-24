@@ -1,4 +1,5 @@
-angular.module('dashboardJsApp').service('taskFilterService', ['$filter', '$rootScope', 'processes', function ($filter, $rootScope, processes) {
+angular.module('dashboardJsApp').service('taskFilterService', ['$filter', '$rootScope', 'processes', '$state',
+  function ($filter, $rootScope, processes, $state) {
   var taskDefinitions = [
     {name: 'Всі', id: 'all'},
     {name: 'Старт', id: 'usertask1'},
@@ -10,32 +11,15 @@ angular.module('dashboardJsApp').service('taskFilterService', ['$filter', '$root
   var service = {
     getFilteredTasks: function (tasks, model) {
       var filteredTasks = this.filterTaskDefinitions(tasks, model.taskDefinition);
-      filteredTasks = this.filterTaskAssignee(tasks, model.sAssignee);
       filteredTasks = this.filterUserProcess(filteredTasks, model.userProcess);
       var strictTaskDefinitions = this.getProcessTaskDefinitions(filteredTasks);
       $rootScope.$broadcast('taskFilter:strictTaskDefinitions:update', strictTaskDefinitions);
       filteredTasks = this.filterStrictTaskDefinitions(filteredTasks, model.strictTaskDefinitions);
-      return filteredTasks;
-    },
-    filterTaskAssignee: function (tasks, sAssignee) {
-      if (tasks === null) {
-        return null;
+      if($state.params.type === 'documents' && filteredTasks !== null) {
+        filteredTasks = this.filterDocuments(filteredTasks, true);
+      } else if ($state.params.type !== 'documents' && filteredTasks !== null){
+        filteredTasks = this.filterDocuments(filteredTasks, false);
       }
-      if (tasks.length == 0) {
-        return [];
-      }
-      if (!sAssignee || 'Всі' == sAssignee) {
-        return tasks;
-      }
-
-      var filteredTasks = tasks.filter(function (task, index) {
-        if (!task) {
-          return false;
-        }
-        if (task.assignee == sAssignee) {
-          return true;
-        }
-      });
       return filteredTasks;
     },
     filterTaskDefinitions: function (tasks, taskDefinition) {
@@ -150,6 +134,18 @@ angular.module('dashboardJsApp').service('taskFilterService', ['$filter', '$root
         return retval;
       });
       return promise;
+    },
+    filterDocuments: function (tasks, isDoc) {
+      if(isDoc) {
+        var documents = tasks.filter(function (task) {
+          return task.processDefinitionId.charAt(0) === '_' && task.processDefinitionId.split('_')[1] === 'doc';
+        });
+      } else {
+        var documents = tasks.filter(function (task) {
+          return !(task.processDefinitionId && task.processDefinitionId.charAt(0) === '_' && task.processDefinitionId.split('_')[1] === 'doc');
+        });
+      }
+      return documents;
     }
   };
   return service;

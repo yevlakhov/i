@@ -14,6 +14,9 @@ import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+
 /**
  * User: goodg_000
  * Date: 10.07.2016
@@ -21,6 +24,7 @@ import java.util.stream.Stream;
  */
 @org.springframework.stereotype.Service
 public class ServiceTagService {
+    static final Logger LOG = LoggerFactory.getLogger(ServiceTagService.class);
     private static final long FAKE_ROOT_TAG_ID  = 0;
     private static final String GET_SERVICE_TAG_TREE_CACHE_KEY = "ServiceTagService.getServiceTagTree";
     private static final String GET_TAG_ID_TO_SERVICES_CACHE_KEY = "ServiceTagService.getTagIdToServicesMap";
@@ -35,7 +39,8 @@ public class ServiceTagService {
     GeneralConfig generalConfig;
 
     public List<ServiceTagTreeNodeVO> getCatalogTreeTag(Long nID_Category, String sFind,
-                                                        List<String> asID_Place_UA, boolean bShowEmptyFolders,
+                                                        List<String> asID_Place_UA, Long nID_Place_Profile,
+                                                        boolean bShowEmptyFolders,
                                                         boolean includeServices,
                                                         Long nID_ServiceTag_Root, Long nID_ServiceTag_Child) {
         List<ServiceTagTreeNodeVO> res = new ArrayList<>();
@@ -45,13 +50,20 @@ public class ServiceTagService {
         boolean hasChildIdFilter = nID_ServiceTag_Child != null;
 
         ServiceTagTree tree = getServiceTagTreeCached(includeTestEntities);
+        LOG.info("!!! tree.rootTagNodes.size: " + (tree != null ? tree.rootTagNodes.size() : 0));
         Map<Long, List<Service>> tagIdToServices = getTagIdToServicesMapCached(includeTestEntities);
+        LOG.info("!!! tagIdToServices.size: " + tagIdToServices.size());
 
         for (ServiceTagTreeNode rootTagNode : tree.getRootTagNodes()) {
             final ServiceTag parentTag = rootTagNode.getTag();
+            LOG.info("!!! rootTagNode: " + parentTag.getsID() + " " + parentTag.getsName_RU());
 
-            final Long rootTagId = rootTagNode.getTag().getId();
+            final Long rootTagId = parentTag.getId();
             if (hasRootIdFilter && !rootTagId.equals(nID_ServiceTag_Root)) {
+                continue;
+            }
+
+            if (nID_Place_Profile != null && !nID_Place_Profile.equals(parentTag.getnID_Place())) {
                 continue;
             }
 
@@ -61,6 +73,10 @@ public class ServiceTagService {
                 final ServiceTag childTag = childNode.getTag();
 
                 if (hasChildIdFilter && !childNode.getTag().getId().equals(nID_ServiceTag_Child)) {
+                    continue;
+                }
+
+                if (nID_Place_Profile != null && !nID_Place_Profile.equals(childTag.getnID_Place())) {
                     continue;
                 }
 
@@ -198,9 +214,12 @@ public class ServiceTagService {
             final ServiceTag parent = relation.getServiceTag_Parent();
             final ServiceTag child = relation.getServiceTag_Child();
 
-            if (isExcludeTestEntity(includeTestEntities, parent) || isExcludeTestEntity(includeTestEntities, child)) {
+            LOG.info("parent: " + parent.getsID() + " child: " + child.getsID());
+            /*if (isExcludeTestEntity(includeTestEntities, parent) || 
+            isExcludeTestEntity(includeTestEntities, child)) {
+                LOG.info("parent: " + parent.getsID() + " child: " + child.getsID() + " continue!!!");
                 continue;
-            }
+            }*/
 
             ServiceTagTreeNode parentNode = null;
             if (parent.getId() != FAKE_ROOT_TAG_ID) {
@@ -254,8 +273,9 @@ public class ServiceTagService {
             final ServiceTag serviceTag = link.getServiceTag();
             final Service service = link.getService();
 
-            if (isExcludeTestEntity(includeTestEntities, serviceTag) ||
-                    isExcludeTestEntity(includeTestEntities, service)) {
+            if (//isExcludeTestEntity(includeTestEntities, serviceTag) || 
+            isExcludeTestEntity(includeTestEntities, service)
+            ) {
                 continue;
             }
 

@@ -78,14 +78,14 @@ angular.module('iGovMarkers')
           aField_ID: ['long'],
           aField_Type: ['long'],
           nMin: 1,
-          nMax: 1000,
-          sMessage: 'Повинно бути цілим числом від 1 до 1000.'
+          nMax: 10000000000,
+          sMessage: 'Повинно бути цілим числом.'
         }
         ,DoubleNumber: { // Подільне число
           aField_ID: ['double'],
           aField_Type: ['double'],
           nMin: 1,
-          nMax: 10000000,
+          nMax: 1000000000000000,
           //sSeparator: '.',
           sMessage: 'Повинно бути подільним числом та розділене ",".'
         }
@@ -165,6 +165,9 @@ angular.module('iGovMarkers')
           sID_Element_sValue: "registration-service"
         },
 
+        /* 
+         * Demo PrintForm   
+         *  
         PrintForm_Table12: {
           aField_ID: ["tbl1", "oPrescription1"],
           sPatternPath: "/print/kiev/kiev_mda_273_print.html",
@@ -176,13 +179,8 @@ angular.module('iGovMarkers')
           sTitleField: "sPrescriptionName",
           sPatternPath: "/print/kiev/kiev_mda_273_print.html",
           sName: "Звіт за сектором"
-        },
-
-        PrintForm_Table4: {
-          aField_ID: ["oPrescription2"],
-          sPatternPath: "/print/kiev/kiev_mda_273_print.html",
-          sName: "Звіт за блоком"
-        }
+        }, 
+        */ 
 
       }
     };

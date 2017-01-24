@@ -981,7 +981,9 @@ public class ActionItemController {
             @RequestParam(value = "sFind", required = false) String sFind, @ApiParam(value
                     = "массив строк - фильтр по ID места (мест), где надается услуга. Поддерживаемие ID: 3200000000 (КИЇВСЬКА ОБЛАСТЬ/М.КИЇВ), 8000000000 (М.КИЇВ). "
                     + "Если указан другой ID, фильтр не применяется.", required = false)
-            @RequestParam(value = "asID_Place_UA", required = false) final List<String> asID_Place_UA, 
+            @RequestParam(value = "asID_Place_UA", required = false) final List<String> asID_Place_UA,
+            @ApiParam(value = "фильтр по ID места тега услуги (опциональный)", required = false)
+            @RequestParam(value = "nID_Place_Profile", required = false) Long nID_Place_Profile,
             @ApiParam(value = "булевый флаг. Возвращать или нет пустые категории и подкатегории (по умолчанию false)", required = true)
             @RequestParam(value = "bShowEmptyFolders", required = false, defaultValue = "false") final boolean bShowEmptyFolders, @ApiParam(value = "ID категории", required = true)
             @RequestParam(value = "nID_Category", required = true) Long nID_Category, @ApiParam(value = "Новый формат ответа", required = false)
@@ -998,7 +1000,7 @@ public class ActionItemController {
         }
 
         List<ServiceTagTreeNodeVO> res = serviceTagService.getCatalogTreeTag(nID_Category, sFind, asID_Place_UA,
-                bShowEmptyFolders, includeServices, null, null);
+                nID_Place_Profile, bShowEmptyFolders, includeServices, null, null);
         
         // (asID_Place_UA!=null&&asID_Place_UA.size()>0&&asID_Place_UA.get(0).trim().length()>0)
         if (includeServices) {
@@ -1010,7 +1012,21 @@ public class ActionItemController {
             return JsonRestUtils.toJsonResponse(toNewFormat(res));
         }
         
-        return JsonRestUtils.toJsonResponse(res);
+        List<ServiceTagTreeNodeVO> aNode_Return = new LinkedList();
+        boolean bTest = generalConfig.isSelfTest();
+        if(!bTest){
+            for (ServiceTagTreeNodeVO node : res) {
+                if (node.getoServiceTag_Root() != null && node.getoServiceTag_Root().getsName_UA()!=null && !node.getoServiceTag_Root().getsName_UA().startsWith("_")) {
+                    aNode_Return.add(node);
+                }
+            }
+        }else{
+            aNode_Return.addAll(res);
+        }
+        
+        
+        return JsonRestUtils.toJsonResponse(aNode_Return);
+        //return JsonRestUtils.toJsonResponse(res);
     }
 
     @ApiOperation(value = "Получение дерева тегов и услуг", notes = "Дополнительно:\n" + "")
@@ -1023,7 +1039,8 @@ public class ActionItemController {
             @RequestParam(value = "sFind", required = false) final String sFind, @ApiParam(value
                     = "массив строк - фильтр по ID места (мест), где надается услуга. Значения ID перечисляются через запятую."
                     + "Если указан другой ID, фильтр не применяется.", required = false)
-            @RequestParam(value = "asID_Place_UA", required = false) final List<String> asID_Place_UA, @ApiParam(value = "булевый флаг. Возвращать или нет пустые категории и подкатегории (по умолчанию false)", required = true)
+            @RequestParam(value = "asID_Place_UA", required = false) final List<String> asID_Place_UA, @ApiParam(value = "фильтр по ID места тега услуги (опциональный)", required = false)
+            @RequestParam(value = "nID_Place_Profile", required = false) Long nID_Place_Profile, @ApiParam(value = "булевый флаг. Возвращать или нет пустые категории и подкатегории (по умолчанию false)", required = true)
             @RequestParam(value = "bShowEmptyFolders", required = false, defaultValue = "false") final boolean bShowEmptyFolders, @ApiParam(value = "ID категории", required = true)
             @RequestParam(value = "nID_Category", required = true) final Long nID_Category, @ApiParam(value = "ID корневого тега", required = false)
             @RequestParam(value = "nID_ServiceTag_Root", required = false) Long nID_ServiceTag_Root, @ApiParam(value = "ID корневого тега", required = false)
@@ -1031,7 +1048,7 @@ public class ActionItemController {
             @RequestParam(value = "bNew", required = false) Boolean bNew
     ) {
         List<ServiceTagTreeNodeVO> res = serviceTagService.getCatalogTreeTag(nID_Category, sFind, asID_Place_UA,
-                bShowEmptyFolders, true, nID_ServiceTag_Root, nID_ServiceTag_Child);
+                nID_Place_Profile, bShowEmptyFolders, true, nID_ServiceTag_Root, nID_ServiceTag_Child);
         res.forEach(n -> n.setaService(n.getaService().stream().map(
                 s -> prepareServiceToView(s, false)).collect(Collectors.toList())));
 
@@ -1039,7 +1056,19 @@ public class ActionItemController {
             return JsonRestUtils.toJsonResponse(toNewFormat(res));
         }
 
-        return JsonRestUtils.toJsonResponse(res);
+        List<ServiceTagTreeNodeVO> aNode_Return = new LinkedList();
+        boolean bTest = generalConfig.isSelfTest();
+        if(!bTest){
+            for (ServiceTagTreeNodeVO node : res) {
+                if (node.getoServiceTag_Root() != null && node.getoServiceTag_Root().getsName_UA()!=null && !node.getoServiceTag_Root().getsName_UA().startsWith("_")) {
+                    aNode_Return.add(node);
+                }
+            }
+        }else{
+            aNode_Return.addAll(res);
+        }
+        
+        return JsonRestUtils.toJsonResponse(aNode_Return);//res
     }
 
     private ServiceTagTreeVO toNewFormat(List<ServiceTagTreeNodeVO> nodes) {
@@ -1053,7 +1082,36 @@ public class ActionItemController {
             }
         }
 
+//    @Autowired
+//        GeneralConfig generalConfig;        
+
+        List<ServiceTagTreeNodeVO> aNode_Return = new LinkedList();
+        boolean bTest = generalConfig.isSelfTest();
+        if(!bTest){
+            for (ServiceTagTreeNodeVO node : nodes) {
+                if (node.getoServiceTag_Root() != null && node.getoServiceTag_Root().getsName_UA()!=null && !node.getoServiceTag_Root().getsName_UA().startsWith("_")) {
+                    aNode_Return.add(node);
+                }
+            }
+        }else{
+            aNode_Return.addAll(nodes);
+        }
+  
+        /*if(!bTest){
+            for (ServiceTagTreeNodeVO node : nodes) {
+                if (node.getoServiceTag_Root() != null && node.getoServiceTag_Root().getsName_UA()!=null && node.getoServiceTag_Root().getsName_UA().startsWith("_")) {
+                    nodes.remove(node);
+                }
+                for (ServiceTagTreeNodeVO node : nodes) {
+
+                }
+                
+            }
+        }*/
+        
+        
         res.setaNode(nodes);
+        //res.setaNode(aNode_Return);
         res.setaService(new ArrayList<>(uniqueServices));
 
         return res;

@@ -1,8 +1,10 @@
 package org.igov.service.controller;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
+
 import io.swagger.annotations.*;
 import liquibase.util.csv.CSVWriter;
+
 import org.activiti.engine.*;
 import org.activiti.engine.form.FormData;
 import org.activiti.engine.form.FormProperty;
@@ -63,16 +65,21 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.activation.DataSource;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+
 import java.io.*;
 import java.net.URLDecoder;
 import java.nio.charset.Charset;
 import java.text.SimpleDateFormat;
 import java.util.*;
+
 import org.igov.model.document.DocumentStepSubjectRight;
 
 import static org.igov.service.business.action.task.core.ActionTaskService.DATE_TIME_FORMAT;
+
 import org.igov.service.business.document.DocumentStepService;
+
 import static org.igov.util.Tool.sO;
+
 import org.json.simple.parser.JSONParser;
 import org.json.simple.parser.ParseException;
 //import com.google.common.base.Optional;
@@ -320,7 +327,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     ) throws CommonServiceException, TaskAlreadyUnboundException, Exception {
 
         String sMessage = null;
-
+        LOG.info("input sInfo = ", sInfo);
         sMessage = "Вибачте, виникла помилка при виконанні операції. Спробуйте ще раз, будь ласка";
         try {
             if (bSimple) {
@@ -337,10 +344,12 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 oActionTaskService.cancelTasksInternal(nID_Order, sInfo);
             }
 
-            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.\n<br>"
+            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.\n"
                     + "З повагою, команда порталу  iGov.org.ua";
             return new ResponseEntity<>(sMessage, HttpStatus.OK);
-        } catch (CRCInvalidException e) {
+            
+        }
+        catch (CRCInvalidException e) {
             sMessage = "Вибачте, виникла помилка: Помилковий номер заявки!";
             CommonServiceException oCommonServiceException = new CommonServiceException("BUSINESS_ERR", e.getMessage(), e);
             oCommonServiceException.setHttpStatus(HttpStatus.FORBIDDEN);
@@ -352,13 +361,18 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             oCommonServiceException.setHttpStatus(HttpStatus.FORBIDDEN);
             LOG.warn("Error: {}", e.getMessage());
             return new ResponseEntity<>(sMessage, HttpStatus.FORBIDDEN);
-        } catch (CommonServiceException | TaskAlreadyUnboundException e) {
+        }
+        catch (TaskAlreadyUnboundException  e) {
             CommonServiceException oCommonServiceException = new CommonServiceException("BUSINESS_ERR", e.getMessage(), e);
             oCommonServiceException.setHttpStatus(HttpStatus.FORBIDDEN);
             LOG.warn("Error: {}", e.getMessage(), e);
             return new ResponseEntity<>(sMessage, HttpStatus.FORBIDDEN);
+        }catch (Exception ex) {
+            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.\n"
+                    + "З повагою, команда порталу  iGov.org.ua";
+            LOG.info("Error: {}", ex);
+            return new ResponseEntity<>(sMessage, HttpStatus.OK);
         }
-
     }
 
     /**
@@ -601,7 +615,8 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             @ApiParam(value = "(опциональный) если задано значение true - в отдельном элементе aGroup возвращается массив отождествленных групп, на которые распространяется данная задача", required = false) @RequestParam(value = "bIncludeGroups", required = false) Boolean bIncludeGroups,
             @ApiParam(value = "(опциональный) если задано значение true - в отдельном элементе aFieldStartForm возвращается массив полей стартовой формы", required = false) @RequestParam(value = "bIncludeStartForm", required = false) Boolean bIncludeStartForm,
             @ApiParam(value = "(опциональный) если задано значение true - в отдельном элементе aAttachment возвращается массив элементов-объектов Attachment (без самого контента)", required = false) @RequestParam(value = "bIncludeAttachments", required = false) Boolean bIncludeAttachments,
-            @ApiParam(value = "(опциональный) если задано значение true - в отдельном элементе aMessage возвращается массив сообщений по задаче", required = false) @RequestParam(value = "bIncludeMessages", required = false) Boolean bIncludeMessages)
+            @ApiParam(value = "(опциональный) если задано значение true - в отдельном элементе aMessage возвращается массив сообщений по задаче", required = false) @RequestParam(value = "bIncludeMessages", required = false) Boolean bIncludeMessages,
+            @ApiParam(value = "(опциональный) если задано значение false - в элементе aProcessVariables не возвращается массив переменных процесса", required = false) @RequestParam(value = "bIncludeProcessVariables", required = false, defaultValue ="true") Boolean bIncludeProcessVariables)
             throws CRCInvalidException, CommonServiceException, RecordNotFoundException {
 
         if (nID_Task == null) {
@@ -656,7 +671,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         if (bIncludeStartForm.equals(Boolean.TRUE)) {
             response.put("aFieldStartForm", oActionTaskService.getStartFormData(nID_Task));
         }
+        
+        LOG.info("Attach is not triggered!");
+        
         if (bIncludeAttachments.equals(Boolean.TRUE)) {
+            LOG.info("Attach is triggered!");
             response.put("aAttachment", oActionTaskService.getAttachmentsByTaskID(nID_Task));
         }
         if (bIncludeMessages.equals(Boolean.TRUE)) {
@@ -674,7 +693,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                         "Can't get: " + oException.getMessage(), oException, HttpStatus.FORBIDDEN);
             }
         }
-
+        if(bIncludeProcessVariables.equals(Boolean.TRUE) && nID_Process != null){
+            Map<String, Object> mProcessVariable = runtimeService.getVariables(Long.toString(nID_Process));
+            response.put("mProcessVariable", mProcessVariable);
+        }
+        
         response.put("sStatusName", oActionTaskService.getTaskName(nID_Task));
         response.put("sID_Status", oActionTaskService.getsIDUserTaskByTaskId(nID_Task));
         response.put("nID_Task", nID_Task);
@@ -1172,7 +1195,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             @ApiParam(value = "начальная дата закрытия таски", required = false) @RequestParam(value = "sTaskEndDateAt", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date sTaskEndDateAt,
             @ApiParam(value = "конечная дата закрытия таски", required = false) @RequestParam(value = "sTaskEndDateTo", required = false) @DateTimeFormat(pattern = "yyyy-MM-dd") Date sTaskEndDateTo,
             HttpServletResponse httpResponse) throws IOException, CommonServiceException, EmailException {
-
+LOG.info("!!!!!!!!!!!!!!begin");
+LOG.info("1dateAt= " + dateAt);
+LOG.info("2dateTo= " + dateTo);
+LOG.info("3sTaskEndDateAt= " + sTaskEndDateAt);
+LOG.info("4sTaskEndDateTo= " + sTaskEndDateTo);
 //      'sID_State_BP': '',//'usertask1'
 //      'saFieldsCalc': '', // поля для калькуляций
 //      'saFieldSummary': '' // поля для агрегатов
@@ -1195,7 +1222,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                     + "' not found. Wrong BP name.", Task.class);
         }
         Date dBeginDate = oActionTaskService.getBeginDate(dateAt);
+        LOG.info("dBeginDate: " + dBeginDate);
+        LOG.info("dateAt: " + dateAt);
         Date dEndDate = oActionTaskService.getEndDate(dateTo);
+        LOG.info("dEndDate: " + dEndDate);
+        LOG.info("dateAt: " + dateAt);
         String separator = oActionTaskService.getSeparator(sID_BP, nASCI_Spliter);
         //LOG.info("4444separator " + separator);
         //LOG.info("7777nASCI_Spliter " + nASCI_Spliter);
@@ -1705,7 +1736,8 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             @ApiParam(value = "nSize", required = false) @RequestParam(value = "nSize", defaultValue = "10", required = false) Integer nSize,
             @ApiParam(value = "nStart", required = false) @RequestParam(value = "nStart", defaultValue = "0", required = false) Integer nStart,
             @ApiParam(value = "sFilterStatus", required = false) @RequestParam(value = "sFilterStatus", defaultValue = "OpenedUnassigned", required = false) String sFilterStatus,
-            @ApiParam(value = "bFilterHasTicket", required = false) @RequestParam(value = "bFilterHasTicket", defaultValue = "false", required = false) boolean bFilterHasTicket) throws CommonServiceException {
+            @ApiParam(value = "bFilterHasTicket", required = false) @RequestParam(value = "bFilterHasTicket", defaultValue = "false", required = false) boolean bFilterHasTicket,
+            @ApiParam(value = "soaFilterField", required = false) @RequestParam(value = "soaFilterField", required = false) String soaFilterField) throws CommonServiceException {
 
         Map<String, Object> res = new HashMap<String, Object>();
 
@@ -1722,7 +1754,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 Map<String, FlowSlotTicket> mapOfTickets = new HashMap<String, FlowSlotTicket>();
                 long totalNumber = 0;
                 Object taskQuery = oActionTaskService.createQuery(sLogin, bIncludeAlienAssignedTasks, sOrderBy, sFilterStatus,
-                        groupsIds);
+                        groupsIds, soaFilterField);
 
                 totalNumber = (taskQuery instanceof TaskInfoQuery) ? ((TaskInfoQuery) taskQuery).count() : oActionTaskService.getCountOfTasksForGroups(groupsIds);
                 LOG.info("Total number of tasks:{}", totalNumber);
@@ -1760,6 +1792,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                         tasks.clear();
                     }
                 }
+                
 
                 List<Map<String, Object>> data = new LinkedList<Map<String, Object>>();
                 if ("ticketCreateDate".equalsIgnoreCase(sOrderBy)) {
@@ -1768,6 +1801,9 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                     oActionTaskService.populateResultSortedByTasksOrder(bFilterHasTicket, tasks, mapOfTickets, data);
                 }
 
+                /*if (!StringUtils.isEmpty(soaFilterField))
+                	data = filterTasks(data, soaFilterField);*/
+                
                 res.put("data", data);
                 res.put("size", nSize);
                 res.put("start", nStart);
@@ -1781,7 +1817,53 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         return res;
     }
 
-    @ApiOperation(value = "getCountTask", notes = "#####  ActionCommonTaskController: Получение количествоа задач по нескольким наборам критериев-фильтров для указанного логина #####\n\n"
+    @Deprecated
+    private List<Map<String, Object>> filterTasks(List<Map<String, Object>> tasks,
+			String soaFilterField) {
+    	JSONArray jsonArray = new JSONArray(soaFilterField);
+
+    	Map<String, String> mapOfFieldsToSort = new HashMap<String, String>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject elem = (JSONObject) jsonArray.get(i);
+            if (elem.has("sID") && elem.has("sValue")){
+            	mapOfFieldsToSort.put(elem.getString("sID"), elem.getString("sValue"));
+            } else {
+            	LOG.info("{} json element doesn't have either sID or sValue fields", i);
+            }
+        }
+        LOG.info("Converted filter fields to the map {}", mapOfFieldsToSort);
+        
+        List<Map<String, Object>> res = new LinkedList<Map<String, Object>>();
+        for (Map<String, Object> taskData : tasks){
+        	boolean toSkip = false;
+        	for (Map.Entry<String, String> currentFilter : mapOfFieldsToSort.entrySet()){
+        		LOG.info("Matching variables {} with the filter {}", taskData, currentFilter);
+        		if (!taskData.containsKey(currentFilter.getKey()) ||
+        				!matchValues(taskData.get(currentFilter.getKey()), currentFilter.getValue())) {
+        			LOG.info("Skipping task {}. It doesn't match filter {}", taskData, currentFilter);
+        			toSkip = true;
+        			break;
+        		} 
+        	}
+        	if (toSkip){
+        		continue;
+        	}
+			LOG.info("Adding task {} as it matches pattern", taskData);
+        	res.add(taskData);
+        }
+		return res;
+	}
+
+	private boolean matchValues(Object value, String pattern) {
+		LOG.info("Matching value {} with the pattern {}", value, pattern);
+		if (pattern.contains("*")){
+			pattern = pattern.replace("*", "");
+			return value.toString().startsWith(pattern);
+		}
+		return value.toString().matches(pattern);
+	}
+
+	@ApiOperation(value = "getCountTask", notes = "#####  ActionCommonTaskController: Получение количествоа задач по нескольким наборам критериев-фильтров для указанного логина #####\n\n"
             + "HTTP Context: https://test.region.igov.org.ua/wf/service/action/task/getCountTask?sLogin=[sLogin]?&amFilter=[amFilter]\n\n\n"
             + "Параметры:\n"
             + "- sLogin - имя пользователя для которого подсчитывать количества тасок\n"
@@ -1840,7 +1922,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             }
 
             LOG.info("Selecting tasks sLogin:{} sFilterStatus:{} bIncludeAlienAssignedTasks:{}", sLogin, sFilterStatus, bIncludeAlienAssignedTasks);
-            List<TaskInfo> taskQuery = oActionTaskService.returnTasksFromCache(sLogin, sFilterStatus, bIncludeAlienAssignedTasks, groupsIds);
+            List<TaskInfo> taskQuery = oActionTaskService.returnTasksFromCache(sLogin, sFilterStatus, bIncludeAlienAssignedTasks, groupsIds, null);//
 
             long totalNumber = taskQuery.size();
             LOG.info("Retreived {} tasks", taskQuery.size());
@@ -2619,7 +2701,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 LOG.error("Variable \"properties\" not found");
             }        
             LOG.info("properties = " + dates.toJSONString());
-            
+
             List<String> oTypes = Arrays.asList("markers", "file", "table", "label");            
 
             org.json.simple.JSONObject result;
@@ -2628,8 +2710,8 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 result = datesIterator.next();
                 boolean typeInclude = oTypes.contains(result.get("type").toString());
                 if (!typeInclude && result.get("value") != null) {
-                    values.put(result.get("id").toString(), (String) result.get("value"));
-                }
+                values.put(result.get("id").toString(), (String) result.get("value"));
+            }
             }
             formService.saveFormData(nID_Task, values);
             LOG.info("Process of update data finiched");
@@ -2718,6 +2800,34 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         return oActionTaskService.getBusinessProcessesOfLogin(sLogin, bDocOnly);
     }    
     
+    @ApiOperation(value = "Получение списка полей бизнес процессов, к которым у пользователя есть доступ", notes = "#####  ActionCommonTaskController: Получение списка полей бизнес процессов к которым у пользователя есть доступ #####\n\n"
+            + "HTTP Context: https://test.region.igov.org.ua/wf/service/action/task/getFields?sLogin=userId\n\n"
+            + "Метод возвращает json со списком полей бизнес процессов, к которым у пользователя есть доступ, в формате:\n"
+            + "\n```json\n"
+            + "[\n"
+            + "  {\n"
+            + "    \"sID\": \"ID field value\", \"sName\": \"[name of the field]\", \"sID_Type\": \"[type of the field]\"\n"
+            + "  },\n"
+            + "  {\n"
+            + "    \"sID\": \"ID field value\", \"sName\": \"[name of the field]\", \"sID_Type\": \"[type of the field]\"\n"
+			+ "  }\n"
+            + "]\n"
+            + "\n```\n")
+    @RequestMapping(value = "/getFields", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
+    @Transactional
+    public @ResponseBody
+    List<Map<String, String>> getBusinessProcessesFields(
+            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin", required = true) String sLogin,
+            @ApiParam(value = "Выводить только список БП документов", required = false) @RequestParam(value = "bDocOnly", required = false, defaultValue = "true") Boolean bDocOnly
+                    )
+            
+            throws IOException {
+
+        //String jsonRes = JSONValue.toJSONString(oActionTaskService.getBusinessProcessesForUser(sLogin));
+        //LOG.info("Result: {}", jsonRes);
+        return oActionTaskService.getBusinessProcessesFieldsOfLogin(sLogin, bDocOnly);
+    }  
+    
 
     @ApiOperation(value = "/setDocument", notes = "##### Получение списка прав у логина по документу#####\n\n")
     @RequestMapping(value = "/setDocument", method = RequestMethod.GET)
@@ -2733,39 +2843,6 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         return mReturn;
     }    
 
-     @ApiOperation(value = "/getProcessByLogin", notes = "##### Получение списка процессов (доступных и уже назначеных) по логину#####\n\n")
-    @RequestMapping(value = "/getProcessByLogin", method = RequestMethod.GET, produces = "application/json;charset=UTF-8")
-    public @ResponseBody String getProcessByLogin(
-            @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin") String sLogin)
-            throws IOException {                
-        List<Task> tasksCandidate = taskService.createTaskQuery().taskCandidateUser(sLogin).list();        
-        List<Task> tasksAssigned = taskService.createTaskQuery().taskAssignee(sLogin).active().list();
-        Set<String> processesList = new HashSet<>();
-        tasksCandidate.stream().forEach((task) -> {        
-            processesList.add(task.getProcessDefinitionId());
-        });   
-        tasksAssigned.stream().forEach((task) -> {        
-            processesList.add(task.getProcessDefinitionId());
-        });       
-        List <ProcessDefinition> processes = new LinkedList<>();
-        processesList.stream().forEach((processId) -> {
-            processes.add(repositoryService.createProcessDefinitionQuery().processDefinitionId(processId).singleResult());
-        });
-        List<Map<String, String>> result = new LinkedList<>();
-        
-        processes.stream().map((processDef) -> {
-            Map<String, String> process = new HashMap<>();
-            process.put("sID", processDef.getKey());
-            process.put("sName", processDef.getName());
-            return process;
-        }).map((process) -> {
-            LOG.info(String.format("Added record to response %s", process.toString()));
-            return process;
-        }).forEach((process) -> {
-            result.add(process);
-        });
-        
-        return JSONValue.toJSONString(result);
-    }
+    
     
 }

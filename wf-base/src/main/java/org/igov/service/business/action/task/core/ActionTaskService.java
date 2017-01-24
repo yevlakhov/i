@@ -10,6 +10,8 @@ import static org.igov.util.Tool.sO;
 
 import java.io.File;
 import java.nio.charset.Charset;
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -45,6 +47,7 @@ import org.activiti.engine.delegate.DelegateTask;
 import org.activiti.engine.delegate.Expression;
 import org.activiti.engine.form.FormData;
 import org.activiti.engine.form.FormProperty;
+import org.activiti.engine.form.StartFormData;
 import org.activiti.engine.form.TaskFormData;
 import org.activiti.engine.history.*;
 import org.activiti.engine.identity.Group;
@@ -474,15 +477,24 @@ public class ActionTaskService {
         }
         for (String queueData : queueDataList) {
             Map<String, Object> m = QueueDataFormType.parseQueueData(queueData);
-            long nID_FlowSlotTicket = QueueDataFormType.get_nID_FlowSlotTicket(m);
-            LOG.info("(nID_Order={},nID_FlowSlotTicket={})", nID_Order, nID_FlowSlotTicket);
-            if (!flowSlotTicketDao.unbindFromTask(nID_FlowSlotTicket)) {
-                throw new TaskAlreadyUnboundException("\u0417\u0430\u044f\u0432\u043a\u0430 \u0443\u0436\u0435 \u043e\u0442\u043c\u0435\u043d\u0435\u043d\u0430");
+            Long nID_FlowSlotTicket = null;
+            try{
+                nID_FlowSlotTicket = QueueDataFormType.get_nID_FlowSlotTicket(m);
+            }catch (Exception ex){
+                LOG.info("QueueDataFormType throw an error: " + ex);
+            }
+            if (nID_FlowSlotTicket != null){
+                LOG.info("(nID_Order={},nID_FlowSlotTicket={})", nID_Order, nID_FlowSlotTicket);
+                if (!flowSlotTicketDao.unbindFromTask(nID_FlowSlotTicket)) {
+                    throw new TaskAlreadyUnboundException("\u0417\u0430\u044f\u0432\u043a\u0430 \u0443\u0436\u0435 \u043e\u0442\u043c\u0435\u043d\u0435\u043d\u0430");
+                }
             }
         }
+        DateFormat df_StartProcess = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        
         oRuntimeService.setVariable(nID_Process, CANCEL_INFO_FIELD, String.format(
                 "[%s] \u0417\u0430\u044f\u0432\u043a\u0430 \u0441\u043a\u0430\u0441\u043e\u0432\u0430\u043d\u0430: %s",
-                DateTime.now(), sInfo == null ? "" : sInfo));
+                df_StartProcess.format(new Date()), sInfo == null ? "" : sInfo));
     }
 
 
@@ -982,7 +994,7 @@ public class ActionTaskService {
     }
 
     private void loadCandidateGroupsFromTasks(ProcessDefinition oProcessDefinition, Set<String> asID_CandidateGroupToCheck) {
-        LOG.info("oProcessDefinition.getId()={}", oProcessDefinition.getId());
+        //LOG.info("oProcessDefinition.getId()={}", oProcessDefinition.getId());
         BpmnModel oBpmnModel = oRepositoryService.getBpmnModel(oProcessDefinition.getId());
         for (FlowElement oFlowElement : oBpmnModel.getMainProcess().getFlowElements()) {
             if (oFlowElement instanceof UserTask) {
@@ -995,6 +1007,29 @@ public class ActionTaskService {
                 }
             }
         }
+    }
+
+    private Set<String> getGroupsOfProcessTask(ProcessDefinition oProcessDefinition) {
+        Set<String> asID_Group_Return = new HashSet();
+        //LOG.info("oProcessDefinition.getId()={}", oProcessDefinition.getId());
+        BpmnModel oBpmnModel = oRepositoryService.getBpmnModel(oProcessDefinition.getId());
+        for (FlowElement oFlowElement : oBpmnModel.getMainProcess().getFlowElements()) {
+            if (oFlowElement instanceof UserTask) {
+                UserTask oUserTask = (UserTask) oFlowElement;
+                LOG.info("oUserTask.getId()={}", oUserTask.getId());
+                List<String> asID_CandidateGroup = oUserTask.getCandidateGroups();
+                if (asID_CandidateGroup != null && !asID_CandidateGroup.isEmpty()) {
+                    asID_Group_Return.addAll(asID_CandidateGroup);
+                    LOG.info("Added candidate groups asID_CandidateGroup={}", asID_CandidateGroup);
+                }
+                String sID_Assign = oUserTask.getAssignee();
+                if (sID_Assign != null) {
+                    asID_Group_Return.add(sID_Assign);
+                    LOG.info("Added candidate groups sID_Assign={}", sID_Assign);
+                }
+            }
+        }
+        return asID_Group_Return;
     }
     
     /**
@@ -1139,7 +1174,66 @@ public class ActionTaskService {
      */
     public List<Map<String, String>> getBusinessProcessesOfLogin(String sLogin, Boolean bDocOnly){
 
-        if (sLogin==null || sLogin.isEmpty()) {
+        List<ProcessDefinition> aProcessDefinition_Return = getBusinessProcessesObjectsOfLogin(
+				sLogin, bDocOnly);
+
+        List<Map<String, String>> amPropertyBP = new LinkedList<>();
+        for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return){
+            Map<String, String> mPropertyBP = new HashMap<>();
+            mPropertyBP.put("sID", oProcessDefinition.getKey());
+            mPropertyBP.put("sName", oProcessDefinition.getName());
+            LOG.debug("Added record to response {}", mPropertyBP);
+            amPropertyBP.add(mPropertyBP);
+        }
+
+        return amPropertyBP;
+    }
+    
+    public List<Map<String, String>> getBusinessProcessesFieldsOfLogin(String sLogin, Boolean bDocOnly){
+
+        List<ProcessDefinition> aProcessDefinition_Return = getBusinessProcessesObjectsOfLogin(
+				sLogin, bDocOnly);
+
+        Map<String,Map<String, String>> amPropertyBP = new HashMap<String,Map<String, String>>();
+        for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return){
+        	StartFormData formData = oFormService.getStartFormData(oProcessDefinition.getId());
+            for (FormProperty property : formData.getFormProperties()){
+            	Map<String, String> mPropertyBP = new HashMap<String, String>();
+            	mPropertyBP.put("sID", property.getId());
+            	mPropertyBP.put("sName", property.getName());
+            	mPropertyBP.put("sID_Type", property.getType().getName());
+                amPropertyBP.put(mPropertyBP.get("sID"), mPropertyBP);
+                LOG.debug("Added record to response {}", mPropertyBP);
+            }
+
+            Collection<FlowElement> elements = oRepositoryService.getBpmnModel(oProcessDefinition.getId()).getMainProcess().getFlowElements();
+            for (FlowElement flowElement : elements){
+            	if (flowElement instanceof UserTask){
+            		LOG.debug("Processing user task with ID {} name {} ", flowElement.getId(), flowElement.getName());
+            		UserTask userTask = (UserTask)flowElement;
+            		for (org.activiti.bpmn.model.FormProperty property : userTask.getFormProperties()){
+                    	Map<String, String> mPropertyBP = new HashMap<String, String>();
+                    	mPropertyBP.put("sID", property.getId());
+                    	mPropertyBP.put("sName", property.getName());
+                    	mPropertyBP.put("sID_Type", property.getType());
+                        amPropertyBP.put(mPropertyBP.get("sID"), mPropertyBP);
+                        LOG.debug("Added record to response from user task {}", mPropertyBP);
+                    }
+            	}
+            	
+            }
+
+        }
+
+        LOG.info("Total list of fields {}", amPropertyBP);
+        List<Map<String, String>> res = new LinkedList<Map<String,String>>();
+        res.addAll(amPropertyBP.values());
+        return res;
+    }
+
+	private List<ProcessDefinition> getBusinessProcessesObjectsOfLogin(
+			String sLogin, Boolean bDocOnly) {
+		if (sLogin==null || sLogin.isEmpty()) {
             LOG.error("Unable to found business processes for sLogin="+sLogin);
             throw new ActivitiObjectNotFoundException(
                     "Unable to found business processes for sLogin="+sLogin,
@@ -1179,8 +1273,10 @@ public class ActionTaskService {
                 if(!bDocOnly || sID_BP.startsWith("_doc_")){
 //                    Set<String> aCandidateCroupsToCheck = getGroupsByProcessDefinition(oProcessDefinition);
                     
-                    Set<String> aCandidateCroupsToCheck = new HashSet<>();
-                    loadCandidateGroupsFromTasks(oProcessDefinition, aCandidateCroupsToCheck);
+//                    Set<String> aCandidateCroupsToCheck = new HashSet<>();
+//                    loadCandidateGroupsFromTasks(oProcessDefinition, aCandidateCroupsToCheck);
+                    Set<String> aCandidateCroupsToCheck = getGroupsOfProcessTask(oProcessDefinition);
+                    
                     loadCandidateStarterGroup(oProcessDefinition, aCandidateCroupsToCheck);
                     //return aCandidateCroupsToCheck;
                     
@@ -1212,18 +1308,8 @@ public class ActionTaskService {
         } else {
             LOG.info("Have not found active process definitions.");
         }
-
-        List<Map<String, String>> amPropertyBP = new LinkedList<>();
-        for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return){
-            Map<String, String> mPropertyBP = new HashMap<>();
-            mPropertyBP.put("sID", oProcessDefinition.getKey());
-            mPropertyBP.put("sName", oProcessDefinition.getName());
-            LOG.info("Added record to response {}", mPropertyBP);
-            amPropertyBP.add(mPropertyBP);
-        }
-
-        return amPropertyBP;
-    }    
+		return aProcessDefinition_Return;
+	}    
     
     
     
@@ -2239,14 +2325,14 @@ public class ActionTaskService {
 	}
     
 	public List<TaskInfo> returnTasksFromCache(final String sLogin, final String sFilterStatus, final boolean bIncludeAlienAssignedTasks,
-			final List<String> groupsIds){
+			final List<String> groupsIds, String soaFilterField){
 		SerializableResponseEntity<ArrayList<TaskInfo>> entity = cachedInvocationBean
             .invokeUsingCache(new CachedInvocationBean.Callback<SerializableResponseEntity<ArrayList<TaskInfo>>>(
                     GET_ALL_TASK_FOR_USER_CACHE, sLogin, sFilterStatus, bIncludeAlienAssignedTasks) {
                 @Override
                 public SerializableResponseEntity<ArrayList<TaskInfo>> execute() {
                 	LOG.info("Loading tasks from cache for user {} with filterStatus {} and bIncludeAlienAssignedTasks {}", sLogin, sFilterStatus, bIncludeAlienAssignedTasks);
-                	Object taskQuery = createQuery(sLogin, bIncludeAlienAssignedTasks, null, sFilterStatus, groupsIds);
+                	Object taskQuery = createQuery(sLogin, bIncludeAlienAssignedTasks, null, sFilterStatus, groupsIds, soaFilterField);
                 	
                 	ArrayList<TaskInfo> res = (ArrayList<TaskInfo>) ((taskQuery instanceof TaskInfoQuery) ? ((TaskInfoQuery) taskQuery).list()
             				: (List) ((NativeTaskQuery) taskQuery).list());
@@ -2261,7 +2347,27 @@ public class ActionTaskService {
 	
 	public Object createQuery(String sLogin,
 			boolean bIncludeAlienAssignedTasks, String sOrderBy, String sFilterStatus,
-			List<String> groupsIds) {
+			List<String> groupsIds, String soaFilterField) {
+            
+            
+                if (!StringUtils.isEmpty(soaFilterField)){
+                }
+                	//data = filterTasks(data, soaFilterField);
+        
+    	/*JSONArray jsonArray = new JSONArray(soaFilterField);
+
+    	Map<String, String> mapOfFieldsToSort = new HashMap<String, String>();
+        for (int i = 0; i < jsonArray.length(); i++) {
+            JSONObject elem = (JSONObject) jsonArray.get(i);
+            if (elem.has("sID") && elem.has("sValue")){
+            	mapOfFieldsToSort.put(elem.getString("sID"), elem.getString("sValue"));
+            } else {
+            	LOG.info("{} json element doesn't have either sID or sValue fields", i);
+            }
+        }
+        LOG.info("Converted filter fields to the map {}", mapOfFieldsToSort);*/
+            
+            
 		Object taskQuery = null; 
 		if ("Closed".equalsIgnoreCase(sFilterStatus)){
 			taskQuery = oHistoryService.createHistoricTaskInstanceQuery().taskInvolvedUser(sLogin).finished();
@@ -2270,6 +2376,26 @@ public class ActionTaskService {
 			} else {
 				 ((TaskInfoQuery)taskQuery).orderByTaskId();
 			}
+                                
+                        if (!StringUtils.isEmpty(soaFilterField)){
+                            JSONArray oJSONArray = new JSONArray(soaFilterField);
+                            Map<String, String> mFilterField = new HashMap<String, String>();
+                            for (int i = 0; i < oJSONArray.length(); i++) {
+                                JSONObject oJSON = (JSONObject) oJSONArray.get(i);
+                                if (oJSON.has("sID") && oJSON.has("sValue")){
+                                    mFilterField.put(oJSON.getString("sID"), oJSON.getString("sValue"));
+                                    //((TaskQuery)taskQuery).taskVariableValueEqualsIgnoreCase(sLogin, sLogin);
+                                    //((TaskQuery)taskQuery).taskVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+                                    ((TaskInfoQuery)taskQuery).processVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+//                                    ((TaskInfoQuery)taskQuery).taskVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+                                } else {
+                                    LOG.info("{} json element doesn't have either sID or sValue fields", i);
+                                }
+                            }
+                            LOG.info("Converted filter fields to the map mFilterField={}", mFilterField);                                    
+                        }
+                	//data = filterTasks(data, soaFilterField);
+                        
 			 ((TaskInfoQuery)taskQuery).asc();
 		} else {
 			if (bIncludeAlienAssignedTasks){
@@ -2309,6 +2435,26 @@ public class ActionTaskService {
 				} else {
 					 ((TaskQuery)taskQuery).orderByTaskId();
 				}
+                                
+                                if (!StringUtils.isEmpty(soaFilterField)){
+                                    JSONArray oJSONArray = new JSONArray(soaFilterField);
+                                    Map<String, String> mFilterField = new HashMap<String, String>();
+                                    for (int i = 0; i < oJSONArray.length(); i++) {
+                                        JSONObject oJSON = (JSONObject) oJSONArray.get(i);
+                                        if (oJSON.has("sID") && oJSON.has("sValue")){
+                                            mFilterField.put(oJSON.getString("sID"), oJSON.getString("sValue"));
+                                            //((TaskQuery)taskQuery).taskVariableValueEqualsIgnoreCase(sLogin, sLogin);
+                                            //((TaskQuery)taskQuery).processVariableValueEqualsIgnoreCase(sLogin, sLogin)taskVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+                                            ((TaskQuery)taskQuery).processVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+//                                            ((TaskQuery)taskQuery).taskVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+                                        } else {
+                                            LOG.info("{} json element doesn't have either sID or sValue fields", i);
+                                        }
+                                    }
+                                    LOG.info("Converted filter fields to the map mFilterField={}", mFilterField);                                    
+                                }
+                	//data = filterTasks(data, soaFilterField);
+                        
 				 ((TaskQuery)taskQuery).asc();
 			}
 		}

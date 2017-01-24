@@ -405,6 +405,7 @@
 |sData||false|string|
 |sDateTimeAt||false|string|
 |sDateTimeTo||false|string|
+|sGroup||false|string|
 |sLenType||false|string|
 |sName||false|string|
 |sRegionTime||false|string|
@@ -1074,6 +1075,7 @@
 [options="header"]
 |===
 |Name|Description|Required|Schema|Default
+|aProcessSubjectChilds||false|<<ProcessSubject>> array|
 |aUser||false|<<ProcessUser>> array|
 |nID||false|integer (int64)|
 |nOrder||false|integer (int64)|
@@ -1082,6 +1084,7 @@
 |sDateFact||false|<<DateTime>>|
 |sDatePlan||false|<<DateTime>>|
 |sLogin||false|string|
+|sReport||false|string|
 |snID_Process_Activiti||false|string|
 |===
 
@@ -1090,6 +1093,13 @@
 |===
 |Name|Description|Required|Schema|Default
 |aProcessSubject||false|<<ProcessSubject>> array|
+|===
+
+=== ProcessSubjectResultTree
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|aProcessSubjectTree||false|<<ProcessSubject>> array|
 |===
 
 === ProcessSubjectStatus
@@ -1203,11 +1213,45 @@
 |processDefinitionId||false|string|
 |===
 
-=== SubjectGroup
+=== Subject
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|aSubjectAccountContact||false|<<SubjectContact>> array|
+|nID||false|integer (int64)|
+|sID||false|string|
+|sLabel||false|string|
+|sLabelShort||false|string|
+|===
+
+=== SubjectContact
 [options="header"]
 |===
 |Name|Description|Required|Schema|Default
 |nID||false|integer (int64)|
+|sDate||false|<<DateTime>>|
+|sValue||false|string|
+|subjectContactType||false|<<SubjectContactType>>|
+|===
+
+=== SubjectContactType
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|nID||false|integer (int64)|
+|sName_EN||false|string|
+|sName_RU||false|string|
+|sName_UA||false|string|
+|===
+
+=== SubjectGroup
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|aSubjectGroupChilds||false|<<SubjectGroup>> array|
+|aUser||false|<<SubjectUser>> array|
+|nID||false|integer (int64)|
+|oSubject||false|<<Subject>>|
 |sChain||false|string|
 |sID_Group_Activiti||false|string|
 |sName||false|string|
@@ -1219,6 +1263,13 @@
 |Name|Description|Required|Schema|Default
 |aSubjectGroup||false|<<SubjectGroup>> array|
 |aSubjectUser||false|<<SubjectUser>> array|
+|===
+
+=== SubjectGroupResultTree
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|aSubjectGroupTree||false|<<SubjectGroup>> array|
 |===
 
 === SubjectUser
