@@ -1,11 +1,11 @@
 {"motion" : {
   "RequiredFieldsOnCondition_AppPerson" : {"sNote":["замовник - фізособа"],
-    "aField_ID":["sLastName","sFirstName","sMiddleName","sPassportCustomer","sAddressLive","sInnCustomer"],
+    "aField_ID":["sLastName","sFirstName","sMiddleName"],
     "asID_Field":{"sCond":"asRefEntity"},
     "sCondition":"[sCond] == 'sEnumIndividual' || [sCond] == 'фізична особа'"
   },
   "RequiredFieldsOnCondition_AppLegal" : {"sNote":["замовник - юрособа"],
-    "aField_ID":["sTypeCompany","sNameCompany","sAddressCompany","sInnCompany"],
+    "aField_ID":["sTypeCompany","sNameCompany","sInnCompany"],
     "asID_Field":{"sCond":"asRefEntity"},
     "sCondition":"[sCond]=='sEnumCompany'||[sCond]=='юридична особа'"
   }

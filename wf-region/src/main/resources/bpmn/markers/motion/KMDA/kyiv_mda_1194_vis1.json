@@ -33,13 +33,12 @@
     "sCondition":"([sCond]=='yes'||[sCond]=='так')||([sCond1]=='yes'||[sCond1]=='так')"
   },
   "ShowFieldsOnCondition_7" : {"sNote":["ген.підрядник фіз.особа"],
-    "aField_ID":["sContractorPib","sContractorPassport","sContractorAddress","sContractorInn"],
+    "aField_ID":["sContractorPib"],
     "asID_Field":{"sCond":"sContractor"},
     "sCondition":"([sCond]=='sEnumIndividual'||[sCond]=='Фізична особа')"
   },
   "ShowFieldsOnCondition_8" : {"sNote":["ген.підрядник юр.особа"],
-    "aField_ID":["sContractorOrganizationType","sContractorOrganizationName","sContractorOrganizationAddress",
-      "sContractorOrganizationInn","sContractorOrganizationPhone"],
+    "aField_ID":["sContractorOrganizationType","sContractorOrganizationName","sContractorOrganizationInn"],
     "asID_Field":{"sCond":"sContractor"},
     "sCondition":"([sCond]=='sEnumCompany'||[sCond]=='Юридична особа')"
   }
