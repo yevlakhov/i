@@ -1,27 +1,15 @@
 {
     "motion": 
     {
-        "RequiredFieldsOnCondition_1_1":
-       	{"aField_ID":[
-		   	"sNameCompany",
-			"sAddressCompany",
-			"sInnCompany",
-			"sCompanyOrganizationLegalForm"
-			],
-        		"asID_Field":{"sCondit":"asRefEntity"},
-        		"sCondition":"[sCondit]=='sEnumCompany'"
+     "RequiredFieldsOnCondition_1_1":
+       {"aField_ID":["sNameCompany","sInnCompany","sCompanyOrganizationLegalForm"],
+        "asID_Field":{"sCondit":"asRefEntity"},
+        "sCondition":"[sCondit]=='sEnumCompany'"
         },
-         "RequiredFieldsOnCondition_1_2":
-       	{"aField_ID":[
-		   "sLastName", 
-		   "sFirstName", 
-		   "sMiddleName", 
-		   "sPassportCustomer", 
-		   "sAddressLive", 
-		   "sInnCustomer"
-			],
-        		"asID_Field":{"sCondit":"asRefEntity"},
-        		"sCondition":"[sCondit]=='sEnumIndividual'"
+     "RequiredFieldsOnCondition_1_2":
+       {"aField_ID":["sLastName","sFirstName","sMiddleName"],
+        "asID_Field":{"sCondit":"asRefEntity"},
+        "sCondition":"[sCondit]=='sEnumIndividual'"
         }
     }
 }

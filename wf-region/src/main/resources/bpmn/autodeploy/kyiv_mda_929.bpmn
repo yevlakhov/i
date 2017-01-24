@@ -196,14 +196,9 @@
           <activiti:value id="sEnumContractorIndividual" name="фізична особа"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sContractorPib" name="ПІБ фізособи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorPassport" name="Серія та номер паспорта підрядника, де і коли виданий" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorInn" name="ІПН" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorAddress" name="Місце проживання" type="string"></activiti:formProperty>
         <activiti:formProperty id="sContractorOrganizationLegalForm" name="Організаційно-правова форма юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sContractorOrganizationName" name="Найменування юрособи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorOrganizationAddress" name="Місцезнаходження" type="string"></activiti:formProperty>
         <activiti:formProperty id="sContractorOrganizationInn" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorOrganizationPhone" name="Номер телефону" type="string" default="+380"></activiti:formProperty>
         <activiti:formProperty id="sContractorName" name="Підрядник" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sNumberConditions" name="Реєстраційний номер містобудівних умов та обмежень забудови земельної ділянки" type="string"></activiti:formProperty>
         <activiti:formProperty id="sDateConditions" name="Дата видачі містобудівних умов та обмежень" type="string"></activiti:formProperty>
