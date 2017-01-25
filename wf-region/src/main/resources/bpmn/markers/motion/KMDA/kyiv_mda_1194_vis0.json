@@ -8,6 +8,10 @@
     "aField_ID":["sTypeCompany","sNameCompany","sInnCompany"],
     "asID_Field":{"sCond":"asRefEntity"},
     "sCondition":"[sCond]=='sEnumCompany'||[sCond]=='юридична особа'"
-  }
+  },
+    "ShowFieldsOnNotEmpty_Court": 
+      {"aField_ID": 	["sLabel_Court"], 
+       "sField_ID_s": "sCourtName"
+      }   
 }           
 }
