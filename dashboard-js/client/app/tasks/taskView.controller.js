@@ -1251,9 +1251,7 @@
 
         $scope.print = function (form, isMenuItem) {
           
-          console.log( "  " + isMenuItem );
-
-          if( !isMenuItem ) { // Click on Button
+          if( isMenuItem !== true ) { // Click on Button 
             $scope.updateTemplateList();
           }
 
