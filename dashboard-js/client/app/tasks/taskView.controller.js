@@ -828,11 +828,12 @@
                   $scope.convertDisabledEnumFiedsToReadonlySimpleText();
 
                   Modal.inform.error(function (result) {})(errMsg + " " + (result && result.length > 0 ? (': ' + result) : ''));
-                } else {
-                  var sMessage = "Форму збережено.";
-                  $scope.convertDisabledEnumFiedsToReadonlySimpleText();
-                  Modal.inform.success(function (result) {})(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
                 }
+                // else {
+                //   var sMessage = "Форму збережено.";
+                //   $scope.convertDisabledEnumFiedsToReadonlySimpleText();
+                //   Modal.inform.success(function (result) {})(sMessage + " " + (result && result.length > 0 ? (': ' + result) : ''));
+                // }
               })
               .catch(defaultErrorHandler);
           }
