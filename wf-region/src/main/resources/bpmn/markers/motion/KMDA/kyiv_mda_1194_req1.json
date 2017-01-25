@@ -10,7 +10,7 @@
     "sCondition":"[sCond]=='sEnumPrepare'"
   },
   "RequiredFieldsOnCondition_3" : {"sNote":"виправлення технічної помилки і будівельні",
-    "aField_ID":["sSupervisionPib","sSupervisionCertificate","sSupervisionPhone","sProjectDocExpertName","sProjectDocExpertInn",
+    "aField_ID":["sSupervisionPib","sSupervisionCertificate","sProjectDocExpertName","sProjectDocExpertInn",
       "sProjectDocExpertPib","sProjectDocExpertCertificate","sArchitectPib","sNumberConditions","sNameOrganConditions",
       "sDateConditions","sObjectTotalArea","sObjectHouseFloor","sObjectHouseIntegratedTotalArea","sObjectHouseNonLiveArea"],
     "asID_Field":{"sCond":"saReasonChange5","sCond1":"asTypeChange"},

@@ -623,7 +623,7 @@
           for(var i = 0; i < asId.length; i++) {
             var item = getObjFromTaskFormById(asId[i]), value, message;
             if(!item) {
-              message = 'Зверніться у технічну підтримку. Обєкт з id ' + asId[i] + ' відсутній. Формула не запрацює.';
+              message = 'Зверніться у технічну підтримку. Об`єкт з id ' + asId[i] + ' відсутній. Формула не запрацює.';
               Modal.inform.error()(message);
               throw message;
             }
@@ -1250,8 +1250,8 @@
         newServiceExistedTableDownload();
 
         $scope.print = function (form, isMenuItem) {
-
-          if( !isMenuItem ) { // Click on Button
+          
+          if( isMenuItem !== true ) { // Click on Button 
             $scope.updateTemplateList();
           }
 

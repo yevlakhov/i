@@ -12,14 +12,9 @@
         <activiti:formProperty id="sLastName" name="Прізвище" type="string"></activiti:formProperty>
         <activiti:formProperty id="sFirstName" name="Ім'я" type="string"></activiti:formProperty>
         <activiti:formProperty id="sMiddleName" name="По батькові" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sPassportCustomer" name="Паспортні дані" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sAddressLive" name="Місце проживання" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sInnCustomer" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string"></activiti:formProperty>
         <activiti:formProperty id="sTypeCompany" name="Організаційно-правова форма юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" required="true"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string"></activiti:formProperty>
         <activiti:formProperty id="asTypeChange" name="Зміна даних в Декларації про" type="enum" required="true">
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
@@ -215,14 +210,9 @@
           <activiti:value id="sEnumCompany" name="Юридична особа"></activiti:value>
         </activiti:formProperty>
         <activiti:formProperty id="sContractorPib" name="ПІБ фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorPassport" name="Паспортні дані" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorAddress" name="Місце проживання фізичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorInn" name="Номер облікової картки платника податків" type="string"></activiti:formProperty>
         <activiti:formProperty id="sContractorOrganizationType" name="Організаційно-правова форма юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sContractorOrganizationName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorOrganizationAddress" name="Місцезнаходження" type="string"></activiti:formProperty>
         <activiti:formProperty id="sContractorOrganizationInn" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sContractorOrganizationPhone" name="Номер телефону підрядника" type="string"></activiti:formProperty>
         <activiti:formProperty id="asLandUsed" name="Земельна ділянка використовується для будівництва на підставі" type="enum">
           <activiti:value id="sEnumObjectOwner" name="Документ, що посвідчує право власності чи користування земельною ділянкою"></activiti:value>
           <activiti:value id="sEnumSuperfic" name="Договір суперфіцію"></activiti:value>
@@ -380,8 +370,7 @@ ${sDocDeclarationBuild},${sDocDeclarationPrepare}]]></activiti:expression>
           <activiti:expression><![CDATA[Про результат опрацювання документів про зміну даних до декларації про початок виконання ${sNameWork}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[<b>Шановний ${sFirstName} ${sMiddleName}!</b><br><br>
-${sTextLetter}]]></activiti:expression>
+          <activiti:expression><![CDATA[<b>Шановний(-a) ${sFirstName} ${sMiddleName}!</b><br><br>${sTextLetter}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="saAttachmentsForSend">
           <activiti:expression><![CDATA[" "]]></activiti:expression>
