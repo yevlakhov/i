@@ -616,7 +616,7 @@ public class ObjectFileCommonController {
             @ApiParam(value = "строка-Логин пользователя", required = true) @RequestParam(value = "nTaskId") String taskId,
             @ApiParam(value = "строка-MIME тип отправляемого файла (по умолчанию = \"text/html\")", required = false) @RequestParam(value = "sContentType", required = false, defaultValue = "text/html") String sContentType,
             @ApiParam(value = "строка-описание", required = true) @RequestParam(value = "sDescription") String description,
-            @RequestParam(value = "sFileName") String sFileName,
+            @RequestParam(value = "sFileNameAndExt") String sFileName,
             @RequestParam(value = "sID_Field", required = false) String sID_Field,
             @RequestBody String sData) {
 
