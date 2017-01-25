@@ -187,7 +187,7 @@ angular.module('iGovMarkers')
           aField_ID: ["oPrescription1"], 
           sPatternPath: "/print/kiev/_test_print_table1.html", 
           sTitleField: "sPrescriptionName0", 
-          sName: "Припис про усунення ", 
+          sName: "Припис про усунення " 
 
         }, 
 
@@ -196,9 +196,9 @@ angular.module('iGovMarkers')
           aField_ID: ["oPrescription1"], 
           sPatternPath: "/print/kiev/_test_print_table2.html", 
           //sTitleField: "", 
-          asEnumField_ID: ["Condition1": "asType0"], 
-          sCondition: " [Condition1] == 'sEnumPr2' && [sPrescriptionEstablished1] == 'встановлено 2'",
-          sName: "Припис про зупинення ",
+          asEnumField_ID: {"Condition1": "asType0"}, 
+          sCondition: " [Condition1] == 'sEnumPr2' && [sPrescriptionEstablished1] == 'встановлено 2'", 
+          sName: "Припис про зупинення " 
 
         }, 
 
@@ -206,9 +206,9 @@ angular.module('iGovMarkers')
 
             aField_ID: ["oPrescription1"], 
             sPatternPath: "/print/kiev/_test_print_table2.html", 
-            asEnumField_ID: ["Condition1": "asType0"], 
+            asEnumField_ID: {"Condition1": "asType0"}, 
             sCondition: " [Condition1] == 'sEnumPr1' ", 
-            sName: "Припис про зупинення both rows та option 2 ", 
+            sName: "Припис про зупинення both rows та option 2 " 
 
         },  
 
