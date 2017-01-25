@@ -327,7 +327,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     ) throws CommonServiceException, TaskAlreadyUnboundException, Exception {
 
         String sMessage = null;
-
+        LOG.info("input sInfo = ", sInfo);
         sMessage = "Вибачте, виникла помилка при виконанні операції. Спробуйте ще раз, будь ласка";
         try {
             if (bSimple) {
@@ -344,10 +344,12 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 oActionTaskService.cancelTasksInternal(nID_Order, sInfo);
             }
 
-            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.\n<br>"
+            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.\n"
                     + "З повагою, команда порталу  iGov.org.ua";
             return new ResponseEntity<>(sMessage, HttpStatus.OK);
-        } catch (CRCInvalidException e) {
+            
+        }
+        catch (CRCInvalidException e) {
             sMessage = "Вибачте, виникла помилка: Помилковий номер заявки!";
             CommonServiceException oCommonServiceException = new CommonServiceException("BUSINESS_ERR", e.getMessage(), e);
             oCommonServiceException.setHttpStatus(HttpStatus.FORBIDDEN);
@@ -359,13 +361,18 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             oCommonServiceException.setHttpStatus(HttpStatus.FORBIDDEN);
             LOG.warn("Error: {}", e.getMessage());
             return new ResponseEntity<>(sMessage, HttpStatus.FORBIDDEN);
-        } catch (CommonServiceException | TaskAlreadyUnboundException e) {
+        }
+        catch (TaskAlreadyUnboundException  e) {
             CommonServiceException oCommonServiceException = new CommonServiceException("BUSINESS_ERR", e.getMessage(), e);
             oCommonServiceException.setHttpStatus(HttpStatus.FORBIDDEN);
             LOG.warn("Error: {}", e.getMessage(), e);
             return new ResponseEntity<>(sMessage, HttpStatus.FORBIDDEN);
+        }catch (Exception ex) {
+            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.\n"
+                    + "З повагою, команда порталу  iGov.org.ua";
+            LOG.info("Error: {}", ex);
+            return new ResponseEntity<>(sMessage, HttpStatus.OK);
         }
-
     }
 
     /**
@@ -2664,7 +2671,7 @@ LOG.info("4sTaskEndDateTo= " + sTaskEndDateTo);
     //save curretn values to Form
     @ApiOperation(value = "saveForm", notes = "saveForm")
     @RequestMapping(value = "/saveForm", method = RequestMethod.POST, produces = "application/json;charset=UTF-8")
-    public HttpServletRequest saveForm(
+    public ResponseEntity saveForm(
             @ApiParam(value = "проперти формы", required = false) @RequestBody String sParams, HttpServletRequest req)
             throws ParseException, CommonServiceException, IOException {
         StringBuilder osRequestBody = new StringBuilder();
@@ -2695,21 +2702,26 @@ LOG.info("4sTaskEndDateTo= " + sTaskEndDateTo);
             }        
             LOG.info("properties = " + dates.toJSONString());
 
+            List<String> oTypes = Arrays.asList("markers", "file", "table", "label");            
+
             org.json.simple.JSONObject result;
             Iterator<org.json.simple.JSONObject> datesIterator = dates.iterator();
             while (datesIterator.hasNext()) {
                 result = datesIterator.next();
+                boolean typeInclude = oTypes.contains(result.get("type").toString());
+                if (!typeInclude && result.get("value") != null) {
                 values.put(result.get("id").toString(), (String) result.get("value"));
+            }
             }
             formService.saveFormData(nID_Task, values);
             LOG.info("Process of update data finiched");
-            return req;
+            return JsonRestUtils.toJsonResponse(values);
         } catch (Exception e) {
             String message = "The process of update variables fail.";
-            LOG.debug(message);
+            LOG.debug(e.getMessage() + " " + message);
             throw new CommonServiceException(
                     ExceptionCommonController.BUSINESS_ERROR_CODE,
-                    message,
+                    e.getMessage() + " " + message,
                     HttpStatus.FORBIDDEN);
         }
 

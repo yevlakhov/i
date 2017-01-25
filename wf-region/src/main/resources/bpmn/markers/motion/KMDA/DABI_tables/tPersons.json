@@ -1,0 +1,8 @@
+{"aField":[
+   {"id":"sPosition",
+    "name":"Посада",
+    "type":"string"},
+   {"id":"sName",
+    "name":"Прізвище, ім’я та по батькові",
+    "type":"string"}
+]}

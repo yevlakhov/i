@@ -22,10 +22,12 @@
           }
         };
         function getRegexContains(str, splitBy, part) {
-          var as = str.split(splitBy);
-          for (var i = 0; i < as.length; i++) {
-            if (as[i].includes(part)) {
-              return as[i];
+          if(str.includes(splitBy)) {
+            var as = str.split(splitBy);
+            for (var i = 0; i < as.length; i++) {
+              if (as[i].indexOf(part) >= 0) {
+                return as[i];
+              }
             }
           }
           return null;
@@ -40,9 +42,12 @@
         function getObjFromTaskFormById(id) {
           if(id == null) return null;
           for (var i = 0; i < taskForm.length; i++) {
-             if (taskForm[i].id && taskForm[i].id.includes && taskForm[i].id.includes(id)) {
-               return taskForm[i];
-             }
+//             if (taskForm[i].id && taskForm[i].id.includes && taskForm[i].id.includes(id)) {
+//               return taskForm[i];
+//             }
+            if (taskForm[i].id && taskForm[i].id.indexOf(id) >= 0) {
+              return taskForm[i];
+            }
           }
           return null;
         }
@@ -64,9 +69,11 @@
           var item = getObjFromTaskFormById(sLoginAsignee);
           if (item !== null) {
             var as = getRegexContains(item.name, ';', param);
-            as = getRegexContains(as, ',', param);
-            var sID = as.split('=')[1];
-            return sID;
+            if(as != null) {
+              as = getRegexContains(as, ',', param);
+              var sID = as.split('=')[1];
+              return sID;
+            }
           }
           return null;
         }
@@ -104,8 +111,6 @@
                       item.value = item.enumValues[0].id;
                       $scope.updateAssigneeName(item);
                     }
-                    // hidden sAssignName
-                    hiddenObjById(getIdFromActivityProperty("sDestinationFieldID_sName"));
                   }
                 });
               }
@@ -586,7 +591,7 @@
         function getValueById(id) {
           for(var i = 0; i < taskForm.length;i++) {
             var item = taskForm[i];
-            if (item.id.includes(id)) {
+            if (item.id.indexOf(id) >= 0) {
               return item.value;
             }
           }
@@ -618,7 +623,7 @@
           for(var i = 0; i < asId.length; i++) {
             var item = getObjFromTaskFormById(asId[i]), value, message;
             if(!item) {
-              message = 'Зверніться у технічну підтримку. Обєкт з id ' + asId[i] + ' відсутній. Формула не запрацює.';
+              message = 'Зверніться у технічну підтримку. Об`єкт з id ' + asId[i] + ' відсутній. Формула не запрацює.';
               Modal.inform.error()(message);
               throw message;
             }
@@ -681,7 +686,7 @@
              */
             if(asNameField){
               for (var i = 0; i < asNameField.length; i++) {
-                if(asNameField[i].includes("PrintFormFormula")) {
+                if(asNameField[i].indexOf("PrintFormFormula") >= 0) {
                   executeFormula(oMotion[asNameField[i]]);
                 }
               }
@@ -775,7 +780,7 @@
               .then(function (result) {
                 if(result.status == 500){
                   var message = result.data.message;
-                  var errMsg = (message.includes("errMsg")) ? message.split(":")[1].split("=")[1] : message;
+                  var errMsg = (message.indexOf("errMsg") >= 0) ? message.split(":")[1].split("=")[1] : message;
                   $scope.taskForm.isInProcess = false;
                   $scope.convertDisabledEnumFiedsToReadonlySimpleText();
                   Modal.inform.error(function (result) {
@@ -823,7 +828,7 @@
                 $scope.taskForm.isInProcess = false;
                 if(result.status == 500 || result.status == 403){
                   var message = result.data.message;
-                  var errMsg = (message.includes("errMsg")) ? message.split(":")[1].split("=")[1] : message;
+                  var errMsg = (message.indexOf("errMsg") >= 0) ? message.split(":")[1].split("=")[1] : message;
 
                   $scope.convertDisabledEnumFiedsToReadonlySimpleText();
 
@@ -868,16 +873,34 @@
         };
 
         $scope.upload = function (files, propertyID) {
+          $rootScope.switchProcessUploadingState();
           var isNewAttachmentService = false;
           var taskID = $scope.taskId;
           for(var i=0; i<$scope.taskForm.length; i++) {
             var item = $scope.taskForm[i];
             var splitNameForOptions = item.name.split(';');
-            if(item.id === propertyID && splitNameForOptions.length === 3){
+            if(item.type !== 'table' && item.id === propertyID && splitNameForOptions.length === 3){
               if(splitNameForOptions[2].indexOf('bNew=true') !== -1) {
                 isNewAttachmentService = true;
                 taskID = $scope.taskData.oProcess.nID;
                 break
+              }
+            } else if(item.type === 'table') {
+              if(item.aRow.length !== 0) {
+                for(var t=0; t<item.aRow.length; t++) {
+                  var row = item.aRow[t];
+                  for(var f=0; f<row.aField.length; f++) {
+                    var field = row.aField[f];
+                    var fieldOptions = field.name.split(';');
+                    if(field.id === propertyID && fieldOptions.length === 3){
+                      if(fieldOptions[2].indexOf('bNew=true') !== -1) {
+                        isNewAttachmentService = true;
+                        taskID = $scope.taskData.oProcess.nID;
+                        break
+                      }
+                    }
+                  }
+                }
               }
             }
           }
@@ -885,6 +908,24 @@
             var filterResult = $scope.taskForm.filter(function (property) {
               return property.id === propertyID;
             });
+
+            // if filterResult === 0 => check file in table
+            if(filterResult.length === 0) {
+              for(var j=0; j<$scope.taskForm.length; j++) {
+                if($scope.taskForm[j].type === 'table') {
+                  for(var c=0; c<$scope.taskForm[j].aRow.length; c++) {
+                    var row = $scope.taskForm[j].aRow[c];
+                    for(var i=0; i<row.aField.length; i++) {
+                      if (row.aField[i].id === propertyID) {
+                        filterResult.push(row.aField[i]);
+                        break
+                      }
+                    }
+                  }
+                }
+              }
+            }
+
             if (filterResult && filterResult.length === 1) {
               if(result.response.sKey) {
                 filterResult[0].value = JSON.stringify(result.response);
@@ -896,6 +937,7 @@
                 filterResult[0].signInfo = result.signInfo;
               }
             }
+            $rootScope.switchProcessUploadingState();
           }).catch(function (err) {
             Modal.inform.error()('Помилка. ' + err.code + ' ' + err.message);
           });
@@ -1033,7 +1075,7 @@
         //Asignee user.
         $scope.choiceUser = function(login) {
           for (var i = 0; i < taskData.aField.length; i++) {
-            if (taskData.aField[i].sID.includes(sLoginAsignee)) {
+            if (taskData.aField[i].sID.indexOf(sLoginAsignee) >= 0) {
               taskData.aField[i].sValue = login;
               break;
             }
@@ -1160,6 +1202,7 @@
         };
 
         TableService.init($scope.taskForm);
+
         $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); });
 
         //old service where we need to check the same id from form field and attachment to load it. remove it in a future.
@@ -1207,8 +1250,8 @@
         newServiceExistedTableDownload();
 
         $scope.print = function (form, isMenuItem) {
-
-          if( !isMenuItem ) { // Click on Button
+          
+          if( isMenuItem !== true ) { // Click on Button 
             $scope.updateTemplateList();
           }
 
@@ -1342,6 +1385,17 @@
             })
             .catch(defaultErrorHandler);
         };
+
+        // блокировка кнопок выбора файлов на время выполнения процесса загрузки ранее выбранного файла
+        $rootScope.isFileProcessUploading = {
+          bState: false
+        };
+
+        $rootScope.switchProcessUploadingState = function () {
+          $rootScope.isFileProcessUploading.bState = !$rootScope.isFileProcessUploading.bState;
+          console.log("Switch $rootScope.isFileProcessUploading to " + $rootScope.isFileProcessUploading.bState);
+        };
+
         $rootScope.$broadcast("update-search-counter");
       }
     ])

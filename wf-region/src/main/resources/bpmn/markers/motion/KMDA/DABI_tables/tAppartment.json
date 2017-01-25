@@ -18,15 +18,6 @@
     {"id":"sObjectHouseAptTypeQuantity",
      "name":"Кількість квартир",
      "type":"long",
-     "required":"true"}, 
- 
-    {"id":"sObjectHouseAptTypeTotalArea",
-     "name":"Загальна площа, кв.м",
-     "type":"string",
-     "required":"true"}, 
- 
-    {"id":"sObjectHouseAptTypeLiveArea",
-     "name":"Житлова площа, кв.м",
-     "type":"string",
      "required":"true"}
+ 
 ]}

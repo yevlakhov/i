@@ -2,13 +2,19 @@
     "motion": 
       {
         "PrintForm_TableIteration1": {
-            "sID_Field_Table": "oPrescription1",
+            "aField_ID": ["oPrescription1"],
+            "sTitleField": "sPrescriptionName",
             "sPatternPath": "/print/kiev/_test_print_table1.html",
-            "sName": "Припис про усунення правопорушення"},
+            "sName": "Припис про усунення правопорушення вимог законодавства",
+            "asID_Field": {"sCondit":"asType"},
+            "sCondition": "[sCondit] == 'sEnumPr2'"},
         "PrintForm_TableIteration2": {
-            "sID_Field_Table": "oPrescription2",
+            "aField_ID": ["oPrescription1"],
+            "sTitleField": "sPrescriptionName",
             "sPatternPath": "/print/kiev/_test_print_table2.html",
-            "sName": "Припис про зупинення робіт"}
+            "sName": "Припис про зупинення підготовчих та будівельних робіт",
+            "asID_Field": {"sCondit":"asType"},
+            "sCondition": "[sCondit] == 'sEnumPr1'"}
      }
 
 }

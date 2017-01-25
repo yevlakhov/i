@@ -378,6 +378,24 @@ public class ActionItemControllerScenario {
     }
 
     @Test
+    public void shouldSuccessfullyGetEmptyCatalogTreeTag() throws Exception {
+        dbManager.recreateDb();
+        String jsonData = mockMvc.perform(get("/action/item/getCatalogTreeTag").
+                param("nID_Category", "1").
+                param("sFind", "реєстрація").
+                param("bNew", "true").
+                param("nID_Place_Profile", "543")).
+                andExpect(status().isOk()).
+                andExpect(content().contentType(APPLICATION_JSON_CHARSET_UTF_8)).
+                andExpect(jsonPath("$", not(empty()))).
+                andReturn().getResponse().getContentAsString();
+        ServiceTagTreeVO tree = JsonRestUtils.readObject(jsonData, ServiceTagTreeVO.class);
+
+        Assert.assertTrue(tree.getaNode().size() == 0);
+        Assert.assertTrue(tree.getaService().size() == 0);
+    }
+
+    @Test
     public void shouldSuccessfullyGetCatalogTreeTagService() throws Exception {
         dbManager.recreateDb();
         ServiceTagTreeNodeVO[] tableDataList = null;

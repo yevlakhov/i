@@ -1,12 +1,11 @@
 {"motion" : {
   "RequiredFieldsOnCondition_8" : {"sNote":["ген.підрядник фіз.особа"],
-    "aField_ID":["sContractorPib","sContractorPassport","sContractorAddress","sContractorInn"],
+    "aField_ID":["sContractorPib"],
     "asID_Field":{"sCond":"sContractor"},
     "sCondition":"([sCond]=='sEnumIndividual')"
   },
   "RequiredFieldsOnCondition_9" : {"sNote":["ген.підрядник юр.особа"],
-    "aField_ID":["sContractorOrganizationType","sContractorOrganizationName","sContractorOrganizationAddress",
-      "sContractorOrganizationInn","sContractorOrganizationPhone"],
+    "aField_ID":["sContractorOrganizationType","sContractorOrganizationName","sContractorOrganizationInn"],
     "asID_Field":{"sCond":"sContractor"},
     "sCondition":"([sCond]=='sEnumCompany')"
   },
