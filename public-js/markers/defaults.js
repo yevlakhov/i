@@ -182,7 +182,7 @@ angular.module('iGovMarkers')
         }, 
         */ 
 
-        PrintForm_Table32 { 
+        PrintForm_Table32: { 
 
           aField_ID: ["oPrescription1"], 
           sPatternPath: "/print/kiev/_test_print_table1.html", 
@@ -191,22 +191,22 @@ angular.module('iGovMarkers')
 
         }, 
 
-        PrintForm_Table36 { 
+        PrintForm_Table36: { 
 
           aField_ID: ["oPrescription1"], 
           sPatternPath: "/print/kiev/_test_print_table2.html", 
           //sTitleField: "", 
-          asEnumField_ID: {Condition1: "asType0"}, 
+          asEnumField_ID: {'Condition1': "asType0"}, 
           sCondition: " [Condition1] == 'sEnumPr2' && [sPrescriptionEstablished1] == 'встановлено 2'", 
           sName: "Припис про зупинення " 
 
         }, 
 
-        PrintForm_Table362 { 
+        PrintForm_Table362: { 
 
             aField_ID: ["oPrescription1"], 
             sPatternPath: "/print/kiev/_test_print_table2.html", 
-            asEnumField_ID: {Condition1: "asType0"}, 
+            asEnumField_ID: {'Condition1': "asType0"}, 
             sCondition: " [Condition1] == 'sEnumPr1' ", 
             sName: "Припис про зупинення both rows та option 2 " 
 
