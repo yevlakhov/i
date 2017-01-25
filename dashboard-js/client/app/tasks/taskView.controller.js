@@ -1203,7 +1203,14 @@
 
         TableService.init($scope.taskForm);
 
-        $scope.$on('TableFieldChanged', function(event, args) { $scope.updateTemplateList(); });
+        $scope.$on('TableFieldChanged', function(event, args) { 
+        
+          console.log( "Cell update catched" ); 
+
+          $scope.updateTemplateList(); 
+
+          console.log( "Updated menu" ); 
+        });
 
         //old service where we need to check the same id from form field and attachment to load it. remove it in a future.
         var idMatchInAttach = function () {
@@ -1250,12 +1257,12 @@
         newServiceExistedTableDownload();
 
         $scope.print = function (form, isMenuItem) {
-          
+
           if( isMenuItem !== true ) { // Click on Button 
             $scope.updateTemplateList();
           }
 
-          if ( ( $scope.printTemplateList.length === 0 || isMenuItem ) && $scope.selectedTask && $scope.taskForm) {
+          if ( ( $scope.printTemplateList.length === 0 || isMenuItem === true ) && $scope.selectedTask && $scope.taskForm) {
             rollbackReadonlyEnumFields();
             $scope.printModalState.show = !$scope.printModalState.show;
           }
