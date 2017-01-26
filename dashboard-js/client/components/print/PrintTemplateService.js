@@ -70,7 +70,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                          itemObject.oField = field;
 		                          itemObject.sLabel = field.value;
 
-                              if(( var enumItem = this.getEnumItemById( itemObject.oField, field.oField.value ) != null ) { 
+                              var enumItem = this.getEnumItemById( itemObject.oField, field.oField.value ); 
+                              if( enumItem != null ) { 
                                 itemObject.sLabel = enumItem.name; 
                               } 
 
@@ -85,9 +86,10 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 		                      itemObject.oField = item.aField[0];
 		                      itemObject.sLabel = item.aField[0].value;
 
-                          if(( var enumItem = this.getEnumItemById( itemObject.oField, field.oField.value ) != null ) { 
+                          var enumItem = this.getEnumItemById( itemObject.oField, field.oField.value ); 
+                          if( enumItem != null ) { 
                              itemObject.sLabel = enumItem.name;  
-                          }
+                          } 
 
 		                      //console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel );
 
