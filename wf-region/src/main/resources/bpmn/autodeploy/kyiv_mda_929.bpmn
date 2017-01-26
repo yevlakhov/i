@@ -23,7 +23,7 @@
         <activiti:formProperty id="sDateAppeal" name="Дата подачі" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers2" name="RequiredFields2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_req.json')}"></activiti:formProperty>
-        <activiti:formProperty id="markers_lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_lines.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers_lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_lines1.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_valid.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
@@ -98,7 +98,7 @@
         <activiti:formProperty id="sID_Group_step7" name="Група виконавців наступного кроку" type="invisible" default="kyiv_dabi_permit_empl"></activiti:formProperty>
         <activiti:formProperty id="sAssigneeName_step7" name="Обраний виконавець" type="invisible"></activiti:formProperty>
         <activiti:formProperty id="sCommentBossPermit" name="Коментар" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_928_1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nFile1}]]></activiti:expression>
@@ -172,7 +172,7 @@
           <activiti:value id="sEnumRestoration" name="Реставрація"></activiti:value>
           <activiti:value id="sEnumOverhaul" name="Капітальний ремонт"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sObjectCode" name="Код об’єктау (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sObjectCode" name="Код об’єкта (згідно з Державним класифікатором будівель та споруд ДК 018-2000)" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationName" name="Найменування проектувальника" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationInn" name="Код згідно ЄДРПОУ проектувальника" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="tProjectPers" name="Інформація про відповідальних осіб генерального проектувальника" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tProjectPers.json')}"></activiti:formProperty>
@@ -216,6 +216,7 @@
         <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers3" name="hideShowFields3" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_3.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers5" name="RequiredFields5" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_5.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers_lin" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_lines.json')}"></activiti:formProperty>       
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nFile1}]]></activiti:expression>
@@ -250,7 +251,7 @@
           <activiti:value id="sEnumRestoration" name="Реставрація"></activiti:value>
           <activiti:value id="sEnumOverhaul" name="Капітальний ремонт"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="sObjectCode" name="Код об’єктау" type="string" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sObjectCode" name="Код об’єкта" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sLabel_Designer" name="---------------" type="label" default="Інформація про проектувальника ----"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationName" name="Найменування проектувальника" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationInn" name="Код згідно ЄДРПОУ проектувальника" type="string" writable="false"></activiti:formProperty>
