@@ -34,17 +34,17 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
       try {
 
-        for(var i = 0; i < form.length; i++) {
+        for(var i = 0; i < form.length; i++) { 
 
-           if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') {
+           if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') { 
 
-			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
+			    	  var prints = FieldMotionService.getPrintFormsById( form[i].id ); // form[i].id 
 
               console.log( " PrintForm - " + form[i].id + " - " + form[i].type ); 
 
-			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) {
+			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) { 
 
-                 if( _.contains(printsItem.aField_ID, form[i].id) ) {
+                 if( _.contains(printsItem.aField_ID, form[i].id) ) { 
 
 		                  angular.forEach( form[i].aRow, function( item, key, obj ) {
 
@@ -84,13 +84,13 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                           if( itemObject.oField.type == "enum" && itemObject.oField.a != null ) { 
  
                             angular.forEach( itemObject.oField.a, function (enumItem, enumKey) { 
-                               console.log( " enumItem.name=" + enumItem.name + ", enumKey=" + enumKey + ", oField.value=" + itemObject.oField.value ); 
-                               if( enumKey == itemObject.oField.value ) { 
+                               console.log( " enumItem.name=" + enumItem.name + ", enumItem.id=" + enumItem.id + ", oField.value=" + itemObject.oField.value ); 
+                               if( enumItem.id == itemObject.oField.value ) { 
                                   itemObject.sLabel = enumItem.name; 
                                } 
                             }); 
 
-                          }   
+                          } 
 		                      //console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel );
 
 		                    }
