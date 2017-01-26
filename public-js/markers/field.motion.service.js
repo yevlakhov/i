@@ -54,7 +54,7 @@ function FieldMotionService(MarkersFactory) {
   }; 
   
   this.getPrintFormsById = function(fieldId) {
-	  return getPrintForms(fieldId); 
+	  return this.getPrintForms(fieldId); 
   };
 
   this.isFieldWritable = function(fieldId, formData) {
