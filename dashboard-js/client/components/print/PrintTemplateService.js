@@ -193,8 +193,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
        } 
 
        return result;
-    } 
-    
+    }, 
+
     /**
      * function getPrintTemplateByObject
      *  Returns template for PrintForm object combined with tables value
