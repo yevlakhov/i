@@ -42,6 +42,8 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) {
 
+                 console.log( " PrintForm - " + printsKey ); 
+
                  if( _.contains(printsItem.aField_ID, form[i].id) ) {
 
 		                  angular.forEach( form[i].aRow, function( item, key, obj ) {
