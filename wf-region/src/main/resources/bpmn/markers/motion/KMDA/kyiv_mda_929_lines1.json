@@ -1,0 +1,12 @@
+{
+  "attribute" : {
+    "Line_1" : {
+       "aElement_ID" : ["asRefEntity"],    
+       "sValue" : "Замовник" 
+    },
+    "Line_2" : {
+       "aElement_ID" : ["sObjectName"], 
+       "sValue" : "Об'єктбудівництва"
+    }
+  }
+}
