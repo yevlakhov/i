@@ -337,8 +337,8 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 oActionTaskService.cancelTasksInternal(nID_Order, sInfo);
             }
 
-            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг iGov.org.ua.\n<br>"
-                    + "З повагою, команда порталу  iGov.org.ua";
+            sMessage = "Ваша заявка відмінена. Ви можете подати нову на Порталі державних послуг poslugy.kyivcity.gov.ua.\n<br>"
+                    + "З повагою, команда порталу  poslugy.kyivcity.gov.ua";
             return new ResponseEntity<>(sMessage, HttpStatus.OK);
         } catch (CRCInvalidException e) {
             sMessage = "Вибачте, виникла помилка: Помилковий номер заявки!";
