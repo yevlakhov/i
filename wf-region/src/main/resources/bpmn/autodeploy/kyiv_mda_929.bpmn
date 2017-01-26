@@ -12,22 +12,17 @@
         <activiti:formProperty id="sLastName" name="Прізвище" type="string"></activiti:formProperty>
         <activiti:formProperty id="sFirstName" name="Ім'я" type="string"></activiti:formProperty>
         <activiti:formProperty id="sMiddleName" name="По батькові" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sPassportCustomer" name="Паспортні дані" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sAddressLive" name="Місце проживання" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sInnCustomer" name="Номер облікової картки платника податків;не зазначається фізичними особами, які через свої релігійні переконання відмовляються від прийняття реєстраційного номера облікової картки платника податків та повідомили про це відповідному органу державної податкової служби і мають відмітку у паспорті" type="string"></activiti:formProperty>
         <activiti:formProperty id="sCompanyOrganizationLegalForm" name="Організаційно-правова форма юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" required="true"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="nFile1" name="Декларація про початок виконання будівельних робіт;Вкладення відсканованого поданого паперового документу" type="file" required="true"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sDateAppeal" name="Дата подачі" type="invisible"></activiti:formProperty>
-        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_1.json')}"></activiti:formProperty>
-        <activiti:formProperty id="markers2" name="RequiredFields2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_2.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers2" name="RequiredFields2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_req.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers_lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_lines.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers_valid" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_valid.json')}"></activiti:formProperty>
       </extensionElements>
@@ -68,7 +63,7 @@
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDateAppeal" name="Дата подачі" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nFile1}]]></activiti:expression>
@@ -139,7 +134,7 @@
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sDateAppeal" name="Дата подачі" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sEmployeeComment" name="Коментар співробітника Сектору документообігу" type="textArea" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nFile1}]]></activiti:expression>
@@ -218,7 +213,7 @@
         <activiti:formProperty id="comment" name="Причина відмови" type="textArea"></activiti:formProperty>
         <activiti:formProperty id="sID_numberDABI" name="Реєстраційний номер з реєстру ДАБІ" type="string"></activiti:formProperty>
         <activiti:formProperty id="sEmplPermitComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers3" name="hideShowFields3" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_3.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers5" name="RequiredFields5" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_5.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
@@ -316,7 +311,7 @@
         <activiti:formProperty id="sEmplPermitComment" name="Коментар співробітника Відділу дозвільних документів" type="textArea" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sNumberOutDABI" name="Реєстраційний номер вихідного документу" type="string"></activiti:formProperty>
         <activiti:formProperty id="sDateOutDABI" name="Дата реєстрації вихідного документу" type="string"></activiti:formProperty>
-        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_1.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers1" name="hideShowFields1" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_929_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
             <activiti:expression><![CDATA[${nFile1}]]></activiti:expression>
