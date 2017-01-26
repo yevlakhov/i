@@ -38,11 +38,11 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
            if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') {
 
-			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id
+			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
+
+              console.log( " PrintForm - " + form[i].id + " - " + form[i].type ); 
 
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) {
-
-                 console.log( " PrintForm - " + printsKey ); 
 
                  if( _.contains(printsItem.aField_ID, form[i].id) ) {
 
