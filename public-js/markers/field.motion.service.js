@@ -183,7 +183,7 @@ function FieldMotionService(MarkersFactory) {
       if (fId == 0) console.log('Cant resolve original fieldId by alias:' + alias);
       var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias + ", fId=" + fId ); 
       if(formData[fId]){ 
-        if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
+        if (formData[fId] && (formData[fId].type != "enum") && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
 	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
 	  var enumItem = MarkersFactory.getEnumItemById(formData[fId], formData[fId].value); 
@@ -201,7 +201,7 @@ function FieldMotionService(MarkersFactory) {
       }else{
         angular.forEach(formData, function (item) {
           if(item.id === fId){
-            if(item && (typeof item.value === 'string' || item.value instanceof String)) {
+            if(item && (item.type != "enum") && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
 	    } else if ( item && ( item.type === "enum" ) ) { 
                var enumItem = MarkersFactory.getEnumItemById( item, item.value ); 
