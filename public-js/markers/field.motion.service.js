@@ -188,7 +188,7 @@ function FieldMotionService(MarkersFactory) {
 	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
 	  var enumItem = this.getEnumValueById(formData[fId], formData[fId].value); 
 	  if(enumItem != null) { 
-	    result = enumItem.value; 
+	    result = enumItem.id; 
 	  }  console.log( ' Enum catched ' + fId + ', ' + formData[fId].value );
         } else if (formData.hasOwnProperty(fId)) { 
           result = formData[fId].value; 
@@ -203,7 +203,7 @@ function FieldMotionService(MarkersFactory) {
 	    } else if ( item && ( item.type === "enum" ) ) { 
                var enumItem = this.getEnumValueById(item, item.value); 
 	       if(enumItem != null) { 
-		 result = enumItem.value;  
+		 result = enumItem.id;  
 	       } console.log( ' Enum catched 2 ' + fId + ', ' +formData[fId].value );
 	    } else if (item.hasOwnProperty(fId)) { 
               result = item.value;
