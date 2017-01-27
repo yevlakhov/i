@@ -173,7 +173,7 @@ function FieldMotionService(MarkersFactory) {
  
     console.log( " sCondition=" + entry.sCondition );  
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
-      var fId = entry.asID_Field[alias] || entry.asEnumField_ID[alias];
+      var fId = (entry.asID_Field[alias] || entry.asEnumField_ID[alias]);
       if (!fId) console.log('Cant resolve original fieldId by alias:' + alias);
       var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias); 
       if(formData[fId]){ 
