@@ -149,7 +149,7 @@ function FieldMotionService(MarkersFactory) {
     }, {});
   };
 	
-  this.isPrintFormVisisble = function( printForm, fieldId, formData) { 
+  this.isPrintFormVisible = function( printForm, fieldId, formData) { 
 	return evalCondition( printForm, fieldId, formData ); 
   }; 
 
@@ -167,9 +167,9 @@ function FieldMotionService(MarkersFactory) {
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
 	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
-	  var enum = getEnumValueById(formData[fId], formData[fId].value); 
-	  if(enum != null) { 
-	    result = enum.value; 
+	  var enumItem = getEnumValueById(formData[fId], formData[fId].value); 
+	  if(enumItem != null) { 
+	    result = enumItem.value; 
 	  }  
         } else if (formData.hasOwnProperty(fId)) { 
           result = formData[fId].value; 
@@ -182,9 +182,9 @@ function FieldMotionService(MarkersFactory) {
             if(item && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
 	    } else if ( item && ( item.type === "enum" ) ) { 
-               var enum = getEnumValueById(item, item.value); 
-	       if(enum != null) { 
-		 result = enum.value;  
+               var enumItem = getEnumValueById(item, item.value); 
+	       if(enumItem != null) { 
+		 result = enumItem.value;  
 	       } 
 	    } else if (item.hasOwnProperty(fId)) { 
               result = item.value;
