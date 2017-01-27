@@ -183,7 +183,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
        if(field.type == "enum" && field.a != null) { 
  
           angular.forEach( field.a, function(enumItem, enumKey) { 
-             console.log( " enumItem.name=" + enumItem.name + ", enumItem.id=" + enumItem.id + ", oField.value=" + field.value + " oField.enumValues[i].id=" + field.enumValues[enumKey].id ); 
+             console.log( " enumItem.name=" + enumItem.name + ", enumItem.id=" + enumItem.id + ", oField.value=" + field.value ); 
 
              if(enumItem.id == enumValue ) { 
                  result = enumItem; 
