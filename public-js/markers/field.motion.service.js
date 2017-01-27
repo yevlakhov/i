@@ -186,7 +186,7 @@ function FieldMotionService(MarkersFactory) {
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
 	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
-	  var enumItem = this.getEnumValueById(formData[fId], formData[fId].value); 
+	  var enumItem = getEnumValueById(formData[fId], formData[fId].value); 
 	  if(enumItem != null) { 
 	    result = enumItem.id; 
 	  }  console.log( ' Enum catched ' + fId + ', ' + formData[fId].value );
@@ -201,7 +201,7 @@ function FieldMotionService(MarkersFactory) {
             if(item && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
 	    } else if ( item && ( item.type === "enum" ) ) { 
-               var enumItem = this.getEnumValueById(item, item.value); 
+               var enumItem = getEnumValueById(item, item.value); 
 	       if(enumItem != null) { 
 		 result = enumItem.id;  
 	       } console.log( ' Enum catched 2 ' + fId + ', ' +formData[fId].value );
