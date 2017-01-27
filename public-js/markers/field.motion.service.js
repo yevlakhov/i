@@ -154,13 +154,13 @@ function FieldMotionService(MarkersFactory) {
   }; 
 
   function evalCondition(entry, fieldId, formData, mentioned) {
-    if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) && entry.sCondition != null ) {
+    if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) ) {
       return false;
     } else if(mentioned) {
       mentioned.val = true;
     } 
 
-    if( !(entry.sCondition == null || entry.sCondition == '' ) ) {
+    if( (entry.sCondition == null || entry.sCondition == '' ) ) {
     	return true;
     }
  
