@@ -81,7 +81,7 @@
                 <div class="col-md-12 category-container-img">
                   <a ui-sref="index.newsubcategory({'catID': 1, 'scatID': category.oServiceTag_Root.nID })" ng-click="catalogTab = 1">
                     <img ng-if="!category.oServiceTag_Root.sLinkImage && !isKyivCity" src="https://alpha.test.igov.org.ua/wf/VAADIN/themes/activiti/img/services/igov.noimg.png" alt="img">
-                    <img ng-if="!category.oServiceTag_Root.sLinkImage && isKyivCity" src="http://new.kievcity.gov.ua/logo.png" alt="img">
+                    <img ng-if="!category.oServiceTag_Root.sLinkImage && isKyivCity" src="/wf/VAADIN/themes/activiti/img/logo_blue_white.png" alt="img">
                     <img ng-if="category.oServiceTag_Root.sLinkImage" ng-src="{{category.oServiceTag_Root.sLinkImage}}" alt="img">
                   </a>
                 </div>
