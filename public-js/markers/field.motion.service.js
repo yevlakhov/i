@@ -158,7 +158,13 @@ function FieldMotionService(MarkersFactory) {
       return false;
     } else if(mentioned) {
       mentioned.val = true;
-    } console.log( " sCondition=" + entry.sCondition );
+    } 
+
+    if( !(entry.sCondition == null || entry.sCondition == '' ) ) {
+    	return true;
+    }
+ 
+    console.log( " sCondition=" + entry.sCondition );  
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
       var fId = entry.asID_Field[alias] || entry.asEnumField_ID[alias];
       if (!fId) console.log('Cant resolve original fieldId by alias:' + alias);
