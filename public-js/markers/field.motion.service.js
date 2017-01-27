@@ -153,6 +153,7 @@ function FieldMotionService(MarkersFactory) {
 	return evalCondition( printForm, fieldId, formData ); 
   }; 
 
+	  
   function evalCondition(entry, fieldId, formData, mentioned) {
     if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) ) {
       return false;
