@@ -163,14 +163,14 @@ function FieldMotionService(MarkersFactory) {
       var fId = entry.asID_Field[alias] || entry.asEnumField_ID[alias];
       if (!fId) console.log('Cant resolve original fieldId by alias:' + alias);
       var result = '';
-      if(formData[fId]){
+      if(formData[fId]){ 
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
 	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
 	  var enumItem = getEnumValueById(formData[fId], formData[fId].value); 
 	  if(enumItem != null) { 
 	    result = enumItem.value; 
-	  }  
+	  }  console.log( ' Enum catched ' + fId + ', ' + formData[fId].value );
         } else if (formData.hasOwnProperty(fId)) { 
           result = formData[fId].value; 
         } else { 
@@ -185,7 +185,7 @@ function FieldMotionService(MarkersFactory) {
                var enumItem = getEnumValueById(item, item.value); 
 	       if(enumItem != null) { 
 		 result = enumItem.value;  
-	       } 
+	       } console.log( ' Enum catched 2 ' + fId + ', ' +formData[fId].value );
 	    } else if (item.hasOwnProperty(fId)) { 
               result = item.value;
             } else { 
@@ -203,8 +203,9 @@ function FieldMotionService(MarkersFactory) {
       }
       return result;
     });
+	  console.log( " evalCondition-" + toEval); 
     try {
-      return eval(toEval);
+      return eval(toEval); 
     } catch (e) {
       console.log('OnCondition expression error\n' + e.name + '\n' + e.message
         + '\nexpression:' + entry.sCondition
