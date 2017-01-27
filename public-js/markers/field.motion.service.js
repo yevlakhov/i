@@ -181,7 +181,7 @@ function FieldMotionService(MarkersFactory) {
       } 
 
       if (fId == 0) console.log('Cant resolve original fieldId by alias:' + alias);
-      var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias); 
+      var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias + ", fId=" + fId ); 
       if(formData[fId]){ 
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
@@ -215,7 +215,7 @@ function FieldMotionService(MarkersFactory) {
       }
 
       switch(alias.charAt(0)) {
-        case 'b': result = result.toString();
+        case 'b': result = result.toString(); break;
         case 's': result = "'" + result + "'"; break;
         case 'n': result = result ? parseFloat(result) : 0; break;
         default: console.log('invalid alias format, alias:' + alias);
