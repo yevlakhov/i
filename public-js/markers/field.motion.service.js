@@ -204,7 +204,7 @@ function FieldMotionService(MarkersFactory) {
                var enumItem = MarkersFactory.getEnumItemById( item, item.value ); 
 	       if(enumItem != null) { 
 		 result = enumItem.id;  
-	       } console.log( ' Enum catched 2 ' + fId + ', ' +formData[fId].value );
+	       } console.log( ' Enum catched 2 ' + fId + ', ' + item.value );
 	    } else if (item.hasOwnProperty(fId)) { 
               result = item.value;
             } else { 
