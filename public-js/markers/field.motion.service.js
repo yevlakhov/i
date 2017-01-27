@@ -164,6 +164,7 @@ function FieldMotionService(MarkersFactory) {
   }; 
 
   function evalCondition(entry, fieldId, formData, mentioned) {
+    console.log( ' sCondition search for field ' );
     if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) ) {
       return false;
     } else if(mentioned) {
@@ -174,7 +175,7 @@ function FieldMotionService(MarkersFactory) {
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
       var fId = entry.asID_Field[alias] || entry.asEnumField_ID[alias];
       if (!fId) console.log('Cant resolve original fieldId by alias:' + alias);
-      var result = '';
+      var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias); 
       if(formData[fId]){ 
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
