@@ -150,20 +150,25 @@ function FieldMotionService(MarkersFactory) {
   };
 	
   this.isPrintFormVisible = function( printForm, fieldId, formData) { 
-	return evalCondition( printForm, fieldId, formData ); 
+
+	 var isVisible = false;
+ 
+	 if( (entry.sCondition == null || entry.sCondition.length < 2 ) ) { 
+    	    isVisible = true; 
+         } 
+	 else {  
+	    isVisible = evalCondition( printForm, fieldId, formData ); 
+	 } 
+
+	 return isVisible; 
   }; 
 
-	  
   function evalCondition(entry, fieldId, formData, mentioned) {
     if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) ) {
       return false;
     } else if(mentioned) {
       mentioned.val = true;
     } 
-
-    if( (entry.sCondition == null || entry.sCondition == '' ) ) {
-    	return true;
-    }
  
     console.log( " sCondition=" + entry.sCondition );  
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
