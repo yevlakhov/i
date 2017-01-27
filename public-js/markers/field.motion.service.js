@@ -153,7 +153,7 @@ function FieldMotionService(MarkersFactory) {
 
 	 var isVisible = false;
  
-	 if( (entry.sCondition == null || entry.sCondition.length < 2 ) ) { 
+	 if( (printForm.sCondition == null || printForm.sCondition.length < 2 ) ) { 
     	    isVisible = true; 
          } 
 	 else {  
