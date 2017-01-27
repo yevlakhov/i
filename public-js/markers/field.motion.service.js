@@ -185,12 +185,12 @@ function FieldMotionService(MarkersFactory) {
       if(formData[fId]){ 
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
-	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
+	} /*else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
 	  var enumItem = MarkersFactory.getEnumItemById(formData[fId], formData[fId].value); 
 	  if(enumItem != null) { 
 	    result = enumItem.id; 
-	  }  console.log( ' Enum catched ' + fId + ', ' + formData[fId].value );
-        } else if (formData.hasOwnProperty(fId)) { 
+	  }  console.log( ' Enum catched ' + fId + ', ' + result );
+        }*/ else if (formData.hasOwnProperty(fId)) { 
           result = formData[fId].value; 
         } else { 
           //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
@@ -200,12 +200,12 @@ function FieldMotionService(MarkersFactory) {
           if(item.id === fId){
             if(item && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
-	    } else if ( item && ( item.type === "enum" ) ) { 
+	    }/* else if ( item && ( item.type === "enum" ) ) { 
                var enumItem = MarkersFactory.getEnumItemById( item, item.value ); 
 	       if(enumItem != null) { 
 		 result = enumItem.id;  
-	       } console.log( ' Enum catched 2 ' + fId + ', ' + item.value );
-	    } else if (item.hasOwnProperty(fId)) { 
+	       } console.log( ' Enum catched 2 ' + fId + ', ' + result );
+	    }*/ else if (item.hasOwnProperty(fId)) { 
               result = item.value;
             } else { 
               //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
