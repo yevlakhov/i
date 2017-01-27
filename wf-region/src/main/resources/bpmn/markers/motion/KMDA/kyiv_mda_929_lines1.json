@@ -1,5 +1,5 @@
 {
-  "attribute" : {
+  "attributes" : {
     "Line_Applicant" : {
        "aElement_ID" : ["asRefEntity"],    
        "sValue" : "Замовник" 

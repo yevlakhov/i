@@ -1,5 +1,5 @@
 {
-  "attribute" : {
+  "attributes" : {
     "Line_3" : {
        "aElement_ID" : ["sProjectOrganizationName"], 
        "sValue" : "Інформація про проектувальника"
