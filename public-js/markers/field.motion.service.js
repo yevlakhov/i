@@ -148,7 +148,7 @@ function FieldMotionService(MarkersFactory) {
       return p;
     }, {});
   };
-
+	
   function evalCondition(entry, fieldId, formData, mentioned) {
     if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId)) {
       return false;
@@ -156,25 +156,35 @@ function FieldMotionService(MarkersFactory) {
       mentioned.val = true;
     }
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
-      var fId = entry.asID_Field[alias];
+      var fId = entry.asID_Field[alias] || entry.asEnumField_ID[alias];
       if (!fId) console.log('Cant resolve original fieldId by alias:' + alias);
       var result = '';
       if(formData[fId]){
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
-        } else if (formData.hasOwnProperty(fId)) {
-          result = formData[fId].value;
-        } else {
+	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
+	  var enum = getEnumValueById(formData[fId], formData[fId].value); 
+	  if(enum != null) { 
+	    result = enum.value; 
+	  }  
+        } else if (formData.hasOwnProperty(fId)) { 
+          result = formData[fId].value; 
+        } else { 
           //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
         }
       }else{
         angular.forEach(formData, function (item) {
           if(item.id === fId){
             if(item && (typeof item.value === 'string' || item.value instanceof String)) {
-              result = item.value.replace(/'/g, "\\'");
-            } else if (item.hasOwnProperty(fId)) {
+              result = item.value.replace(/'/g, "\\'"); 
+	    } else if ( item[fId] && ( item[fId].type === "enum" ) ) { 
+               var enum = getEnumValueById(formData[fId], formData[fId].value); 
+	       if(enum != null) { 
+		 result = enum.value;  
+	       } 
+	    } else if (item.hasOwnProperty(fId)) { 
               result = item.value;
-            } else {
+            } else { 
               //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
             }
           }
@@ -197,8 +207,34 @@ function FieldMotionService(MarkersFactory) {
         + '\nresolved expression:' + toEval);
       throw e;
     }
-  }
+  }; 
 
+  /**
+   * function getEnumItemById 
+   *  Returns for field enum by Id 
+   * 
+   * @returns enumItem for enumValue or null 
+   * @author Sysprog 
+   */ 
+  getEnumItemById : function( field, enumValue ) { 
+
+     var result = null; 
+
+     if(field.type == "enum" && field.a != null) { 
+ 
+       angular.forEach( field.a, function(enumItem, enumKey) { 
+           console.log( " Service enumItem.name=" + enumItem.name + ", enumItem.id=" + enumItem.id + ", oField.value=" + field.value ); 
+
+           if(enumItem.id == enumValue ) { 
+               result = enumItem; 
+               return; 
+           } 
+        }); 
+     } 
+
+     return result;
+  }; 
+	
   function grepByPrefix(prefix) {
     return MarkersFactory.grepByPrefix('motion', prefix);
   }
