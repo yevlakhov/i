@@ -173,8 +173,14 @@ function FieldMotionService(MarkersFactory) {
  
     console.log( " sCondition=" + entry.sCondition );  
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
-      var fId = (entry.asID_Field[alias] || entry.asEnumField_ID[alias]);
-      if (!fId) console.log('Cant resolve original fieldId by alias:' + alias);
+      var fId = 0; 
+      if( entry.asID_Field != null ) { 
+	fId = entry.asID_Field[alias]; 
+      } else if ( entry.asEnumField_ID != null ) { 
+	fId = entry.asEnumField_ID[alias]; 
+      } 
+
+      if (fId == 0) console.log('Cant resolve original fieldId by alias:' + alias);
       var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias); 
       if(formData[fId]){ 
         if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
