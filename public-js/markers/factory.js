@@ -119,6 +119,32 @@ angular.module('iGovMarkers')
                     if (value[0].indexOf(prefix) === 0) result.push(value[1]);
                 });
             },
+            
+          /**
+           * function getEnumItemById 
+           *  Returns for field enum by Id 
+           * 
+           * @returns enumItem for enumValue or null 
+           * @author Sysprog 
+           */ 
+            getEnumItemById: function ( field, enumValue ) { 
+
+              var result = null; 
+
+              if(field.type == "enum" && field.a != null) { 
+ 
+                angular.forEach( field.a, function(enumItem, enumKey) { 
+                    console.log( " Factory enumItem.name=" + enumItem.name + ", enumItem.id=" + enumItem.id + ", oField.value=" + field.value ); 
+
+                    if(enumItem.id == enumValue ) { 
+                        result = enumItem; 
+                        return; 
+                        } 
+                    }); 
+                } 
+
+              return result;
+            },  
 
           /**
            * Интерполяция строки с подстановкой значения полей формы
