@@ -149,6 +149,10 @@ function FieldMotionService(MarkersFactory) {
     }, {});
   };
 	
+  this.isPrintFormVisisble = function( printForm, fieldId, formData) { 
+	return evalCondition( printForm, fieldId, formData ); 
+  }; 
+
   function evalCondition(entry, fieldId, formData, mentioned) {
     if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId)) {
       return false;
@@ -177,8 +181,8 @@ function FieldMotionService(MarkersFactory) {
           if(item.id === fId){
             if(item && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
-	    } else if ( item[fId] && ( item[fId].type === "enum" ) ) { 
-               var enum = getEnumValueById(formData[fId], formData[fId].value); 
+	    } else if ( item && ( item.type === "enum" ) ) { 
+               var enum = getEnumValueById(item, item.value); 
 	       if(enum != null) { 
 		 result = enum.value;  
 	       } 
