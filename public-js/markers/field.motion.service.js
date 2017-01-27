@@ -220,7 +220,7 @@ function FieldMotionService(MarkersFactory) {
    * @returns enumItem for enumValue or null 
    * @author Sysprog 
    */ 
-  getEnumItemById : function( field, enumValue ) { 
+  function getEnumItemById ( field, enumValue ) { 
 
      var result = null; 
 
