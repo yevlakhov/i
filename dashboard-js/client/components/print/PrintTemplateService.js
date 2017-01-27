@@ -44,7 +44,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) { 
 
-                 if( _.contains(printsItem.aField_ID, form[i].id) && FieldMotionService.isPrintFormVisible(printsItem, form[i], form) ) { 
+                 if( _.contains(printsItem.aField_ID, form[i].id) && FieldMotionService.isPrintFormVisible(printsItem, form[i].id, form) ) { 
 
 		                  angular.forEach( form[i].aRow, function( item, key, obj ) { 
 
