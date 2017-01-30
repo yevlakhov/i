@@ -890,14 +890,14 @@ execution.setVariable('sAnswerEmail', res)
           <activiti:expression>Скасування реєстрації повідомлення про початок виконання підготовчих робіт</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
- <h3>Шановний(-а) ${bankIdfirstName} ${bankIdmiddleName}.</h3>
-                                    <p>
-Ваше звернення успішно зареєстровано. <br />
-Результат обробки звернення будуть спрямовані на цей е-мейл. <br />
+          <activiti:expression>[pattern/mail/_common_header.html]
+ &lt;h3&gt;Шановний(-а) ${sPersonFirstName} ${sPersonMiddleName}.&lt;/h3&gt;
+                                    &lt;p&gt;
+Ваше звернення успішно зареєстровано. &lt;br /&gt;
+Результат обробки звернення будуть спрямовані на цей е-мейл. &lt;br /&gt;
 [pattern/mail/_common_signature_start.html]
 [pattern/mail/_common_signature_end.html] 
-[pattern/mail/_common_footer.html]]]></activiti:expression>
+[pattern/mail/_common_footer.html]</activiti:expression>
         </activiti:field>
         <activiti:field name="from">
           <activiti:expression>messages-noreply@es.kievcity.gov.ua</activiti:expression>
