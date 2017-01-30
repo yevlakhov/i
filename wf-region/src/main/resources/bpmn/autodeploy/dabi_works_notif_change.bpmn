@@ -26,7 +26,6 @@
         <activiti:formProperty id="marker1_lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_lines.json')}"></activiti:formProperty>
       </extensionElements>
     </startEvent>
-    <sequenceFlow id="flow1" sourceRef="startevent_step1" targetRef="usertask_Upload_file"></sequenceFlow>
     <parallelGateway id="parallelgateway1" name="Exclusive Gateway"></parallelGateway>
     <sequenceFlow id="flow17" sourceRef="parallelgateway1" targetRef="usertask_step2"></sequenceFlow>
     <userTask id="usertask_step2" name="2. Ознайомлення директором ДАБК" activiti:candidateGroups="kyiv_dabi_boss">
@@ -54,7 +53,7 @@
         <activiti:formProperty id="marker2_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotifChange}]]></activiti:expression>
+            <activiti:expression>${nWorksNotifChange}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -85,7 +84,7 @@
         <activiti:formProperty id="marker3_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotifChange}]]></activiti:expression>
+            <activiti:expression>${nWorksNotifChange}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -120,7 +119,7 @@
         <activiti:formProperty id="marker4_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotifChange}]]></activiti:expression>
+            <activiti:expression>${nWorksNotifChange}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -189,12 +188,12 @@
         <activiti:formProperty id="lines" name="Lines" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
-            <activiti:expression><![CDATA[sLoginAsignee]]></activiti:expression>
+            <activiti:expression>sLoginAsignee</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotifChange}]]></activiti:expression>
+            <activiti:expression>${nWorksNotifChange}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -246,7 +245,7 @@
         <activiti:formProperty id="marker6_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
-            <activiti:expression><![CDATA[sLoginAsignee]]></activiti:expression>
+            <activiti:expression>sLoginAsignee</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -283,7 +282,7 @@
         <activiti:formProperty id="marker4_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotifChange}]]></activiti:expression>
+            <activiti:expression>${nWorksNotifChange}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -362,7 +361,7 @@
         <activiti:formProperty id="marker6_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notif_change_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotifChange}]]></activiti:expression>
+            <activiti:expression>${nWorksNotifChange}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -370,16 +369,16 @@
     <serviceTask id="servicetask_step14.2" name="14.1 Повідомлення замовника" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
         <activiti:field name="from">
-          <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
+          <activiti:expression>noreply@dabi.gov.ua</activiti:expression>
         </activiti:field>
         <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
+          <activiti:expression>${email}</activiti:expression>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression><![CDATA[Про результат опрацювання документів про зміну даних у повідомленні про  початок виконання підготовчих робіт.]]></activiti:expression>
+          <activiti:expression>Про результат опрацювання документів про зміну даних у повідомленні про  початок виконання підготовчих робіт.</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[${sTextLetter}]]></activiti:expression>
+          <activiti:expression>${sTextLetter}</activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
@@ -388,7 +387,7 @@
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotifChange}]]></activiti:expression>
+            <activiti:expression>${nWorksNotifChange}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -404,13 +403,13 @@
         <activiti:formProperty id="sResult" name="Виконавець - начальник відділу?" type="string"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${checkUserGroup}">
           <activiti:field name="sGroupListener">
-            <activiti:expression><![CDATA[kyiv_dabi_permit_doc_boss]]></activiti:expression>
+            <activiti:expression>kyiv_dabi_permit_doc_boss</activiti:expression>
           </activiti:field>
           <activiti:field name="sUsernameListener">
-            <activiti:expression><![CDATA[${sLoginAsignee}]]></activiti:expression>
+            <activiti:expression>${sLoginAsignee}</activiti:expression>
           </activiti:field>
           <activiti:field name="resultListener">
-            <activiti:expression><![CDATA[sResult]]></activiti:expression>
+            <activiti:expression>sResult</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -474,11 +473,29 @@ execution.setVariable('sAnswerEmail', res)
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${sAnswerEmail == 'noSendEmail'}]]></conditionExpression>
     </sequenceFlow>
     <sequenceFlow id="flow62" sourceRef="servicetask_step14.2" targetRef="exclusivegateway6"></sequenceFlow>
+    <serviceTask id="servicetask1" name="Відправка повідомлення" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
+      <extensionElements>
+        <activiti:field name="from">
+          <activiti:expression>messages-noreply@es.kievcity.gov.ua</activiti:expression>
+        </activiti:field>
+        <activiti:field name="to">
+          <activiti:expression>${email}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:expression>Внесення змін в повідомлення про початок виконання підготовчих робіт</activiti:expression>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:expression>Ваша заявка прийнята</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow63" sourceRef="startevent_step1" targetRef="servicetask1"></sequenceFlow>
+    <sequenceFlow id="flow64" sourceRef="servicetask1" targetRef="usertask_Upload_file"></sequenceFlow>
   </process>
   <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_works_notif_change">
     <bpmndi:BPMNPlane bpmnElement="dabi_works_notif_change" id="BPMNPlane_dabi_works_notif_change">
       <bpmndi:BPMNShape bpmnElement="startevent_step1" id="BPMNShape_startevent_step1">
-        <omgdc:Bounds height="35.0" width="35.0" x="64.0" y="89.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="64.0" y="23.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway1" id="BPMNShape_parallelgateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="160.0" y="195.0"></omgdc:Bounds>
@@ -555,10 +572,9 @@ execution.setVariable('sAnswerEmail', res)
       <bpmndi:BPMNShape bpmnElement="exclusivegateway6" id="BPMNShape_exclusivegateway6">
         <omgdc:Bounds height="40.0" width="40.0" x="952.0" y="270.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
-      <bpmndi:BPMNEdge bpmnElement="flow1" id="BPMNEdge_flow1">
-        <omgdi:waypoint x="81.0" y="124.0"></omgdi:waypoint>
-        <omgdi:waypoint x="81.0" y="175.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="29.0" y="77.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
       <bpmndi:BPMNEdge bpmnElement="flow17" id="BPMNEdge_flow17">
         <omgdi:waypoint x="180.0" y="235.0"></omgdi:waypoint>
         <omgdi:waypoint x="179.0" y="257.0"></omgdi:waypoint>
@@ -667,6 +683,14 @@ execution.setVariable('sAnswerEmail', res)
       <bpmndi:BPMNEdge bpmnElement="flow62" id="BPMNEdge_flow62">
         <omgdi:waypoint x="873.0" y="291.0"></omgdi:waypoint>
         <omgdi:waypoint x="952.0" y="290.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow63" id="BPMNEdge_flow63">
+        <omgdi:waypoint x="81.0" y="58.0"></omgdi:waypoint>
+        <omgdi:waypoint x="81.0" y="77.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow64" id="BPMNEdge_flow64">
+        <omgdi:waypoint x="81.0" y="132.0"></omgdi:waypoint>
+        <omgdi:waypoint x="81.0" y="175.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
     </bpmndi:BPMNPlane>
   </bpmndi:BPMNDiagram>

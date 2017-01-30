@@ -14,7 +14,7 @@
         <activiti:formProperty id="sPersonMiddleName" name="По-батькові заявника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sLegalForm" name="Організаційно-правова форма юридичної особи" type="string" default="Потрібна інтеграція з обліковою системою"></activiti:formProperty>
         <activiti:formProperty id="sLegalName" name="Найменування юридичної особи" type="string"></activiti:formProperty>
-         <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
+        <activiti:formProperty id="sLegalEDRPOU" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string"></activiti:formProperty>
         <activiti:formProperty id="email" name="Електронна адреса" type="string"></activiti:formProperty>
         <activiti:formProperty id="sObjectName" name="Найменування об’єкта будівництва" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sObjectAddress" name="Поштова/будівельна адреса об’єкта будівництва" type="string" required="true"></activiti:formProperty>
@@ -53,7 +53,7 @@
         <activiti:formProperty id="marker2_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notification_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotif}]]></activiti:expression>
+            <activiti:expression>${nWorksNotif}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -84,7 +84,7 @@
         <activiti:formProperty id="marker3_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notification_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotif}]]></activiti:expression>
+            <activiti:expression>${nWorksNotif}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -119,7 +119,7 @@
         <activiti:formProperty id="marker4_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notification_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotif}]]></activiti:expression>
+            <activiti:expression>${nWorksNotif}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -154,7 +154,7 @@
         <activiti:formProperty id="marker5_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notification_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotif}]]></activiti:expression>
+            <activiti:expression>${nWorksNotif}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -218,12 +218,12 @@
         <activiti:formProperty id="marker6_lines" name="Validation" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notification_lines.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
-            <activiti:expression><![CDATA[sLoginAsignee]]></activiti:expression>
+            <activiti:expression>sLoginAsignee</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotif}]]></activiti:expression>
+            <activiti:expression>${nWorksNotif}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -297,7 +297,7 @@
         <activiti:formProperty id="marker6_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notification_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nWorksNotif}]]></activiti:expression>
+            <activiti:expression>${nWorksNotif}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -343,7 +343,7 @@
         <activiti:formProperty id="marker6_visible" name="Show-hide" type="markers" default="${markerService.loadFromFile('KMDA/dabi_works_notification_vis.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
-            <activiti:expression><![CDATA[sLoginAsignee]]></activiti:expression>
+            <activiti:expression>sLoginAsignee</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -352,19 +352,19 @@
     <serviceTask id="servicetask_step16.1" name="16.1 Повідомлення заявника про відмову" activiti:delegateExpression="#{MailTaskWithAttachments}">
       <extensionElements>
         <activiti:field name="from">
-          <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
+          <activiti:expression>noreply@dabi.gov.ua</activiti:expression>
         </activiti:field>
         <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
+          <activiti:expression>${email}</activiti:expression>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression><![CDATA[Про результат опрацювання повідомлення про початок виконання підготовчих робіт]]></activiti:expression>
+          <activiti:expression>Про результат опрацювання повідомлення про початок виконання підготовчих робіт</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[${sTextLetter}]]></activiti:expression>
+          <activiti:expression>${sTextLetter}</activiti:expression>
         </activiti:field>
         <activiti:field name="saAttachmentsForSend">
-          <activiti:expression><![CDATA[${PrintForm_Reject}]]></activiti:expression>
+          <activiti:expression>${PrintForm_Reject}</activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
@@ -373,12 +373,11 @@
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}">
           <activiti:field name="aFieldInheritedAttachmentID">
-            <activiti:expression><![CDATA[${nBuildNotif}]]></activiti:expression>
+            <activiti:expression>${nBuildNotif}</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
     </userTask>
-    <sequenceFlow id="flow40" sourceRef="startevent_step1" targetRef="usertask_upload"></sequenceFlow>
     <boundaryEvent id="boundarytimer3" name="Timer" attachedToRef="usertask_upload" cancelActivity="true">
       <timerEventDefinition>
         <timeDuration>PT5S</timeDuration>
@@ -390,13 +389,13 @@
         <activiti:formProperty id="sResult" name="Исполнитель - начальник отдела?" type="string"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${checkUserGroup}">
           <activiti:field name="sGroupListener">
-            <activiti:expression><![CDATA[kyiv_dabi_permit_doc_boss]]></activiti:expression>
+            <activiti:expression>kyiv_dabi_permit_doc_boss</activiti:expression>
           </activiti:field>
           <activiti:field name="sUsernameListener">
-            <activiti:expression><![CDATA[${sLoginAsignee}]]></activiti:expression>
+            <activiti:expression>${sLoginAsignee}</activiti:expression>
           </activiti:field>
           <activiti:field name="resultListener">
-            <activiti:expression><![CDATA[sResult]]></activiti:expression>
+            <activiti:expression>sResult</activiti:expression>
           </activiti:field>
         </activiti:taskListener>
       </extensionElements>
@@ -460,25 +459,24 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow57" sourceRef="usertask_step14" targetRef="scripttask2"></sequenceFlow>
     <sequenceFlow id="flow58" sourceRef="scripttask2" targetRef="exclusivegateway6"></sequenceFlow>
     <parallelGateway id="parallelgateway4" name="Parallel Gateway"></parallelGateway>
-    <serviceTask id="servicetask_step16.2" name="16.2 Повідомлення заявника про внесення даних до реєстру"  activiti:delegateExpression="#{MailTaskWithAttachments}">
+    <serviceTask id="servicetask_step16.2" name="16.2 Повідомлення заявника про внесення даних до реєстру" activiti:delegateExpression="#{MailTaskWithAttachments}">
       <extensionElements>
         <activiti:field name="from">
-          <activiti:expression><![CDATA[noreply@dabi.gov.ua]]></activiti:expression>
+          <activiti:expression>noreply@dabi.gov.ua</activiti:expression>
         </activiti:field>
         <activiti:field name="to">
-          <activiti:expression><![CDATA[${email}]]></activiti:expression>
+          <activiti:expression>${email}</activiti:expression>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression><![CDATA[Про результат опрацювання повідомлення про початок виконання підготовчих робіт]]></activiti:expression>
+          <activiti:expression>Про результат опрацювання повідомлення про початок виконання підготовчих робіт</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression><![CDATA[${sTextLetter}]]></activiti:expression>
+          <activiti:expression>${sTextLetter}</activiti:expression>
         </activiti:field>
         <activiti:field name="saAttachmentsForSend">
-          <activiti:expression><![CDATA[${PrintForm_Registr}]]></activiti:expression>
+          <activiti:expression>${PrintForm_Registr}</activiti:expression>
         </activiti:field>
       </extensionElements>
-        
     </serviceTask>
     <sequenceFlow id="flow59" name="на доопрацювання" sourceRef="parallelgateway4" targetRef="servicetask_step16.1">
       <conditionExpression xsi:type="tFormalExpression"><![CDATA[${asDecision == 'sEnumDecisionReturn'}]]></conditionExpression>
@@ -490,6 +488,24 @@ execution.setVariable('sAnswerEmail', res)
     <sequenceFlow id="flow61" sourceRef="servicetask_step16.1" targetRef="exclusivegateway8"></sequenceFlow>
     <sequenceFlow id="flow62" sourceRef="servicetask_step16.2" targetRef="exclusivegateway8"></sequenceFlow>
     <sequenceFlow id="flow63" sourceRef="exclusivegateway8" targetRef="exclusivegateway7"></sequenceFlow>
+    <serviceTask id="servicetask1" name="Відправка повідомлення" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
+      <extensionElements>
+        <activiti:field name="from">
+          <activiti:expression>messages-noreply@es.kievcity.gov.ua</activiti:expression>
+        </activiti:field>
+        <activiti:field name="to">
+          <activiti:expression>${email}</activiti:expression>
+        </activiti:field>
+        <activiti:field name="subject">
+          <activiti:expression>Реєстрація повідомлення про початок виконання підготовчих робіт</activiti:expression>
+        </activiti:field>
+        <activiti:field name="text">
+          <activiti:expression>Ваша заявка прийнята</activiti:expression>
+        </activiti:field>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="flow64" sourceRef="startevent_step1" targetRef="servicetask1"></sequenceFlow>
+    <sequenceFlow id="flow65" sourceRef="servicetask1" targetRef="usertask_upload"></sequenceFlow>
     <textAnnotation id="textannotation1">
       <text>Перевірка групи обраного виконавця</text>
     </textAnnotation>
@@ -498,7 +514,7 @@ execution.setVariable('sAnswerEmail', res)
   <bpmndi:BPMNDiagram id="BPMNDiagram_dabi_works_notification">
     <bpmndi:BPMNPlane bpmnElement="dabi_works_notification" id="BPMNPlane_dabi_works_notification">
       <bpmndi:BPMNShape bpmnElement="startevent_step1" id="BPMNShape_startevent_step1">
-        <omgdc:Bounds height="35.0" width="35.0" x="61.0" y="19.0"></omgdc:Bounds>
+        <omgdc:Bounds height="35.0" width="35.0" x="61.0" y="1.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="parallelgateway1" id="BPMNShape_parallelgateway1">
         <omgdc:Bounds height="40.0" width="40.0" x="150.0" y="151.0"></omgdc:Bounds>
@@ -543,10 +559,10 @@ execution.setVariable('sAnswerEmail', res)
         <omgdc:Bounds height="69.0" width="149.0" x="700.0" y="285.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask_upload" id="BPMNShape_usertask_upload">
-        <omgdc:Bounds height="55.0" width="105.0" x="26.0" y="86.0"></omgdc:Bounds>
+        <omgdc:Bounds height="55.0" width="105.0" x="26.0" y="106.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="boundarytimer3" id="BPMNShape_boundarytimer3">
-        <omgdc:Bounds height="30.0" width="30.0" x="101.0" y="113.0"></omgdc:Bounds>
+        <omgdc:Bounds height="30.0" width="30.0" x="101.0" y="133.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="usertask_CheckAssigneeGroup" id="BPMNShape_usertask_CheckAssigneeGroup">
         <omgdc:Bounds height="55.0" width="139.0" x="381.0" y="144.0"></omgdc:Bounds>
@@ -583,6 +599,9 @@ execution.setVariable('sAnswerEmail', res)
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="exclusivegateway8" id="BPMNShape_exclusivegateway8">
         <omgdc:Bounds height="40.0" width="40.0" x="835.0" y="355.0"></omgdc:Bounds>
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape bpmnElement="servicetask1" id="BPMNShape_servicetask1">
+        <omgdc:Bounds height="55.0" width="105.0" x="26.0" y="46.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="textannotation1" id="BPMNShape_textannotation1">
         <omgdc:Bounds height="50.0" width="100.0" x="455.0" y="6.0"></omgdc:Bounds>
@@ -626,12 +645,8 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="707.0" y="74.0"></omgdi:waypoint>
         <omgdi:waypoint x="855.0" y="60.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
-      <bpmndi:BPMNEdge bpmnElement="flow40" id="BPMNEdge_flow40">
-        <omgdi:waypoint x="78.0" y="54.0"></omgdi:waypoint>
-        <omgdi:waypoint x="78.0" y="86.0"></omgdi:waypoint>
-      </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow41" id="BPMNEdge_flow41">
-        <omgdi:waypoint x="116.0" y="143.0"></omgdi:waypoint>
+        <omgdi:waypoint x="116.0" y="163.0"></omgdi:waypoint>
         <omgdi:waypoint x="115.0" y="171.0"></omgdi:waypoint>
         <omgdi:waypoint x="150.0" y="171.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
@@ -640,14 +655,14 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="450.0" y="225.0"></omgdi:waypoint>
         <omgdi:waypoint x="450.0" y="260.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="61.0" x="420.0" y="213.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="61.0" x="420.0" y="213.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow45" id="BPMNEdge_flow45">
         <omgdi:waypoint x="538.0" y="246.0"></omgdi:waypoint>
         <omgdi:waypoint x="538.0" y="366.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="78.0" x="491.0" y="245.0"></omgdc:Bounds>
+          <omgdc:Bounds height="42.0" width="78.0" x="491.0" y="245.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow47" id="BPMNEdge_flow47">
@@ -708,7 +723,7 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="773.0" y="265.0"></omgdi:waypoint>
         <omgdi:waypoint x="774.0" y="285.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="100.0" x="741.0" y="247.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="96.0" x="741.0" y="247.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow60" id="BPMNEdge_flow60">
@@ -716,7 +731,7 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="926.0" y="266.0"></omgdi:waypoint>
         <omgdi:waypoint x="924.0" y="285.0"></omgdi:waypoint>
         <bpmndi:BPMNLabel>
-          <omgdc:Bounds height="13.0" width="100.0" x="871.0" y="246.0"></omgdc:Bounds>
+          <omgdc:Bounds height="14.0" width="78.0" x="871.0" y="246.0"></omgdc:Bounds>
         </bpmndi:BPMNLabel>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow61" id="BPMNEdge_flow61">
@@ -733,6 +748,14 @@ execution.setVariable('sAnswerEmail', res)
         <omgdi:waypoint x="855.0" y="395.0"></omgdi:waypoint>
         <omgdi:waypoint x="854.0" y="419.0"></omgdi:waypoint>
         <omgdi:waypoint x="982.0" y="420.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow64" id="BPMNEdge_flow64">
+        <omgdi:waypoint x="61.0" y="18.0"></omgdi:waypoint>
+        <omgdi:waypoint x="78.0" y="46.0"></omgdi:waypoint>
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge bpmnElement="flow65" id="BPMNEdge_flow65">
+        <omgdi:waypoint x="131.0" y="73.0"></omgdi:waypoint>
+        <omgdi:waypoint x="78.0" y="106.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="association1" id="BPMNEdge_association1">
         <omgdi:waypoint x="505.0" y="56.0"></omgdi:waypoint>
