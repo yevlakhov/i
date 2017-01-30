@@ -140,7 +140,7 @@
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="phone" name="Контактний телефон" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeChange" name="Зміна даних в Декларації про" type="enum" writable="false">
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
@@ -187,7 +187,7 @@
         <activiti:formProperty id="sPIBprevious" name="ПІБ попереднього замовника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionPib" name="ПІБ особи, яка здійснює технічний нагляд" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSupervisionCertificate" name="Серія та номер кваліфікаційного сертифікату особи, яка здійснює технічний нагляд" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sSupervisionPhone" name="Номер телефону особи, яка здійснює технічний нагляд" type="string" default="+380"></activiti:formProperty>
+        <activiti:formProperty id="sSupervisionPhone" name="Номер телефону особи, яка здійснює технічний нагляд" type="string" ></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationName" name="Найменування проектувальника" type="string"></activiti:formProperty>
         <activiti:formProperty id="sProjectOrganizationInn" name="Код згідно ЄДРПОУ проектувальника" type="string"></activiti:formProperty>
         <activiti:formProperty id="asProjectApprove" name="Особа, яка затвердила проект" type="enum">
@@ -448,7 +448,7 @@ execution.setVariable('sNameWork', worksType)</script>
         <activiti:formProperty id="sNameCompany" name="Найменування юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sAddressCompany" name="Місцезнаходження юридичної особи" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sInnCompany" name="Код платника податків згідно з ЄДРПОУ або податковий номер" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string" default="+380" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="phone" name="Контактний телефон" type="string"  writable="false"></activiti:formProperty>
         <activiti:formProperty id="email" name="E-mail адреса для зворотнього зв'язку" type="string" writable="false"></activiti:formProperty>
         <activiti:formProperty id="asTypeChange" name="Зміна даних в Декларації про" type="enum" writable="false">
           <activiti:value id="sEnumPrepare" name="підготовчі роботи"></activiti:value>
