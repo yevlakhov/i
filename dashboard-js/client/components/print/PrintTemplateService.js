@@ -44,71 +44,74 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) { 
 
-                 if( _.contains(printsItem.aField_ID, form[i].id) && FieldMotionService.evalCondition(printsItem, form[i], form) ) { 
+                 if( _.contains(printsItem.aField_ID, form[i].id) ) { 
 
 		                  angular.forEach( form[i].aRow, function( item, key, obj ) { 
 
-		                    var itemObject = {
+                        if( FieldMotionService.isPrintFormVisible(printsItem, form[i], form, item) ) { 
+                        
+                            var itemObject = {
 
-		                      oPrintForm: printsItem,
-		                      sPrintFormKey: printsKey,
-		                      sPatternPath: printsItem.sPatternPath,
-		                      sTableName: form[i].id,
-		                      nRowIndex: key,
-		                      oRow: item,
-		                      oField: null,
-		                      sLabel: "",
+                              oPrintForm: printsItem,
+                              sPrintFormKey: printsKey,
+                              sPatternPath: printsItem.sPatternPath,
+                              sTableName: form[i].id,
+                              nRowIndex: key,
+                              oRow: item,
+                              oField: null,
+                              sLabel: "",
 
-		                    };
+                            };
 
 
-		                    if( printsItem.sTitleField ) { 
-		                      angular.forEach( item.aField, function( field, fieldKey ) { 
+                            if( printsItem.sTitleField ) { 
+                              angular.forEach( item.aField, function( field, fieldKey ) { 
 
-			                      if( field.id === printsItem.sTitleField )  {
+                                if( field.id === printsItem.sTitleField )  {
 
-		                          itemObject.oField = field;
-		                          itemObject.sLabel = field.value;
+                                  itemObject.oField = field;
+                                  itemObject.sLabel = field.value;
 
-                              var enumItem = service.getEnumItemById( itemObject.oField, field.oField.value ); 
+                                  var enumItem = FieldMotionService.getEnumItemById( itemObject.oField, field.oField.value ); 
+                                  if( enumItem != null ) { 
+                                    itemObject.sLabel = enumItem.name; 
+                                  } 
+
+                                  return;
+                                }
+
+                              } );
+                            }
+
+                            if( itemObject.sLabel === "" ) { 
+
+                              itemObject.oField = item.aField[0];
+                              itemObject.sLabel = item.aField[0].value;
+
+                              var enumItem = FieldMotionService.getEnumItemById( itemObject.oField, itemObject.oField.value ); 
                               if( enumItem != null ) { 
-                                itemObject.sLabel = enumItem.name; 
+                                 itemObject.sLabel = enumItem.name;  
                               } 
 
-		                          return;
-			                      }
+                              //console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel );
 
-		                      } );
-		                    }
+                            }
 
-		                    if( itemObject.sLabel === "" ) { 
+                            if( itemObject.sLabel ) {
+                              var item = {
 
-		                      itemObject.oField = item.aField[0];
-		                      itemObject.sLabel = item.aField[0].value;
+                                id: form[i].id,
+                                displayTemplate: printsItem.sName + ' (' + itemObject.sLabel + ')',
+                                type: "prints",
+                                value: itemObject,
 
-                          var enumItem = service.getEnumItemById( itemObject.oField, itemObject.oField.value ); 
-                          if( enumItem != null ) { 
-                             itemObject.sLabel = enumItem.name;  
-                          } 
+                              };
 
-		                      //console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel );
+                              topItems.unshift( item );
 
-		                    }
-
-		                    if( itemObject.sLabel ) {
-		                      var item = {
-
-		                        id: form[i].id,
-		                        displayTemplate: printsItem.sName + ' (' + itemObject.sLabel + ')',
-		                        type: "prints",
-		                        value: itemObject,
-
-		                      };
-
-		                      topItems.unshift( item );
-
-		                      console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
-		                    }
+                              console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
+                            }
+                        } 
 
 		                } );
                  }
@@ -167,33 +170,6 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
 
       return templates;
     },
-
-
-    /**
-     * function getEnumItemById 
-     *  Returns for field enum by Id 
-     * 
-     * @returns enumItem for enumValue or null 
-     * @author Sysprog 
-     */ 
-    getEnumItemById : function( field, enumValue ) { 
-
-       var result = null; 
-
-       if(field.type == "enum" && field.a != null) { 
- 
-          angular.forEach( field.a, function(enumItem, enumKey) { 
-             console.log( " enumItem.name=" + enumItem.name + ", enumItem.id=" + enumItem.id + ", oField.value=" + field.value ); 
-
-             if(enumItem.id == enumValue ) { 
-                 result = enumItem; 
-                 return; 
-             } 
-          }); 
-       } 
-
-       return result;
-    }, 
 
     /**
      * function getPrintTemplateByObject

@@ -149,56 +149,126 @@ function FieldMotionService(MarkersFactory) {
     }, {});
   };
 
-  function evalCondition(entry, fieldId, formData, mentioned) {
-    if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId)) {
+  /**
+   *  function isPrintFormVisible 
+   *   Evaluates if specified PrintForm_ item sCondition 
+   *
+   * @returns true - if PrintForm_ sCondition is true for tableRow 
+   * @author Sysprog 
+   */ 
+  this.isPrintFormVisible = function( printForm, fieldObject, formData, tableRow) { 
+
+	 var isVisible = false;
+ 
+	 if( (printForm.sCondition == null || printForm.sCondition.length < 2 ) ) { 
+    	    isVisible = true; 
+         } 
+         else { 
+	    isVisible = evalCondition( printForm, fieldObject.id, formData, false, tableRow ); 
+	 } 
+
+	 return isVisible; 
+  }; 
+	
+  function evalCondition(entry, fieldId, formData, mentioned, tableRow ) {
+    console.log( ' sCondition search for field ' );
+    if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) ) {
       return false;
     } else if(mentioned) {
       mentioned.val = true;
-    }
+    } 
+ 
+    console.log( " sCondition=" + entry.sCondition );  
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
-      var fId = entry.asID_Field[alias];
-      if (!fId) console.log('Cant resolve original fieldId by alias:' + alias);
-      var result = '';
-      if(formData[fId]){
-        if (formData[fId] && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
+      var fId = 0; 
+      if( entry.asID_Field != null ) { 
+	fId = entry.asID_Field[alias]; 
+      } else if ( entry.asEnumField_ID != null ) { 
+	fId = entry.asEnumField_ID[alias]; 
+      } 
+
+      if (fId == 0) console.log('Cant resolve original fieldId by alias:' + alias);
+      var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias + ", fId=" + fId ); 
+      if(formData[fId]){ console.log(" formData[fid].type=" + formData[fId].type+ " formData[fId].value=" +formData[fId].value );
+        if (formData[fId] && (formData[fId].type != "enum") && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
-        } else if (formData.hasOwnProperty(fId)) {
-          result = formData[fId].value;
-        } else {
+	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
+	  var enumItem = MarkersFactory.getEnumItemById(formData[fId], formData[fId].value); 
+	  if(enumItem != null) { 
+	    result = enumItem.id; 
+	  } 
+	  else { 
+	    result = formData[fId].value; 
+	  } console.log( ' Enum catched ' + fId + ', ' + result + ", " + formData[fId].value ); 
+        } else if (formData.hasOwnProperty(fId)) { 
+          result = formData[fId].value; 
+        } else { 
           //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
         }
       }else{
-        angular.forEach(formData, function (item) {
-          if(item.id === fId){
-            if(item && (typeof item.value === 'string' || item.value instanceof String)) {
-              result = item.value.replace(/'/g, "\\'");
-            } else if (item.hasOwnProperty(fId)) {
+        angular.forEach(formData, function (item) { console.log(" item.id=" + item.id + " item.type=" + item.type+ " item.value=" +item.value );
+          if(item.id === fId){ 
+            if(item && (item.type != "enum") && (typeof item.value === 'string' || item.value instanceof String)) {
+              result = item.value.replace(/'/g, "\\'"); 
+	    } else if ( item && ( item.type === "enum" ) ) { 
+               var enumItem = MarkersFactory.getEnumItemById( item, item.value ); 
+	       if(enumItem != null) { 
+		  result = enumItem.id;  
+	       } 
+	       else { 
+		  result = item.value; 
+	       } 
+		console.log( ' Enum catched 2 ' + fId + ', ' + result + ", " + item.value );
+	    } else if (item.hasOwnProperty(fId)) { 
               result = item.value;
-            } else {
+            } else { 
               //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
             }
-          }
+          } else if ( item.type === 'table' && tableRow !== null) { // search for table value 
+		angular.forEach( tableRow.aField, function( rowCell, rowCellKey, rowItem  ) {  
+
+			if( rowCell.id === fId ) { 
+			  result = rowCell.value; 
+			  return; 
+			} 
+		} ); 
+	  }
+					   
         })
       }
 
       switch(alias.charAt(0)) {
-        case 'b': result = result.toString();
+        case 'b': result = result.toString(); break;
         case 's': result = "'" + result + "'"; break;
         case 'n': result = result ? parseFloat(result) : 0; break;
         default: console.log('invalid alias format, alias:' + alias);
       }
       return result;
     });
+	  console.log( " evalCondition-" + toEval); 
     try {
-      return eval(toEval);
+      return eval(toEval); 
     } catch (e) {
       console.log('OnCondition expression error\n' + e.name + '\n' + e.message
         + '\nexpression:' + entry.sCondition
         + '\nresolved expression:' + toEval);
       throw e;
     }
-  }
+  }; 
 
+  /**
+   * function getEnumItemById 
+   *  Returns for field enum by Id 
+   * 
+   * @returns enumItem for enumValue or null 
+   * @author Sysprog 
+   */ 
+  this.getEnumItemById = function ( field, enumValue ) { 
+
+     return MarkersFactory.getEnumItemById( field, enumValue ); 
+
+  }; 
+	
   function grepByPrefix(prefix) {
     return MarkersFactory.grepByPrefix('motion', prefix);
   }
