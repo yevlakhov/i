@@ -485,7 +485,15 @@ execution.setVariable('sAnswerEmail', res)
           <activiti:expression>Внесення змін в повідомлення про початок виконання підготовчих робіт</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression>Ваша заявка прийнята</activiti:expression>
+          <activiti:expression>[pattern/mail/_common_header.html]
+ &lt;h3&gt;Шановний(-а) ${bankIdfirstName} ${bankIdmiddleName}.&lt;/h3&gt;
+                                    &lt;p&gt;
+Ваше звернення успішно зареєстровано. &lt;br /&gt;
+Результат обробки звернення будуть спрямовані на цей е-мейл. &lt;br /&gt;
+[pattern/mail/_common_signature_start.html]
+${sMail_Signature}
+[pattern/mail/_common_signature_end.html] 
+[pattern/mail/_common_footer.html]</activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
