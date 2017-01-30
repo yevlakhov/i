@@ -148,22 +148,29 @@ function FieldMotionService(MarkersFactory) {
       return p;
     }, {});
   };
-	
-  this.isPrintFormVisible = function( printForm, fieldId, formData) { 
+
+  /**
+   *  function isPrintFormVisible 
+   *   Evaluates if specified PrintForm_ item sCondition 
+   *
+   * @returns true - if PrintForm_ sCondition is true for tableRow 
+   * @author Sysprog 
+   */ 
+  this.isPrintFormVisible = function( printForm, fieldObject, formData, tableRow) { 
 
 	 var isVisible = false;
  
 	 if( (printForm.sCondition == null || printForm.sCondition.length < 2 ) ) { 
     	    isVisible = true; 
          } 
-	 else {  
-	    isVisible = evalCondition( printForm, fieldId, formData ); 
+         else { 
+	    isVisible = evalCondition( printForm, fieldObject.id, formData, false, tableRow ); 
 	 } 
 
 	 return isVisible; 
   }; 
-
-  function evalCondition(entry, fieldId, formData, mentioned) {
+	
+  function evalCondition(entry, fieldId, formData, mentioned, tableRow ) {
     console.log( ' sCondition search for field ' );
     if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) ) {
       return false;
@@ -199,7 +206,7 @@ function FieldMotionService(MarkersFactory) {
           //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
         }
       }else{
-        angular.forEach(formData, function (item) { console.log(" item.id=" + item.id + " item.type=" + item.type+ " item.value=" +item.value + ", find(item.id).val=" + window.angular(document).find(item.id).val() );
+        angular.forEach(formData, function (item) { console.log(" item.id=" + item.id + " item.type=" + item.type+ " item.value=" +item.value );
           if(item.id === fId){ 
             if(item && (item.type != "enum") && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
@@ -217,7 +224,16 @@ function FieldMotionService(MarkersFactory) {
             } else { 
               //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
             }
-          }
+          } else if ( item.type === 'table' && tableRow !== null) { // search for table value 
+		angular.forEach( tableRow.aField, function( rowCell, rowCellKey, rowItem  ) {  
+
+			if( rowCell.id === fId ) { 
+			  result = rowCell.value; 
+			  return; 
+			} 
+		} ); 
+	  }
+					   
         })
       }
 
@@ -249,21 +265,8 @@ function FieldMotionService(MarkersFactory) {
    */ 
   this.getEnumItemById = function ( field, enumValue ) { 
 
-     var result = null; 
+     return MarkersFactory.getEnumItemById( field, enumValue ); 
 
-     if(field.type == "enum" && field.a != null) { 
- 
-       angular.forEach( field.a, function(enumItem, enumKey) { 
-           console.log( " Service enumItem.name=" + enumItem.name + ", enumItem.id=" + enumItem.id + ", oField.value=" + field.value ); 
-
-           if(enumItem.id == enumValue ) { 
-               result = enumItem; 
-               return; 
-           } 
-        }); 
-     } 
-
-     return result;
   }; 
 	
   function grepByPrefix(prefix) {
