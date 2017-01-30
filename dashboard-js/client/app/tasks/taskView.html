@@ -255,14 +255,14 @@
               </button>
             </div>
             <button style="position:relative;"
-                    ng-if="item.description !== ' '"
+                    ng-if="item.name !== ' '"
                     type="button"
                     class="btn btn-link attach-btn dropdown-toggle"
                     data-toggle="dropdown"
                     ng-model="some"
-                    title="{{item.description | tableButtonFilter}}">
+                    title="{{item.name | tableButtonFilter}}">
                     <!--ng-click="openModalWindow($event)">-->
-              {{item.description | cut : true : 25 | tableButtonFilter}}
+              {{item.name | cut : true : 25 | tableButtonFilter}}
             </button>
           </div>
 
