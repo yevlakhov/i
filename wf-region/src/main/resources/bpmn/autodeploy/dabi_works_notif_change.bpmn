@@ -487,12 +487,11 @@ execution.setVariable('sAnswerEmail', res)
         <activiti:field name="text">
           <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
  <h3>Шановний(-а) ${sPersonFirstName} ${sPersonMiddleName}.</h3>
-
-Дякуємо, Вам що скористались нашим сервісом!
-
+                                    <p>
+Ваше звернення успішно зареєстровано. <br />
+Результат обробки звернення будуть спрямовані на цей е-мейл. <br />
 [pattern/mail/_common_signature_start.html]
-[pattern/mail/_common_signature_end.html]   
-[pattern/mail/_common_feedback.html]
+[pattern/mail/_common_signature_end.html] 
 [pattern/mail/_common_footer.html]]]></activiti:expression>
         </activiti:field>
       </extensionElements>
