@@ -501,7 +501,7 @@ execution.setVariable('sAnswerEmail', res)
         </activiti:field>
         <activiti:field name="text">
           <activiti:expression><![CDATA[[pattern/mail/_common_header.html]
- <h3>Шановний(-а) ${bankIdfirstName} ${bankIdmiddleName}.</h3>
+ <h3>Шановний(-а) ${sPersonFirstName} ${sPersonMiddleName}.</h3>
 
 Дякуємо, Вам що скористались нашим сервісом!
 
