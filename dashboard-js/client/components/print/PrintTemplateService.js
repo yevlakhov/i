@@ -72,7 +72,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                                   itemObject.oField = field;
                                   itemObject.sLabel = field.value;
 
-                                  var enumItem = FieldMotionService.getEnumItemById( itemObject.oField, field.oField.value ); 
+                                  var enumItem = FieldMotionService.getEnumItemById( itemObject.oField, itemObject.oField.value ); 
                                   if( enumItem != null ) { 
                                     itemObject.sLabel = enumItem.name; 
                                   } 
