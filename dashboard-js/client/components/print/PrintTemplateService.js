@@ -83,7 +83,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Fiel
                               } );
                             }
 
-                            if( itemObject.sLabel === "" ) { 
+                            if( itemObject.sLabel === "" && item.aField[0] !== null) { 
 
                               itemObject.oField = item.aField[0];
                               itemObject.sLabel = item.aField[0].value;
