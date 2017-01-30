@@ -199,7 +199,7 @@ function FieldMotionService(MarkersFactory) {
           //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
         }
       }else{
-        angular.forEach(formData, function (item) { console.log("item.id=" + item.id + " item.type=" + item.type+ " item.value=" +item.value );
+        angular.forEach(formData, function (item) { console.log(" item.id=" + item.id + " item.type=" + item.type+ " item.value=" +item.value + ", find(item.id).val=" + window.angular(document).find(item.id).val() );
           if(item.id === fId){ 
             if(item && (item.type != "enum") && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
