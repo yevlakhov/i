@@ -1203,14 +1203,7 @@
 
         TableService.init($scope.taskForm);
 
-        $scope.$on('TableFieldChanged', function(event, args) { 
-        
-          console.log( "Cell update catched" ); 
-
-          $scope.updateTemplateList(); 
-
-          console.log( "Updated menu" ); 
-        });
+        $scope.$on('TableFieldChanged', function(event, args) {  $scope.updateTemplateList(); }); 
 
         //old service where we need to check the same id from form field and attachment to load it. remove it in a future.
         var idMatchInAttach = function () {
