@@ -171,14 +171,13 @@ function FieldMotionService(MarkersFactory) {
   }; 
 	
   function evalCondition(entry, fieldId, formData, mentioned, tableRow ) {
-    console.log( ' sCondition search for field ' );
+
     if (!_.contains(entry.aField_ID || entry.aElement_ID, fieldId) ) {
       return false;
     } else if(mentioned) {
       mentioned.val = true;
-    } 
- 
-    console.log( " sCondition=" + entry.sCondition );  
+    }  
+
     var toEval = entry.sCondition.replace(/\[(\w+)]/g, function(str, alias) {
       var fId = 0; 
       if( entry.asID_Field != null ) { 
@@ -187,9 +186,9 @@ function FieldMotionService(MarkersFactory) {
 	fId = entry.asEnumField_ID[alias]; 
       } 
 
-      if (fId == 0) console.log('Cant resolve original fieldId by alias:' + alias);
-      var result = ''; console.log(" sCondition parse str="+str + ", alias=" + alias + ", fId=" + fId ); 
-      if(formData[fId]){ console.log(" formData[fid].type=" + formData[fId].type+ " formData[fId].value=" +formData[fId].value );
+      if (fId == 0) 
+      var result = ''; 
+      if(formData[fId]){ 
         if (formData[fId] && (formData[fId].type != "enum") && (typeof formData[fId].value === 'string' || formData[fId].value instanceof String)) {
           result = formData[fId].value.replace(/'/g, "\\'");
 	} else if ( formData[fId] && (formData[fId].type === "enum" ) ) { 
@@ -199,14 +198,14 @@ function FieldMotionService(MarkersFactory) {
 	  } 
 	  else { 
 	    result = formData[fId].value; 
-	  } console.log( ' Enum catched ' + fId + ', ' + result + ", " + formData[fId].value ); 
+	  } 
         } else if (formData.hasOwnProperty(fId)) { 
           result = formData[fId].value; 
         } else { 
           //console.log('can\'t find field [',fId,'] in ' + JSON.stringify(formData));
         }
       }else{
-        angular.forEach(formData, function (item) { console.log(" item.id=" + item.id + " item.type=" + item.type+ " item.value=" +item.value );
+        angular.forEach(formData, function (item) { 
           if(item.id === fId){ 
             if(item && (item.type != "enum") && (typeof item.value === 'string' || item.value instanceof String)) {
               result = item.value.replace(/'/g, "\\'"); 
@@ -218,7 +217,6 @@ function FieldMotionService(MarkersFactory) {
 	       else { 
 		  result = item.value; 
 	       } 
-		console.log( ' Enum catched 2 ' + fId + ', ' + result + ", " + item.value );
 	    } else if (item.hasOwnProperty(fId)) { 
               result = item.value;
             } else { 
@@ -245,7 +243,7 @@ function FieldMotionService(MarkersFactory) {
       }
       return result;
     });
-	  console.log( " evalCondition-" + toEval); 
+
     try {
       return eval(toEval); 
     } catch (e) {
