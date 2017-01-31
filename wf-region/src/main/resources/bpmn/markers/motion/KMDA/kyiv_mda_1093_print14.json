@@ -1,0 +1,19 @@
+{
+    "motion": 
+        {
+        "PrintForm_TableIteration1": {
+            "aField_ID": ["tPrescription"],
+            "sTitleField": "sPrescriptionName",
+            "sPatternPath": "/print/kiev/DABI_insp_pripis_pro_usunennya_porushennya_1.html",
+            "sName": "Припис про усунення порушення вимог законодавства",
+            "asEnumField_ID": {"sCondit":"asPrescriptionType"},
+            "sCondition": "[sCondit] == 'sEnumType_2'"},
+        "PrintForm_TableIteration2": {
+            "aField_ID": ["tPrescription"],
+            "sTitleField": "sPrescriptionName",
+            "sPatternPath": "/print/kiev/DABI_insp_pripis_pro_zupinennya_pidgotovchih_ta_budivelnih_robit_1.html",
+            "sName": "Припис про зупинення підготовчих та будівельних робіт",
+            "asEnumField_ID": {"sCondit":"asPrescriptionType"},
+            "sCondition": "[sCondit] == 'sEnumType_1'"}     
+            }
+}

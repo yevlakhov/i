@@ -8,7 +8,7 @@
         },
     "ShowFieldsOnCondition_2": 
         {"aField_ID":   
-            ["sControlOrganizationName", "sDateDirection", "sNumberDirection", "sBody_direction", "asNumberOfPersons", 
+            ["sControlOrganizationName", "sDateDirection", "sNumberDirection", "sBody_direction", 
              "sObjectName", "sObjectAddress", "sOrderUnscheduled", "sBaseControl", "sValidityControl"], 
          "asID_Field":  {"sCondit":"asHowInspection"},
          "sCondition":  "[sCondit] == 'sEnumUnscheduled'"

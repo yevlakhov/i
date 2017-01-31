@@ -142,39 +142,8 @@
           <activiti:value id="sEnumResultGenerate" name="Сформувати результат перевірки"></activiti:value>
           <activiti:value id="sEnumResultClose" name="Закриття перевірки"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="asNumberOfThirdPerson" name="Кількість третіх осіб" type="enum">
-          <activiti:value id="sEnumThirdPerson_0" name="-"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_1" name="1"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_2" name="2"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_3" name="3"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_4" name="4"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_5" name="5"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_6" name="6"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_7" name="7"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_8" name="8"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_9" name="9"></activiti:value>
-          <activiti:value id="sEnumThirdPerson_10" name="10"></activiti:value>
-        </activiti:formProperty>
-        <activiti:formProperty id="nLetter_1" name="Лист (1-ша особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_1" name="Відповідь (1-ша особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_2" name="Лист (2-га особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_2" name="Відповідь (2-га особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_3" name="Лист (3-тя особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_3" name="Відповідь (3-тя особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_4" name="Лист (4-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_4" name="Відповідь (4-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_5" name="Лист (5-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_5" name="Відповідь (5-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_6" name="Лист (6-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_6" name="Відповідь (6-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_7" name="Лист (7-ма особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_7" name="Відповідь (7-ма особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_8" name="Лист (8-ма особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_8" name="Відповідь (8-ма особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_9" name="Лист (9-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_9" name="Відповідь (9-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nLetter_10" name="Лист (10-та особа)" type="file"></activiti:formProperty>
-        <activiti:formProperty id="nAnswer_10" name="Відповідь (10-та особа)" type="file"></activiti:formProperty>
+        <activiti:formProperty id="tThirdPersons" name="Треті особи" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tLetterAnswer.json')}"></activiti:formProperty>
+        
         <activiti:formProperty id="sNoteEmployeeInspection" name="Примітка" type="string"></activiti:formProperty>
         <activiti:formProperty id="nLetterClose" name="Лист-закриття перевірки" type="file"></activiti:formProperty>
         <activiti:formProperty id="asSecondResultChecking" name="Повторний результат перевірки" type="enum">
@@ -182,10 +151,7 @@
           <activiti:value id="sEnumSecondResultGenerate" name="Сформувати результат перевірки"></activiti:value>
           <activiti:value id="sEnumSecondResultClose" name="Закриття перевірки"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="markers2" name="hideShowFields2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_2.json')}"></activiti:formProperty>
-        <activiti:formProperty id="markers2_req" name="requiredFields2" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_2_required.json')}"></activiti:formProperty>
-        <activiti:formProperty id="markers3" name="hideShowFields3" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_3.json')}"></activiti:formProperty>
-        <activiti:formProperty id="markers3_req" name="requiredFields3" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_3_required.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers2" name="Show_Required" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_2.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step11]]></activiti:expression>
@@ -233,10 +199,10 @@
         <activiti:formProperty id="sDateDraftingAct" name="Дата складання" type="date" required="true"></activiti:formProperty>
         <activiti:formProperty id="sPlaceDraftingAct" name="Місце складання" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="sTextAudit" name="За результатами перевірки встановлено" type="textArea"></activiti:formProperty>
-        <activiti:formProperty id="sPosition_1" name="Перша особа, яка проводила перевірку" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPosition_2" name="Друга особа, яка проводила перевірку" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPosition_3" name="Третя особа, яка проводила перевірку" type="string" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sPersonsInvolvedAudit" name="Особи, які залучені до перевірки (посади, прізвища та ініціали)" type="textArea"></activiti:formProperty>
+        
+        <activiti:formProperty id="oInspectors" name="Особи, які проводили перевірку" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tPersons.json')}"></activiti:formProperty>
+        <activiti:formProperty id="oPersonsInvolvedAudit" name="Особи, які залучені до перевірки" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tPersons.json')}"></activiti:formProperty>
+
         <activiti:formProperty id="sPresenceOf" name="У присутності кого (посада, прізвище, ім’я, по батькові (уповноваженої ним особи) юридичної особи, фізичної особи/фізичної особи - підприємця, що перевіряється)" type="string"></activiti:formProperty>
         <activiti:formProperty id="sReasonInspection" name="Підстава проведення перевірки" type="string"></activiti:formProperty>
         <activiti:formProperty id="sSubjectCityPlanning" name="Суб’єкт містобудування" type="string"></activiti:formProperty>
@@ -247,12 +213,13 @@
         <activiti:formProperty id="sPersonViolationOfLaw" name="Особа, яка порушила законодавство" type="string"></activiti:formProperty>
         <activiti:formProperty id="sPersonMadeAct" name="Особа, яка склала акт" type="string"></activiti:formProperty>
         <activiti:formProperty id="tPrescription" name="Приписи" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tPrescription.json')}"></activiti:formProperty>
+
         <activiti:formProperty id="tOffensesAdmin" name="Правопорушення адміністративні" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tOffenses.json')}"></activiti:formProperty>
         <activiti:formProperty id="tOffensesUrban" name="Правопорушення в сфері містобудівної діяльності" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tOffenses.json')}"></activiti:formProperty>
+
         <activiti:formProperty id="sBody_RefusingAct" name="[pattern/print/kiev/DABI_insp_akt_pro_nedopushennya_do_perevirki_1.html]" type="invisible" default="Акт про недопущення до перевірки" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBody_CheckingAct" name="[pattern/print/kiev/DABI_insp_akt_perevirki.html]" type="invisible" default="Акт перевірки" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBody_pripisStop" name="[pattern/print/kiev/DABI_insp_pripis_pro_zupinennya_pidgotovchih_ta_budivelnih_robit_1.html]" type="invisible" default="Припис про зупинення підготовчих та будівельних робіт 1" writable="false"></activiti:formProperty>
-        <activiti:formProperty id="sBody_pripisEliminate_1" name="[pattern/print/kiev/DABI_insp_pripis_pro_usunennya_porushennya_1.html]" type="invisible" default="Припис про усунення порушення 1"></activiti:formProperty>
+
         <activiti:formProperty id="sBody_protocolAdmin" name="[pattern/print/kiev/DABI_insp_protokol_admin_1.html]" type="invisible" default="Протокол про адміністративне правопорушення" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBody_protocolUrban" name="[pattern/print/kiev/DABI_insp_protokol_mistobud_1.html]" type="invisible" default="Протокол про порушення у сфері містобудівної діяльності" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBody_resolutionAdmin" name="[pattern/print/kiev/DABI_insp_postanova_admin.html]" type="invisible" default="Постанова по справі про адміністративне правопорушення" writable="false"></activiti:formProperty>
@@ -261,6 +228,8 @@
         <activiti:formProperty id="sBody_resolutionCloseUrban" name="[pattern/print/kiev/DABI_insp_postanova_zakruta_mistobud.html]" type="invisible" default="Постанова про про закриття справи про правопорушення в сфері містобудівної діяльності" writable="false"></activiti:formProperty>
         <activiti:formProperty id="markers4_req" name="requiredFields4" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_4_required.json')}"></activiti:formProperty>
         <activiti:formProperty id="markers4" name="ShowFields4" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_4.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers_lines14" name="Lines_step14" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_lines14.json')}"></activiti:formProperty>
+        <activiti:formProperty id="markers_print14" name="PrintTable_step14" type="markers" default="${markerService.loadFromFile('KMDA/kyiv_mda_1093_print14.json')}"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${assignUser}">
           <activiti:field name="loginAssignee">
             <activiti:expression><![CDATA[sLoginAsignee_step11]]></activiti:expression>
