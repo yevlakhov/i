@@ -178,39 +178,11 @@ angular.module('iGovMarkers')
           aField_ID: ["oPrescription2"],
           sTitleField: "sPrescriptionName",
           sPatternPath: "/print/kiev/kiev_mda_273_print.html",
-          sName: "Звіт за сектором"
+          sName: "Звіт за сектором", 
+          asEnumField_ID: {'sCondition1': "asType"}, 
+          sCondition: " [sCondition1] == 'sEnumPr1' ", 
         }, 
         */ 
-
-        PrintForm_Table32: { 
-
-          aField_ID: ["oPrescription1"], 
-          sPatternPath: "/print/kiev/_test_print_table1.html", 
-          sTitleField: "sPrescriptionName0", 
-          sName: "Припис про усунення " 
-
-        }, 
-
-        PrintForm_Table36: { 
-
-          aField_ID: ["oPrescription1"], 
-          sPatternPath: "/print/kiev/_test_print_table2.html", 
-          //sTitleField: "", 
-          asEnumField_ID: {'sCondition1': "asType0"}, 
-          sCondition: " [sCondition1] == 'sEnumPr2' && [sPrescriptionEstablished1] == 'встановлено 2'", 
-          sName: "Припис про зупинення " 
-
-        }, 
-
-        PrintForm_Table362: { 
-
-            aField_ID: ["oPrescription1"], 
-            sPatternPath: "/print/kiev/_test_print_table2.html", 
-            asEnumField_ID: {'sCondition1': "asType0"}, 
-            sCondition: " [sCondition1] == 'sEnumPr1' ", 
-            sName: "Припис про зупинення both rows та option 2 " 
-
-        },  
 
       }
     };
