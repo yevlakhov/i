@@ -142,7 +142,7 @@
           <activiti:value id="sEnumResultGenerate" name="Сформувати результат перевірки"></activiti:value>
           <activiti:value id="sEnumResultClose" name="Закриття перевірки"></activiti:value>
         </activiti:formProperty>
-        <activiti:formProperty id="tThirdPersons" name="Треті особи" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tLetterAnswer.json')}"></activiti:formProperty>
+        <!--activiti:formProperty id="tThirdPersons" name="Треті особи" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tLetterAnswer.json')}"></activiti:formProperty-->
         
         <activiti:formProperty id="sNoteEmployeeInspection" name="Примітка" type="string"></activiti:formProperty>
         <activiti:formProperty id="nLetterClose" name="Лист-закриття перевірки" type="file"></activiti:formProperty>
