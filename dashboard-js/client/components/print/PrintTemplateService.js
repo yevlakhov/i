@@ -26,7 +26,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Prin
       var markerExists = false;
 
       for(var i = 0; i < form.length; i++) {
-        if (form[i].id && form[i].id.includes('marker') && form[i].value.includes('ShowFieldsOn')){
+        if (form[i].id && form[i].id.indexOf('marker') >= 0 && form[i].value.indexOf('ShowFieldsOn') >= 0){
           markerExists = true;
           break;
         }
@@ -34,72 +34,86 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Prin
 
       try {
 
-        for(var i = 0; i < form.length; i++) {
+        for(var i = 0; i < form.length; i++) { 
 
-           if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') {
+           if( form[i].type === 'table' && form[i].aRow && typeof form[i].aRow[0] !== 'number') { 
 
 			    	  var prints = FieldMotionService.getPrintForms(); // form[i].id 
+
+              console.log( " PrintForm - " + form[i].id + " - " + form[i].type ); 
 
 			    	  angular.forEach ( prints, function(printsItem, printsKey, printsObj ) { 
 
                  if( _.contains(printsItem.aField_ID, form[i].id) ) { 
 
 		                  angular.forEach( form[i].aRow, function( item, key, obj ) { 
-		
-		                    var itemObject = { 
-		
-		                      oPrintForm: printsItem,
-		                      sPrintFormKey: printsKey, 
-		                      sPatternPath: printsItem.sPatternPath, 
-		                      sTableName: form[i].id, 
-		                      nRowIndex: key, 
-		                      oRow: item, 
-		                      oField: null, 
-		                      sLabel: "", 
-		                      
-		                    };
-		
-		
-		                    if( printsItem.sTitleField ) { 
-		                      angular.forEach( item.aField, function( field, fieldKey ) { 
-		
-			                      if( field.id === printsItem.sTitleField )  { 
-		
-		                          itemObject.oField = field; 
-		                          itemObject.sLabel = field.value; 
-		
-		                          return; 
-			                      } 
-		
-		                      } ); 
-		                    } 
-		
-		                    if( itemObject.sLabel === "" ) { 
-		                      
-		                      itemObject.oField = item.aField[0]; 
-		                      itemObject.sLabel = item.aField[0].value;
-		                      console.log( " #1438 '" + form[i].id + "'=" + itemObject.sLabel ); 
-		
-		                    } 
-		                    
-		                    if( itemObject.sLabel ) { 
-		                      var item = {
-		
-		                        id: form[i].id,
-		                        displayTemplate: printsItem.sName + ' (' + itemObject.sLabel + ')',
-		                        type: "prints",
-		                        value: itemObject,
-		
-		                      };
-		
-		                      topItems.unshift( item );
-		
-		                      console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
-		                    }
-		                  
-		                } ); 
+
+                        if( FieldMotionService.isPrintFormVisible(printsItem, form[i], form, item) ) { 
+                        
+                            var itemObject = {
+
+                              oPrintForm: printsItem,
+                              sPrintFormKey: printsKey,
+                              sPatternPath: printsItem.sPatternPath,
+                              sTableName: form[i].id,
+                              nRowIndex: key,
+                              oRow: item,
+                              oField: null,
+                              sLabel: "",
+
+                            };
+
+
+                            if( printsItem.sTitleField ) { 
+                              angular.forEach( item.aField, function( field, fieldKey ) { 
+
+                                if( field.id === printsItem.sTitleField )  {
+
+                                  itemObject.oField = field;
+                                  itemObject.sLabel = field.value;
+
+                                  var enumItem = FieldMotionService.getEnumItemById( itemObject.oField, itemObject.oField.value ); 
+                                  if( enumItem != null ) { 
+                                    itemObject.sLabel = enumItem.name; 
+                                  } 
+
+                                  return;
+                                }
+
+                              } );
+                            }
+
+                            if( itemObject.sLabel === "" && item.aField[0] !== null) { 
+
+                              itemObject.oField = item.aField[0];
+                              itemObject.sLabel = item.aField[0].value;
+
+                              var enumItem = FieldMotionService.getEnumItemById( itemObject.oField, itemObject.oField.value ); 
+                              if( enumItem != null ) { 
+                                 itemObject.sLabel = enumItem.name;  
+                              } 
+
+                            }
+
+                            if( itemObject.sLabel ) {
+                              var item = {
+
+                                id: form[i].id,
+                                displayTemplate: printsItem.sName + ' (' + itemObject.sLabel + ')',
+                                type: "prints",
+                                value: itemObject,
+
+                              };
+
+                              topItems.unshift( item );
+
+                              console.log( "Top item added " + printsItem.sName + " count:" + topItems.length);
+                            }
+                        } 
+
+		                } );
                  }
-            } ); 
+            } );
 
           }
         }
@@ -112,7 +126,7 @@ angular.module('dashboardJsApp').service('PrintTemplateService', ['tasks', 'Prin
       if (markerExists){
           templates = form.filter(function (item) {
           var result = false;
-          if (item.id && item.id.includes('sBody')
+          if (item.id && item.id.indexOf('sBody') >= 0
             && (!FieldMotionService.FieldMentioned.inShow(item.id)
             || (FieldMotionService.FieldMentioned.inShow(item.id)
             && FieldMotionService.isFieldVisible(item.id, form)))) {
