@@ -2,7 +2,7 @@
    {"id":"sPosition",
     "name":"Посада",
     "type":"string"},
-   {"id":"sName",
+   {"id":"sPersonName",
     "name":"Прізвище, ім’я та по батькові",
     "type":"string"}
 ]}
