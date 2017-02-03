@@ -1,0 +1,10 @@
+{"aField":[ 
+    {"id":"nLetter",
+     "name":"Лист",
+     "type":"file"
+     }, 
+   
+    {"id":"nAnswer",
+     "name":"Відповідь",
+     "type":"file"}
+]}

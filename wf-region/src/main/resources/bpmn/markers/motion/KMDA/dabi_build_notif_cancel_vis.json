@@ -1,0 +1,25 @@
+{
+  "motion": 
+    {
+    "ShowFieldsOnCondition_Person": 
+      {"aField_ID":
+        ["sPersonLastName","sPersonFirstName","sPersonMiddleName","sPersonAddress","sPersonPassport","sPersonINN"], 
+       "asID_Field": {"sCondit":"asApplicantType"},
+       "sCondition": "[sCondit] == 'sEnumAppPerson'||[sCondit] == 'фізична особа'"
+      },     
+    "ShowFieldsOnCondition_Legal": 
+      {"aField_ID":  ["sLegalForm","sLegalName","sLegalAddress","sLegalEDRPOU"], 
+       "asID_Field": {"sCondit":"asApplicantType"},
+       "sCondition": "[sCondit] == 'sEnumAppLegal'||[sCondit] == 'юридична особа'"
+      },
+    "ShowFieldsOnCondition_ByCourt": 
+      {"aField_ID":  ["sCourtName","sJudgementNumber","sJudgementDate","sJudgement","sLabel_Court"], 
+       "asID_Field": {"sCondit":"asCancelReason"},
+       "sCondition": "[sCondit] == 'sEnumByCourt'||[sCondit] == 'за рішенням суду'"
+      },
+    "ShowFieldsOnNotEmpty_1": {
+      "aField_ID": ["sLabel_Court"],
+      "sField_ID_s": "sCourtName"
+      }            
+    }
+}

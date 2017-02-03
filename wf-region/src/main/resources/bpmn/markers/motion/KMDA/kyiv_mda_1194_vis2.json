@@ -32,7 +32,7 @@
   "ShowFieldsOnCondition_15":{"sNote":["підготовчі роботи"],
     "aField_ID":["sDateRegistrationPrepare"],
     "asID_Field":{"sCond":"asTypeChange"},
-    "sCondition":"[sCond]='sEnumPrepare' || [sCond]=='підготовчі роботи'"
+    "sCondition":"[sCond]=='sEnumPrepare' || [sCond]=='підготовчі роботи'"
   },
   "ShowFieldsOnCondition_16":{"sNote":["рішення негативне"],
     "aField_ID":["sID_numberDABI"],

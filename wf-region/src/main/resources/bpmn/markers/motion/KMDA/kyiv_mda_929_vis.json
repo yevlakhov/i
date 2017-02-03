@@ -1,0 +1,15 @@
+{
+  "motion": 
+    {
+      "ShowFieldsOnCondition_1_1": 
+        {"aField_ID": ["sLastName", "sFirstName", "sMiddleName"], 
+         "asID_Field":{"sCondit":"asRefEntity"},
+         "sCondition": "[sCondit] == 'sEnumIndividual'||[sCondit] == 'фізична особа'"
+        },
+      "ShowFieldsOnCondition_1_2": 
+        {"aField_ID": ["sNameCompany", "sInnCompany", "sCompanyOrganizationLegalForm"], 
+         "asID_Field":{"sCondit":"asRefEntity"},
+         "sCondition": "[sCondit] == 'sEnumCompany'||[sCondit] == 'юридична особа'"
+        }
+    }
+}
