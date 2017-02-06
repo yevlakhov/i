@@ -39,10 +39,12 @@
 			height: 267mm; 
 		} 
                 
-                p {
+                .paragraph {
                     text-indent: 10mm;
                     line-height: 1.2;
                     text-align:justify;
+                    margin-top: 1em;
+                    margin-bottom: 0.5em;
                 }
                 
 		.underline { 
@@ -51,12 +53,7 @@
 
 		.text-center { 
 			text-align: center; 
-		} 
-		
-		.paragraph { 
-			left: 10mm; 
-			position: relative; 
-		} 
+		}  
 
 		.text-bold { 
 			font-weight: bold; 
@@ -180,9 +177,9 @@
 		<tr><td><table><tbody><tr><td class="akt_data underline">[sDateDirection]&nbsp;</td><td class="akt_numero_posto underline">&nbsp;[sNumberDirection]</td><td class="akt_numero">№ </td></tr>
                 <tr><td class="akt_data text-center text-smaller">(дата)</td></tr></tbody></table></td></tr>
 
-		<tr><td><p>Відповідно до постанови Кабінету Міністрів України від 23 травня
-		2011 року №553 «Про затвердження Порядку здійснення державного архітектурно-будівельного контролю» направляється:</p></td></tr>
-              
+		<tr><td class="paragraph">Відповідно до постанови Кабінету Міністрів України від 23 травня
+		2011 року №553 «Про затвердження Порядку здійснення державного архітектурно-будівельного контролю» направляється:</td></tr>
+            
 		<tr><td class="paragraph">
                     <table><tbody>
                         <!--[oInspectedPerson-->    
@@ -193,39 +190,38 @@
                 </td></tr>
 
                 <tr><td>
-                    <table><tbody>
-                            <tr><td><div  text-align="justify">
-                            <span>для здійснення позапланової перевірки на </span>
-                            <span  class="underline"> [sObjectName], [sObjectAddress] </span>
-                            <span> на підставі наказу (розпорядження) </span>
-                            <span class="underline"> [sOrderUnscheduled] </span>
-                            <span> та </span>
-                            <span class="underline"> [sBaseControl]. </span>
-                        </div></td></tr>
+                    <div  text-align="justify">
+                    <span>для здійснення позапланової перевірки на </span>
+                    <span  class="underline"> [sObjectName], [sObjectAddress] </span>
+                    <span> на підставі наказу (розпорядження) </span>
+                    <span class="underline"> [sOrderUnscheduled] </span>
+                    <span> та </span>
+                    <span class="underline"> [sBaseControl]. </span>
+                </div></td></tr>
                             
-                        <tr><td><p>Направлення дійсне при пред'явленні службового посвідчення.</p></td></tr>
+                <tr><td class="paragraph">Направлення дійсне при пред'явленні службового посвідчення.</td></tr>
 
-                        <tr><td><p>Строк дії направлення [sValidityControl].</p></td></tr>
+                <tr><td class="paragraph">Строк дії направлення [sValidityControl]</td></tr>
 
-			<tr><td><p>Працівники органів державного архітектурно-будівельного контролю мають право 
-                                    безперешкодного доступу на місце будівництва об'єкта, об'єкти будівництва, підприємства будівничої галузі.
-                                </p></td></tr>
+		<tr><td class="paragraph">Працівники органів державного архітектурно-будівельного контролю мають право 
+                    безперешкодного доступу на місце будівництва об'єкта, об'єкти будівництва, підприємства будівничої галузі. </td></tr>
 
-			<tr><td class="paragraph">Відповідальність за недопущення працівників органів державного </td></tr>
-			<tr><td>архітектурно-будіельного контролю для здійснення перевірки передбачена </td></tr>
-			<tr><td>частиною другою статті 188<span class="degree text-smaller">42</span> Кодексу України про адміністративні</td></tr>
-			<tr><td>правопорушення та пунктом 2 частини шостої статті 2 Закону України «Про</td></tr>
-			<tr><td>відповідальність за правопорушення у сфері містобудівної діяльності».</td></tr>
+		<tr><td class="paragraph">Відповідальність за недопущення працівників органів державного 
+			архітектурно-будіельного контролю для здійснення перевірки передбачена 
+			частиною другою статті 188<span class="degree text-smaller">42</span> Кодексу України про адміністративні
+			правопорушення та пунктом 2 частини шостої статті 2 Закону України «Про
+			відповідальність за правопорушення у сфері містобудівної діяльності».</td></tr>
 
-			<tr><td><table><tbody><tr><td class="w30mm underline">&nbsp;</td><td></td><td>&nbsp;</td><td></td><td class="w30mm underline">&nbsp;</td><td></td><td class="w52mm underline">&nbsp;</td></tr>
+		<tr><td><table><tbody><tr><td class="w30mm underline">&nbsp;</td><td></td><td>&nbsp;</td><td></td><td class="w30mm underline">&nbsp;</td><td></td><td class="w52mm underline">&nbsp;</td></tr>
 				       <tr><td class="w30mm text-center text-smaller">(посада)</td><td></td><td class="w30mm">&nbsp;М.П.</td><td></td><td class="w30mm text-center text-smaller">(підпис)</td><td></td><td class="w52mm text-center text-smaller">(ім'я, по батькові та прізвище)</td></tr></tbody></table></td></tr>
 
-			<tr><td><table class="text-bold"><tbody><tr><td>Директор департаменту державних програм</td><td>&nbsp;</td></tr>
+		<tr><td><table class="text-bold"><tbody><tr><td>Директор департаменту державних програм</td><td>&nbsp;</td></tr>
 				       <tr><td>та розвитку житлового будівництва</td><td>Н.В. Козловська</td></tr></tbody></table></td></tr>
 
-			<tr><td></td></tr>
+			
+                
 
-		</tbody></table>
+
 
 		<br><br><br><br>
 
