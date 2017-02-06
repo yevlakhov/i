@@ -45,10 +45,11 @@
                     text-align:justify;
                 }
                 
-                .str_underline {
-                    text-decoration: underline
+                .underlined-content{
+                    border-bottom: 1px  solid  black;
+                    position: relative;
+                    bottom: -1px;
                 }
-
 		.underline { 
 			border-bottom: 1px solid; 
 		} 
@@ -198,8 +199,11 @@
 
                 <tr><td>
                     <table><tbody>
-                        <tr><td text-align="justify">для здійснення позапланової перевірки на <span class="str_underline">&nbsp;[sObjectName],&nbsp;[sObjectAddress]&nbsp;</span></td></tr>
-				       
+                        <tr><td text-align="justify">для здійснення позапланової перевірки на 
+                            <div class="underlined-container">
+                                <span  class="underlined-content">&nbsp;[sObjectName],&nbsp;[sObjectAddress]&nbsp;</span>
+                            </div>
+                        </td></tr>
 
 			<tr><td><table><tbody><tr><td class="w80mm underline"></td><td class="w80mm">на підставі наказу (розпорядження)</td></tr></tbody></table></td></tr>
 			<tr><td><table><tbody><tr><td class="w100percent underline">[sOrderUnscheduled]&nbsp;</td><td>та</td></tr><tr><td colspan="2" class="text-center text-smaller">(найменування органу державного архітектурно-будівельного контролю, дата та номер наказу)</td></tr></tbody></table></td></tr>
