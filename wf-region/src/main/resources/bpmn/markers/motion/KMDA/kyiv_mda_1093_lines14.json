@@ -1,22 +1,22 @@
 {
   "attributes": {
-    "Line_1": {
+    "Line_14_1": {
       "aElement_ID": ["oInspectors"],
       "sValue": "Особи, які проводили перевірку"        
     },
-    "Line_2": {
+    "Line_14_2": {
       "aElement_ID": ["oPersonsInvolvedAudit"],
       "sValue": "Особи, які залучені до перевірки"        
     },
-    "Line_3": {
+    "Line_14_3": {
       "aElement_ID": ["tPrescription"],
       "sValue": "Приписи"        
     },
-    "Line_4": {
+    "Line_14_4": {
       "aElement_ID": ["tOffensesAdmin"],
       "sValue": "Правопорушення адміністративні"        
     },
-    "Line_5": {
+    "Line_14_5": {
       "aElement_ID": ["tOffensesUrban"],
       "sValue": "Правопорушення в сфері містобудівної діяльності"        
     }
