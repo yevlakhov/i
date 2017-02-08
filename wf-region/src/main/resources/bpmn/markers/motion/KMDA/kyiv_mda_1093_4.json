@@ -2,12 +2,12 @@
   "motion": 
     {
     "ShowFieldsOnCondition_CheckingAct": 
-        {"aField_ID":  ["sTextAudit", "sReasonInspection", "sSubjectCityPlanning", "sPersonInspected", "sPresenceOf"], 
+        {"aField_ID":  ["sTextAudit", "sReasonInspection", "sSubjectCityPlanning", "sPersonInspected", "sPresenceOf","sBody_CheckingAct"], 
          "asID_Field": {"sCondit":"asTypeAct"},
          "sCondition": "[sCondit] == 'sEnumTypeActVisit'"
         },
     "ShowFieldsOnCondition_RefusingAct": 
-        {"aField_ID":  ["sPersonMadeAct"], 
+        {"aField_ID":  ["sPersonMadeAct","sBody_RefusingAct"], 
          "asID_Field": {"sCondit":"asTypeAct"},
          "sCondition": "[sCondit] == 'sEnumTypeActNoVisit'"
         },
