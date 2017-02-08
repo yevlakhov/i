@@ -1,0 +1,29 @@
+{
+  "motion": 
+    {
+    "RequiredFieldsOnCondition_CheckingAct": 
+        {"aField_ID":   ["sTextAudit", "sReasonInspection", "sSubjectCityPlanning"], 
+         "asID_Field":  {"sCondit":"asTypeAct"},
+         "sCondition":   "[sCondit] == 'sEnumTypeActVisit'"
+        },
+    "RequiredFieldsOnCondition_RefusingAct": 
+        {"aField_ID":   ["sPersonMadeAct"], 
+         "asID_Field":  {"sCondit":"asTypeAct"},
+         "sCondition":   "[sCondit] == 'sEnumTypeActNoVisit'"
+        },
+    "RequiredFieldsOnCondition_RefusingAct2": 
+        {"aField_ID":  ["sPersonViolationOfLaw"], 
+         "asID_Field": {"sField1":"asTypeAct", "sField2":"asHowDecisionRemark"},
+         "sCondition": "[sField1] == 'sEnumTypeActNoVisit'||[sField2]=='sEnumDecisionRemarkYes'"
+        },
+    "RequiredFieldsOnCondition_RemarkYes": 
+        {"aField_ID":   
+            ["asIssuedPrescription", "asProtocolType", "asQuantityOffenses", "sContractorName",
+             "sSupervisionPib", "sProjectName", "sArchitectPib", "sExpertName", "sArticleResponsibility",
+             "sDateCase", "sPlaceCase", "sAddressPlaceCase", "asRefEntity", "sDocumentCase", "sFine", 
+             "sOffensesResolution", "sPersonsControl", "sPaymentDetails", "sDecidedControl"], 
+         "asID_Field":  {"sCondit":"asHowDecisionRemark"},
+         "sCondition": "[sCondit] == 'sEnumDecisionRemarkYes'"
+        }
+    }
+}
