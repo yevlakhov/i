@@ -14,7 +14,12 @@
 			padding: 0px !important; 
 			margin: 0px !important; 
 		} 
-		
+                
+                div {
+                    text-align: justify;
+                    line-height: 1.2;
+                }	
+                
 		.gestore { 
 			padding-top: 15mm; 
 			padding-left: 25mm; 
@@ -185,26 +190,40 @@
 
 			<tr><td>&nbsp;</td></tr>
 
-			<tr><td><table>
-                            <tr><td>Нами (мною),</td><td><table>
-                                <!--[oInspectors-->    
+                        <tr><td><table>
+                            <tr><td class="w30mm">Нами (мною),</td>
+                                <td><table
+                                    <!--[oInspectors-->    
                                     <tr><td class="underline">[sPosition]&nbsp;[sPersonName]</td></tr>
-                                <!--oInspectors]--></tr></table>
+                                    <!--oInspectors]-->
+                                </table></td></tr>
+                            
                             <tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища, імена, по батькові посадових осіб, що проводили перевірку)</tr>
+                            
+                            <tr><td>із залученням</td><td><table>
+                                    <!--[oPersonsInvolvedAudit-->    
+                                        <tr><td class="underline">[sPosition]&nbsp;[sPersonName]</td></tr>
+                                    <!--oPersonInvolvedAudit]-->
+                                </table></td></tr>                            
+                            
+                            <tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища та ініціали)</td><td>&nbsp;</td></tr>
+                            
+                            <tr><td>у присутності</td><td class="w100percent underline">[sPresenceOf]&nbsp;</td></tr>
+                            
+                            <tr><td>&nbsp;</td><td class="text-center text-smaller">(посада, прізвище, ім'я, по батькові керівника (уповноваженої ним особи) юридичної</td></tr>
+                            
                         </table></td></tr>
-
-			<tr><td><table><tr><td class="w30mm">із залученням</td><td class="w100percent underline">[sPersonsInvolvedAudit]&nbsp;</td><td>,</td></tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища та ініціали)</td><td>&nbsp;</td></tr></table></td></tr>
-
-			<tr><td><table><tr><td class="w30mm">у присутності</td><td class="w100percent underline">[sPresenceOf]&nbsp;</td></tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(посада, прізвище, ім'я, по батькові керівника (уповноваженої ним особи) юридичної</td></tr></table></td></tr>
 
 			<tr><td class="underline">&nbsp;</td></tr>
 			<tr><td class="text-center text-smaller">особи, фізичної особи/фізичної особи - підприємця, що перевіряється)</td></tr>
 
-			<tr><td>відповідно&nbsp;&nbsp;до&nbsp;&nbsp;&nbsp;статті 41&nbsp;&nbsp;Закону&nbsp;&nbsp;України&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&laquo;Про регулювання&nbsp;&nbsp;містобудівної</td></tr>
-			<tr><td>діяльності&raquo;&nbsp;&nbsp;та&nbsp;&nbsp;згідно&nbsp;з&nbsp;&nbsp;Порядком&nbsp;&nbsp;здійснення&nbsp;&nbsp;державного&nbsp;&nbsp;архітектурно-</td></tr>
-			<tr><td>будівельного контролю,&nbsp;&nbsp;затвердженим&nbsp;&nbsp;постановою&nbsp;&nbsp;Кабінету Міністрів України</td></tr>
-
-			<tr><td><table><tr><td class="w90mm">від 23 травня 2011 року №553, на підставі</td><td class="w80mm underline">[sReasonInspection]&nbsp;</td></tr><tr><td class="text-smaller">(зазначається підстава проведення перевірки)</td></tr></table></td></tr>
+                        <tr><td><div>
+                            відповідно до статті 41 Закону України &laquo;Про регулювання містобудівної діяльності&raquo; та згідно з 
+                            Порядком здійснення державного архітектурно-будівельного контролю, затвердженим постановою Кабінету Міністрів України 
+                            від 23 травня 2011 року №553, на підставі </div></td></tr>
+                        
+                        <tr><td class="w100percent underline">[sReasonInspection]</td></tr>
+                        <tr><td class="text-smaller text-center">(зазначається підстава проведення перевірки)</td></tr>
 
 			<tr><td><table><tr><td class="w22mm">проведено</td><td class="underline">[asHowInspection]&nbsp;</td><td>&nbsp;перевірку дотримання вимог законодавства</td></tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(планова, позапланова)</td><td>&nbsp;</td></tr></table></td></tr>
 
