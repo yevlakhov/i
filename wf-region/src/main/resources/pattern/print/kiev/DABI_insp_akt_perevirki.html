@@ -54,8 +54,11 @@
 		} 
 
 		.paragraph { 
-			padding-left: 10mm; 
-			position: relative; 
+                    text-indent: 10mm;
+                    line-height: 1.2;
+                    text-align:justify;
+                    margin-top: 1em;
+                    margin-bottom: 0.5em;                        
 		} 
 
 		.text-bold { 
@@ -163,85 +166,79 @@
 
             </td></tr> 
 
-			<tr><td>&nbsp;</td></tr>
-			<tr><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td></tr>
+            
+            <tr><td class="herb-Ukraine">&nbsp;</td></tr>
 
-			<tr><td class="herb-Ukraine">&nbsp;</td></tr>
+            <tr><td class="underline text-center">[sControlOrganizationName]&nbsp;</td></tr>
+            <tr><td class="text-center text-smaller">(найменування органу державного архітектурно-будівельного контролю, місцезнаходження, телефон, електронна адреса)</td></tr>
 
-			<tr><td class="underline text-center">[sControlOrganizationName]&nbsp;</td></tr>
-			<tr><td class="text-center text-smaller">(найменування органу державного архітектурно-будівельного контролю, місцезнаходження, телефон, електронна адреса)</td></tr>
+            <tr><td>&nbsp;</td></tr>
+            <tr><td>&nbsp;</td></tr>
 
-			<tr><td>&nbsp;</td></tr>
-			<tr><td>&nbsp;</td></tr>
+            <tr><td class="text-center text-bold">
+                <table>
+                    <tr><td>АКТ</td></tr>
+                    <tr><td>перевірки дотримання вимог законодавства у сфері містобудівної</td></tr>
+                    <tr><td>діяльності, будівельних форм, державних стандартів і правил</td></tr>
+		</table>
+            </td></tr>
 
-			<tr><td class="text-center text-bold">
+            <tr><td>&nbsp;</td></tr>
 
-				<table>
-					<tr><td>АКТ</td></tr>
-					<tr><td>перевірки дотримання вимог законодавства у сфері містобудівної</td></tr>
-					<tr><td>діяльності, будівельних форм, державних стандартів і правил</td></tr>
-				</table>
+            <tr><td><table><tr><td class="akt_data underline">[sDateDraftingAct]&nbsp;</td><td class="akt_posto underline">[sPlaceDraftingAct]&nbsp;</td></tr><tr><td class="akt_data text-center text-smaller">(дата складання акта)</td><td class="akt_posto text-center text-smaller">(місце складання акта)</td></tr></table></td></tr>
 
-			</td></tr>
+            <tr><td>&nbsp;</td></tr>
 
-			<tr><td>&nbsp;</td></tr>
-
-			<tr><td><table><tr><td class="akt_data underline">[sDateDraftingAct]&nbsp;</td><td class="akt_posto underline">[sPlaceDraftingAct]&nbsp;</td></tr><tr><td class="akt_data text-center text-smaller">(дата складання акта)</td><td class="akt_posto text-center text-smaller">(місце складання акта)</td></tr></table></td></tr>
-
-			<tr><td>&nbsp;</td></tr>
-
-                        <tr><td><table>
-                            <tr><td class="w30mm">Нами (мною),</td>
-                                <td><table
-                                    <!--[oInspectors-->    
-                                    <tr><td class="underline">[sPosition]&nbsp;[sPersonName]</td></tr>
-                                    <!--oInspectors]-->
-                                </table></td></tr>
+            <tr><td><table>
+                <tr><td class="w30mm">Нами (мною),</td>
+                    <td><table>
+                        <!--[oInspectors-->    
+                        <tr><td class="underline">[sPosition]&nbsp;[sPersonName]</td></tr>
+                        <!--oInspectors]-->
+                    </table></td></tr>
                             
-                            <tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища, імена, по батькові посадових осіб, що проводили перевірку)</tr>
+                <tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища, імена, по батькові посадових осіб, що проводили перевірку)</tr>
                             
-                            <tr><td>із залученням</td><td><table>
-                                    <!--[oPersonsInvolvedAudit-->    
-                                        <tr><td class="underline">[sPosition]&nbsp;[sPersonName]</td></tr>
-                                    <!--oPersonInvolvedAudit]-->
-                                </table></td></tr>                            
+                <tr><td>із залученням</td><td><table>
+                    <!--[oPersonsInvolvedAudit-->    
+                    <tr><td class="underline">[sPosition]&nbsp;[sPersonName]</td></tr>
+                    <!--oPersonInvolvedAudit]-->
+                </table></td></tr>                            
                             
-                            <tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища та ініціали)</td><td>&nbsp;</td></tr>
+                <tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища та ініціали)</td><td>&nbsp;</td></tr>
                             
-                            <tr><td>у присутності</td><td class="w100percent underline">[sPresenceOf]&nbsp;</td></tr>
+                <tr><td>у присутності</td><td class="w100percent underline">[sPresenceOf]&nbsp;</td></tr>
                             
-                            <tr><td>&nbsp;</td><td class="text-center text-smaller">(посада, прізвище, ім'я, по батькові керівника (уповноваженої ним особи) юридичної</td></tr>
+                <tr><td>&nbsp;</td><td class="text-center text-smaller">(посада, прізвище, ім'я, по батькові керівника (уповноваженої ним особи) юридичної</td></tr>
                             
-                        </table></td></tr>
+            </table></td></tr>
 
-			<tr><td class="underline">&nbsp;</td></tr>
-			<tr><td class="text-center text-smaller">особи, фізичної особи/фізичної особи - підприємця, що перевіряється)</td></tr>
+            <tr><td class="underline">&nbsp;</td></tr>
+            <tr><td class="text-center text-smaller">особи, фізичної особи/фізичної особи - підприємця, що перевіряється)</td></tr>
 
-                        <tr><td><div>
-                            відповідно до статті 41 Закону України &laquo;Про регулювання містобудівної діяльності&raquo; та згідно з 
-                            Порядком здійснення державного архітектурно-будівельного контролю, затвердженим постановою Кабінету Міністрів України 
-                            від 23 травня 2011 року №553, на підставі </div></td></tr>
+            <tr><td><div>
+                відповідно до статті 41 Закону України &laquo;Про регулювання містобудівної діяльності&raquo; та згідно з 
+                Порядком здійснення державного архітектурно-будівельного контролю, затвердженим постановою Кабінету Міністрів України 
+                від 23 травня 2011 року №553, на підставі </div></td></tr>
                         
-                        <tr><td class="w100percent underline">[sReasonInspection]</td></tr>
-                        <tr><td class="text-smaller text-center">(зазначається підстава проведення перевірки)</td></tr>
+            <tr><td class="w100percent underline">[sReasonInspection]</td></tr>
+            <tr><td class="text-smaller text-center">(зазначається підстава проведення перевірки)</td></tr>
 
-			<tr><td><table><tr><td class="w22mm">проведено</td><td class="underline">[asHowInspection]&nbsp;</td><td>&nbsp;перевірку дотримання вимог законодавства</td></tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(планова, позапланова)</td><td>&nbsp;</td></tr></table></td></tr>
+            <tr><td><div> проведено <span class="underline">[asHowInspection] </span> перевірку дотримання вимог законодавства 
+                        у сфері містобудівної діяльності, будівельних норм, державних стандартів і правил</div></td></tr>
+            <tr><td class="w100percent underline">[sNameCompany], [sAddressCompany].</td></tr>
+            <tr><td class="text-center text-smaller">(повне найменування юрид. особи та місцезнаходження/прізвище та ініціали фіз. особи/ФОП та місце проживання)</td></tr>
 
-			<tr><td>у сфері містобудівної діяльності, будівельних норм, державних стандартів і</td></tr>
+            <tr><td class="paragraph"><div><span class="w160mm">Назва та місцезнаходження об'єкта будівництва </span><span class="underline"> [sObjectName], [sObjectAddress]</span></div></td></tr>
 
-			<tr><td><table><tr><td>правил&nbsp;</td><td class="w100percent underline">[sNameCompany]&nbsp;</td></tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(повне найменування юридичної особи та місцезнаходження/</td></tr></table></td></tr>
+        </table> 
 
-			<tr><td><table><tr><td class="w100percent underline">[sAddressCompany]&nbsp;</td><td>.</td></tr><tr><td class="text-center text-smaller" colspan="2">прізвище та ініціали фізичної особи/фізичної особи - підприємця та місце проживання)</td></tr></table></td></tr>
+        <br><br><br><br>
+        <br><br><br>
 
-			<tr><td class="paragraph"><table><tr><td class="w100mm">Назва та місцезнаходження об'єкта будівництва</td><td class="w100percent underline">[sObjectName]&nbsp;</td></tr></table></td></tr>
-			<tr><td><table><tr><td class="w100percent underline">[sObjectAddress]&nbsp;</td><td>.</td></tr></table></td></tr>
-
-		</table> 
-
-<br><br><br><br>
-<br><br><br>
-
-		<table class="perevirki_p2 page">
+		<table class="page">
 
 			<tr><td class="paragraph"><table><tr><td class="w90mm text-bold">За результатами перевірки встановлено:</td><td class="w60mm underline">&nbsp;</td></tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(зазаначити результати перевірки, у разі</td></tr></table></td></tr>
 
