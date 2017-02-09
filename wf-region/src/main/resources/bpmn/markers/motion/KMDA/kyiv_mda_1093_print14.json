@@ -14,6 +14,15 @@
             "sPatternPath": "/print/kiev/DABI_insp_pripis_pro_zupinennya_pidgotovchih_ta_budivelnih_robit_1.html",
             "sName": "Припис про зупинення підготовчих та будівельних робіт",
             "asEnumField_ID": {"sCondit":"asPrescriptionType"},
-            "sCondition": "[sCondit] == 'sEnumType_1'"}     
+            "sCondition": "[sCondit] == 'sEnumType_1'"},
+        "PrintForm_TableIteratio3": {
+            "aField_ID": ["tOffenses"],
+            "sTitleField": "sPrescriptionName",
+            "sPatternPath": "/print/kiev/DABI_insp_protokol_admin_1.html",
+            "sName": "Протокол про адміністративне правопорушення",
+            "asEnumField_ID": {"sCondit":"asProtocolType"},
+            "sCondition": "[sCondit] == 'sEnumProtocolType_2'"  
             }
+        }
+
 }

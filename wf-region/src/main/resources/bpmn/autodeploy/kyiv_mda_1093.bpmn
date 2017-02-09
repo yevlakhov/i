@@ -214,8 +214,7 @@
         <activiti:formProperty id="sPersonMadeAct" name="Особа, яка склала акт" type="string"></activiti:formProperty>
         <activiti:formProperty id="tPrescription" name="Приписи" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tPrescription.json')}"></activiti:formProperty>
 
-        <activiti:formProperty id="tOffensesAdmin" name="Правопорушення адміністративні" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tOffenses.json')}"></activiti:formProperty>
-        <activiti:formProperty id="tOffensesUrban" name="Правопорушення в сфері містобудівної діяльності" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tOffenses.json')}"></activiti:formProperty>
+        <activiti:formProperty id="tOffenses" name="Правопорушенняі" type="table" default="${markerService.loadFromFile('KMDA/DABI_tables/tOffenses.json')}"></activiti:formProperty>
 
         <activiti:formProperty id="sBody_RefusingAct" name="[pattern/print/kiev/DABI_insp_akt_pro_nedopushennya_do_perevirki_1.html]" type="invisible" default="Акт про недопущення до перевірки" writable="false"></activiti:formProperty>
         <activiti:formProperty id="sBody_CheckingAct" name="[pattern/print/kiev/DABI_insp_akt_perevirki.html]" type="invisible" default="Акт перевірки" writable="false"></activiti:formProperty>

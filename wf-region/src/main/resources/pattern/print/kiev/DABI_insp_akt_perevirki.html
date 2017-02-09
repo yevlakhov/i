@@ -22,7 +22,7 @@
 			padding-bottom: 15mm; 
 			font-family: 'Times New Roman', Times, serif;
 			font-size: 4.8mm !important;
-			width: 210mm; 
+			width: 170mm; 
 		} 
 
 		.herb-Ukraine {
@@ -117,11 +117,7 @@
 		.w100mm {
 			width: 100mm !important; 
 			display: inline-block; 
-		} 
-
-		.w1mm { 
-			width: 2mm; 
-		} 
+		}  
 
 		.w160mm {
 			width: 170mm !important;
@@ -144,34 +140,30 @@
 
 <body>
 
-	<table style="width: 210mm; height: 297mm; position: absolute; border: 1px solid #00FF00;"><tr><td>&nbsp;</td></tr></table>
-	<table style="top: 314mm; width: 210mm; height: 297mm; position: absolute; border: 1px solid #FF0000;"><tr><td>&nbsp;</td></tr></table>
+    <div class="gestore"> 
 
-	<div class="gestore"> 
+	<table class="page">
 
-		<table class="perevirki_p1 page">
+            <tr><td>
 
-			<tr><td>
+		<table class="top-perevirki text-smaller">
 
-				<table class="top-perevirki text-smaller">
+                    <tr><td>Додаток 1</td></tr>
+                    <tr><td>до наказу Міністерства регіонального</td></tr>
+                    <tr><td>розвитку, будівництва та житлово-</td></tr>
+                    <tr><td>комунального господарства України</td></tr>
+                    <tr><td>15.05.2012 №240</td></tr>
 
-					<tr><td>Додаток 1</td></tr>
+		</table>
 
-					<tr><td>до наказу Міністерства регіонального</td></tr>
-					<tr><td>розвитку, будівництва та житлово-</td></tr>
-					<tr><td>комунального господарства України</td></tr>
-					<tr><td>15.05.2012 №240</td></tr>
-
-				</table>
-
-			</td></tr> 
+            </td></tr> 
 
 			<tr><td>&nbsp;</td></tr>
 			<tr><td>&nbsp;</td></tr>
 
 			<tr><td class="herb-Ukraine">&nbsp;</td></tr>
 
-			<tr><td class="underline">[sControlOrganizationName]&nbsp;</td></tr>
+			<tr><td class="underline text-center">[sControlOrganizationName]&nbsp;</td></tr>
 			<tr><td class="text-center text-smaller">(найменування органу державного архітектурно-будівельного контролю, місцезнаходження, телефон, електронна адреса)</td></tr>
 
 			<tr><td>&nbsp;</td></tr>
@@ -193,9 +185,13 @@
 
 			<tr><td>&nbsp;</td></tr>
 
-			<tr><td><table><tr><td class="paragraph w30mm">Нами (мною),</td><td class="underline">[sPersonInspected]&nbsp;</tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища, імена, по батькові посадових осіб, що проводили перевірку)</tr></table></td></tr>
-
-			<tr><td><table><tr><td class="w100percent underline">&nbsp;</td><td>,</td></tr></table></td></tr>
+			<tr><td><table>
+                            <tr><td>Нами (мною),</td><td><table>
+                                <!--[oInspectors-->    
+                                    <tr><td class="underline">[sPosition]&nbsp;[sPersonName]</td></tr>
+                                <!--oInspectors]--></tr></table>
+                            <tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища, імена, по батькові посадових осіб, що проводили перевірку)</tr>
+                        </table></td></tr>
 
 			<tr><td><table><tr><td class="w30mm">із залученням</td><td class="w100percent underline">[sPersonsInvolvedAudit]&nbsp;</td><td>,</td></tr><tr><td>&nbsp;</td><td class="text-center text-smaller">(посади, прізвища та ініціали)</td><td>&nbsp;</td></tr></table></td></tr>
 
