@@ -34,7 +34,7 @@ module.exports.getHistoryEvents = function (req, res) {
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
     hostnameAuth = 'accounts.kitsoft.kiev.ua';
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    // hostnameAuth = 'accounts.kyivcity.gov.ua';
   }else if (req.headers.host.search('kyivcity.gov.ua') != -1) {
     hostnameAuth = 'accounts.kyivcity.gov.ua';
     // hostnameAuth = 'accounts.kitsoft.kiev.ua';

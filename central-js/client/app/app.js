@@ -138,14 +138,14 @@ angular.module('app', [
     $(icon).toggleClass("in");
     $(toggleSearch).slideToggle();
 
-    $(window).resize(function () {
+    /*$(window).resize(function () {
       $(toggleSearch).hide();
 
       if ($(icon).hasClass('in')) {
         $(icon).removeClass('in');
         return;
       }
-    });
+    });*/
   };
 
   $(document).on('click', 'a.js-service-about-btn', function () {
