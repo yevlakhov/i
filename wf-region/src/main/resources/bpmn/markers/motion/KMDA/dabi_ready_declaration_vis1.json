@@ -3,13 +3,12 @@
     {
     "ShowFieldsOnCondition_Person": 
       {"aField_ID":
-        ["sPersonLastName","sPersonFirstName","sPersonMiddleName",
-         "sPersonAddress","sPersonPassport","sPersonINN"], 
+        ["sPersonLastName","sPersonFirstName","sPersonMiddleName"], 
        "asID_Field": {"sCondit":"asApplicantType"},
        "sCondition": "[sCondit] == 'sEnumAppPerson'||[sCondit] == 'фізична особа'"
       },       
     "ShowFieldsOnCondition_Legal": 
-      {"aField_ID":  ["sLegalForm","sLegalName","sLegalAddress","sLegalEDRPOU"], 
+      {"aField_ID":  ["sLegalForm","sLegalName","sLegalEDRPOU"], 
        "asID_Field": {"sCondit":"asApplicantType"},
        "sCondition": "[sCondit] == 'sEnumAppLegal'||[sCondit] == 'юридична особа'"
       },
@@ -29,12 +28,12 @@
        "sCondition": "[sCondit] == 'sEnumObjUnlicensed'"
       },            
     "ShowFieldsOnCondition_ContrPers": 
-      {"aField_ID": 	["sGenPersonName","sGenPersonPassport","sGenPersonAddress","sGenPersonINN"], 
+      {"aField_ID": 	["sGenPersonName"], 
        "asID_Field": 	{"sCond1":"asGeneralContractor","sCond2":"asObjectType"},
        "sCondition": 	"([sCond1] == 'sEnumGenPerson'||[sCond1] == 'Фізична особа')&&[sCond2]!='sEnumObjPassport'&&[sCond2]!='об’єктів, будівництво яких здійснено на підставі будівельного паспорта'"
       },
     "ShowFieldsOnCondition_ContrLegal": 
-      {"aField_ID": 	["sGenLegalForm","sGenLegalName","sGenLegalAddress","sGenLegalINN","workPhone"], 
+      {"aField_ID": 	["sGenLegalForm","sGenLegalName","sGenLegalINN"], 
        "asID_Field": 	{"sCond1":"asGeneralContractor","sCond2":"asObjectType"},
        "sCondition": 	"([sCond1] == 'sEnumGenLegal'||[sCond1] == 'Юридична особа')&&[sCond2]!='sEnumObjPassport'&&[sCond2]!='об’єктів, будівництво яких здійснено на підставі будівельного паспорта'"
       },

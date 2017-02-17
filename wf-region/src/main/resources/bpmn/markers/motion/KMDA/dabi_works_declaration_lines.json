@@ -1,0 +1,41 @@
+{
+  "attributes" : {
+    "Line_1" : {
+       "aElement_ID" : ["sPersonLastName","sLegalForm"],    
+       "sValue" : "Замовник" 
+    },
+    "Line_2" : {
+       "aElement_ID" : ["sObjectName"], 
+       "sValue" : "Об'єкт будівництва"
+    },
+    "Line_3" : {
+       "aElement_ID" : ["asGeneralContractor"], 
+       "sValue" : "Підрядник"
+    },
+    "Line_4" : {
+       "aElement_ID" : ["sContractorName"], 
+       "sValue" : "Підрядна організація-виконавець робіт"
+    },
+    "Line_5" : {
+       "aElement_ID" : ["sApprovedPerson"], 
+       "sValue" : "Затвердження проекту"
+    },
+    "Line_6" : {
+       "aElement_ID" : ["sRespSupervisorName"], 
+       "sValue" : "Авторський нагляд"
+    },    
+    "Line_7" : {
+       "aElement_ID" : ["sTechSupervisorName"], 
+       "sValue" : "Технічний нагляд"
+    },    
+    "Line_8" : {
+       "aElement_ID" : ["asConstructionOnBasis"], 
+       "sValue" : "Земельна ділянка"
+    },
+    "Line_11" : {
+       "aElement_ID" : ["asDecision"], 
+       "sValue" : "Рішення"
+    }
+    
+  }
+}
