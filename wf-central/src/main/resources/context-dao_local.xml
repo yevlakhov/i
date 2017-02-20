@@ -31,10 +31,6 @@
         <constructor-arg value="#{T(org.igov.model.action.item.Subcategory)}"/>
     </bean>
 
-    <bean id="documentOperatorDao" class="org.igov.model.core.GenericEntityDao">
-        <constructor-arg value="#{T(org.igov.model.document.DocumentOperator_SubjectOrgan)}"/>
-    </bean>
-
     <bean id="placeTypeDao" class="org.igov.model.object.place.PlaceTypeDao"/>
     <bean id="placeDao"     class="org.igov.model.object.place.PlaceDaoImpl"/>
     <bean id="placeQueryResolver"     class="org.igov.model.object.place.PlaceQueryResolver"/>

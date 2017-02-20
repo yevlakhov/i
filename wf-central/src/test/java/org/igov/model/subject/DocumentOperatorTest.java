@@ -44,7 +44,7 @@ public class DocumentOperatorTest {
 
     @Autowired
     private HandlerFactory handlerFactory;
-
+    
     @Test
     public void notNull() {
         assertNotNull(documentDao); // just test that Spring DI is working :)
@@ -69,7 +69,7 @@ public class DocumentOperatorTest {
         assertNotNull("Document not found", doc);
         assertNotNull("Document name is empty", doc.getName());
     }
-
+    
     @Test(expected = HandlerNotFoundException.class)
     public void tryToBuildNonExistentHandler() {
         DocumentOperator_SubjectOrgan operator = documentDao.getOperator(DUMMY_OPERATOR_ID);

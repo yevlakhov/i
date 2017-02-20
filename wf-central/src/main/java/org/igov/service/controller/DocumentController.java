@@ -1,5 +1,13 @@
 package org.igov.service.controller;
 
+import org.igov.model.document.DocumentType;
+import org.igov.model.document.Document;
+import org.igov.model.document.DocumentDao;
+import org.igov.model.document.DocumentDaoImpl;
+import org.igov.model.document.DocumentOperator_SubjectOrgan;
+import org.igov.model.document.DocumentContentTypeDao;
+import org.igov.model.document.DocumentContentType;
+import org.igov.model.document.DocumentTypeDao;
 import com.google.gson.JsonObject;
 import com.mongodb.BasicDBObject;
 import com.mongodb.DBCollection;
