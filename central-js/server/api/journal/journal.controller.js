@@ -33,13 +33,13 @@ module.exports.getHistoryEvents = function (req, res) {
 
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
-    hostnameAuth = 'accounts.kitsoft.kiev.ua';
-    // hostnameAuth = 'accounts.kyivcity.gov.ua';
+    hostnameAuth = 'id.kitsoft.kiev.ua';
+    // hostnameAuth = 'id.kyivcity.gov.ua';
   }else if (req.headers.host.search('kyivcity.gov.ua') != -1) {
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
+    hostnameAuth = 'id.kyivcity.gov.ua';
+    // hostnameAuth = 'id.kitsoft.kiev.ua';
   }else{
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    hostnameAuth = 'id.kyivcity.gov.ua';
   }
 
   if (!req.query.access_token) {

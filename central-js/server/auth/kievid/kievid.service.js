@@ -13,20 +13,20 @@ module.exports.callback = (req, res, next)=> {
   let hostnameAuth;
   if (req.headers.host.search('localhost') != -1) {
     clientIDRed = 8443;
-    hostnameAuth = 'accounts.kitsoft.kiev.ua';
+    hostnameAuth = 'id.kitsoft.kiev.ua';
   }else if (req.headers.host.search('central.es') != -1) {
     clientIDRed = 8933;
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    hostnameAuth = 'id.kyivcity.gov.ua';
   }else if (req.headers.host.search('test3.es') != -1) {
     clientIDRed = 8922;
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    hostnameAuth = 'id.kyivcity.gov.ua';
   }else if (req.headers.host == "poslugy.kyivcity.gov.ua") {
     clientIDRed = 8911;
-    // hostnameAuth = 'accounts.kitsoft.kiev.ua';
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    // hostnameAuth = 'id.kitsoft.kiev.ua';
+    hostnameAuth = 'id.kyivcity.gov.ua';
   }else{
     clientIDRed = 8443;
-    hostnameAuth = 'accounts.kyivcity.gov.ua';
+    hostnameAuth = 'id.kyivcity.gov.ua';
   }
   var getToken = ()=> {
     return new Promise((resolve, reject)=> {

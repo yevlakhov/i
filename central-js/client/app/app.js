@@ -56,20 +56,20 @@ angular.module('app', [
   };
   if (window.location.hostname.search('localhost') != -1) {
     $rootScope.clientIDRed = 8443;
-    $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';
+    $rootScope.myAuthServer = 'id.kitsoft.kiev.ua';
   } else if (window.location.hostname.search('central.es') != -1) {
     $rootScope.clientIDRed = 8933;
-    $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
+    $rootScope.myAuthServer = 'id.kyivcity.gov.ua';
   } else if (window.location.hostname.search('test3.es') != -1) {
     $rootScope.clientIDRed = 8922;
-    $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
+    $rootScope.myAuthServer = 'id.kyivcity.gov.ua';
   } else if (window.location.hostname == "poslugy.kyivcity.gov.ua") {
     $rootScope.clientIDRed = 8911;
-    $rootScope.myAuthServer = 'accounts.kyivcity.gov.ua';
-    // $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';
+    $rootScope.myAuthServer = 'id.kyivcity.gov.ua';
+    // $rootScope.myAuthServer = 'id.kitsoft.kiev.ua';
   } else {
     $rootScope.clientIDRed = 8433;
-    $rootScope.myAuthServer = 'accounts.kitsoft.kiev.ua';
+    $rootScope.myAuthServer = 'id.kitsoft.kiev.ua';
   }
   $rootScope.loginPathRedirect = window.location.protocol + "//" + window.location.host + "/auth/myOAuth&state=" + window.location.pathname
   $rootScope.share = function (type) {

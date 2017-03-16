@@ -38,7 +38,7 @@ Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
 @@ -122,7 +122,8 @@
            </a>
            <div ng-if="userName" class="btn-group relative">
-             <a href="#" target="_blank" ng-href="{{myAuthServer=='accounts.kitsoft.kiev.ua'?'https://kyiv-myaccount.kitsoft.kiev.ua/#!/services':'https://myaccount.kyivcity.gov.ua/#!/services'}}" style="display: block;">
+             <a href="#" target="_blank" ng-href="{{myAuthServer=='id.kitsoft.kiev.ua'?'https://my.kitsoft.kiev.ua/services':'https://my.kyivcity.gov.ua/services'}}" style="display: block;">
 -              <img src="../assets/images/svg/login_1-blue.svg" alt="avatar" class="header__login-avatar">
 +              <img ng-if="!isLowVision" src="../assets/images/svg/login_1-blue.svg" alt="avatar" class="header__login-avatar">
 +              <img ng-if="isLowVision" src="../assets/images/svg/login_1-black.svg" alt="avatar" class="header__login-avatar">
