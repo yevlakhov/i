@@ -54,7 +54,8 @@ public class ActionIdentityCommonScenario {
     public void shouldSuccessfullySetGroup()throws Exception {
         String sURL_Template_Set = "/action/identity/setGroup";
         String sURL_Template_Get = "/action/identity/getGroups";
-        String sID = "123456";
+        String sURL_Template_Remove = "/action/identity/removeGroup";
+        String sID = "20170316114545";
         String sName = "new_test_group_shouldSuccessfullySetGroup_name";
 
         requestBuilder = get(sURL_Template_Set).param("sID", sID).param("sName", sName);
@@ -72,7 +73,12 @@ public class ActionIdentityCommonScenario {
             .filter(expectedGroup)
             .collect(Collectors.toList());
 
-        Assert.assertEquals(1, aFilteredGroups.size());
+        try {
+            Assert.assertEquals(1, aFilteredGroups.size());
+        } finally {
+            requestBuilder = delete(sURL_Template_Remove).param("sID", sID);
+            mockMvc.perform(requestBuilder).andExpect(status().isOk());
+        }
     }
 
     @Test
