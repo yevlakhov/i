@@ -48,7 +48,8 @@ angular.module('app').factory('UserService', function ($http, $q, $rootScope, Ad
           $http.post('./auth/logout').then(function () {
             $rootScope.$broadcast('event.logout');
             window.cookiesFunc.delete('admin');
-            window.location.replace('https://'+$rootScope.myAuthServer+'/logout?redirect_uri='+window.location.href)
+            window.location.replace('https://'+$rootScope.myAuthServer+'/logout?redirect_uri='+window.location.href);
+
             /* $.get('https://'+$rootScope.myAuthServer+'/logout').success(function () {
              // redirect_uri={{loginPathRedirect}}
              window.location.reload();
