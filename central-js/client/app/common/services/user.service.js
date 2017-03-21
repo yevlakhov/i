@@ -55,6 +55,8 @@ angular.module('app').factory('UserService', function ($http, $q, $rootScope, Ad
              window.location.reload();
              window.cookiesFunc.delete('admin')
              })*/
+          },function (test_err) {
+            console.log(test_err);
           });
 
         },
