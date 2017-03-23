@@ -72,8 +72,8 @@ module.exports.getHistoryEvents = function (req, res) {
       var inn = undefined;
       if (body.services) {
         for (let key in body.services) {
-          if (typeof inn == 'undefined' && (typeof body.services[key].inn != "undefined" || typeof body.services[key].edrpoucode != "undefined"))
-            inn = body.services[key].inn || body.services[key].edrpoucode;
+          if (typeof inn == 'undefined' && (!!body.user.services[key].inn != false || !!body.user.services[key].edrpoucode != false || !!body.user.services[key].drfocode != false))
+            inn = body.user.services[key].inn || body.user.services[key].edrpoucode || body.user.services[key].drfocode;
         }
       }
       if (inn == undefined) {
