@@ -61,8 +61,8 @@ module.exports.callback = (req, res, next)=> {
     var inn = undefined;
     if (body.user.services) {
       for (let key in body.user.services) {
-        if (typeof inn == 'undefined' && (typeof body.user.services[key].inn != "undefined" || typeof body.user.services[key].edrpoucode != "undefined"))
-          inn = body.user.services[key].inn || body.user.services[key].edrpoucode;
+        if (typeof inn == 'undefined' && (!!body.user.services[key].inn != false || !!body.user.services[key].edrpoucode != false || !!body.user.services[key].drfocode != false))
+          inn = body.user.services[key].inn || body.user.services[key].edrpoucode || body.user.services[key].drfocode;
       }
     }
 
