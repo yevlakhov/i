@@ -62,18 +62,17 @@ module.exports.getHistoryEvents = function (req, res) {
           if (response.statusCode == 401) {
             return reject(data)
           }
-          ;
           resolve(data)
         })
       })
     }
 
-    var getMyUser = (body)=> {
+    var getMyUser = (user)=> {
       var inn = undefined;
-      if (body.services) {
-        for (let key in body.services) {
-          if (typeof inn == 'undefined' && (!!body.user.services[key].inn != false || !!body.user.services[key].edrpoucode != false || !!body.user.services[key].drfocode != false))
-            inn = body.user.services[key].inn || body.user.services[key].edrpoucode || body.user.services[key].drfocode;
+      if (user.services) {
+        for (let key in user.services) {
+          if (typeof inn == 'undefined' && (!!user.services[key].inn != false || !!user.services[key].edrpoucode != false || !!user.services[key].drfocode != false))
+            inn = user.services[key].inn || user.services[key].edrpoucode || user.services[key].drfocode;
         }
       }
       if (inn == undefined) {
