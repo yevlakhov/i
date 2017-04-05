@@ -26,7 +26,8 @@ angular.module('dashboardJsApp', [
   'ea.treeview',
   'cryptoPlugin',
   'textAngular',
-  'angularSpectrumColorpicker'
+  'angularSpectrumColorpicker',
+  'unavailable'
 ]).config(function($urlRouterProvider, $locationProvider) {
   $urlRouterProvider
     .otherwise('/');

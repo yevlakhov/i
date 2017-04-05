@@ -22,7 +22,9 @@ angular.module('appBoilerPlate', ['ngCookies',
   'autocompleteService',
   'datepickerService',
   'iGovTable',
-  'datetimepicker']);
+  'datetimepicker',
+  'unavailable'
+]);
 
 angular.module('documents', ['appBoilerPlate']);
 angular.module('auth', ['appBoilerPlate']);
