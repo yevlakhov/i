@@ -1,14 +1,7 @@
 {
   "_": {
-    "_default_MJU_read": {
+    "_default_btsol": {
       "sName": " ",
-      "bWrite": false,
-      "asID_Field_Read": [
-        "*"
-      ]
-    },
-    "_default_MJU": {
-      "sName": "Канцелярія",
       "bWrite": true,
       "asID_Field_Read": [
         "*"
@@ -20,5 +13,6 @@
   },
   "step_1": {},
   "step_2": {},
-  "step_3": {}
+  "step_3": {},
+  "step_4": {}
 }

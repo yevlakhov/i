@@ -368,6 +368,28 @@ public class DocumentStepService {
         return bRemoved;
     }
 
+    
+    
+    public List<DocumentStepSubjectRight> delegateDocumentStepSubject(String snID_Process_Activiti, String sKey_Step, String sKey_Group, String sKey_Group_Delegate)
+            throws Exception {
+
+        LOG.info("started... sKey_Group={}, snID_Process_Activiti={}, sKey_Step={}", sKey_Group, snID_Process_Activiti,
+                sKey_Step);
+        try {
+
+            List<DocumentStepSubjectRight> aDocumentStepSubjectRight_Current = cloneDocumentStepSubject(snID_Process_Activiti, sKey_Group, sKey_Group_Delegate, sKey_Step, true);
+        
+            removeDocumentStepSubject(snID_Process_Activiti, sKey_Step, sKey_Group);
+
+        } catch (Exception oException) {
+            LOG.error("ERROR:" + oException.getMessage() + " (" + "snID_Process_Activiti=" + snID_Process_Activiti + ""
+                    + ",sKey_Step=" + sKey_Step + "" + ",sKey_GroupPostfix=" + sKey_Group + "" + ")");
+            LOG.error("ERROR: ", oException);
+            throw oException;
+        }
+        return aDocumentStepSubjectRight_Current;
+    }    
+    
     private void reCloneRight(List<DocumentStepSubjectRight> aDocumentStepSubjectRight_To,
             DocumentStepSubjectRight oDocumentStepSubjectRight_From, String sKey_GroupPostfix_New) {
 
@@ -626,7 +648,9 @@ public class DocumentStepService {
                                     if (oJsonMap != null) {
                                         Object oId = oJsonMap.get("id");
                                         if (((String) oId).equals("sLogin_isExecute")
-                                                || ((String) oId).equals("sID_Group_Activiti_isExecute")) {
+                                                || ((String) oId).equals("sID_Group_Activiti_isExecute")
+                                                || ((String) oId).equals("sLogin_Approver")
+                                                || ((String) oId).equals("sLogin_Addressee")) {
                                             Object oValue = oJsonMap.get("value");
                                             if (oValue != null) {
                                                 LOG.info("oValue in cloneDocumentStepFromTable is {}", oValue);
@@ -1374,11 +1398,13 @@ public class DocumentStepService {
 
         return "";
     }
-
-    public Map<String, Boolean> isDocumentStepSubmitedAll(String snID_Process, String sLogin, String sKey_Step)
+    
+    public Map<String, Object> isDocumentStepSubmitedAll(String snID_Process, String sLogin, String sKey_Step)
             throws Exception {
         LOG.info("isDocumentStepSubmitedAll: snID_Process {}, sKey_Step {} ...", snID_Process, sKey_Step);
-        Map<String, Boolean> mReturn = new HashMap();
+        Map<String, Object> mReturn = new HashMap();
+        long countSubmited = 0;
+        long countNotSubmited = 0;
         List<DocumentStep> aDocumentStep = oDocumentStepDao.findAllBy("snID_Process_Activiti", snID_Process);//
         LOG.info("The size of list aDocumentStep is {}", (aDocumentStep != null ? aDocumentStep.size() : null));
         DocumentStep oFindedDocumentStep = null;
@@ -1406,13 +1432,21 @@ public class DocumentStepService {
                         bSubmitedAll = false;
                         LOG.info("oDocumentStepSubjectRight: " + oDocumentStepSubjectRight.getsKey_GroupPostfix()
                                 + " sDate: " + oDocumentStepSubjectRight.getsDate() + "bSubmitedAll: " + bSubmitedAll);
-                        break;
+                        //break;
+                        countNotSubmited++;
+                    } else{
+                        countSubmited++;
                     }
                 } else {
                     LOG.error("oDocumentStepSubjectRight is null");
                 }
             }
             mReturn.put("bSubmitedAll", bSubmitedAll);
+            mReturn.put("nCountSubmited", countSubmited);
+            mReturn.put("nCountNotSubmited", countNotSubmited);
+            
+            LOG.info("mReturn in isDocumentStepSubmitedAll {}", mReturn);
+            
             return mReturn;
         }
     }
