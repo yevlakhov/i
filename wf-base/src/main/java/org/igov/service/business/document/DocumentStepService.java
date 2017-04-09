@@ -375,9 +375,10 @@ public class DocumentStepService {
 
         LOG.info("started... sKey_Group={}, snID_Process_Activiti={}, sKey_Step={}", sKey_Group, snID_Process_Activiti,
                 sKey_Step);
+        List<DocumentStepSubjectRight> aDocumentStepSubjectRight_Current = new LinkedList();
         try {
 
-            List<DocumentStepSubjectRight> aDocumentStepSubjectRight_Current = cloneDocumentStepSubject(snID_Process_Activiti, sKey_Group, sKey_Group_Delegate, sKey_Step, true);
+            aDocumentStepSubjectRight_Current = cloneDocumentStepSubject(snID_Process_Activiti, sKey_Group, sKey_Group_Delegate, sKey_Step, true);
         
             removeDocumentStepSubject(snID_Process_Activiti, sKey_Step, sKey_Group);
 
@@ -1444,6 +1445,7 @@ public class DocumentStepService {
             mReturn.put("bSubmitedAll", bSubmitedAll);
             mReturn.put("nCountSubmited", countSubmited);
             mReturn.put("nCountNotSubmited", countNotSubmited);
+            mReturn.put("nCountSubmitePlan", (countSubmited + countNotSubmited));
             
             LOG.info("mReturn in isDocumentStepSubmitedAll {}", mReturn);
             
