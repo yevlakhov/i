@@ -14,7 +14,9 @@
 	<artifactId>wf-region</artifactId>
 	<version>${igov.wf-region.version}</version>
 	<packaging>war</packaging>
-
+  <scm>
+	<connection>${igov.ibp.scm}</connection>
+  </scm>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<activity.version>5.17.0</activity.version>
@@ -25,7 +27,7 @@
 
 	<build>
 		<plugins>
-			<plugin>
+			<!-- plugin>
 				<artifactId>maven-clean-plugin</artifactId>
 				<version>3.0.0</version>
 				<configuration>
@@ -83,7 +85,7 @@
 						</configuration>            
 					</execution>
 				</executions>
-			</plugin>
+			</plugin-->
 			<plugin>
 				<artifactId>maven-war-plugin</artifactId>
 				<configuration>
