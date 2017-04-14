@@ -4,6 +4,10 @@ import com.fasterxml.jackson.core.JsonProcessingException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.net.URISyntaxException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import org.activiti.engine.*;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.identity.Group;
@@ -41,6 +45,7 @@ import org.igov.service.business.subject.SubjectGroupTreeService;
 import static org.igov.service.business.subject.SubjectGroupTreeService.HUMAN;
 import org.igov.service.conf.AttachmetService;
 import org.igov.util.Tool;
+import org.igov.util.JSON.JsonDateSerializer;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
@@ -1504,7 +1509,7 @@ public class DocumentStepService {
     }
 
     public List<DocumentSubmitedUnsignedVO> getDocumentSubmitedUnsigned(String sLogin)
-            throws JsonProcessingException, RecordNotFoundException {
+            throws JsonProcessingException, RecordNotFoundException, ParseException {
 
         List<DocumentSubmitedUnsignedVO> aResDocumentSubmitedUnsigned = new ArrayList<>();
 
@@ -1512,12 +1517,21 @@ public class DocumentStepService {
                 sLogin);
         LOG.info("aDocumentStepSubjectRight in method getDocumentSubmitedUnsigned = {}", aDocumentStepSubjectRight);
         DocumentStepSubjectRight oFindedDocumentStepSubjectRight;
+        DateTimeFormatter dateStringFormat = DateTimeFormat.forPattern("yyyy-MM-dd");
+        
+    	
+        
+                
         for (DocumentStepSubjectRight oDocumentStepSubjectRight : aDocumentStepSubjectRight) {
 
             if (oDocumentStepSubjectRight != null) {
 
-                DateTime sDateECP = oDocumentStepSubjectRight.getsDateECP();
+            	DateTime sDateECP = oDocumentStepSubjectRight.getsDateECP();
+                LOG.info("sDateECP = ", sDateECP);
                 DateTime sDate = oDocumentStepSubjectRight.getsDate();
+                LOG.info("sDate = ", sDate);
+                
+                
                 Boolean bNeedECP = oDocumentStepSubjectRight.getbNeedECP();
                 // проверяем, если даты ецп нет, но есть дата подписания - нашли
                 // нужный объект, который кладем в VO-обьект-обертку
@@ -1530,7 +1544,7 @@ public class DocumentStepService {
                                 .getSnID_Process_Activiti();
                         LOG.info("snID_Process of oFindedDocumentStepSubjectRight: {}", snID_Process_Activiti);
 
-                        String sID_Order = oFindedDocumentStepSubjectRight.getDocumentStep().getnOrder().toString();
+                        String sID_Order = oFindedDocumentStepSubjectRight.getDocumentStep().getId().toString();
 
                         // через апи активити по nID_Process_Activity
                         HistoricProcessInstance oProcessInstance = historyService.createHistoricProcessInstanceQuery()
@@ -1539,9 +1553,16 @@ public class DocumentStepService {
                         LOG.info("oProcessInstance = {} ", oProcessInstance);
                         if (oProcessInstance != null) {
                             // вытаскиваем дату создания процесса
-                            Date sDateCreateProcess = oProcessInstance.getStartTime();
-                            LOG.info("sDateCreateProcess {}", sDateCreateProcess);
+                        	
+                        	Date sDateCreateProcess = oProcessInstance.getStartTime();
+                        	LOG.info("sDateCreateProcess ", sDateCreateProcess);
+                        	
+                        	
+                          //   long sDCP = oProcessInstance.getStartTime().getTime();
+                          //   String sDateCreateProcess = convertMilliSecondsToFormattedDate(sDCP);
+                            
                             // вытаскиваем название бп
+                           
                             String sNameBP = oProcessInstance.getName();
                             LOG.info("sNameBP {}", sNameBP);
                             // вытаскиваем список активных тасок по процесу
@@ -1555,6 +1576,7 @@ public class DocumentStepService {
                             LOG.info("oTaskCurr ={} ", oTaskCurr);
                             // вытаскиваем дату создания таски
                             Date sDateCreateUserTask = oTaskCurr.getCreateTime();
+                            LOG.info("sDateCreateUserTask = ", sDateCreateUserTask);
                             // и ее название
                             String sUserTaskName = oTaskCurr.getName();
                             // Создаем обьект=обертку, в который сетим нужные полученные поля
@@ -1564,7 +1586,9 @@ public class DocumentStepService {
                             oDocumentSubmitedUnsignedVO.setsNameBP(sNameBP);
                             oDocumentSubmitedUnsignedVO.setsUserTaskName(sUserTaskName);
                             oDocumentSubmitedUnsignedVO.setsDateCreateProcess(sDateCreateProcess);
+                            LOG.info("sDateCreateProcess in VO = ", sDateCreateProcess.getTime());
                             oDocumentSubmitedUnsignedVO.setsDateCreateUserTask(sDateCreateUserTask);
+                            LOG.info("sDateCreateUserTask in VO =", sDateCreateProcess.getClass().toString());
                             oDocumentSubmitedUnsignedVO.setsDateSubmit(sDate);
                             oDocumentSubmitedUnsignedVO.setsID_Order(sID_Order);
 
@@ -1593,5 +1617,16 @@ public class DocumentStepService {
         }
         LOG.info("aDocumentStep deleted...");
     }
+    
+    public static String convertMilliSecondsToFormattedDate(Long milliSeconds){
+    	  SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+    	        Calendar calendar = Calendar.getInstance();
+    	        calendar.setTimeInMillis(milliSeconds);
+    	        return simpleDateFormat.format(calendar.getTime());
+    	    }
+   
+        
+        
+    
 
 }
