@@ -3,7 +3,7 @@
   <process id="dfs_673" name="Отримання довідки про доходи фізичних осіб" isExecutable="true">
 	<documentation>
 		24.05.16 Рефакторинг: на основі dnepr_spravka_o_doxodax: Ставицький В.Д.
-		15.09.16 Рефакторинг: Добавление маркеров на все стадии, переделка принтформы, добавление даты создание процесса
+		15.09.16 Рефакторинг: Добавление маркеров на все стадии, переделка принтформы, добавление даты создание процесса.
 	</documentation>
     <startEvent id="startevent1" name="Start" activiti:initiator="initiator">
       <extensionElements>
