@@ -4048,6 +4048,7 @@ nID;nID_Service;nID_Place;nID_City;nID_Region;nID_ServiceType;oData;sURL;bHidden
 4169;4;29;29;NULL;4;{"processDefinitionId":"cnap_293:1:1"};;false;212;true;;BankID,EDS,mpbds;0
 
 
+4200;2517;NULL;NULL;NULL;4;{"processDefinitionId":"justice_2517_GOopen:1:1"};;false;14;true;;BankID,EDS,mpbds;0
 
 
 
