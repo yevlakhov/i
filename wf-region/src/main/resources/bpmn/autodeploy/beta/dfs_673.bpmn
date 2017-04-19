@@ -2,7 +2,7 @@
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="dfs_673" name="Отримання довідки про доходи фізичних осіб" isExecutable="true">
 	<documentation>
-		24.05.16 Рефакторинг: на основі dnepr_spravka_o_doxodax: Ставицький В.Д
+		24.05.16 Рефакторинг: на основі dnepr_spravka_o_doxodax: Ставицький В.Д.
 		15.09.16 Рефакторинг: Добавление маркеров на все стадии, переделка принтформы, добавление даты создание процесса
 	</documentation>
     <startEvent id="startevent1" name="Start" activiti:initiator="initiator">
