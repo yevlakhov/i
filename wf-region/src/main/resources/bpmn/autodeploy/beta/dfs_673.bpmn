@@ -5,6 +5,7 @@
 		24.05.16 Рефакторинг: на основі dnepr_spravka_o_doxodax: Ставицький В.Д.
 		15.09.16 Рефакторинг: Добавление маркеров на все стадии, переделка принтформы, добавление даты создание процесса.
 	</documentation>
+	
     <startEvent id="startevent1" name="Start" activiti:initiator="initiator">
       <extensionElements>
         <activiti:formProperty id="sID_Public_SubjectOrganJoin" name="Виберіть відділення фіскальної служби; в якому вам буде зручно отримати довідку" type="select" default="0" required="true"></activiti:formProperty>
