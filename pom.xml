@@ -94,7 +94,7 @@
                         <configuration>
                             <filesets>
                                 <fileset>
-                                    <directory>${igov.sPathCloneRepoBP}</directory>
+                                    <directory>${igov.ibp.sPathClone}</directory>
                                 </fileset>
                             </filesets>
                         </configuration>
@@ -114,8 +114,8 @@
                                     <executable>git</executable>
                                     <arguments>
                                         <argument>clone</argument>
-                                        <argument>${igov.ibp.git}</argument>
-                                        <argument>${igov.sPathCloneRepoBP}</argument>
+                                        <argument>${igov.ibp.sGitUrl}</argument>
+                                        <argument>${igov.ibp.sPathClone}</argument>
                                     </arguments>
                                 </configuration>
                             </execution>
@@ -135,7 +135,7 @@
                                     <outputDirectory>src/main/resources</outputDirectory>
                                     <resources>          
                                         <resource>
-                                            <directory>${igov.sPathResourcesExternal}</directory>
+                                            <directory>${igov.ibp.sPathResourcesExternal}</directory>
                                         </resource>
                                     </resources>              
                                 </configuration>            
@@ -216,9 +216,9 @@
         <!--igov.analytic.version>${sRevisionVersion}${sRevision}${sRevisionLibPostfix}</igov.analytic.version-->
         <liquibase.custom.data.path>${liquibase.data.path}${sRevisionSubPath}</liquibase.custom.data.path>
         <activiti.custom.data.path>${activiti.data.path}${sRevisionSubPath}</activiti.custom.data.path>
-        <igov.ibp.git>https://github.com/e-government-ua/iBP.git</igov.ibp.git>
-        <igov.sPathCloneRepoBP>ibp-repo</igov.sPathCloneRepoBP>
-        <igov.sPathResourcesExternal>${igov.sPathCloneRepoBP}/${project.artifactId}/src/main/resources</igov.sPathResourcesExternal>
+        <igov.ibp.sGitUrl>https://github.com/e-government-ua/iBP.git</igov.ibp.sGitUrl>
+        <igov.ibp.sPathClone>ibp-repo</igov.ibp.sPathClone>
+        <igov.ibp.sPathResourcesExternal>${igov.ibp.sPathClone}/${project.artifactId}/src/main/resources</igov.ibp.sPathResourcesExternal>
     </properties>
 
     <distributionManagement>
