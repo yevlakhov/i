@@ -10,8 +10,6 @@
     <packaging>pom</packaging>
     <version>1.0-SNAPSHOT</version>
 
-
-
     <profiles>
         <profile>
             <id>alpha</id>
@@ -89,51 +87,62 @@
         <profile>
             <id>clone-ibp</id>
             <build>
-            <plugins>
-            	<plugin>
-					<groupId>org.apache.maven.plugins</groupId>
-					<artifactId>maven-scm-plugin</artifactId>
-					<version>1.9.5</version>
-					<executions>
-    					<execution>
-        					<phase>validate</phase>
-        					<goals>
-            					<goal>checkout</goal>
-        					</goals>
-    					</execution>
-					</executions>
-					<configuration>
-						<checkoutDirectory>ibp-repo</checkoutDirectory>
-					</configuration>
-				</plugin>
-            	<!-- plugin>
-				<groupId>org.codehaus.mojo</groupId>
-				<artifactId>exec-maven-plugin</artifactId>
-				<version>1.6.0</version>
-				<executions>
-					<execution>
-						<id>github-ibp-clone</id>
-						<goals>
-							<goal>exec</goal>
-						</goals>
-						<phase>validate</phase>
-						<configuration>
-							<executable>git</executable>
-							<arguments>
-								<argument>clone</argument>
-								<argument>${igov.ibp.git}</argument>
-								<argument>${sPathCloneRepoBP}</argument>
-							</arguments>
-							<successCodes>
-								<successCode>0</successCode>
-								<successCode>2</successCode>
-								<successCode>128</successCode>
-							</successCodes>
-						</configuration>
-					</execution>
-				</executions>
-			</plugin-->
-            </plugins>
+                <plugins>
+                    <plugin>
+                        <artifactId>maven-clean-plugin</artifactId>
+                        <version>3.0.0</version>
+                        <configuration>
+                            <filesets>
+                                <fileset>
+                                    <directory>${igov.sPathCloneRepoBP}</directory>
+                                </fileset>
+                            </filesets>
+                        </configuration>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <executions>
+                            <execution>
+                                <id>github-ibp-clone</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>validate</phase>
+                                <configuration>
+                                    <executable>git</executable>
+                                    <arguments>
+                                        <argument>clone</argument>
+                                        <argument>${igov.ibp.git}</argument>
+                                        <argument>${igov.sPathCloneRepoBP}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-resources-plugin</artifactId>
+                        <version>3.0.2</version>
+                        <executions>
+                            <execution>
+                                <id>copy-resources</id>
+                                <phase>validate</phase>
+                                <goals>
+                                    <goal>copy-resources</goal>
+                                </goals>
+                                <configuration>
+                                    <outputDirectory>src/main/resources</outputDirectory>
+                                    <resources>          
+                                        <resource>
+                                            <directory>${igov.sPathResourcesExternal}</directory>
+                                        </resource>
+                                    </resources>              
+                                </configuration>            
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
             </build>
         </profile>
     </profiles>
@@ -207,8 +216,9 @@
         <!--igov.analytic.version>${sRevisionVersion}${sRevision}${sRevisionLibPostfix}</igov.analytic.version-->
         <liquibase.custom.data.path>${liquibase.data.path}${sRevisionSubPath}</liquibase.custom.data.path>
         <activiti.custom.data.path>${activiti.data.path}${sRevisionSubPath}</activiti.custom.data.path>
-        <igov.ibp.git>git@github.com:e-government-ua/iBP.git</igov.ibp.git>
-        <igov.ibp.scm>scm:git:ssh://git@github.com/e-government-ua/iBP.git</igov.ibp.scm>
+        <igov.ibp.git>https://github.com/e-government-ua/iBP.git</igov.ibp.git>
+        <igov.sPathCloneRepoBP>ibp-repo</igov.sPathCloneRepoBP>
+        <igov.sPathResourcesExternal>${igov.sPathCloneRepoBP}/${project.artifactId}/src/main/resources</igov.sPathResourcesExternal>
     </properties>
 
     <distributionManagement>
