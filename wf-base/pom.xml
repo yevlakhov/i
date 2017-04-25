@@ -15,8 +15,6 @@
     <version>${igov.wf-base.version}</version>
     <packaging>jar</packaging>
     <!--packaging>war</packaging-->
-    
-    
 
     <properties>
         <activity.version>5.17.0</activity.version>
@@ -24,17 +22,36 @@
     </properties>
 
     <repositories>
-          	
         <repository>
             <id>vaadin-addons</id>
             <url>http://maven.vaadin.com/vaadin-addons</url>
         </repository>
-            
     </repositories>
 
     <build>
-
         <plugins>
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>3.0.2</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>validate</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <overwrite>true</overwrite>
+                            <outputDirectory>src/main/resources</outputDirectory>
+                            <resources>          
+                                <resource>
+                                    <directory>${igov.ibp.sPathDataExternal}</directory>
+                                </resource>
+                            </resources>              
+                        </configuration>            
+                    </execution>
+                </executions>
+            </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>

@@ -120,7 +120,9 @@
                                     <arguments>
                                         <argument>clone</argument>
                                         <argument>${igov.ibp.sGitUrl}</argument>
-                                        <argument>-b ${igov.ibp.sBranch}</argument>
+                                        <argument>-b</argument>
+                                        <argument>${igov.ibp.sBranch}</argument>
+                                        <argument>--single-branch</argument>
                                         <argument>${igov.ibp.sPathClone}</argument>
                                     </arguments>
                                 </configuration>
@@ -138,6 +140,7 @@
                                     <goal>copy-resources</goal>
                                 </goals>
                                 <configuration>
+                                    <overwrite>true</overwrite>
                                     <outputDirectory>src/main/resources</outputDirectory>
                                     <resources>          
                                         <resource>
@@ -148,7 +151,7 @@
                             </execution>
                         </executions>
                     </plugin>
-                </plugins>
+                 </plugins>
             </build>
         </profile>
     </profiles>
@@ -225,6 +228,8 @@
         <igov.ibp.sGitUrl>https://github.com/e-government-ua/iBP.git</igov.ibp.sGitUrl>
         <igov.ibp.sPathClone>ibp-repo</igov.ibp.sPathClone>
         <igov.ibp.sPathResourcesExternal>${igov.ibp.sPathClone}/${project.artifactId}/src/main/resources</igov.ibp.sPathResourcesExternal>
+        <sPathData>data</sPathData>
+        <igov.ibp.sPathDataExternal>${sPathData}/${project.artifactId}/src/main/resources</igov.ibp.sPathDataExternal>
     </properties>
 
     <distributionManagement>
