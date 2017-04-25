@@ -97,7 +97,7 @@ module.exports.getConfigOptions = function () {
 
 module.exports.getRequestUrl = function (apiURL, sHost) {
   var options = this.getConfigOptions();
-  return (sHost !== null && sHost !== undefined ? sHost : options.protocol + '://' + options.hostname + options.path) + apiURL;
+  return (sHost !== null && sHost !== undefined ? sHost : options.protocol + '://' + options.hostname +(options.path?":"+options.port + options.path:options.path)) + apiURL;
 };
 
 module.exports.buildGET = function (apiURL, params, sHost, session, isCustomAuth, buffer) {
@@ -302,7 +302,7 @@ module.exports.getServerRegion = function (nID_Server, fCompleted) {
   console.log("[getServerRegion]:nID_Server=" + nID_Server);
   var sResourcePath = '/subject/getServer?nID=' + nID_Server;
   console.log("[getServerRegion]:sResourcePath=" + sResourcePath);
-  var sURL = options.protocol + '://' + options.hostname + options.path + sResourcePath;
+  var sURL = options.protocol + '://' + options.hostname+(options.path?":"+options.port + options.path:options.path) + sResourcePath;
   console.log("[getServerRegion]:sURL=" + sURL);
   var oServerCache = aServerCache.get(sResourcePath) || null;
   //var structureValue = getStructureServer(nID_Server);

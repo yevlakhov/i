@@ -138,7 +138,7 @@ module.exports.setTaskAnswer = function(req, res) {
 
 function getUrl(apiURL) {
     var options = getOptions();
-    return options.protocol + '://' + options.hostname + options.path + apiURL;
+    return options.protocol + '://' + options.hostname+(options.port?':'+options.port + options.path:options.path) + apiURL;
 }
 
 module.exports.getCountOrders = function (req, res) {

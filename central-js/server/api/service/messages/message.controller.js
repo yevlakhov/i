@@ -41,7 +41,7 @@ function buildGetRequest(req, apiURL, params, callback) {
 }
 
 function getUrl(options, apiURL) {
-    return options.protocol + '://' + options.hostname + options.path + apiURL;
+    return options.protocol + '://' + options.hostname+(options.port?":"+ options.port+ options.path:options.path) + apiURL;
 }
 
 function getAuth(options) {

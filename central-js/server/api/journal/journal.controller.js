@@ -23,6 +23,8 @@ module.exports.getHistoryEvents = function (req, res) {
   var url = options.protocol
     + '://'
     + options.hostname
+    + ':'
+    + options.port
     + options.path
     + '/action/event/getHistoryEvents';
 
@@ -72,7 +74,15 @@ module.exports.getHistoryEvents = function (req, res) {
       if (user.services) {
         for (let key in user.services) {
           if (typeof inn == 'undefined' && (!!user.services[key].inn != false || !!user.services[key].edrpoucode != false || !!user.services[key].drfocode != false))
-            inn = user.services[key].inn || user.services[key].edrpoucode || user.services[key].drfocode;
+            if(!!body.user.services[key].inn !=false ){
+              inn = body.user.services[key].inn;
+            }
+            else if(!!body.user.services[key].edrpoucode != false){
+              inn =!!body.user.services[key].edrpoucode;
+            }
+            else if( !!body.user.services[key].drfocode!=false){
+              inn = body.user.services[key].drfocode;
+            }
         }
       }
       if (inn == undefined) {
@@ -114,6 +124,8 @@ module.exports.setHistoryEvent = function (req, res) {
   var url = options.protocol
     + '://'
     + options.hostname
+    + ':'
+    + options.port
     + options.path
     + '/action/event/setHistoryEvent';
 

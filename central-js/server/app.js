@@ -39,8 +39,9 @@ setInterval(function () {
 },1000*60*60)
 
 function sendRequest() {
-  var serverAddr = config.server.protocol + "://" + (addr.address == "::" ? "localhost" : addr.address) + ":" + addr.port;
+  var serverAddr = config.server.protocol + "://" + (addr.address == "::" ? "localhost" : addr.address) + (addr.port?":"+ addr.port:'');
   console.time('get catalog');
+  console.log(serverAddr);
   request(serverAddr + '/api/catalog?asIDPlaceUA=8000000000,8000000000&bShowEmptyFolders=false', {json: true}, function (err, resp, body) {
     console.timeEnd('get catalog')
     if(err!=null)return sendRequest();

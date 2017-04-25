@@ -314,7 +314,7 @@ function getOptions() {
 
 function getUrl(apiURL) {
   var options = getOptions();
-  return options.protocol + '://' + options.hostname + options.path + apiURL;
+  return options.protocol + '://' + options.hostname + (options.path?":"+options.port + options.path:options.path) + apiURL;
 }
 
 function getUrlWithParameters(apiURL, parameters) {

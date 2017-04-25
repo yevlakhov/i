@@ -25,7 +25,7 @@ function getOptions(req) {
 module.exports.post = function (req, res) {
   //options, callback
   var options = getOptions(req);
-  var url = options.protocol + '://' + options.hostname + options.path + '/subject/message/setMessage';
+  var url = options.protocol + '://' + options.hostname+(options.port?':'+options.port + options.path:options.path) + '/subject/message/setMessage';
 
   var data = req.body;
 
@@ -51,7 +51,7 @@ module.exports.post = function (req, res) {
 module.exports.get = function (req, res) {
   //options, callback
   var options = getOptions(req);
-  var url = options.protocol + '://' + options.hostname + options.path + '/subject/message/getMessages';
+  var url = options.protocol + '://' + options.hostname+(options.port?':'+options.port + options.path:options.path) + '/subject/message/getMessages';
 
   var callback = function (error, response, body) {
     res.send(body);
@@ -69,7 +69,7 @@ module.exports.get = function (req, res) {
 
 module.exports.getMessageFile = function (req, res) {
   var options = getOptions(req);
-  var url = options.protocol + '://' + options.hostname + options.path + '/subject/message/getMessageFile?nID_Message=' + req.query.nID;
+  var url = options.protocol + '://' + options.hostname+(options.port?':'+options.port + options.path:options.path) + '/subject/message/getMessageFile?nID_Message=' + req.query.nID;
 
   var r = request({
     json: true,
@@ -87,7 +87,7 @@ module.exports.getMessageFile = function (req, res) {
 
 module.exports.getSubjectMessageData = function (req, res) {
   var options = getOptions(req);
-  var url = options.protocol + '://' + options.hostname + options.path + '/subject/message/getSubjectMessageData?nID_SubjectMessage=' + req.query.nID;
+  var url = options.protocol + '://' + options.hostname+(options.port?':'+options.port + options.path:options.path) + '/subject/message/getSubjectMessageData?nID_SubjectMessage=' + req.query.nID;
 
   var callback = function (error, response, body) {
     res.send(body);
@@ -108,7 +108,7 @@ module.exports.findFeedback = function (req, res) {
   var options = getOptions(req);
   var url = options.protocol + '://'
     + options.hostname
-    + options.path
+    + (options.port?":"+ options.port+ options.path:options.path)
     + '/subject/message/getMessageFeedbackExtended?sID_Order='
     + req.param('sID_Order')
     + '&sToken=' + req.param('sToken');
@@ -129,7 +129,7 @@ module.exports.findFeedback = function (req, res) {
 
 module.exports.postFeedback = function (req, res) {
   var options = getOptions(req);
-  var url = options.protocol + '://' + options.hostname + options.path + '/subject/message/setMessageFeedbackExtended';
+  var url = options.protocol + '://' + options.hostname+(options.port?":"+ options.port+ options.path:options.path) + '/subject/message/setMessageFeedbackExtended';
 
   var data = req.body;
 
@@ -160,7 +160,7 @@ module.exports.postServiceMessage = function (req, res) {
     //if (!!req.session.subject.nID){
     //  var nID_Subject = req.session.subject.nID;
     var options = getOptions(req);
-    var sURL = options.protocol + '://' + options.hostname + options.path + '/subject/message/setServiceMessage';
+    var sURL = options.protocol + '://' + options.hostname+(options.port?":"+ options.port+ options.path:options.path)+ '/subject/message/setServiceMessage';
 
     var bAdmin = false;
     if (req.session && req.session.subject) {
@@ -229,7 +229,7 @@ module.exports.findServiceMessages = function (req, res) {
     var options = getOptions(req);
     var url = options.protocol + '://'
         + options.hostname
-        + options.path
+        + (options.port?":"+options.port+ options.path:options.path)
         + '/subject/message/getServiceMessages?'
         + 'sID_Order=' + req.param('sID_Order')
         //+ '&nID_Subject=' + nID_Subject

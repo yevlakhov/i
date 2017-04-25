@@ -61,11 +61,20 @@ module.exports.callback = (req, res, next)=> {
     var inn = undefined;
     if (body.user.services) {
       for (let key in body.user.services) {
-        if (typeof inn == 'undefined' && (!!body.user.services[key].inn != false || !!body.user.services[key].edrpoucode != false || !!body.user.services[key].drfocode != false))
-          inn = body.user.services[key].inn || body.user.services[key].edrpoucode || body.user.services[key].drfocode;
+        if (typeof inn == 'undefined' && (!!body.user.services[key].inn != false || !!body.user.services[key].edrpoucode != false || !!body.user.services[key].drfocode != false)){
+          if(!!body.user.services[key].inn !=false ){
+            inn = body.user.services[key].inn;
+          }
+          else if(!!body.user.services[key].edrpoucode != false){
+            inn =!!body.user.services[key].edrpoucode;
+          }
+          else if( !!body.user.services[key].drfocode!=false){
+            inn = body.user.services[key].drfocode;
+          }
+        }
       }
     }
-
+    console.log(inn);
 
     if (inn == undefined) {
       return res.status(400).redirect(decodeURIComponent(state || "/"));

@@ -8,7 +8,7 @@ var request = require('request')
   , activiti = config.activiti
   , errors = require('../../components/errors');
 
-var sHost = activiti.protocol + '://' + activiti.hostname + activiti.path;
+var sHost = activiti.protocol + '://' + activiti.hostname +(activiti.port?':'+activiti.port + activiti.path:activiti.path);
 
 var cache = NodeCache.cache;
 // var cacheTtl = 24*60*60; // 300 seconds = 5 minutes time to live for a cache
