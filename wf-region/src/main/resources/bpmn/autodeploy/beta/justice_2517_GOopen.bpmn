@@ -12,18 +12,29 @@
         <activiti:formProperty id="phone" name="Вкажіть контактний номер телефону" type="string" default="+380" required="true"></activiti:formProperty>
         <activiti:formProperty id="email" name="Вкажіть E-Mail адресу для зворотнього зв'язку" type="string" required="true"></activiti:formProperty>
 		
-		<activiti:formProperty id="InfoBlock" name="; ;labelType=info" type="label" default="Налаштування послуги"></activiti:formProperty>
-		<activiti:formProperty id="saQuestion1" name="Чи бажаєте Ви згенерувати типовий статут; або зввантажити власний статут" type="enum" default="" required="true">
+		<activiti:formProperty id="InfoBlock_01" name="; ;labelType=info" type="label" default="Налаштування послуги"></activiti:formProperty>
+		<activiti:formProperty id="saQuestion_01" name="Чи бажаєте Ви згенерувати типовий статут; або зввантажити власний статут" type="enum" default="" required="true">
 			<activiti:value id="yes" name="так"></activiti:value>
 			<activiti:value id="no" name="ні"></activiti:value>
 		</activiti:formProperty>
         
+		<activiti:formProperty id="markers_Show_st_01" name="показати строки якщо обрана генерація  типового статуту; ;bVisible=false" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_st_01&quot;:{&quot;aField_ID&quot;:[&quot;sNameGO_UA&quot;,&quot;sNameGO_EN&quot;,&quot;sNameGOsh_UA&quot;,&quot;sNameGOsh_EN&quot;,&quot;sMetaGO&quot;,&quot;sTaskGO&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saQuestion_01&quot;},&quot;sCondition&quot;:&quot;[sClient] == 'yes'&quot;}}}"></activiti:formProperty>
+		<activiti:formProperty id="markers_Show_st_02" name="показати завантаження файлу статуту якщо не типовий; ;bVisible=false" type="markers" default="{&quot;motion&quot;:{&quot;ShowFieldsOnCondition_st_02&quot;:{&quot;aField_ID&quot;:[&quot;fVarDod_03&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saQuestion_01&quot;},&quot;sCondition&quot;:&quot;[sClient] == 'no'&quot;}}}"></activiti:formProperty>
+		<activiti:formProperty id="markers_Req_st_01" name="обов'язково строки якщо обрана генерація  типового статуту; ;bVisible=false" type="markers" default="{&quot;motion&quot;:{&quot;RequiredFieldsOnCondition_Req_st_01&quot;:{&quot;aField_ID&quot;:[&quot;sNameGO_UA&quot;,&quot;sNameGO_EN&quot;,&quot;sNameGOsh_UA&quot;,&quot;sNameGOsh_EN&quot;,&quot;sMetaGO&quot;,&quot;sTaskGO&quot;],&quot;asID_Field&quot;:{&quot;sClient&quot;:&quot;saQuestion_01&quot;},&quot;sCondition&quot;:&quot;[sClient] == 'yes'&quot;}}}"></activiti:formProperty>
+
+        <activiti:formProperty id="InfoBlock_02" name="; ;labelType=info" type="label" default="Налаштування послуги"></activiti:formProperty>
+		
         <activiti:formProperty id="sID_UA" name="sID_UA; ;bVisible=false" type="string"></activiti:formProperty>
-        <activiti:formProperty id="sNameGO_UA" name="Найменування громадського об’єднання; українською мовою" type="string" required="true"></activiti:formProperty>
-		<activiti:formProperty id="sNameGO_EN" name="Найменування громадського об’єднання; англійською мовою" type="string" required="true"></activiti:formProperty>
-		<activiti:formProperty id="sNameGOsh_UA" name="Скорочене найменування громадського об’єднання; українською мовою" type="string" required="true"></activiti:formProperty>
-		<activiti:formProperty id="sNameGOsh_EN" name="Скорочене найменування громадського об’єднання; англійською мовою" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="sAddressGO" name="Місцезнаходження громадського об’єднання" type="string" required="true"></activiti:formProperty>
+        <activiti:formProperty id="sNameGO_UA" name="Найменування громадського об’єднання; українською мовою" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sNameGO_EN" name="Найменування громадського об’єднання; англійською мовою" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sNameGOsh_UA" name="Скорочене найменування громадського об’єднання; українською мовою" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sNameGOsh_EN" name="Скорочене найменування громадського об’єднання; англійською мовою" type="string" ></activiti:formProperty>
+        
+		<activiti:formProperty id="sMetaGO" name="Основна мета (цілі) Організації; українською мовою" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sTaskGO" name="Завданнями (напрямками діяльності) Організації; українською мовою" type="textArea" ></activiti:formProperty>
+		
+		<activiti:formProperty id="sAddressGO" name="Місцезнаходження громадського об’єднання" type="string" required="true"></activiti:formProperty>
+		
         <activiti:formProperty id="InfoFileLoad" name="; ;labelType=info" type="label" default="Завантажте наступні документи"></activiti:formProperty>
         <activiti:formProperty id="fVarDod_01" name="Заява;про державну реєстрацію створення юридичної особи ;bNew=true" type="file" required="true"></activiti:formProperty>
         <activiti:formProperty id="fVarDod_02" name="Реєстр громадян;які брали участь в установчих зборах ;bNew=true" type="file" required="true"></activiti:formProperty>
@@ -34,7 +45,10 @@
         <activiti:formProperty id="InfoTestMail" name="; ;labelType=warning" type="label" default="Для демонстрації послуги"></activiti:formProperty>
         <activiti:formProperty id="sMailClerk" name="Вкажіть E-Mail адресу для отримання листа держслужбовцю" type="string"></activiti:formProperty>
         <activiti:formProperty id="sNameService" name="Найменування замовленої послуги; ;bVisible=false" type="string" default="Державна реєстрація створення громадського об'єднання"></activiti:formProperty>
-        <activiti:formProperty id="form_signed_all" name=" ; ;bNew=true" type="file" required="true"></activiti:formProperty>
+        <activiti:formProperty id="form_signed_all" name=" ; ;bPrintFormFileAsPDF=true, bNew=true" type="file" required="true"></activiti:formProperty>
+		
+		<activiti:formProperty id="PrintFormAutoSign_1" name="Статут з ЭЦП ; ;bVisible=false" type="string" default="pattern/print/justice/justice_2517_GOopen_print_statut.html"></activiti:formProperty>
+
       </extensionElements>
     </startEvent>
     <userTask id="usertask1" name="Опрацювання звернення" activiti:candidateGroups="jur_${sID_UA}_2517">
@@ -70,7 +84,10 @@
         <activiti:formProperty id="fVarDod_03" name="Статут організації;пронумерований, прошитий та підписаний ;bNew=true" type="file" writable="false"></activiti:formProperty>
         <activiti:formProperty id="fVarDod_04" name="Відомості;про керівні органи ;bNew=true" type="file" writable="false"></activiti:formProperty>
         <activiti:formProperty id="fVarDod_05" name="Заява про включення до Реєстру неприбуткових установ та організацій; ;bNew=true" type="file" writable="false"></activiti:formProperty>
-        <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
+        
+		<activiti:formProperty id="form_signed_all" name="Статут з ЭЦП; ;bNew=true" type="file" writable="false"></activiti:formProperty>
+
+		<activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <exclusiveGateway id="exclusivegateway1" name="Exclusive Gateway"></exclusiveGateway>
