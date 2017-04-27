@@ -86,6 +86,7 @@
         <activiti:formProperty id="fVarDod_05" name="Заява про включення до Реєстру неприбуткових установ та організацій; ;bNew=true" type="file" writable="false"></activiti:formProperty>
         
 		<activiti:formProperty id="form_signed_all" name="Статут з ЭЦП; ;bNew=true" type="file" writable="false"></activiti:formProperty>
+        <activiti:formProperty id="sBody_2" name="[pattern/print/justice/justice_2517_GOopen_print_statut.html]; ;bVisible=false" type="string" default="Статут з ЭЦП" writable="false"></activiti:formProperty>
 
 		<activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
       </extensionElements>
