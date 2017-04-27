@@ -63,6 +63,18 @@
         <activiti:formProperty id="bankIdlastName" name="Прізвище; ;bVisible=false" type="string"></activiti:formProperty>
         <activiti:formProperty id="bankIdfirstName" name="Ім'я; ;bVisible=false" type="string"></activiti:formProperty>
         <activiti:formProperty id="bankIdmiddleName" name="По батькові; ;bVisible=false" type="string"></activiti:formProperty>
+
+        <activiti:formProperty id="sNameGO_UA" name="Найменування громадського об’єднання; ;writable=false" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sNameGO_EN" name="Найменування громадського об’єднання; ;writable=false" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sNameGOsh_UA" name="Скорочене найменування громадського об’єднання; ;writable=false" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sNameGOsh_EN" name="Скорочене найменування громадського об’єднання; ;writable=false" type="string" ></activiti:formProperty>
+        
+		<activiti:formProperty id="sMetaGO" name="Основна мета (цілі) Організації; ;writable=false" type="string" ></activiti:formProperty>
+		<activiti:formProperty id="sTaskGO" name="Завданнями (напрямками діяльності) Організації; ;writable=false" type="textArea" ></activiti:formProperty>
+		
+		<activiti:formProperty id="sAddressGO" name="Місцезнаходження громадського об’єднання; ;writable=false" type="string" required="true"></activiti:formProperty>
+
+
         <activiti:formProperty id="asDecisionMain" name="Результат обробки звернення: " type="enum" required="true">
           <activiti:value id="acceptMain" name="Так - Заява розглянута, прийнято позитивне рішення"></activiti:value>
           <activiti:value id="rejectMain" name="Ні - Заява розглянута, прийнято негативне рішення"></activiti:value>
@@ -79,6 +91,7 @@
         <activiti:formProperty id="fDecisionDoc" name="Копія рішення для заявника; ;bNew=true" type="file"></activiti:formProperty>
         <activiti:formProperty id="sUniqNum" name="Номер опису (або унікальний номер) :" type="string" default="_"></activiti:formProperty>
         <activiti:formProperty id="sComment" name="У разі негативного рішення вкажіть, будь ласка, причину" type="textArea"></activiti:formProperty>
+
         <activiti:formProperty id="fVarDod_01" name="Заява;про державну реєстрацію створення юридичної особи ;bNew=true" type="file" writable="false"></activiti:formProperty>
         <activiti:formProperty id="fVarDod_02" name="Реєстр громадян;які брали участь в установчих зборах ;bNew=true" type="file" writable="false"></activiti:formProperty>
         <activiti:formProperty id="fVarDod_03" name="Статут організації;пронумерований, прошитий та підписаний ;bNew=true" type="file" writable="false"></activiti:formProperty>
