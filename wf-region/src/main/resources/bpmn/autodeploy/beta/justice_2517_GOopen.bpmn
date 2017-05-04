@@ -51,7 +51,7 @@
 
       </extensionElements>
     </startEvent>
-    <userTask id="usertask1" name="Опрацювання звернення" activiti:candidateGroups="jur_${sID_UA}_2517">
+    <userTask id="usertask1" name="Опрацювання звернення" activiti:candidateGroups="sales">
       <extensionElements>
         <activiti:formProperty id="sMailClerk" name="E-Mail держслужбовця; ;bVisible=false" type="string"></activiti:formProperty>
         <activiti:formProperty id="sNameService" name="Найменування замовленої послуги" type="string" writable="false"></activiti:formProperty>
