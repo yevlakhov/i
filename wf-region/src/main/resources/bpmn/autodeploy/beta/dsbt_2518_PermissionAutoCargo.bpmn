@@ -137,7 +137,9 @@
       </script>
     </scriptTask>
     <intermediateCatchEvent id="timerintermediatecatchevent1" name="TimerCatchEvent">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition>
+        <timeDuration>PT10S</timeDuration>
+      </timerEventDefinition>
     </intermediateCatchEvent>
     <exclusiveGateway id="exclusivegateway2" name="Exclusive Gateway" default="flow12"></exclusiveGateway>
     <sequenceFlow id="flow8" sourceRef="servicetask4" targetRef="timerintermediatecatchevent1"></sequenceFlow>
@@ -234,7 +236,9 @@
       </extensionElements>
     </serviceTask>
     <boundaryEvent id="boundarytimer1" name="Очікування візиту (3 доби)" attachedToRef="usertask2" cancelActivity="true">
-      <timerEventDefinition></timerEventDefinition>
+      <timerEventDefinition>
+        <timeDuration>PT5S</timeDuration>
+      </timerEventDefinition>
     </boundaryEvent>
     <scriptTask id="scripttask2" name="Повернення платежу у зв'язку з неявкою" scriptFormat="javascript" activiti:autoStoreVariables="false">
       <script>          
