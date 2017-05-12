@@ -1,7 +1,19 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" typeLanguage="http://www.w3.org/2001/XMLSchema" expressionLanguage="http://www.w3.org/1999/XPath" targetNamespace="http://www.activiti.org/test">
   <process id="dsbt_2518_PermissionAutoCargo" name="Видача дозволів на міжнародні автомобільні перевезення" isExecutable="true">
-    <startEvent id="startevent1" name="Start"></startEvent>
+    <startEvent id="startevent1" name="Start">
+		<extensionElements>
+			<activiti:formProperty id="bankIdlastName" name="Прізвище" type="string" required="true"></activiti:formProperty>
+			<activiti:formProperty id="bankIdfirstName" name="Ім'я" type="string" required="true"></activiti:formProperty>
+			<activiti:formProperty id="bankIdmiddleName" name="По батькові" type="string" required="true"></activiti:formProperty>
+			<activiti:formProperty id="bankIdinn" name="ІПН" type="string" required="true"></activiti:formProperty>
+			<activiti:formProperty id="phone" name="Вкажіть контактний номер телефону" type="string" default="+380" required="true"></activiti:formProperty>
+			<activiti:formProperty id="email" name="Вкажіть E-Mail адресу для зворотнього зв'язку" type="string" required="true"></activiti:formProperty>
+        
+			<!--<activiti:formProperty id="sEducation" name="Освіта" type="table" default="{&quot;aField&quot;:[{&quot;id&quot;:&quot;sHighSchool&quot;,&quot;name&quot;:&quot;Учбовий заклад&quot;,&quot;type&quot;:&quot;string&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;nYearGraduation&quot;,&quot;name&quot;:&quot;Рік закінчення&quot;,&quot;type&quot;:&quot;long&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;sNumberDiploma&quot;,&quot;name&quot;:&quot;Номер диплома&quot;,&quot;type&quot;:&quot;string&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;sSpecialty&quot;,&quot;name&quot;:&quot;Спеціальність&quot;,&quot;type&quot;:&quot;string&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;},{&quot;id&quot;:&quot;sQualification&quot;,&quot;name&quot;:&quot;Кваліфікація&quot;,&quot;type&quot;:&quot;string&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;}]}"></activiti:formProperty>-->
+		
+		</extensionElements>
+	</startEvent>
     <serviceTask id="servicetask1" name="Лист співробітнику ДСБТ про нове звернення"></serviceTask>
     <sequenceFlow id="flow1" sourceRef="startevent1" targetRef="servicetask1"></sequenceFlow>
     <serviceTask id="servicetask2" name="Лист отримувачу про реєстрацію звернення"></serviceTask>
@@ -120,7 +132,7 @@
         <omgdc:Bounds height="91.0" width="167.0" x="1580.0" y="20.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="scripttask2" id="BPMNShape_scripttask2">
-        <omgdc:Bounds height="91.0" width="105.0" x="1406.0" y="20.0"></omgdc:Bounds>
+        <omgdc:Bounds height="91.0" width="107.0" x="1410.0" y="20.0"></omgdc:Bounds>
       </bpmndi:BPMNShape>
       <bpmndi:BPMNShape bpmnElement="servicetask8" id="BPMNShape_servicetask8">
         <omgdc:Bounds height="81.0" width="143.0" x="1628.0" y="294.0"></omgdc:Bounds>
@@ -210,10 +222,10 @@
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow20" id="BPMNEdge_flow20">
         <omgdi:waypoint x="1465.0" y="140.0"></omgdi:waypoint>
-        <omgdi:waypoint x="1458.0" y="111.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1463.0" y="111.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow21" id="BPMNEdge_flow21">
-        <omgdi:waypoint x="1511.0" y="65.0"></omgdi:waypoint>
+        <omgdi:waypoint x="1517.0" y="65.0"></omgdi:waypoint>
         <omgdi:waypoint x="1580.0" y="65.0"></omgdi:waypoint>
       </bpmndi:BPMNEdge>
       <bpmndi:BPMNEdge bpmnElement="flow25" id="BPMNEdge_flow25">
