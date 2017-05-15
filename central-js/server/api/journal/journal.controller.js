@@ -73,15 +73,15 @@ module.exports.getHistoryEvents = function (req, res) {
       var inn = undefined;
       if (user.services) {
         for (let key in user.services) {
-          if (typeof inn == 'undefined' && (!!user.services[key].inn != false || !!user.services[key].edrpoucode != false || !!user.services[key].drfocode != false))
-            if(!!body.user.services[key].inn !=false ){
-              inn = body.user.services[key].inn;
+          if (typeof inn == 'undefined' && (!!user.services[key].data.inn != false || !!user.services[key].data.edrpoucode != false || !!user.services[key].data.drfocode != false))
+            if(!!body.user.services[key].data.inn !=false ){
+              inn = body.user.services[key].data.inn;
             }
-            else if(!!body.user.services[key].edrpoucode != false){
-              inn =!!body.user.services[key].edrpoucode;
+            else if(!!body.user.services[key].data.edrpoucode != false){
+              inn =!!body.user.services[key].data.edrpoucode;
             }
-            else if( !!body.user.services[key].drfocode!=false){
-              inn = body.user.services[key].drfocode;
+            else if( !!body.user.services[key].data.drfocode!=false){
+              inn = body.user.services[key].data.drfocode;
             }
         }
       }

@@ -61,15 +61,15 @@ module.exports.callback = (req, res, next)=> {
     var inn = undefined;
     if (body.user.services) {
       for (let key in body.user.services) {
-        if (typeof inn == 'undefined' && (!!body.user.services[key].inn != false || !!body.user.services[key].edrpoucode != false || !!body.user.services[key].drfocode != false)){
-          if(!!body.user.services[key].inn !=false ){
-            inn = body.user.services[key].inn;
+        if (typeof inn == 'undefined' && (!!body.user.services[key].data.inn != false || !!body.user.services[key].data.edrpoucode != false || !!body.user.services[key].data.drfocode != false)){
+          if(!!body.user.services[key].data.inn !=false ){
+            inn = body.user.services[key].data.inn;
           }
-          else if(!!body.user.services[key].edrpoucode != false){
-            inn =!!body.user.services[key].edrpoucode;
+          else if(!!body.user.services[key].data.edrpoucode != false){
+            inn =!!body.user.services[key].data.edrpoucode;
           }
-          else if( !!body.user.services[key].drfocode!=false){
-            inn = body.user.services[key].drfocode;
+          else if( !!body.user.services[key].data.drfocode!=false){
+            inn = body.user.services[key].data.drfocode;
           }
         }
       }
