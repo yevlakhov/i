@@ -9,28 +9,22 @@
         <activiti:formProperty id="bankIdinn" name="ІПН" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="phone" name="Вкажіть контактний номер телефону" type="string" default="+380" required="true"></activiti:formProperty>
         <activiti:formProperty id="email" name="Вкажіть E-Mail адресу для зворотнього зв'язку" type="string" required="true"></activiti:formProperty>
+		<activiti:formProperty id="sNameService" name="Назва послуги; ;bVisible=false" type="string" default="Видача дозволів на міжнародні автомобільні перевезення"></activiti:formProperty>
       </extensionElements>
     </startEvent>
     <serviceTask id="servicetask1" name="Лист співробітнику ДСБТ про нове звернення" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
         <activiti:field name="to">
-          <activiti:expression>${email}</activiti:expression>
+          <activiti:expression>nikolor@bigmir.net</activiti:expression>
         </activiti:field>
         <activiti:field name="from">
           <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression>Test letter</activiti:expression>
+          <activiti:expression>Лист про надходження нового звернення</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
-          <activiti:expression>[pattern/mail/new_design/_common_header.html]
-			[pattern/mail/new_design/_common_content_start.html]
-				Blank letter
-			[pattern/mail/new_design/_common_content_end.html]
-			[pattern/mail/new_design/_common_feedback.html]
-			[pattern/mail/new_design/_common_signature_start.html]
-			[pattern/mail/new_design/_common_signature_end.html]
-			[pattern/mail/new_design/_common_footer.html]</activiti:expression>
+          <activiti:expression>[pattern/mail/new_design/_common_employee_notify.html]</activiti:expression>
         </activiti:field>
       </extensionElements>
     </serviceTask>
@@ -44,14 +38,13 @@
           <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
         </activiti:field>
         <activiti:field name="subject">
-          <activiti:expression>Test letter</activiti:expression>
+          <activiti:expression>Щодо вашого звернення - ${sNameService}</activiti:expression>
         </activiti:field>
         <activiti:field name="text">
           <activiti:expression>[pattern/mail/new_design/_common_header.html]
 			[pattern/mail/new_design/_common_content_start.html]
-				Blank letter
+				Ваше звернення на тему &lt;strong&gt;"${sNameService}&lt;/strong&gt;" прийнято до попереднього розгляду. Якщо з'являться зауваження або уточнення Вам будуть надходити відповідні листи, просимо перевіряти пошту.
 			[pattern/mail/new_design/_common_content_end.html]
-			[pattern/mail/new_design/_common_feedback.html]
 			[pattern/mail/new_design/_common_signature_start.html]
 			[pattern/mail/new_design/_common_signature_end.html]
 			[pattern/mail/new_design/_common_footer.html]</activiti:expression>
@@ -65,8 +58,8 @@
         <activiti:formProperty id="bankIdfirstName" name="Ім'я" type="string"></activiti:formProperty>
         <activiti:formProperty id="bankIdmiddleName" name="По батькові" type="string"></activiti:formProperty>
         <activiti:formProperty id="bankIdinn" name="ІПН" type="string"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Контактний телефон" type="string"></activiti:formProperty>
-        <activiti:formProperty id="email" name="E-Mail адреса" type="string"></activiti:formProperty>
+        <activiti:formProperty id="phone" name="Контактний телефон; ;writable=false" type="string"></activiti:formProperty>
+        <activiti:formProperty id="email" name="E-Mail адреса; ;writable=false" type="string"></activiti:formProperty>
       </extensionElements>
     </userTask>
     <sequenceFlow id="flow3" sourceRef="servicetask2" targetRef="usertask1"></sequenceFlow>
