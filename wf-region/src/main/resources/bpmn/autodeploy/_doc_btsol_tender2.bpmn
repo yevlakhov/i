@@ -432,7 +432,7 @@ var oCloneRightsAgree = documentStepService.cloneDocumentStepFromTable(snID_Proc
     <scriptTask id="scripttask7" name="Step4" scriptFormat="javascript" activiti:autoStoreVariables="false">
       <script>var snID_Process_Activiti = execution.getProcessInstanceId()
 var oSwitchStep12 = documentStepService.setDocumentStep(snID_Process_Activiti, 'step_4')
-var oCloneRightsAgree = documentStepService.cloneDocumentStepFromTable (snID_Process_Activiti,  '_default_btsol', 'sTable4', 'step_4','sLogin_Addressee')
+var oCloneRightsAgree = documentStepService.cloneDocumentStepFromTable (snID_Process_Activiti,  '_default_btsol', 'sTable4', 'step_4',true,'sLogin_Addressee')
 
 //4. получение ИД БП
 var executeProcessDefinitionId = execution.getProcessDefinitionId();
@@ -506,7 +506,7 @@ var sKey_GroupPostfix_New = execution.getVariable('sLoginAuthor')
 var oResult = documentStepService.cloneDocumentStepSubject(snID_Process_Activiti, '_default_btsol', sKey_GroupPostfix_New, 'step_1')</script>
     </scriptTask>
     <sequenceFlow id="flow103" sourceRef="scripttask16" targetRef="usertask1"></sequenceFlow>
-    <scriptTask id="scripttask17" name="Step5" activiti:autoStoreVariables="false">
+    <scriptTask id="scripttask17" name="Step5" scriptFormat="javascript" activiti:autoStoreVariables="false">
       <script>var snID_Process_Activiti = execution.getProcessInstanceId()
 var oSwitchStep12 = documentStepService.setDocumentStep(snID_Process_Activiti, 'step_5')
 var sKey_GroupPostfix_New = execution.getVariable('sLoginAuthor')
