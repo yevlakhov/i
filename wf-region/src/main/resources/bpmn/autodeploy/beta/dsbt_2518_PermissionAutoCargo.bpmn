@@ -15,7 +15,7 @@
     <serviceTask id="servicetask1" name="Лист співробітнику ДСБТ про нове звернення" activiti:delegateExpression="#{MailTaskWithoutAttachment}">
       <extensionElements>
         <activiti:field name="to">
-          <activiti:expression>nikolor@bigmir.net</activiti:expression>
+          <activiti:expression><![CDATA[nikolor@bigmir.net]]></activiti:expression>
         </activiti:field>
         <activiti:field name="from">
           <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
