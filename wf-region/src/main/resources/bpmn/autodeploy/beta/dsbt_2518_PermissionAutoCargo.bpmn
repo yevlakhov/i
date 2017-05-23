@@ -7,7 +7,21 @@
         <activiti:formProperty id="bankIdfirstName" name="Ім'я" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="bankIdmiddleName" name="По батькові" type="string" required="true"></activiti:formProperty>
         <activiti:formProperty id="bankIdinn" name="ІПН" type="string" required="true"></activiti:formProperty>
-        <activiti:formProperty id="phone" name="Вкажіть контактний номер телефону" type="string" default="+380" required="true"></activiti:formProperty>
+       
+		<activiti:formProperty id="asTypeP" name="Оберіть вид перевезення" type="enum" default=" " required="true">
+			<activiti:value id="aGruz" name="Вантажне"></activiti:value>
+			<activiti:value id="aPass" name="Пассажирське"></activiti:value>
+		</activiti:formProperty>
+        
+		<activiti:formProperty id="asPVD" name="Оберіть пункт видачі дозволів" type="enum" default=" " required="true">
+			<activiti:value id="aPvd01" name="Київ"></activiti:value>
+			<activiti:value id="aPvd02" name="Львів"></activiti:value>
+		</activiti:formProperty>
+	   
+		<activiti:formProperty id="tPermTable" name="Таблиця дозволів" type="table" default="{&quot;aField&quot;:[{&quot;id&quot;:&quot;sCountryP&quot;,&quot;name&quot;:&quot;Країна&quot;,&quot;type&quot;:&quot;enum&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;,&quot;default&quot;:&quot; &quot;,&quot;a&quot;:[{&quot;id&quot;:&quot;a001&quot;,&quot;name&quot;:&quot;Бельгія&quot;},{&quot;id&quot;:&quot;a002&quot;,&quot;name&quot;:&quot;Білорусь&quot;},{&quot;id&quot;:&quot;a003&quot;,&quot;name&quot;:&quot;Болгарія&quot;},{&quot;id&quot;:&quot;a004&quot;,&quot;name&quot;:&quot;Греція&quot;},{&quot;id&quot;:&quot;a005&quot;,&quot;name&quot;:&quot;Грузія&quot;},{&quot;id&quot;:&quot;a006&quot;,&quot;name&quot;:&quot;Данія&quot;},{&quot;id&quot;:&quot;a007&quot;,&quot;name&quot;:&quot;Естонія&quot;}]},{&quot;id&quot;:&quot;sVidP&quot;,&quot;name&quot;:&quot;Вид дозволу&quot;,&quot;type&quot;:&quot;enum&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;,&quot;a&quot;:[{&quot;id&quot;:&quot;a001&quot;,&quot;name&quot;:&quot;універсальний&quot;},{&quot;id&quot;:&quot;a002&quot;,&quot;name&quot;:&quot;в/з третіх країн ДЗ&quot;},{&quot;id&quot;:&quot;a003&quot;,&quot;name&quot;:&quot;двохсторонній ДЗ&quot;},{&quot;id&quot;:&quot;a004&quot;,&quot;name&quot;:&quot;транзитний&quot;},{&quot;id&quot;:&quot;a005&quot;,&quot;name&quot;:&quot;в/з третіх країн&quot;},{&quot;id&quot;:&quot;a006&quot;,&quot;name&quot;:&quot;багаторазовий&quot;},{&quot;id&quot;:&quot;a007&quot;,&quot;name&quot;:&quot;порожній&quot;}]},&quot;id&quot;:&quot;sQuantity&quot;,&quot;name&quot;:&quot;Кількість дозволів&quot;,&quot;type&quot;:&quot;string&quot;,&quot;required&quot;:&quot;true&quot;,&quot;writable&quot;:&quot;true&quot;}}">
+		</activiti:formProperty>
+	   
+		<activiti:formProperty id="phone" name="Вкажіть контактний номер телефону" type="string" default="+380" required="true"></activiti:formProperty>
         <activiti:formProperty id="email" name="Вкажіть E-Mail адресу для зворотнього зв'язку" type="string" required="true"></activiti:formProperty>
 		<activiti:formProperty id="sNameService" name="Назва послуги; ;bVisible=false" type="string" default="Видача дозволів на міжнародні автомобільні перевезення"></activiti:formProperty>
       </extensionElements>
