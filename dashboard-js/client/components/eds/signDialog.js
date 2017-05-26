@@ -13,11 +13,10 @@ angular.module('dashboardJsApp')
     }
 
     function signContent(contentDataOrLoader, resultCallback, dismissCallback, errorCallback, modalClass) {
-      var modalScope = $rootScope.$new();
-      var signModal = openModal(modalScope, modalClass);
-
       $q.when(contentDataOrLoader).then(function (contentData) {
+        var modalScope = $rootScope.$new();
         modalScope.contentData = contentData;
+        var signModal = openModal(modalScope, modalClass);
         signModal.result.then(function (signedContent) {
           resultCallback(signedContent);
         }, function () {
@@ -32,6 +31,19 @@ angular.module('dashboardJsApp')
       var signModal = openModal(modalScope);
 
       signModal.result.then(function (signedContent) {
+        var byteCharacters = $base64.decode(signedContent.sign);
+        var byteNumbers = new Array(byteCharacters.length);
+        for (var i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        var byteArray = new Uint8Array(byteNumbers);
+        var blob = new Blob([byteArray], {type: 'application/pdf'});
+        var url = (window.URL || window.webkitURL).createObjectURL(blob);
+        var link = document.createElement("a");
+        link.download = "document.pdf";
+        link.href = url;
+        link.click();
+        //window.open(url, '_blank');
         resultCallback(signedContent);
       }, function () {
         dismissCallback();
@@ -47,7 +59,8 @@ angular.module('dashboardJsApp')
        * {
        *    id : contentData.id,
        *    content: contentData.content,
-       *    signedContentHash : signedContentHash
+       *    certificate: certificate in base64
+       *    sign : sign in base64 (CMS sign result that can be saved as pdf)
        *  }
        */
       signContent: signContent,
@@ -143,14 +156,14 @@ var SignDialogInstanceCtrl = function ($scope, $modalInstance, signService, md5,
 
         return signService.signCMS($scope.contentData.content, !$scope.contentData.base64encoded)
           .then(function (signResult) {
-            var signedContentHash = signResult.sign;
+            var sign = signResult.sign;
             var certBase64 = signResult.certificate;
 
             $modalInstance.close({
               id: $scope.contentData.id,
               content: $scope.contentData.content,
               certificate: certBase64,
-              signedContentHash: signedContentHash
+              sign: sign
             });
           });
       }).catch(catchLastError);

@@ -1083,9 +1083,8 @@ digit3 - переменная, куда присвоится результат 
 ###### automaticsendingmail
 ### Автоматическая отправка почты 
 По умолчанию почта об уведомлении клиента об успешной отправке заявки c сайта iGov (https://igov.org.ua/)  автоматически рассылаться не будет. Для того, чтобы добавить отправку стандартной почты необходимо прописать ID  бизнес-процесса в следующий файл:
-i\wf-base\src\main\java\org\igov\service\controller\interceptor\RequestProcessingInterceptor.java
-В файле RequestProcessingInterceptor.java находим переменную asID_BP_SendMail и добавляем в нее необходимый ID.  
-[детальней...](#_automaticsendingmail)
+ \wf-base\src\main\resources\sendMail.properties
+
 
 ### Сервистаска для почты
 Создаем сервис таску, для которой указываем один из трех delegateExpression:  
@@ -2117,7 +2116,7 @@ Tests in error:
   testAlphaProcesses(org.activiti.test.bp.ActivitiProcessesTest): Errors while parsing:(..)
   testProdProcesses(org.activiti.test.bp.ActivitiProcessesTest): couldn't create db schema: create table ACT_HI_PROCINST ( (..)
 ```
-**решение**: на одной из сервистасок не хватает параметера delegateExpression
+**решение**: Не создается Activiti Diagram. Синтаксические ошибки, необходимо проверить в валидаторе ошибок  XML-файлов. Пример: не закрыты кавычки, тэги, скобки в коде( ">" or "/>) не указан type и т.д
 
 
 ###### usefulinquiries
@@ -2257,6 +2256,8 @@ nID_ServiceTag - ид жизненной ситуации из файла Servic
 **version** - задача попадет в версию при деплое и после деплоя будет закрыта (несовместима с лейблом active, test, testing, bug)  
 **bug** - задача была протестирована и нашли ошибку (несовместима с лейблом test, testing, version)  
 **hold** - задача заморожена по какой-то причине (несовместима с лейблом testing)  
+**critical - особо важный лейбл**, при его наличии в сочетании с лейблом active, нельзя выкладывать версию и делать merge. Тестирование проводить с особой внимательностью.
+
 
 Если все будут придерживаться такой схемы, то сможем легко отслеживать этапы разработки:  
 1) задачи в работе (ожидающие исполнителя или в работе у программиста или наблюдателя): лейбл active  
@@ -2367,6 +2368,12 @@ https://mu-dp.test.region.igov.org.ua/ - мин.юст
  
 **sKey_Step_Document** - возвращает шаг документа из джейсона - обязательное поле для iDoc. Значение в это поле прописывается автоматически листенером [${DocumentInit_iDoc}](#documentinit_idoc)  
 
+**sLogin_LastSubmited** - логин пользователя, который последним обрабатывал (сабмитил) документ
+
+
+**sLoginAuthor** - автор документа
+
+**Варианты обработки документа** - "ознайомлен", "підписати", "підписати з ЕЦП", "опрацювати"
 
 
 **sID_Group_Activiti** - возвращает группу-узел с которого строить выпадающий список в селекте  
@@ -3365,7 +3372,7 @@ default="${markerService.loadFromFile('folder_name/testmarkers.json')}"
 
 [вернуться...](#automaticsendingmail)
 
-![15_1](https://github.com/e-government-ua/i/blob/test/doc/bp/img/15_1.jpg)
+
 
 
 ###### _usingmultipleelectronicqueues

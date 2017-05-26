@@ -216,8 +216,30 @@ public class GeneralConfig {
     private String sLogin_Auth_1C;
     @Value("${general.s1c.Auth.sPassword}")
     private String sPassword_Auth_1C;
+    
+    @Value("${general.Mail.sAddressClerk}")
+    private String sAddrClerk;
+    
+    @Value("${general.Mail.sUsernameClerk}")
+    private String sUsnameClerk;
+    
+    @Value("${general.Mail.sPasswordClerk}")
+    private String sPassClerk;
+    
+    
+    public String getsAddrClerk() {
+		return sAddrClerk;
+	}
 
-    public String getObjectSubPlace_Auth_sLogin() {
+	public String getsUsnameClerk() {
+		return sUsnameClerk;
+	}
+
+	public String getsPassClerk() {
+		return sPassClerk;
+	}
+
+	public String getObjectSubPlace_Auth_sLogin() {
         return sObjectSubPlace_Auth_sLogin;
     }
 
@@ -468,7 +490,7 @@ public class GeneralConfig {
 
     public Integer getServerId(Integer nID_Server) {
         if (mServerReplace == null) {
-            mServerReplace = new HashMap();
+            mServerReplace = new HashMap<>();
             if (saServerReplace != null && !"".equals(saServerReplace.trim())) {
                 String saServerReplace_Trimed = saServerReplace.trim();
                 for (String sServerReplace : saServerReplace_Trimed.split("\\,")) {

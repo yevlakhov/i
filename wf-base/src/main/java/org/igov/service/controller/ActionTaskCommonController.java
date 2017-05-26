@@ -78,6 +78,7 @@ import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.*;
 import org.activiti.engine.task.NativeTaskQuery;
+import org.igov.model.action.event.HistoryEvent_ServiceDao;
 
 import org.igov.model.subject.SubjectAccountDao;
 import org.igov.model.subject.SubjectRightBPDao;
@@ -85,6 +86,7 @@ import org.igov.service.business.action.event.ActionEventHistoryService;
 
 import static org.igov.service.business.action.task.core.ActionTaskService.DATE_TIME_FORMAT;
 import static org.igov.util.Tool.sO;
+import org.igov.util.ToolLuna;
 
 /**
  * @author BW
@@ -114,7 +116,10 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     private FormService formService;
     @Autowired
     private RepositoryService repositoryService;
-
+    
+    @Autowired
+    private HistoryEvent_ServiceDao historyEventServiceDao;
+        
     @Autowired
     private IdentityService identityService;
 
@@ -714,9 +719,9 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                 response.put("aMessage", oMessageService.gerOrderMessagesByProcessInstanceID(nID_Process));
             } catch (Exception oException) {
                 LOG.error("Can't get: {}", oException.getMessage());
-                throw new CommonServiceException(
+                /*throw new CommonServiceException(
                         ExceptionCommonController.BUSINESS_ERROR_CODE,
-                        "Can't get: " + oException.getMessage(), oException, HttpStatus.FORBIDDEN);
+                        "Can't get: " + oException.getMessage(), oException, HttpStatus.FORBIDDEN);*/
             }
         }
         if (bIncludeProcessVariables.equals(Boolean.TRUE)) {
@@ -934,12 +939,17 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     @ApiOperation(value = "DeleteProcess", notes = "#####  ActionCommonTaskController: описания нет #####\n\n")
     @RequestMapping(value = "/delete-process", method = RequestMethod.DELETE)
     public @ResponseBody
-    void deleteProcess(@RequestParam(value = "nID_Order") Long nID_Order,
+    void deleteProcess(@RequestParam(value = "nID_Order", required = false) Long nID_Order,
+            @RequestParam(value = "nID_Process", required = false) String snID_Process,
             @RequestParam(value = "sLogin", required = false) String sLogin,
             @RequestParam(value = "sReason", required = false) String sReason)
             throws Exception {
         //Вызывать сервис централа и апдейтить в истории статус на 8 (закрыт)
-        oActionTaskService.deleteProcess(nID_Order, sLogin, sReason);
+        if(snID_Process!=null){
+            oActionTaskService.deleteProcess(snID_Process, sLogin, sReason);
+        }else{
+            oActionTaskService.deleteProcess(nID_Order, sLogin, sReason);
+        }
     }
 
     @ApiOperation(value = "DeleteProcess", notes = "#####  ActionCommonTaskController: описания нет #####\n\n")
@@ -1501,7 +1511,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             throws IOException {
 
         String jsonRes = JSONValue.toJSONString(oActionTaskService.getBusinessProcessesForUser(sLogin));
-        LOG.info("Result: {}", jsonRes);
+        //LOG.info("Result: {}", jsonRes);
         return jsonRes;
     }
 
@@ -1574,12 +1584,15 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         if (mJsonBody != null) {
             if (mJsonBody.containsKey("saField")) {
                 saField = (String) mJsonBody.get("saField");
+                LOG.info("<<<<<<<<<<<<<<<<<<<<saField", saField );
             }
             if (mJsonBody.containsKey("soParams")) {
                 soParams = (String) mJsonBody.get("soParams");
+                LOG.info("<<<<<<<<<<<<<<<<<<<soParams",soParams);
             }
             if (mJsonBody.containsKey("sBody")) {
                 sBody = (String) mJsonBody.get("sBody");
+                LOG.info("<<<<<<<<<<<<<<<<<<sBody", sBody);
             }
         }
 
@@ -1607,6 +1620,9 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                     saField,
                     "Необхідно уточнити дані" + (sBody == null ? "" : ", за коментарем: " + sBody), sToken, null, sSubjectInfo, nID_Subject);//sO(sBody))
             LOG.info("(sReturn={})", sReturn);
+            LOG.info("sID_Order=", sID_Order);
+            LOG.info("(saField={})", saField);
+           
             //oActionTaskService.setInfo_ToActiviti("" + nID_Process, saField, sBody);
             //createSetTaskQuestionsMessage(sID_Order, sO(sBody), saField);//issue 1042
             oNotificationPatterns.sendTaskEmployeeQuestionEmail(sHead, sO(sBody), sMail, sToken, nID_Process, saField, soParams);
@@ -1617,7 +1633,6 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
                     HttpStatus.FORBIDDEN);
         }
     }
-
     @ApiOperation(value = "Вызов сервиса ответа по полям требующим уточнения", notes = "#####  ActionCommonTaskController: Вызов сервиса ответа по полям требующим уточнения #####\n\n"
             + "HTTP Context: https://test.region.igov.org.ua/wf/service/action/task/setTaskAnswer?nID_Protected=nID_Protected&saField=saField&sToken=sToken&sBody=sBody\n\n\n"
             + "- обновляет поля формы указанного процесса значениями, переданными в параметре saField Важно:позволяет обновлять только те поля, для которых в форме бизнес процесса не стоит атрибут writable=\"false\"\n\n"
@@ -1628,7 +1643,8 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             + "- Обновляет в сущности HistoryEvent_Service поле soData значением из saField и поле sToken значением null.\n"
             + "- Сохраняет информацию о действии в Мой Журнал (Текст: На заявку №____ дан ответ гражданином: [sBody])\n\n"
             + "Примеры:\n\n"
-            + "https://test.region.igov.org.ua/wf/service/action/task/setTaskAnswer?nID_Protected=54352839&saField=[{%27id%27:%27bankIdinn%27,%27type%27:%27string%27,%27value%27:%271234567890%27}]&sToken=93ODp4uPBb5To4Nn3kY1\n\n"
+            + "https://test.region.igov.org.ua/wf/service/action/task/setTaskAnswer?nID_Protected=54352839&sToken=93ODp4uPBb5To4Nn3kY1\n\n"
+            + "в body передаем строку: \"[{%27id%27:%27bankIdinn%27,%27type%27:%27string%27,%27value%27:%271234567890%27}]\"\n\n"
             + "Ответы: Пустой ответ в случае успешного обновления\n\n"
             + "Токен отсутствует\n\n"
             + "\n```json\n"
@@ -1642,12 +1658,19 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             + "\n```json\n"
             + "{\"code\":\"BUSINESS_ERR\",\"message\":\"form property 'bankIdinn' is not writable\"}\n"
             + "\n```\n")
-    @RequestMapping(value = "/setTaskAnswer", method = RequestMethod.GET)
+    @RequestMapping(value = "/setTaskAnswer", method = RequestMethod.POST)
     public @ResponseBody
     void setTaskAnswer_Region(
-            @ApiParam(value = "номер-ИД процесса", required = true) @RequestParam(value = "nID_Process", required = true) Long nID_Process,
-            @ApiParam(value = "saField - строка-массива полей", required = true) @RequestParam(value = "saField") String saField
+            @ApiParam(value = "номер-ИД процесса", required = true) @RequestParam(value = "nID_Process", required = false) Long nID_Process,
+            @ApiParam(value = "saField - строка-массива полей", required = true) @RequestBody String saField
     ) throws CommonServiceException {
+
+        try {
+            saField = URLDecoder.decode(saField, "UTF-8");
+        } catch (UnsupportedEncodingException e){
+            saField = saField;
+        }
+        LOG.info("Start setTaskAnswer whith param nID_Process=" + nID_Process + " and body string saField=" + saField);
 
         try {
             
@@ -1656,7 +1679,6 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             List<Task> aTask = taskService.createTaskQuery().processInstanceId(nID_Process + "").list();
 
             for (Task oTask : aTask) {
-                //LOG.info("oTask: (getName()={},getDescription()={},getId()={})", oTask.getName(), oTask.getDescription(), oTask.getId());
                 TaskFormData oTaskFormData = formService.getTaskFormData(oTask.getId());
                 Map<String, String> mField = new HashMap<>();
                 for (FormProperty oFormProperty : oTaskFormData.getFormProperties()) {
@@ -2713,12 +2735,33 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
         deleteProccess.closeProcess(sID_Process_Def);
     }
     
-    @ApiOperation(value = "/deleteHistoricProcessInstance", notes = "##### Удалить закрытый процесс#####\n\n")
-    @RequestMapping(value = "/deleteHistoricProcessInstance", method = RequestMethod.GET)
+    @ApiOperation(value = "/deleteHistoricProcessInstance", notes = "#####\n" +
+           "https://alpha.test.region.igov.org.ua/wf/service/action/task/deleteHistoricProcessInstance?nID_Order=335750019 \n"
+            + " Удалить закрытый процесс#####\n\n")
+    @RequestMapping(value = "/deleteHistoricProcessInstance", method = RequestMethod.DELETE)
     public @ResponseBody
-    void deleteHistoricProcessInstance(@ApiParam(value = "ид бизнес-процесса", required = true) 
-    @RequestParam(value = "sID_Process_Activiti", required = true) String sID_Process_Activiti) {
-        oActionTaskService.deleteHistoricProcessInstance(sID_Process_Activiti);
+    void deleteHistoricProcessInstance(@ApiParam(value = "номер заявки", required = true) 
+    @RequestParam(value = "nID_Order", required = true) String nID_Order) throws CRCInvalidException {
+        LOG.info("deleteHistoricProcessInstance started...");
+        try{
+            String sID_Process_Activiti = String.valueOf(ToolLuna.getValidatedOriginalNumber(Long.parseLong(nID_Order)));
+            LOG.info("sID_Process_Activiti in deleteHistoricProcessInstance {}", sID_Process_Activiti);
+            
+            if(runtimeService.createProcessInstanceQuery().processInstanceId(sID_Process_Activiti)
+                    .active().singleResult() != null){
+                runtimeService.deleteProcessInstance(sID_Process_Activiti, "deleted");
+            }
+            HistoricProcessInstance oHistoricProcessInstance = historyService.createHistoricProcessInstanceQuery()
+                .processInstanceId(sID_Process_Activiti).singleResult();
+            LOG.info("oHistoricProcessInstance id {}", oHistoricProcessInstance.getId());
+            
+            historyService.deleteHistoricProcessInstance(oHistoricProcessInstance.getId());
+            
+        }
+        catch (Exception ex){
+            LOG.info("Error during order deliting: {}", ex);
+            throw new RuntimeException ("Error during order deliting: " + ex.getMessage());
+        }
     }
 
     @ApiOperation(value = "/getAnswer_DFS", notes = "##### Получение ответов по процессам ДФС#####\n\n")
@@ -2873,10 +2916,11 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     public @ResponseBody
     List<Map<String, String>> getBusinessProcesses(
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin", required = true) String sLogin,
-            @ApiParam(value = "Выводить только список БП документов", required = false) @RequestParam(value = "bDocOnly", required = false, defaultValue = "true") Boolean bDocOnly
+            @ApiParam(value = "Выводить только список БП документов", required = false) @RequestParam(value = "bDocOnly", required = false, defaultValue = "true") Boolean bDocOnly,
+            @ApiParam(value = "ИД БП (без версионности)", required = false) @RequestParam(value="sProcessDefinitionId", required = false) String sProcessDefinitionId
     )
             throws IOException {
-         return oActionTaskService.getBusinessProcessesOfLogin(sLogin, bDocOnly);
+         return oActionTaskService.getBusinessProcessesOfLogin(sLogin, bDocOnly, sProcessDefinitionId);
     }
 
     @ApiOperation(value = "Получение списка полей бизнес процессов, к которым у пользователя есть доступ", notes = "#####  ActionCommonTaskController: Получение списка полей бизнес процессов к которым у пользователя есть доступ #####\n\n"
@@ -2897,10 +2941,13 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     public @ResponseBody
     List<Map<String, String>> getBusinessProcessesFields(
             @ApiParam(value = "Логин пользователя", required = true) @RequestParam(value = "sLogin", required = true) String sLogin,
-            @ApiParam(value = "Выводить только список БП документов", required = false) @RequestParam(value = "bDocOnly", required = false, defaultValue = "true") Boolean bDocOnly
-    )
-            throws IOException {
-        return oActionTaskService.getBusinessProcessesFieldsOfLogin(sLogin, bDocOnly);
+            @ApiParam(value = "Выводить только список БП документов", required = false) @RequestParam(value = "bDocOnly", required = false, defaultValue = "false") Boolean bDocOnly,
+            @ApiParam(value = "ИД БП (без версионности)", required = false) @RequestParam(value="sProcessDefinitionId", required = false) String sProcessDefinitionId
+    ) throws IOException {
+        
+    	LOG.info("getBusinessProcessesFields. sLogin: {} bDocOnly: {} sProcessDefinitionId: {}", sLogin, bDocOnly, sProcessDefinitionId);
+    	
+        return oActionTaskService.getBusinessProcessesFieldsOfLogin(sLogin, bDocOnly, sProcessDefinitionId);
     }
 
     @ApiOperation(value = "/setDocument", notes = "##### Создание документа (позже будет заменен на универсальній сервис /setProcess)#####\n\n")
@@ -2909,15 +2956,28 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
     Map<String, Object> setDocument(@ApiParam(value = "sLogin", required = true) @RequestParam(value = "sLogin", required = true) String sLogin, //String
             @ApiParam(value = "sID_BP", required = true) @RequestParam(value = "sID_BP", required = true) String sID_BP
     ) throws Exception {
-
-        LOG.info("SetDocument in ActionTaskCommonController started...");
-        LOG.info("sLogin in setDocument is {}", sLogin);
-        Map<String, Object> mParam = new HashMap<>();
-        mParam.put("sLoginAuthor", sLogin);
-        ProcessInstance oProcessInstanceChild = runtimeService.startProcessInstanceByKey(sID_BP, mParam);
+        
         Map<String, Object> mReturn = new HashMap<>();
-        mReturn.put("snID_Process", oProcessInstanceChild.getProcessInstanceId());
-        LOG.info("mReturn={}", mReturn);
+        
+        try {
+         
+            LOG.info("SetDocument in ActionTaskCommonController started...");
+            LOG.info("sLogin in setDocument is {}", sLogin);
+            
+            Map<String, Object> mParam = new HashMap<>();
+            mParam.put("sLoginAuthor", sLogin);
+            
+            ProcessInstance oProcessInstanceChild = runtimeService.startProcessInstanceByKey(sID_BP, mParam);
+            
+            mReturn.put("snID_Process", oProcessInstanceChild.getProcessInstanceId());
+            
+        } catch (IllegalArgumentException oException) {
+            
+            LOG.error("Error : /setDocument {}", oException);
+            
+            throw new RuntimeException(oException.getMessage());
+        }
+        
 
         return mReturn;
     }
@@ -3081,7 +3141,7 @@ public class ActionTaskCommonController {//extends ExecutionBaseResource
             @ApiParam(value = "JSON-объект с заполненными полями заполненной стартформы", required = true) @RequestBody String sJsonBody
     ) throws Exception {
         LOG.info("updateProcess started...");
-        LOG.info("sJsonBody {}", sJsonBody);
+        //LOG.info("sJsonBody {}", sJsonBody);
         
         Map<String, Object> mParam = new HashMap<>();
         Map<String, Object> mReturn = new HashMap<>();

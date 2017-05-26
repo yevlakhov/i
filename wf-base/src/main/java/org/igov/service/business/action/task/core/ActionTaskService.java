@@ -180,6 +180,7 @@ public class ActionTaskService {
         }
         List<Map<String, String>> amReturn = new LinkedList();
         JSONObject oFields = new JSONObject("{ \"soData\":" + saField + "}");
+        LOG.info("<<<<<<<<<<<<<<saField {}", saField);
         JSONArray aField = oFields.getJSONArray("soData");
         if (aField.length() == 0) {
             throw new CommonServiceException(
@@ -187,6 +188,7 @@ public class ActionTaskService {
                     "Can't make task question with no fields! (saField=" + saField + ")",
                     HttpStatus.FORBIDDEN);
         }
+        LOG.info("saField {}", saField);
         for (int i = 0; i < aField.length(); i++) {
             JSONObject oField = aField.getJSONObject(i);
             Map<String, String> m = new HashMap();
@@ -1074,12 +1076,13 @@ public class ActionTaskService {
      *
      * @param sLogin - Логин пользователя
      * @param bDocOnly Выводить только список БП документов
+     * @param sProcessDefinitionId - выводить только из этого процесса
      * @return
      */
-    public List<Map<String, String>> getBusinessProcessesOfLogin(String sLogin, Boolean bDocOnly) {
+    public List<Map<String, String>> getBusinessProcessesOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {
 
         List<ProcessDefinition> aProcessDefinition_Return = getBusinessProcessesObjectsOfLogin(
-                sLogin, bDocOnly);
+                sLogin, bDocOnly, sProcessDefinitionId);
 
         List<Map<String, String>> amPropertyBP = new LinkedList<>();
         for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return) {
@@ -1092,12 +1095,18 @@ public class ActionTaskService {
 
         return amPropertyBP;
     }
-
-    public List<Map<String, String>> getBusinessProcessesFieldsOfLogin(String sLogin, Boolean bDocOnly) {
-
-        List<ProcessDefinition> aProcessDefinition_Return = getBusinessProcessesObjectsOfLogin(
-                sLogin, bDocOnly);
-
+    /**
+     * Получение списка полей бизнес процессов, к которым у пользователя есть доступ
+     * 
+     * @param sLogin - Логин пользователя
+     * @param bDocOnly - Выводить только список БП документов
+     * @param sProcessDefinitionId - Ид БП, если передается возвращаются поля только этого процесса
+     * @return  Лист полей, согласно запросу
+     */
+    public List<Map<String, String>> getBusinessProcessesFieldsOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {
+        
+        List<ProcessDefinition> aProcessDefinition_Return = getBusinessProcessesObjectsOfLogin(sLogin, bDocOnly, sProcessDefinitionId);
+        
         Map<String, Map<String, String>> amPropertyBP = new HashMap<String, Map<String, String>>();
         for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return) {
             StartFormData formData = oFormService.getStartFormData(oProcessDefinition.getId());
@@ -1111,6 +1120,8 @@ public class ActionTaskService {
             }
 
             Collection<FlowElement> elements = oRepositoryService.getBpmnModel(oProcessDefinition.getId()).getMainProcess().getFlowElements();
+            //LOG.info("getBusinessProcessesFieldsOfLogin: Collection<FlowElement> elements = {} for oProcessDefinition = {}", elements, oProcessDefinition.getId());
+            
             for (FlowElement flowElement : elements) {
                 if (flowElement instanceof UserTask) {
                     LOG.debug("Processing user task with ID {} name {} ", flowElement.getId(), flowElement.getName());
@@ -1135,8 +1146,8 @@ public class ActionTaskService {
         return res;
     }
 
-    private List<ProcessDefinition> getBusinessProcessesObjectsOfLogin(
-            String sLogin, Boolean bDocOnly) {
+    private List<ProcessDefinition> getBusinessProcessesObjectsOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {
+        
         if (sLogin == null || sLogin.isEmpty()) {
             LOG.error("Unable to found business processes for sLogin=" + sLogin);
             throw new ActivitiObjectNotFoundException(
@@ -1151,17 +1162,22 @@ public class ActionTaskService {
                 .active()
                 .latestVersion().list();
 
+        //LOG.info("getBusinessProcessesObjectsOfLogin: all active processes aProcessDefinition = {}", aProcessDefinition);
+        
         if (CollectionUtils.isNotEmpty(aProcessDefinition)) {
-            LOG.debug("Found {} active process definitions", aProcessDefinition.size());
+             
             List<Group> aGroup = oIdentityService.createGroupQuery().groupMember(sLogin).list();
+            
             if (aGroup != null && !aGroup.isEmpty()) {
                 StringBuilder sb = new StringBuilder();
                 for (Group oGroup : aGroup) {
                     sb.append(oGroup.getId());
                     sb.append(",");
                 }
-                LOG.debug("Found {}  groups for the user {}:{}", aGroup.size(), sLogin, sb.toString());
+                LOG.info("Found {}  groups for the user {}:{}", aGroup.size(), sLogin, sb.toString());
             }
+            
+            LOG.debug("Found {} active process definitions", aProcessDefinition.size());
 
             for (ProcessDefinition oProcessDefinition : aProcessDefinition) {
 
@@ -1173,7 +1189,7 @@ public class ActionTaskService {
                     Set<String> aCandidateCroupsToCheck = getGroupsOfProcessTask(oProcessDefinition);
 
                     loadCandidateStarterGroup(oProcessDefinition, aCandidateCroupsToCheck);
-
+                    LOG.info("aCandidateCroupsToCheck = {}", aCandidateCroupsToCheck);
                     for (Group oGroup : aGroup) {
                         for (String sProcessGroupMask : aCandidateCroupsToCheck) {//asProcessGroupMask
                             if (sProcessGroupMask.contains("${")) {
@@ -1192,9 +1208,11 @@ public class ActionTaskService {
         } else {
             LOG.info("Have not found active process definitions.");
         }
+        
+        LOG.info("getBusinessProcessesObjectsOfLogin: aProcessDefinition_Return = {}", aProcessDefinition_Return);
         return aProcessDefinition_Return;
     }
-
+    
     /**
      * Получение списка бизнес процессов к которым у пользователя есть доступ
      *
@@ -1387,8 +1405,11 @@ public class ActionTaskService {
         Map<String, Object> mBody = new HashMap<>();
         Map<String, String> mParam = new HashMap<>();
         mParam.put("sID_Order", sID_Order);
+        LOG.info("sID_Order", sID_Order);
         mBody.put("soData", saField);
+        LOG.info("soData {}", saField);
         mBody.put("sBody", sBody);
+        LOG.info("sBody", sBody);
         mParam.put("sSubjectInfo", sSubjectInfo);
         if (nID_Subject != null) {
             mParam.put("nID_Subject", nID_Subject + "");
@@ -1398,6 +1419,7 @@ public class ActionTaskService {
         }
 
         mParam.put("nID_StatusType", oHistoryEvent_Service_StatusType.getnID() + "");
+        LOG.info("nID_StatusType", oHistoryEvent_Service_StatusType.getnID() + "");
         mParam.put("sToken", sToken);
 LOG.info("mParam from ActionTaskService = {};", mParam);
 LOG.info("mBody from ActionTaskService = {};", mBody);
@@ -1694,12 +1716,18 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
     }
 
     public boolean deleteProcess(Long nID_Order, String sLogin, String sReason) throws Exception {
+        String snID_Process = String.valueOf(ToolLuna.getValidatedOriginalNumber(nID_Order));
+        return deleteProcess(snID_Process, sLogin, sReason);
+    }
+    
+    public boolean deleteProcess(String snID_Process, String sLogin, String sReason) throws Exception {
         boolean success;
-        String nID_Process;
+        //String nID_Process;
         
-        nID_Process = String.valueOf(ToolLuna.getValidatedOriginalNumber(nID_Order));
+        //nID_Process = String.valueOf(ToolLuna.getValidatedOriginalNumber(nID_Order));
 
-        String sID_Order = oGeneralConfig.getOrderId_ByOrder(nID_Order);
+        //String sID_Order = oGeneralConfig.getOrderId_ByOrder(nID_Order);
+        String sID_Order = oGeneralConfig.getOrderId_ByProcess(Long.valueOf(snID_Process));
 
         HistoryEvent_Service_StatusType oStatusType = HistoryEvent_Service_StatusType.REMOVED;
         String statusType_Name = oStatusType.getsName_UA();
@@ -1714,17 +1742,17 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
         Map<String, String> mParam = new HashMap<>();
         mParam.put("nID_StatusType", oStatusType.getnID() + "");
         mParam.put("sBody", sBody);
-        LOG.info("Deleting process {}: {}", nID_Process, statusType_Name);
+        LOG.info("Deleting process {}: {}", snID_Process, statusType_Name);
         oHistoryEventService.updateHistoryEvent(
                 sID_Order, statusType_Name, false, oStatusType, mParam);
         try {
-            oRuntimeService.deleteProcessInstance(nID_Process, sReason);
+            oRuntimeService.deleteProcessInstance(snID_Process, sReason);
         } catch (ActivitiObjectNotFoundException e) {
-            LOG.error("Could not find process {} to delete: {}", nID_Process, e);
+            LOG.error("Could not find process {} to delete: {}", snID_Process, e);
         }
         success = true;
         return success;
-    }
+    }    
 
     public boolean deleteProcessSimple(String snID_Process, String sLogin, String sReason) throws Exception {
         boolean bOk = false;

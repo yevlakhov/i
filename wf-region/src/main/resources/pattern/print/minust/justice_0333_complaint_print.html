@@ -114,24 +114,116 @@
 
 <div class='justice-print-0333'>
 	<section class="print_wrap">
-	<br />
-	    <div class="line_col ta-r">
+	<br>
+	    
+        <!-- Физ. особа -->
+            <div id="individual" class="line_col ta-r">
 	    <div class="no_line_field w350 ta-l"><b>Головне територіальне управління юстиції у Дніпропетровській області</b><span></span></div><br><br>
 		<div class="no_line_field w350 ta-l">пр. Дмитра Яворницького, 21-А, м. Дніпро, 49000<span></span></div><br>
 		<div class="no_line_field w450 ta-l"><i><b>СКАРЖНИК: [bankIdlastName] [bankIdfirstName] [bankIdmiddleName]</b></i><span></span></div><br>
 		<div class="no_line_field w350 ta-l">[bankIdAddressFactual]<span></span></div><br>
 		<div class="no_line_field w350 ta-l">e-mail: [email]<span></span></div><br>
+            </div><br>
+            
+        <!-- Представник физ. особи -->
+            <div id="representativeIndividual" class="line_col ta-r">
+	    <div class="no_line_field w350 ta-l"><b>Головне територіальне управління юстиції у Дніпропетровській області</b><span></span></div><br><br>
+		<div class="no_line_field w350 ta-l">пр. Дмитра Яворницького, 21-А, м. Дніпро, 49000<span></span></div><br>
+		<div class="no_line_field w450 ta-l"><i><b>СКАРЖНИК: [bankIdlastName] [bankIdfirstName] [bankIdmiddleName]</b></i><span></span></div><br>
+		<div class="no_line_field w350 ta-l">[bankIdAddressFactual]<span></span></div><br>
+		<div class="no_line_field w350 ta-l">e-mail: [email]<span></span></div><br>
+                <div class="no_line_field w450 ta-l"><i><b>ПРЕДСТАВНИК: [sRepresentativeLastName] [sRepresentativeFirstName] [sRepresentativeMiddleName]</b></i><span></span></div><br>
+                <div class="no_line_field w350 ta-l">Адреса: [sRepresentativeAddressFactual]<span></span></div><br>
+                <div class="no_line_field w350 ta-l">[sRepresentativeDoc]<span></span></div><br>
+            </div><br>
+            
+        <!-- Юр. особа -->
+            <div id="legalEntity" class="line_col ta-r">
+	    <div class="no_line_field w350 ta-l"><b>Головне територіальне управління юстиції у Дніпропетровській області</b><span></span></div><br><br>
+		<div class="no_line_field w350 ta-l">пр. Дмитра Яворницького, 21-А, м. Дніпро, 49000<span></span></div><br>
+		<div class="no_line_field w450 ta-l"><i><b>СКАРЖНИК: [sFullName_SubjectOrgan_01]</b></i><span></span></div><br>
+		<div class="no_line_field w350 ta-l">Адреса: [sAddressCompanyLett]<span></span></div><br>
+                <div class="no_line_field w350 ta-l">код ЄДРПОУ: [sID_SubjectOrgan_OKPO_01]<span></span></div><br>
+		<div class="no_line_field w350 ta-l">e-mail: [email]<span></span></div><br>
+            </div><br>
+            
+        <!-- Представник юр. особи -->
+            <div id="representativeLegalEntity" class="line_col ta-r">
+	    <div class="no_line_field w350 ta-l"><b>Головне територіальне управління юстиції у Дніпропетровській області</b><span></span></div><br><br>
+		<div class="no_line_field w350 ta-l">пр. Дмитра Яворницького, 21-А, м. Дніпро, 49000<span></span></div><br>
+		<div class="no_line_field w450 ta-l"><i><b>СКАРЖНИК: [sFullName_SubjectOrgan_01]</b></i><span></span></div><br>
+		<div class="no_line_field w350 ta-l">Адреса: [sAddressCompanyLett]<span></span></div><br>
+                <div class="no_line_field w350 ta-l">код ЄДРПОУ: [sID_SubjectOrgan_OKPO_01]<span></span></div><br>
+		<div class="no_line_field w350 ta-l">e-mail: [email]<span></span></div><br>
+                <div class="no_line_field w450 ta-l"><i><b>ПРЕДСТАВНИК: [sRepresentCompLastName] [sRepresentCompFirstName] [sRepresentCompMiddleName]</b></i><span></span></div><br>
+                <div class="no_line_field w350 ta-l">[sRepresentCompDoc]<span></span></div><br>
+            </div><br>
+            
+            <script type="text/javascript">
+				var typeComplaint = "[asTypeComplaint]";
+					if([typeComplaint] == 'sIndividual'){
+						document.getElementById('individual').style.display = 'inline';
+					} else {
+						document.getElementById('individual').style.display = 'none';
+					}
+                                        
+                                        if([typeComplaint] == 'sRepresentativeIndividual'){
+						document.getElementById('representativeIndividual').style.display = 'inline';
+					} else {
+						document.getElementById('representativeIndividual').style.display = 'none';
+					}
+                                        
+                                        if([typeComplaint] == 'sLegalEntity'){
+						document.getElementById('legalEntity').style.display = 'inline';
+					} else {
+						document.getElementById('legalEntity').style.display = 'none';
+					}
+                                        
+                                        if([typeComplaint] == 'sRepresentativeLegalEntity'){
+						document.getElementById('representativeLegalEntity').style.display = 'inline';
+					} else {
+						document.getElementById('representativeLegalEntity').style.display = 'none';
+					}
 			
-			
-			
-			</div><br />
+			</script>
+            
+            
+            
+            
 	    <div class="line_col ta-c m-t-25"><b>СКАРГА</b><br></div>
 	        <div class="ta-c"><b>на [asRealtyTop] від [sDateDecisionKnown] № [sNumberDecision] [asSubjectCategory]</b></div><br><br>
 
 
 	       	<div class="ta-l">[sEssence]</div>
-			<div class="line_col ta-c m-t-25"><b>ПРОШУ:</b><br></div>
-			<div class="ta-l">[sConditions]</div>
+		<br>
+		<div class="ta-l">[sConditions]</div>
+            <div class="line_col ta-c m-t-25"><b>ПРОШУ:</b></div>
+
+                        <ul>
+                            <li id="sanction_1">Скасувати рішення про державну реєстрацію прав</li>
+                            <li id="sanction_2">Скасувати реєстраційну дію</li>
+                            <li id="sanction_3">Скасувати рішення про відмову в державній реєстрації прав та проведення державної реєстрації прав</li>
+                            <li id="sanction_4">Провести державну реєстрацію</li>
+                            <li id="sanction_5">Виправити помилки, допущених державним реєстратором</li>
+                            <li id="sanction_6">Тимчасово заблокувати доступ державного реєстратора до Державного реєстру прав строком на [nTimeLock_6]</li>
+                            <li id="sanction_7">Тимчасове заблокувати доступ державного реєстратора до Єдиного державного реєстру строком на [nTimeLock_7]</li>
+                            <li id="sanction_8">Анулювати доступ державного реєстратора до Державного реєстру прав</li>
+                            <li id="sanction_9">Анулювати доступ державного реєстратора до Єдиного державного реєстру</li>
+                            <li id="sanction_10">Скасувати акредитацію суб’єкта державної реєстрації</li>
+                            <li id="sanction_11">Направити до Вищої кваліфікаційної комісії нотаріату при Міністерстві юстиції України подання щодо анулювання свідоцтва про право на зайняття нотаріальною діяльністю</li>
+                        </ul>
+			<script type="text/javascript">
+				var bSanction = ["[bSanction_1]","[bSanction_2]","[bSanction_3]","[bSanction_4]","[bSanction_5]","[bSanction_6]","[bSanction_7]","[bSanction_8]","[bSanction_9]", "[bSanction_10]","[bSanction_11]"];
+
+				for (var i = 0; i <= 10; i++) {
+					if(bSanction[i] == 'yes'){
+						document.getElementById("sanction_" + (i+1)).style.display = 'list-item';
+					} else {
+						document.getElementById("sanction_" + (i+1)).style.display = 'none';
+					}
+			}
+			</script>
+
 			
 			<div class="date_subm m-t-45">
 			<div class="inv">[sDateTimeCreateProcess]<span>(дата подання скарги)</span></div>

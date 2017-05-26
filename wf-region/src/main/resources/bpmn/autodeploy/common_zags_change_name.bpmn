@@ -778,7 +778,6 @@
         <activiti:formProperty id="sBody_1" name="[pattern/print/minust/common_zags_change_name_print.html] ; ;bVisible=false" type="string" default="заява загальна" writable="false"></activiti:formProperty>
         <activiti:taskListener event="create" delegateExpression="${fileTaskUploadListener}"></activiti:taskListener>
         <activiti:taskListener event="create" delegateExpression="${fileTaskInheritance}"></activiti:taskListener>
-        <activiti:taskListener event="start" delegateExpression="${updateStatus_HistoryServiceEvent}"></activiti:taskListener>
       </extensionElements>
     </userTask>
     <userTask id="usertask4" name="очікується візит громадянина для державної реєстрації зміни імені" activiti:candidateGroups="common_zags_${sID_Public_SubjectOrganJoin}">
@@ -944,7 +943,7 @@
         <activiti:formProperty id="sComPr" name="сумма платежа ком чек ; ;bVisible=false" type="string"></activiti:formProperty>
         <activiti:formProperty id="sID_Currency" name="ИД-строковой валюты ; ;bVisible=false" type="string" default="UAH"></activiti:formProperty>
         <activiti:formProperty id="sDescription" name="строка-описание платежа ; ;bVisible=false" type="string"></activiti:formProperty>
-        <activiti:formProperty id="bankIdinn" name="ІПН" type="string"></activiti:formProperty>
+        <activiti:formProperty id="bankIdinn" name="ІПН ; ;bVisible=false" type="string"></activiti:formProperty>
         <activiti:formProperty id="sListDocumentsPrint" name="перелік у принтформу ; ;bVisible=false" type="string"></activiti:formProperty>
         <activiti:formProperty id="asFullNamepf" name="підкреслювання у принтформу ; ;bVisible=false" type="string"></activiti:formProperty>
         <activiti:formProperty id="sNowName" name="частина імені у принтформу ; ;bVisible=false" type="string"></activiti:formProperty>
@@ -1036,7 +1035,7 @@ ${sNameOrgan}<br />
           <activiti:string><![CDATA[noreply@igov.org.ua]]></activiti:string>
         </activiti:field>
         <activiti:field name="to">
-          <activiti:expression><![CDATA[darja.grek@gmail.com]]></activiti:expression>
+          <activiti:expression><![CDATA[${sMailClerk}]]></activiti:expression>
         </activiti:field>
         <activiti:field name="subject">
           <activiti:string><![CDATA[Нове  звернення. Державна реєстрація зміни імені фізичної особи (прізвища, власного імені та по батькові)]]></activiti:string>

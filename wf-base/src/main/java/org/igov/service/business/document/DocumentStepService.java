@@ -299,7 +299,7 @@ public class DocumentStepService {
 
                 Boolean bWrite = (Boolean) oGroup.opt("bWrite");
                 if (bWrite == null) {
-                    throw new IllegalArgumentException("Group " + sKey_Group + " hasn't property bWrite.");
+                    throw new IllegalArgumentException("Group " + sKey_Group + " hasn't property bWrite. Probably your json is wrong");
                 }
                 oDocumentStepSubjectRight.setbWrite(bWrite);
 
@@ -319,7 +319,7 @@ public class DocumentStepService {
                         oDocumentStepSubjectRight);
                 oDocumentStepSubjectRight.setDocumentStepSubjectRightFields(aDocumentStepSubjectRightField);
                 oDocumentStepSubjectRight.setDocumentStep(oDocumentStep);
-                LOG.info("right for step: {}", oDocumentStepSubjectRight);
+                //LOG.info("right for step: {}", oDocumentStepSubjectRight);
                 aDocumentStepSubjectRight.add(oDocumentStepSubjectRight);
             }
         }
@@ -800,7 +800,7 @@ public class DocumentStepService {
                 false, null);
     }
 
-    public List<DocumentStepSubjectRight> syncDocumentSubmitersByField(String snID_Process_Activiti,
+    public List<DocumentStepSubjectRight> syncDocumentSubmitedsByField(String snID_Process_Activiti,
             String sKey_Group_Default, String sID_Field, String sKey_Step, boolean bReClone) throws Exception {
 
         LOG.info("started...");
@@ -1383,7 +1383,7 @@ public class DocumentStepService {
             byte[] aByteDocument = getFileData_Pattern(sPath);
             if (aByteDocument != null && aByteDocument.length > 0) {
                 String soJSON = soJSON = Tool.sData(aByteDocument);
-                LOG.info("soJSON={}", soJSON);
+                //LOG.info("soJSON={}", soJSON);
 
                 List<DocumentStep> aDocumentStep = setDocumentSteps(snID_Process_Activiti, soJSON);
                 if (aDocumentStep != null && aDocumentStep.size() > 1) {

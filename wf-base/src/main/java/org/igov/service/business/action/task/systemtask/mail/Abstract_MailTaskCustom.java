@@ -28,6 +28,7 @@ import org.activiti.engine.delegate.JavaDelegate;
 import org.activiti.engine.form.FormData;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.impl.persistence.entity.ExecutionEntity;
+import org.activiti.engine.impl.util.json.JSONException;
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.activiti.engine.task.Task;
 import org.apache.commons.io.IOUtils;
@@ -67,6 +68,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+
+
 public abstract class Abstract_MailTaskCustom extends AbstractModelTask implements JavaDelegate, CustomRegexPattern {
 
     static final transient Logger LOG = LoggerFactory
@@ -88,7 +91,7 @@ public abstract class Abstract_MailTaskCustom extends AbstractModelTask implemen
     private boolean bSSL;
     @Value("${general.Mail.bUseTLS}")
     private boolean bTLS;
-
+    
     public Expression from;
     public Expression to;
     public Expression subject;
@@ -736,13 +739,22 @@ public abstract class Abstract_MailTaskCustom extends AbstractModelTask implemen
      */
 	public String getHtmlTextFromMongo(String sJsonHtml) throws IOException, ParseException, RecordInmemoryException,
 			ClassNotFoundException, CRCInvalidException, RecordNotFoundException {
+		String sBodyFromMongo = null;
 		JSONObject sJsonHtmlInFormatMongo = new JSONObject(sJsonHtml);
-	       InputStream oAttachmet_InputStream = oAttachmetService.getAttachment(null, null,
-	    		   sJsonHtmlInFormatMongo.getString("sKey"), sJsonHtmlInFormatMongo.getString("sID_StorageType"))
-                   .getInputStream();
+		LOG.info("sJsonHtmlInFormatMongo: {}", sJsonHtmlInFormatMongo);
+		try{
+			 InputStream oAttachmet_InputStream = oAttachmetService.getAttachment(null, null,
+		    		   sJsonHtmlInFormatMongo.getString("sKey"), sJsonHtmlInFormatMongo.getString("sID_StorageType"))
+	                   .getInputStream();
 
-	       String sBodyFromMongo = IOUtils.toString(oAttachmet_InputStream, "UTF-8");
-		return sBodyFromMongo;
+			 sBodyFromMongo = IOUtils.toString(oAttachmet_InputStream, "UTF-8");
+		}catch(JSONException e){
+			LOG.error("JSONException: {}",e.getMessage());
+			return null;
+		}
+			 return sBodyFromMongo;
+		
+	      
 	}
 
     
@@ -784,9 +796,32 @@ public abstract class Abstract_MailTaskCustom extends AbstractModelTask implemen
 
     public void sendMailOfTask(Mail oMail, DelegateExecution oExecution)
             throws Exception {
-
-        oMail.send();
-        saveServiceMessage_Mail(oMail.getHead(), oMail.getBody(), generalConfig.getOrderId_ByProcess(Long.valueOf(oExecution.getProcessInstanceId())), oMail.getTo());
+    	//если тестовый сервер - письма чиновнику на адрес smailclerkigov@gmail.com
+    	if(generalConfig.isSelfTest()) {
+    		LOG.info("generalConfig.isSelfTest()! " + generalConfig.isSelfTest());
+    		if(oMail.getBody()!=null && !oMail.getBody().contains("Шановний колего!")) {
+    			oMail.send();
+       	     	saveServiceMessage_Mail(oMail.getHead(), oMail.getBody(), generalConfig.getOrderId_ByProcess(Long.valueOf(oExecution.getProcessInstanceId())), oMail.getTo());
+    			LOG.info("sendMailOfTask ok!");
+    		}else {
+    			Mail oMailClerk = context.getBean(Mail.class);
+    			oMailClerk._From(oMail.getFrom())._To(generalConfig.getsAddrClerk())._Head(oMail.getHead())
+    		                ._Body(oMail.getBody())._AuthUser(generalConfig.getsUsnameClerk())
+    		                ._AuthPassword(generalConfig.getsPassClerk())._Host(oMail.getHost())
+    		                ._Port(Integer.valueOf(oMail.getPort()))
+    		                ._SSL(oMail.isSSL())._TLS(oMail.isTLS());
+    			 LOG.info("sendMailOfTask clerk prop! "+generalConfig.getsAddrClerk()+"--"+generalConfig.getsUsnameClerk());
+    			oMailClerk.send();
+        	     saveServiceMessage_Mail(oMailClerk.getHead(), oMailClerk.getBody(), generalConfig.getOrderId_ByProcess(Long.valueOf(oExecution.getProcessInstanceId())), oMailClerk.getTo());
+        	     LOG.info("sendMailOfTask clerk ok!");
+    		}
+    		
+    	}else {
+    		 oMail.send();
+    	     saveServiceMessage_Mail(oMail.getHead(), oMail.getBody(), generalConfig.getOrderId_ByProcess(Long.valueOf(oExecution.getProcessInstanceId())), oMail.getTo());
+    	     LOG.info("sendMailOfTask ok!");
+    	}
+       
     }
 
     private String getFormattedDate(Date date) {
