@@ -5,7 +5,8 @@
         "bankIdlastName",
         "bankIdfirstName",
         "bankIdmiddleName",
-        "bankIdAddressFactual"
+        "bankIdAddressFactual",
+                "sLineHelper_1"
       ],
       "asID_Field": {
         "sCondit": "asTypeComplaint"
@@ -24,7 +25,8 @@
         "sRepresentativeAddressFactual",
         "sRepresentativeDoc",
         "nDoc1",
-        "sText1"
+        "sText1",
+                "sLineHelper_3"
       ],
       "asID_Field": {
         "sCondit": "asTypeComplaint"
@@ -105,7 +107,8 @@
     },
     "ShowFieldsOnCondition_9": {
       "aField_ID": [
-        "asRealtyTop"
+        "asRealtyTop",
+        "sTextLaw22"
       ],
       "asID_Field": {
         "sCondit": "asDirectionOfAppeal"
@@ -114,7 +117,8 @@
     },
     "ShowFieldsOnCondition_10": {
       "aField_ID": [
-        "asRegistrationTop"
+        "asRegistrationTop",
+        "sTextLaw23"
       ],
       "asID_Field": {
         "sCondit": "asDirectionOfAppeal"

@@ -39,6 +39,9 @@ public class DocumentCommonController {
     
     @Autowired
     private DeleteProccess deleteProccess;
+    
+    @Autowired
+    private DocumentStepService oDocumentStepService;
 
     private static final Logger LOG = LoggerFactory.getLogger(DocumentCommonController.class);
 
@@ -47,9 +50,9 @@ public class DocumentCommonController {
     @Transactional
     public @ResponseBody
     Map<String, Object> isDocumentStepSubmitedAll(
-            @ApiParam(value = "ИД процесс-активити", required = false) @RequestParam(required = false, value = "nID_Process") String nID_Process,
-            @ApiParam(value = "Логин подписанта", required = false) @RequestParam(required = false, value = "sLogin") String sLogin,
-            @ApiParam(value = "Ключ шага документа", required = false) @RequestParam(required = false, value = "sKey_Step") String sKey_Step,
+            @ApiParam(value = "ИД процесс-активити", required = true) @RequestParam(required = true, value = "nID_Process") String nID_Process,
+            @ApiParam(value = "Логин подписанта", required = true) @RequestParam(required = true, value = "sLogin") String sLogin,
+            @ApiParam(value = "Ключ шага документа", required = true) @RequestParam(required = true, value = "sKey_Step") String sKey_Step,
             HttpServletResponse httpResponse) throws Exception {
 
         LOG.info("snID_Process_Activiti: " + nID_Process);
@@ -219,5 +222,27 @@ public class DocumentCommonController {
             return "aDocumentSubmitedUnsignedVO is null";*/
              return aDocumentSubmitedUnsignedVO;
     }
+    @ApiOperation(value = "/getDocumentStepRights", notes = "##### Получение списка прав у логина по документу#####\n\n")
+    @RequestMapping(value = "/getDocumentStepRights", method = RequestMethod.GET)
+    public @ResponseBody
+    Map<String, Object> getDocumentStepRights(@ApiParam(value = "sLogin", required = true) @RequestParam(value = "sLogin", required = true) String sLogin, //String
+            @ApiParam(value = "nID_Process", required = true) @RequestParam(value = "nID_Process", required = true) String nID_Process) throws Exception {
+
+        long startTime = System.nanoTime();
+        Map<String, Object> res = oDocumentStepService.getDocumentStepRights(sLogin, nID_Process + "");
+        long stopTime = System.nanoTime();
+        LOG.info("getDocumentStepRights total time execution is: " + String.format("%,12d", (stopTime - startTime)));
+        return res;
+    }
+
+    @ApiOperation(value = "/getDocumentStepLogins", notes = "##### Получение списка прав у логина по документу#####\n\n")
+    @RequestMapping(value = "/getDocumentStepLogins", method = RequestMethod.GET)
+    public @ResponseBody
+    //Map<String,Object> getDocumentStepLogins(@ApiParam(value = "nID_Process", required = true) @RequestParam(value = "nID_Process", required = true) String nID_Process) throws Exception {//String
+    List<Map<String, Object>> getDocumentStepLogins(@ApiParam(value = "nID_Process", required = true)
+            @RequestParam(value = "nID_Process", required = true) String nID_Process) throws Exception {//String
+        return oDocumentStepService.getDocumentStepLogins(String.valueOf(nID_Process));
+    }
+
 
 }

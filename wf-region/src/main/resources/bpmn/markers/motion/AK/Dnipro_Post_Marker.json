@@ -3,7 +3,7 @@
     "ShowFieldsOnCondition_Post": {
       "aField_ID": [
         "asVidpovid",
-        "sText1"
+        "sTextPost"
       ],
       "asID_Field": {
         "sClient": "sID_Public_SubjectOrganJoin"

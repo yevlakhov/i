@@ -5,7 +5,7 @@ nID;sName;sNote
 4;Foreman;Начальник Цеху
 5;HeadDepartment;Начальник департаменту
 6;Specialist;Спеціаліст
-7;MainSpecialist;Головний Спеціаліст
+7;Main Specialist;Головний Спеціаліст
 8;testPost;тестова посада
 9;Driver;Водій
 10;Chief Accountant;Головний бухгалтер
@@ -20,3 +20,21 @@ nID;sName;sNote
 19;Advisor of Head;Радник керівника
 20;Jurisconsult;Юрисконсульт
 21;groupDepartment;група департаменту
+22;Head of sector;Завідувач сектору
+23;Deputy Head of department;Заступник начальник відділу
+24;Deputy Head of division;Заступник начальника управління
+25;Head of department;Начальник відділу
+26;Head of division;Начальник управління
+27;Senior specialist;Провідний спеціалист
+28;Specialist;Спеціаліст
+29;Middle specialist;Старший спеціаліст
+30;Head of cash desk;Завідуюча каси
+31;Operator;Оператор контакт-центру
+32;Bank employee;Банківський працівник
+33;Specialist DVS;Співробітник ДВС
+34;Specialist DRACS;Співробітник ДРАЦС
+35;Specialist DNK;Співробітник ДНК
+36;Specialist Archive;Співробітник архіву
+37;Head of HR;Начальник управління HR
+38;Head of security;Начальник служби безпеки
+39;Head profile unit;Начальник профільного підрозділу

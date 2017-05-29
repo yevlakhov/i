@@ -17,7 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component("DocumentInit_iDoc")
-public class DocumentInit_iDoc extends AbstractModelTask implements TaskListener {
+public class DocumentInit_iDoc extends AbstractModelTask implements TaskListener  {
 
     private final static Logger LOG = LoggerFactory.getLogger(CreateDocument_UkrDoc.class);
 
@@ -41,7 +41,8 @@ public class DocumentInit_iDoc extends AbstractModelTask implements TaskListener
                     = (this.sKey_GroupPostfix != null) ? getStringFromFieldExpression(this.sKey_GroupPostfix, delegateTask.getExecution()) : "";
             LOG.info("sKey_GroupPostfix_Value in clone listener is {}", sKey_GroupPostfix_Value);
             
-            sKey_GroupPostfix_New_Value = (this.sKey_GroupPostfix_New != null) ? getStringFromFieldExpression(this.sKey_GroupPostfix_New, delegateTask.getExecution()) : "";
+            sKey_GroupPostfix_New_Value = (this.sKey_GroupPostfix_New != null) 
+                    ? getStringFromFieldExpression(this.sKey_GroupPostfix_New, delegateTask.getExecution()) : "";
             LOG.info("sKey_GroupPostfix_New_Value in clone listener is {}", sKey_GroupPostfix_New_Value);
         } catch (Exception ex) {
             LOG.error("sKey_GroupPostfix_Value error: {}", ex);
@@ -54,6 +55,7 @@ public class DocumentInit_iDoc extends AbstractModelTask implements TaskListener
         } catch (Exception oException) {
             LOG.error("DocumentInit_iDoc: ", oException);
             java.util.logging.Logger.getLogger(DocumentInit_iDoc.class.getName()).log(Level.SEVERE, null, oException);
+            throw new IllegalArgumentException(oException);
         }
     }
 

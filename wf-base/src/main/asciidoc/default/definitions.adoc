@@ -250,9 +250,9 @@
 |===
 |Name|Description|Required|Schema|Default
 |oDocumentStepSubjectRight||false|<<DocumentStepSubjectRight>>|
-|sDateCreateProcess||false|string (date-time)|
-|sDateCreateUserTask||false|string (date-time)|
-|sDateSubmit||false|<<DateTime>>|
+|sDateCreateProcess||false|string|
+|sDateCreateUserTask||false|string|
+|sDateSubmit||false|string|
 |sID_Order||false|string|
 |sNameBP||false|string|
 |sUserTaskName||false|string|
@@ -1147,16 +1147,20 @@
 [options="header"]
 |===
 |Name|Description|Required|Schema|Default
-|aProcessSubjectChilds||false|<<ProcessSubject>> array|
+|aProcessSubjectChild||false|<<ProcessSubject>> array|
 |aUser||false|<<ProcessUser>> array|
 |nID||false|integer (int64)|
 |nOrder||false|integer (int64)|
 |oProcessSubjectStatus||false|<<ProcessSubjectStatus>>|
+|oProcessSubjectTask||false|<<ProcessSubjectTask>>|
 |sDateEdit||false|<<DateTime>>|
 |sDateFact||false|<<DateTime>>|
 |sDatePlan||false|<<DateTime>>|
+|sDatePlanNew||false|<<DateTime>>|
 |sLogin||false|string|
-|sReport||false|string|
+|sLoginRole||false|string|
+|sText||false|string|
+|sTextType||false|string|
 |snID_Process_Activiti||false|string|
 |===
 
@@ -1183,6 +1187,17 @@
 |sName||false|string|
 |===
 
+=== ProcessSubjectTask
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|aProcessSubject||false|<<ProcessSubject>> array|
+|nID||false|integer (int64)|
+|sBody||false|string|
+|sHead||false|string|
+|snID_Process_Activiti_Root||false|string|
+|===
+
 === ProcessUser
 [options="header"]
 |===
@@ -1202,6 +1217,15 @@
 |operation||false|string|
 |type||false|string|
 |value||false|object|
+|===
+
+=== Relation_VO
+[options="header"]
+|===
+|Name|Description|Required|Schema|Default
+|nID||false|integer (int64)|
+|sID_Private_Source||false|string|
+|sName||false|string|
 |===
 
 === RestActionRequest
@@ -1323,8 +1347,8 @@
 |aSubjectGroupChilds||false|<<SubjectGroup>> array|
 |aUser||false|<<SubjectUser>> array|
 |nID||false|integer (int64)|
-|nID_SubjectHumanPositionCustom||false|<<SubjectHumanPositionCustom>>|
 |oSubject||false|<<Subject>>|
+|oSubjectHumanPositionCustom||false|<<SubjectHumanPositionCustom>>|
 |sChain||false|string|
 |sID_Group_Activiti||false|string|
 |sName||false|string|

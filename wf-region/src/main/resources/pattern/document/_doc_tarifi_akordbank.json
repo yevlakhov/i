@@ -35,8 +35,10 @@
                 "*"
             ],
             "asID_Field_Write": [
-                "sDecision"
-                "sOrder"
+                "sDecision",
+                "sOrder",
+                "sNote",
+                "sName_ResponsiblePerson"
             ]
         },
         "_default_Director_Department_RB": {
