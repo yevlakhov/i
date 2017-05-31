@@ -396,7 +396,7 @@ public class ProcessSubjectService {
         }
         LOG.info("removeProcessSubject: before get tree");
 
-        ProcessSubjectTree processSubjectTreeToDelete = processSubjectTreeDao.findByExpected("nID_ProcessSubject_Child", processSubject.getId());
+        ProcessSubjectTree processSubjectTreeToDelete = processSubjectTreeDao.findByExpected("processSubjectChild", processSubject);
             
         if(processSubjectTreeToDelete != null){
             processSubjectTreeDao.delete(processSubjectTreeToDelete);
