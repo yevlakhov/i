@@ -5,18 +5,25 @@ import com.google.common.base.Optional;
 import com.google.common.collect.Lists;
 import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.LongSummaryStatistics;
 import java.util.Map;
+import java.util.stream.Collectors;
+import org.activiti.engine.HistoryService;
+import org.activiti.engine.RepositoryService;
 import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
+import org.activiti.engine.history.HistoricProcessInstance;
+import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.activiti.engine.task.Task;
 import org.igov.io.GeneralConfig;
 import org.igov.io.db.kv.temp.IBytesDataInmemoryStorage;
 import org.igov.io.db.kv.temp.exception.RecordInmemoryException;
+import static org.igov.io.fs.FileSystemData.getFileData_Pattern;
 import org.igov.model.process.ProcessSubject;
 import org.igov.model.process.ProcessSubjectDao;
 import org.igov.model.process.ProcessSubjectResult;
@@ -29,6 +36,7 @@ import org.igov.model.process.ProcessSubjectTree;
 import org.igov.model.process.ProcessSubjectTreeDao;
 import org.igov.service.business.document.DocumentStepService;
 import org.igov.util.JSON.JsonRestUtils;
+import org.igov.util.Tool;
 import org.joda.time.DateTime;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
@@ -78,6 +86,9 @@ public class ProcessSubjectTaskService {
     
     @Autowired
     private DocumentStepService oDocumentStepService;
+    
+    @Autowired
+    private HistoryService oHistoryService;       
     
     @Autowired
     private ProcessSubjectStatusDao oProcessSubjectStatusDao;
@@ -361,6 +372,33 @@ public class ProcessSubjectTaskService {
         
         Long nOrder = nStartOrder;
         
+        HistoricProcessInstance oHistoricProcessInstance = oHistoryService.createHistoricProcessInstanceQuery().
+                processInstanceId((String)((JSONObject)oJsonProcessSubjectTask)
+                .get("snID_Process_Activiti_Root")).singleResult();
+        
+        String nId_Task_Root = oTaskService.createTaskQuery().processInstanceId((String)((JSONObject)oJsonProcessSubjectTask)
+                .get("snID_Process_Activiti_Root")).active().singleResult().getId();
+            
+        LOG.info("oProcessDefinition is {}", oHistoricProcessInstance.getProcessDefinitionId());
+        
+        String sPath = "document/" + 
+                oHistoricProcessInstance.getProcessDefinitionId().split(":")[0] + ".json";
+        LOG.info("sPath={}", sPath);
+        
+        List<String> asKey_Step = null;
+        
+        byte[] aByteDocument = getFileData_Pattern(sPath);
+            if (aByteDocument != null && aByteDocument.length > 0) {
+                String soJSON = soJSON = Tool.sData(aByteDocument);
+                LOG.info("soJSON in ProcessSubjectTask is: {}", soJSON);
+                org.activiti.engine.impl.util.json.JSONObject oJSON = new org.activiti.engine.impl.util.json.JSONObject(soJSON);
+                asKey_Step = Arrays.asList(org.activiti.engine.impl.util.json.JSONObject.getNames(oJSON));
+                
+                LOG.info("List of steps in ProcessSubjectTask is: {}", asKey_Step);
+                
+        }
+            
+        
         for (Object oJsonProcessSubject : aJsonProcessSubject) {
             
             ProcessSubject oProcessSubject = null;
@@ -409,11 +447,18 @@ public class ProcessSubjectTaskService {
             oProcessSubject.setsDatePlan(datePlan);
             aProcessSubject.add(oProcessSubject);
             LOG.info("oProcessSubject in setProcessSubjectList: {}", oProcessSubject);
-            
-            /*if((JSONObject)oJsonProcessSubjectTask.get("sKey_GroupPostfix") != null){
-                oDocumentStepService.cloneDocumentStepSubject((String)((JSONObject)oJsonProcessSubjectTask).get("snID_Process_Activiti_Root"), 
-                    (String)((JSONObject)oJsonProcessSubjectTask).get("sKey_GroupPostfix"), (String) ((JSONObject)oJsonProcessSubject).get("sLogin"), "_", false);
-            }*/
+
+            if(((JSONObject)oJsonProcessSubjectTask).get("sKey_GroupPostfix") != null){
+                
+                oTaskService.addCandidateGroup(nId_Task_Root, (String)((JSONObject)oJsonProcessSubject).get("sLogin"));
+                LOG.info("nId_Task_Root is {}", nId_Task_Root);
+                LOG.info("sLogin is {}", (String)((JSONObject)oJsonProcessSubject).get("sLogin"));
+
+                for(String step : asKey_Step){
+                    oDocumentStepService.cloneDocumentStepSubject((String)((JSONObject)oJsonProcessSubjectTask).get("snID_Process_Activiti_Root"), 
+                        (String)((JSONObject)oJsonProcessSubjectTask).get("sKey_GroupPostfix"), (String) ((JSONObject)oJsonProcessSubject).get("sLogin"), step, true);
+                }
+            }
         }
 
         return oProcessSubjectDao.saveOrUpdate(aProcessSubject);

@@ -260,6 +260,13 @@ public class FinanceCommonController {
         @ApiParam(value = "количество часов актуальности платежа", required = false) @RequestParam Integer sExpired_Period_Hour
     ) throws Exception {
 
+    	LOG.info("sID_Merchant in fcc = >>>>>", sID_Merchant );
+    	LOG.info("sID_Order in fcc = >>>>>", sID_Order );
+    	LOG.info("sSum in fcc = >>>>>", sSum );
+    	LOG.info("sDescription in fcc = >>>>>", sDescription );
+    	LOG.info("sID_Currency in fcc = >>>>>", sID_Currency );
+    	LOG.info("nID_Subject in fcc = >>>>>", nID_Subject );
+    	LOG.info("sExpired_Period_Hour in fcc = >>>>>", sExpired_Period_Hour );
         if (sSum != null) {
             sSum = sSum.replaceAll(",", ".");
         }else{

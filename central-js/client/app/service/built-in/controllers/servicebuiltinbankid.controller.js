@@ -1,10 +1,17 @@
-angular.module('app').controller('ServiceBuiltInBankIDController',
+angular.module('app').controller('ServiceBuiltInBankIDController', ['$sce', '$state', '$stateParams', '$scope', '$timeout',
+    '$location', '$window', '$rootScope', '$http', '$filter', 'FormDataFactory', 'ActivitiService', 'ValidationService',
+    'ServiceService', 'oService', 'oServiceData', 'BankIDAccount', 'activitiForm', 'formData', 'allowOrder', 'countOrder',
+    'selfOrdersCount', 'AdminService', 'PlacesService', 'uiUploader', 'FieldAttributesService', 'iGovMarkers', 'service',
+    'FieldMotionService', 'ParameterFactory', '$modal', 'FileFactory', 'DatepickerFactory', 'autocompletesDataFactory',
+    'ErrorsFactory', 'taxTemplateFileHandler', 'taxTemplateFileHandlerConfig', 'SignFactory', 'TableService', 'LabelService',
+    'MasterPassService',
     function ($sce, $state, $stateParams, $scope, $timeout, $location, $window, $rootScope, $http, $filter,
               FormDataFactory, ActivitiService, ValidationService, ServiceService, oService, oServiceData,
               BankIDAccount, activitiForm, formData, allowOrder, countOrder, selfOrdersCount, AdminService,
               PlacesService, uiUploader, FieldAttributesService, iGovMarkers, service, FieldMotionService,
               ParameterFactory, $modal, FileFactory, DatepickerFactory, autocompletesDataFactory,
-              ErrorsFactory, taxTemplateFileHandler, taxTemplateFileHandlerConfig, SignFactory, TableService, LabelService) {
+              ErrorsFactory, taxTemplateFileHandler, taxTemplateFileHandlerConfig, SignFactory, TableService, LabelService,
+              MasterPassService) {
 
       'use strict';
 
@@ -33,6 +40,9 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       $scope.data.formData = formData;
       $scope.tableIsInvalid = false;
+
+      $scope.checkoutData = {};
+      $scope.isOpenedCheckout = false;
 
       $scope.setFormScope = function (scope) {
         this.formScope = scope;
@@ -1163,5 +1173,59 @@ angular.module('app').controller('ServiceBuiltInBankIDController',
 
       $scope.isSetClasses = function (field) {
         return LabelService.isLabelHasClasses(field)
+      };
+
+      /*MasterPass Checkout start*/
+      $scope.isMPassField = function (id) {
+        return MasterPassService.isMasterPassButton(id);
+      };
+
+      $scope.authorizeCheckout = function () {
+        $scope.checkoutSpinner = true;
+        $scope.paymentStatus = null;
+        var phoneNumber = MasterPassService.searchValidPhoneNumber($scope.data.formData.params);
+
+        if (phoneNumber && phoneNumber.length === 12)
+          MasterPassService.checkUser(phoneNumber, 'ua').then(function (res) {
+            if(res) {
+              $scope.isOpenedCheckout = true;
+              if(res.url) {
+                $scope.userCards = null;
+                $scope.registerLink = res.url;
+              } else if(res.error) {
+                $scope.paymentStatus = 4;
+                console.error(res.error);
+              } else {
+                $scope.userCards = res;
+                $scope.registerLink = null;
+              }
+            }
+            $scope.checkoutConfirm = {status: 'checkout'};
+            $scope.checkoutSpinner = false;
+          });
+      };
+
+      var checkLocation = $location.url();
+      if(checkLocation.indexOf('pmt_id') > -1) {
+        var parse = checkLocation.split('?')[1], data = parse.split('&'), paymentStatus = data[0].split('=')[1], paymentID = data[1].split('=')[1];
+
+        $scope.isOpenedCheckout = true;
+        $scope.paymentStatus = paymentStatus;
+
+        $scope.checkoutData.payment = {result: paymentID};
+
+        var tempFiles = localStorage.getItem('temporaryForm');
+        if (tempFiles) {
+          $scope.data.formData.params = JSON.parse(tempFiles).form;
+          $scope.activitiForm.formProperties = JSON.parse(tempFiles).activiti;
+          localStorage.removeItem('temporaryForm');
+        }
+
+        for(var field in $scope.data.formData.params) {
+          if($scope.data.formData.params.hasOwnProperty(field) && field.indexOf('sID_Pay_MasterPass') === 0) {
+            $scope.data.formData.params[field].value = paymentID;
+          }
+        }
       }
-});
+      /*MasterPass Checkout end*/
+}]);

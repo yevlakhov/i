@@ -22,9 +22,8 @@ import org.activiti.engine.RuntimeService;
 import org.activiti.engine.TaskService;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.runtime.ProcessInstance;
+
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.igov.model.core.BaseEntityDao;
 import org.igov.model.process.ProcessSubject;
 import org.igov.model.process.ProcessSubjectDao;
@@ -38,23 +37,26 @@ import org.igov.model.process.ProcessUser;
 import org.igov.service.conf.AttachmetService;
 import org.igov.service.business.action.event.ActionEventHistoryService;
 import org.igov.service.business.action.task.core.ActionTaskService;
-import org.igov.service.exception.EntityNotFoundException;
+import org.igov.io.GeneralConfig;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired; 
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import org.igov.io.GeneralConfig;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -98,6 +100,9 @@ public class ProcessSubjectService {
     
     @Autowired
     private ActionTaskService oActionTaskService;
+    
+    @Autowired
+    private ProcessSubjectTaskService oProcessSubjectTaskService;
 
     public ProcessSubjectResult getCatalogProcessSubject(String snID_Process_Activiti, Long deepLevel, String sFind) {
 
@@ -394,16 +399,14 @@ public class ProcessSubjectService {
         if (processInstance != null) {
             runtimeService.deleteProcessInstance(processSubject.getSnID_Process_Activiti(), "deleted");
         }
-        LOG.info("removeProcessSubject: before get tree");
-
-        ProcessSubjectTree processSubjectTreeToDelete = processSubjectTreeDao.findByExpected("nID_ProcessSubject_Child", processSubject.getId());
-            
-        if(processSubjectTreeToDelete != null){
-            processSubjectTreeDao.delete(processSubjectTreeToDelete);
-        } else {
-        LOG.info("processSubjectTree is null");
-        }
         
+        Optional<ProcessSubjectTree> processSubjectTreeToDelete = processSubjectTreeDao.findBy("processSubjectChild", processSubject);
+        
+        if(processSubjectTreeToDelete.isPresent()){
+            LOG.info("processSubjectTreeToDelete {}", processSubjectTreeToDelete.get());
+            processSubjectTreeDao.delete(processSubjectTreeToDelete.get());
+        }
+
         processSubjectDao.delete(processSubject);
         LOG.info("removeProcessSubject ended...");
     }
@@ -850,6 +853,7 @@ public class ProcessSubjectService {
         ProcessSubject oProcessSubjectMain = processSubjectDao.findByProcessActivitiIdAndLogin(snID_Process_Activiti, sLoginMain);
                   
         String sLoginRoleMain = oProcessSubjectMain.getsLoginRole();
+        LOG.info("sLoginRoleMain={}", sLoginRoleMain);
         
         if (sLoginRoleMain.equals("Executor") || sLoginRoleMain.equals("Controller")) {
 
@@ -949,18 +953,15 @@ public class ProcessSubjectService {
                
             } else if ((sID_ProcessSubjectStatus.equals("executed") || sID_ProcessSubjectStatus.equals("notExecuted") 
                 || sID_ProcessSubjectStatus.equals("unactual")) && sLoginRoleMain.equals("Controller")) {
-                
-                LOG.info("setProcessSubjectStatus: last case");
-                
-                List<ProcessSubject> aListOfOrocessSubjectToRemove = processSubjectDao.findAllBy("snID_Process_Activiti", snID_Process_Activiti);
-                
-                for (ProcessSubject oProcessSubject : aListOfOrocessSubjectToRemove) {
-              
-                        removeProcessSubject(oProcessSubject);
-                        
-                    }
-                }
                                 
+                List<ProcessSubject> aListOfOrocessSubjectToRemove = processSubjectDao.findAllBy("snID_Process_Activiti", snID_Process_Activiti);
+                LOG.info("aListOfOrocessSubjectToRemove={}", aListOfOrocessSubjectToRemove);
+                
+                for (ProcessSubject oProcessSubject : aListOfOrocessSubjectToRemove) {                                       
+                    removeProcessSubjectDeep(oProcessSubject);                                           
+                }
+            }
+            LOG.info("Setting a status complete.");
             
         } else {
         

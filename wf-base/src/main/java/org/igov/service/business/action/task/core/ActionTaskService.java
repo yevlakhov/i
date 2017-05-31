@@ -22,8 +22,11 @@ import org.activiti.engine.impl.util.json.JSONArray;
 import org.activiti.engine.impl.util.json.JSONObject;
 import org.activiti.engine.repository.ProcessDefinition;
 import org.activiti.engine.task.*;
+import org.activiti.engine.runtime.ProcessInstance;
+
 import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.StringUtils;
+
 import org.igov.io.GeneralConfig;
 import org.igov.io.mail.Mail;
 import org.igov.model.action.event.HistoryEvent_Service_StatusType;
@@ -45,10 +48,13 @@ import org.igov.util.ToolJS;
 import org.igov.util.ToolLuna;
 import org.igov.util.cache.CachedInvocationBean;
 import org.igov.util.cache.SerializableResponseEntity;
+
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormatter;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -1074,24 +1080,41 @@ public class ActionTaskService {
     /**
      * Получение списка бизнес процессов к которым у пользователя есть доступ
      *
-     * @param sLogin - Логин пользователя
+     * @param sLogin - Логин. пользователя
      * @param bDocOnly Выводить только список БП документов
      * @param sProcessDefinitionId - выводить только из этого процесса
      * @return
      */
     public List<Map<String, String>> getBusinessProcessesOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {
-
-        List<ProcessDefinition> aProcessDefinition_Return = getBusinessProcessesObjectsOfLogin(
-                sLogin, bDocOnly, sProcessDefinitionId);
-
-        List<Map<String, String>> amPropertyBP = new LinkedList<>();
+        
+        List<ProcessInstance> aProcessInstance = oRuntimeService.createNativeProcessInstanceQuery().sql(
+            "Select proc.* from act_hi_procinst proc, act_hi_identitylink link where proc.id_ = link.proc_inst_id_"
+                    + "                                                        and link.user_id_ = '" + sLogin + "'"
+            ).list();
+        LOG.info("NativeProcessInstanceQuery={}", aProcessInstance);
+        
+        List<ProcessDefinition> aProcessDefinition_Return = new ArrayList();
+        
+        for (ProcessInstance oProcessInstance : aProcessInstance) {
+            
+            ProcessDefinition oProcessDefinition = oRepositoryService.getProcessDefinition(oProcessInstance.getProcessDefinitionId());
+            LOG.info("getBusinessProcessesOfLogin oProcessDefinition={}", oProcessDefinition);
+            
+            if (bDocOnly && oProcessInstance.getProcessDefinitionId().startsWith("_doc_")) {
+                aProcessDefinition_Return.add(oProcessDefinition);
+            }
+        }
+        LOG.info("aProcessDefinition_Return={}", aProcessDefinition_Return);
+              
+        List<Map<String, String>> amPropertyBP = new LinkedList<>();/*
+         
         for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return) {
             Map<String, String> mPropertyBP = new HashMap<>();
             mPropertyBP.put("sID", oProcessDefinition.getKey());
             mPropertyBP.put("sName", oProcessDefinition.getName());
             LOG.debug("Added record to response {}", mPropertyBP);
             amPropertyBP.add(mPropertyBP);
-        }
+        }*/
 
         return amPropertyBP;
     }
