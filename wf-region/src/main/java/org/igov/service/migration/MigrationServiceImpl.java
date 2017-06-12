@@ -312,12 +312,19 @@ public class MigrationServiceImpl implements MigrationService {
             attribute.setoAttributeTypeCustom(createAttributeTypeCustom(id, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setoAttributeType(getAttributeType(value, attribute, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setName(id);
-            attribute.setsID_("sID_ Attribute");
+            attribute.setsID_(getsID_ForAttribute(id,  process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setoAttributeName(createAttributeName(id));
 
             resultList.add(attribute);
         });
         return resultList;
+    }
+
+    private String getsID_ForAttribute(String variableId, String processId) {
+        List<HistoricVariableInstance> historicVariableInstance =
+                historyService.createNativeHistoricVariableInstanceQuery()
+                        .sql("SELECT * FROM act_hi_varinst where name_ = \'" + variableId + "\' AND proc_inst_id_ = \'" + processId + "\'").list();
+        return historicVariableInstance.get(0).getId();
     }
 
     private AttributeTypeCustom createAttributeTypeCustom(String variableId, String processId) {
