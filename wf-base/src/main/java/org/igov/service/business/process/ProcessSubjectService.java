@@ -23,8 +23,7 @@ import org.activiti.engine.TaskService;
 import org.activiti.engine.identity.User;
 import org.activiti.engine.runtime.ProcessInstance;
 import org.apache.commons.io.IOUtils;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.igov.io.GeneralConfig;
 import org.igov.model.core.BaseEntityDao;
 import org.igov.model.process.ProcessSubject;
 import org.igov.model.process.ProcessSubjectDao;
@@ -35,25 +34,25 @@ import org.igov.model.process.ProcessSubjectStatusDao;
 import org.igov.model.process.ProcessSubjectTree;
 import org.igov.model.process.ProcessSubjectTreeDao;
 import org.igov.model.process.ProcessUser;
-import org.igov.service.conf.AttachmetService;
 import org.igov.service.business.action.event.ActionEventHistoryService;
 import org.igov.service.business.action.task.core.ActionTaskService;
+import org.igov.service.conf.AttachmetService;
 import org.joda.time.DateTime;
 import org.joda.time.format.DateTimeFormat;
 import org.joda.time.format.DateTimeFormatter;
 import org.json.simple.JSONArray;
 import org.json.simple.JSONObject;
 import org.json.simple.parser.JSONParser;
-import org.springframework.beans.factory.annotation.Autowired; 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
 import com.google.common.base.Function;
+import com.google.common.base.Optional;
 import com.google.common.base.Predicate;
 import com.google.common.collect.Collections2;
 import com.google.common.collect.Lists;
-import org.igov.io.GeneralConfig;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.stereotype.Component;
 
 /**
  *
@@ -97,6 +96,9 @@ public class ProcessSubjectService {
     
     @Autowired
     private ActionTaskService oActionTaskService;
+    
+    @Autowired
+    private ProcessSubjectTaskService oProcessSubjectTaskService;
 
     public ProcessSubjectResult getCatalogProcessSubject(String snID_Process_Activiti, Long deepLevel, String sFind) {
 
@@ -384,22 +386,23 @@ public class ProcessSubjectService {
     }
 
     public void removeProcessSubject(ProcessSubject processSubject) {
+        
         LOG.info("removeProcessSubject started...");
+        
         ProcessInstance processInstance = runtimeService.createProcessInstanceQuery().processInstanceId(processSubject.getSnID_Process_Activiti()).singleResult();
         LOG.info("processInstance {}", processInstance);
+        
         if (processInstance != null) {
             runtimeService.deleteProcessInstance(processSubject.getSnID_Process_Activiti(), "deleted");
         }
+        
+        Optional<ProcessSubjectTree> processSubjectTreeToDelete = processSubjectTreeDao.findBy("processSubjectChild", processSubject);
+        
+        if(processSubjectTreeToDelete.isPresent()){
+            LOG.info("processSubjectTreeToDelete {}", processSubjectTreeToDelete.get());
+            processSubjectTreeDao.delete(processSubjectTreeToDelete.get());
+        }
 
-        ProcessSubjectTree processSubjectTreeToDelete = processSubjectTreeDao.findByExpected("processSubjectChild", processSubject);
-        
-        if(processSubjectTreeToDelete != null){
-            processSubjectTreeDao.delete(processSubjectTreeToDelete);
-        }
-        else{
-            LOG.info("processSubjectTree is null");
-        }
-        
         processSubjectDao.delete(processSubject);
         LOG.info("removeProcessSubject ended...");
     }
@@ -553,8 +556,8 @@ public class ProcessSubjectService {
         historyParam.put("sLogin", sLogin);
 
         try {
-            oActionEventHistoryService.addHistoryEvent(sID_Order,
-                   sLogin, historyParam, 14L);
+            //oActionEventHistoryService.addHistoryEvent(sID_Order,
+            //       sLogin, historyParam, 14L);
         } catch (Exception ex) {
             LOG.info("Error saving history during document editing: {}", ex);
         }
@@ -597,6 +600,41 @@ public class ProcessSubjectService {
                 LOG.info("oDateDoc: " + oDateDoc);
                 LOG.info("sFormatDateDoc: " + sFormatDateDoc);
                 mParam.replace("sDateDoc", sFormatDateDoc);
+            }
+            if ((mParam.get("oDateBegin") != null) && (!mParam.get("oDateBegin").equals(""))) {
+                Date oDateDoc = parseDate((String)mParam.get("oDateBegin"));
+                sFormatDateDoc = df_StartProcess.format(oDateDoc);
+                LOG.info("oDateBegin: " + oDateDoc);
+                LOG.info("sFormatoDateBegin: " + sFormatDateDoc);
+                mParam.replace("oDateBegin", sFormatDateDoc);
+            }
+            if ((mParam.get("oDateEnd") != null) && (!mParam.get("oDateEnd").equals(""))) {
+                Date oDateDoc = parseDate((String)mParam.get("oDateEnd"));
+                sFormatDateDoc = df_StartProcess.format(oDateDoc);
+                LOG.info("oDateEnd: " + oDateDoc);
+                LOG.info("sFormatoDateEnd: " + sFormatDateDoc);
+                mParam.replace("oDateEnd", sFormatDateDoc);
+            }
+            if ((mParam.get("sDate_441") != null) && (!mParam.get("sDate_441").equals(""))) {
+                Date oDateDoc = parseDate((String)mParam.get("sDate_441"));
+                sFormatDateDoc = df_StartProcess.format(oDateDoc);
+                LOG.info("sDate_441: " + oDateDoc);
+                LOG.info("sFormatsDate_441: " + sFormatDateDoc);
+                mParam.replace("sDate_441", sFormatDateDoc);
+            }
+            if ((mParam.get("sDateApprove") != null) && (!mParam.get("sDateApprove").equals(""))) {
+                Date oDateDoc = parseDate((String)mParam.get("sDateApprove"));
+                sFormatDateDoc = df_StartProcess.format(oDateDoc);
+                LOG.info("sDateApprove: " + oDateDoc);
+                LOG.info("sFormatsDateApprove: " + sFormatDateDoc);
+                mParam.replace("sDateApprove", sFormatDateDoc);
+            }
+            if ((mParam.get("sDate_442") != null) && (!mParam.get("sDate_442").equals(""))) {
+                Date oDateDoc = parseDate((String)mParam.get("sDate_442"));
+                sFormatDateDoc = df_StartProcess.format(oDateDoc);
+                LOG.info("sDate_442: " + oDateDoc);
+                LOG.info("sFormatsDate_442: " + sFormatDateDoc);
+                mParam.replace("sDate_442", sFormatDateDoc);
             }
 
             ProcessSubject oProcessSubjectParent = processSubjectDao.findByProcessActivitiId(snProcess_ID);
@@ -751,9 +789,7 @@ public class ProcessSubjectService {
         }
         return oDateReturn;
     }
-
     
-
       
     /**
      * По ид процесса активити вынимаем всех детей. Если статус отличен от
@@ -846,9 +882,10 @@ public class ProcessSubjectService {
         ProcessSubject oProcessSubjectMain = processSubjectDao.findByProcessActivitiIdAndLogin(snID_Process_Activiti, sLoginMain);
                   
         String sLoginRoleMain = oProcessSubjectMain.getsLoginRole();
+        LOG.info("sLoginRoleMain={}", sLoginRoleMain);
         
         if (sLoginRoleMain.equals("Executor") || sLoginRoleMain.equals("Controller")) {
-            
+
             ProcessSubjectStatus oProcessSubjectStatus = processSubjectStatusDao.findByExpected("sID", sID_ProcessSubjectStatus);
             
             DateTime dtCurrentDate = new DateTime();
@@ -859,8 +896,8 @@ public class ProcessSubjectService {
             }
              
             //Исполнитель отработал задачу
-            if (sID_ProcessSubjectStatus.equals("executed") || sID_ProcessSubjectStatus.equals("notExecuted") 
-                || sID_ProcessSubjectStatus.equals("unactual") && sLoginRoleMain.equals("Executor")) {
+            if ((sID_ProcessSubjectStatus.equals("executed") || sID_ProcessSubjectStatus.equals("notExecuted") 
+                || sID_ProcessSubjectStatus.equals("unactual")) && sLoginRoleMain.equals("Executor")) {
                 
                 if (sText != null) {                          
                     oProcessSubjectMain.setsText(sText);
@@ -942,18 +979,22 @@ public class ProcessSubjectService {
                 oProcessSubjectExecutor.setoProcessSubjectStatus(oProcessSubjectStatus);
                 
                 processSubjectDao.saveOrUpdate(oProcessSubjectExecutor);
-            
-            //Закрытие задания контролирующим    
-            } else if (sID_ProcessSubjectStatus.equals("executed") || sID_ProcessSubjectStatus.equals("notExecuted") 
-                || sID_ProcessSubjectStatus.equals("unactual") && sLoginRoleMain.equals("Controller")) {
-            
-                //сервис Егора
+               
+            } else if ((sID_ProcessSubjectStatus.equals("executed") || sID_ProcessSubjectStatus.equals("notExecuted") 
+                || sID_ProcessSubjectStatus.equals("unactual")) && sLoginRoleMain.equals("Controller")) {
+                                
+                List<ProcessSubject> aListOfOrocessSubjectToRemove = processSubjectDao.findAllBy("snID_Process_Activiti", snID_Process_Activiti);
+                LOG.info("aListOfOrocessSubjectToRemove={}", aListOfOrocessSubjectToRemove);
                 
+                for (ProcessSubject oProcessSubject : aListOfOrocessSubjectToRemove) {                                       
+                    removeProcessSubjectDeep(oProcessSubject);                                           
+                }
             }
+            LOG.info("Setting a status complete.");
             
         } else {
         
-            throw  new RuntimeException("Login=" + sLoginController + " has no access to change a status.");
+            throw  new RuntimeException("Login=" + sLoginMain + " has no access to change a status.");
         }
         
         return oProcessSubjectMain;
