@@ -26,6 +26,7 @@ import org.igov.analytic.model.source.SourceDB;
 import org.igov.analytic.model.source.SourceDBDao;
 import org.igov.io.db.kv.analytic.impl.BytesMongoStorageAnalytic;
 import org.igov.service.business.action.task.core.ActionTaskService;
+import org.igov.service.migration.exception.MigrationException;
 import org.igov.util.VariableMultipartFile;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
@@ -325,10 +326,14 @@ public class MigrationServiceImpl implements MigrationService {
         List<HistoricVariableInstance> historicVariableInstance =
                 historyService.createNativeHistoricVariableInstanceQuery()
                         .sql("SELECT * FROM act_hi_varinst where name_ = \'" + variableId + "\' AND proc_inst_id_ = \'" + processId + "\'").list();
+        if (!attributeTypeCustomDao.findBy("name", historicVariableInstance.get(0).getVariableTypeName()).isPresent())
+            throw new MigrationException("This id is missing in reference: " + historicVariableInstance.get(0).getVariableTypeName());
         return attributeTypeCustomDao.findBy("name", historicVariableInstance.get(0).getVariableTypeName()).get();
     }
 
     private AttributeName createAttributeName(String id) {
+        if (!attributeNameDao.findBy("sID", id).isPresent())
+            throw new MigrationException("This sID is missing in reference (attributeNameDao): " + id);
         return attributeNameDao.findBy("sID", id).get();
     }
 
