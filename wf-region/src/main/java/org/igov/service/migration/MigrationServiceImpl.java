@@ -123,10 +123,12 @@ public class MigrationServiceImpl implements MigrationService {
 
     private String composeSql(DateTime startTime, String processId) {
         DateTime endTime = startTime.plusDays(3);
-        return "SELECT * from act_hi_procinst where proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null AND proc_inst_id_ =\'" + processId + "\'";
-//        return "SELECT * from act_hi_procinst where start_time_ > TIMESTAMP \' "
-//               + startTime.toString("yyyy-MM-dd HH:mm:ss")
-//                + "\' AND start_time_ < TIMESTAMP \'" + endTime.toString("yyyy-MM-dd HH:mm:ss") + "\' AND proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null";
+        if (processId != null)
+            return "SELECT * from act_hi_procinst where proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null AND proc_inst_id_ =\'" + processId + "\'";
+        else
+            return "SELECT * from act_hi_procinst where start_time_ > TIMESTAMP \' "
+                    + startTime.toString("yyyy-MM-dd HH:mm:ss")
+                    + "\' AND start_time_ < TIMESTAMP \'" + endTime.toString("yyyy-MM-dd HH:mm:ss") + "\' AND proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null";
     }
 
     private void prepareAndSave(List<HistoricProcessInstance> historicProcessList) {
@@ -312,7 +314,7 @@ public class MigrationServiceImpl implements MigrationService {
             attribute.setoAttributeTypeCustom(createAttributeTypeCustom(id, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setoAttributeType(getAttributeType(value, attribute, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setName(id);
-            attribute.setsID_(getsID_ForAttribute(id,  process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
+            attribute.setsID_(getsID_ForAttribute(id, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setoAttributeName(createAttributeName(id));
 
             resultList.add(attribute);
