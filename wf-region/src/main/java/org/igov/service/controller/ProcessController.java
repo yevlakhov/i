@@ -83,7 +83,7 @@ public class ProcessController {
 
     @ApiOperation(value = "/migration", notes = "#### Migration - миграция закрытых данных с активной БД в аналитическую")
     @RequestMapping(value = "/migration", method = RequestMethod.GET)
-    public void migrate(@RequestParam(value = "processId", defaultValue = "27110001", required = false) String processId) {
+    public void migrate(@RequestParam(value = "processId", required = false) String processId) {
         LOG.info("Inside /migration service");
         migrationService.migrateOldRecords(processId);
     }
