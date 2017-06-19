@@ -72,3 +72,5 @@ nID;sID_BP;sID_Place_UA;sID_Group_Referent;asID_Group_Export;sFormulaFilter_Expo
 71;_doc_btsol_businessTrip;;comfy;NULL;NULL;NULL
 72;justice_0353_PervDopom;;;bvpd_dnipro2;(asDecide=='sAccept');NULL
 73;_doc_test1;Днепр;justice_common;justice_common;NULL;NULL
+74;_test_AnalitServ_Stat;Днепр;test_analit;test_analit;NULL;NULL
+75;_test_AnalitServ_StatOld;Днепр;test_analit;test_analit;NULL;NULL

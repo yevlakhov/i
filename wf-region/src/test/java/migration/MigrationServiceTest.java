@@ -16,7 +16,6 @@ import org.springframework.util.Assert;
 
 @RunWith(SpringJUnit4ClassRunner.class)
 @ContextConfiguration(locations = "classpath:migration-context-test.xml")
-@Ignore
 public class MigrationServiceTest {
 
     @Autowired
@@ -24,6 +23,6 @@ public class MigrationServiceTest {
     
     @Test
     public void shouldReturnHistoricTaskList() {
-        //Assert.notEmpty(migrationService.getTaskList(), "Is empty");
+
     }
 }

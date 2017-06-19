@@ -38,6 +38,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletResponse;
 import java.util.*;
+import org.igov.model.action.task.core.ProcessIdCover;
 
 /**
  * @author olga
@@ -83,7 +84,7 @@ public class ProcessController {
 
     @ApiOperation(value = "/migration", notes = "#### Migration - миграция закрытых данных с активной БД в аналитическую")
     @RequestMapping(value = "/migration", method = RequestMethod.GET)
-    public void migrate(@RequestParam(value = "processId", defaultValue = "27110001", required = false) String processId) {
+    public void migrate(@RequestParam(value = "processId", required = false) String processId) {
         LOG.info("Inside /migration service");
         migrationService.migrateOldRecords(processId);
     }
@@ -161,10 +162,10 @@ public class ProcessController {
     }
 
     //http://localhost:8080/wf-region/service/analytic/process/getProcesses?sID_=1
+    //http://localhost:8080/wf-region/service/analytic/process/getProcesses?sID_=1
     @ApiOperation(value = "/getProcesses", notes = "##### Process - получение процесса #####\n\n")
     @RequestMapping(value = "/getProcesses", method = RequestMethod.GET, headers = {JSON_TYPE})
-    public
-    @ResponseBody
+    public @ResponseBody
     List<Process> getProcesses(
             @ApiParam(value = "внутренний ид заявки", required = true) @RequestParam(value = "sID_") String sID_,
             @ApiParam(value = "ид источника", required = false) @RequestParam(value = "nID_Source", required = false) Long nID_Source) {
@@ -174,15 +175,16 @@ public class ProcessController {
             LOG.info("/getProcess!!!!!!!!!!!!!!!!!!!!string sID_: " + sID_.trim());
             sID_ = sID_.trim().toUpperCase();
             if (sID_.length() >= 3) {
+                if (sID_.indexOf("-") == 1) { //передали sID_Order вместо nID_Process
+                    Long nID_Process = new ProcessIdCover(sID_, null, null, null).nID_Process();
+                    sID_ = String.valueOf(nID_Process);
+                }
                 List<Process> processes = processDao.findAllBy("sID_", sID_);
                 LOG.info("processes: " + processes.size());
                 result.addAll(processes);
             }
         } catch (Exception ex) {
             LOG.error("ex: ", ex);
-            Process process = createStub();
-            process.setsID_(ex.getMessage());
-            result.add(process);
         }
         return result;
     }
