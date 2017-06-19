@@ -142,7 +142,7 @@ public class MigrationServiceImpl implements MigrationService {
         process.setoSourceDB(getSourceDBForIGov());
         process.setaAttribute(createAttributes(historicProcess.getId(), process, null));
         process.setaProcessTask(createProcessTaskList(historicProcess.getId(), process));
-        process.setsID_Data(null);
+        process.setsID_Data("");
         process.setCustomProcess(createCustomProcessToInsert(historicProcess, process));
         process.setaAccessGroup(getAccessGroupFromStartForm(historicProcess));//это со стартовой формы заполняется(act_hi_identitylink глянуть)
         process.setaAccessUser(null);
