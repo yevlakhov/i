@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('app').service('MasterPassService', ['$http', '$location', '$window', 'modalService', function ($http, $location, $window, modalService) {
+angular.module('app').service('MasterPassService', ['$http', '$location', '$window', 'modalService', '$q', function ($http, $location, $window, modalService, $q) {
 
     var deleteCardModal = {
       closeButtonText: 'Скасувати',
@@ -37,12 +37,72 @@ angular.module('app').service('MasterPassService', ['$http', '$location', '$wind
         headerText: 'Увага',
         bodyText: 'Необхiдно заповнити поле з номером телефону'
       }
+    },
+    phoneIsNotVerified = {
+      defaults: answerDefault,
+      modal: {
+        actionButtonText: 'Ок',
+        headerText: 'Увага',
+        bodyText: 'Необхiдно пiдтвердити номер телефону'
+      }
     };
 
   return {
-    isMasterPassButton: function (id) {
-      if(id)
+    isMasterPassButton: function (id, all) {
+      if(id && !all)
         return id.indexOf('sID_Pay_MasterPass') === 0;
+      if(!id && all) {
+        for( var i=0; i<all.length; i++ ) {
+          if( all[i].id.indexOf('sID_Pay_MasterPass') === 0 ) {
+            return true;
+          }
+        }
+      }
+    },
+
+    getSum: function (form) {
+      var deferred = $q.defer();
+      for(var i=0; i<form.length; i++) {
+        if(form[i].id.indexOf('sID_Merchant_MasterPass') === 0) {
+          var object = JSON.parse(form[i].value), sum = 0;
+          angular.forEach(object.p2r, function (org) {
+            sum += parseFloat(org.amount);
+          });
+          for(var j=0; j<form.length; j++) {
+            if(form[j].id.indexOf('sSum_MasterPass') === 0){
+              deferred.resolve({sum: sum, id: form[j].id, position: j});
+            }
+          }
+        }
+      }
+
+      return deferred.promise;
+    },
+
+    phoneCheck: function (phone, value) {
+      var params = {
+        phone: phone,
+        value: value
+      };
+
+      return $http.get('./api/masterpass/verifyPhoneNumber', {params: params}).then(function (res) {
+        return !!(res);
+      })
+    },
+
+    otpPhoneConfirm: function (phone, otp) {
+      var params = {
+        phone: phone,
+        value: otp
+      };
+
+      return $http.get('./api/masterpass/confirmOtp', {params: params}).then(function (res) {
+        if(res) {
+          return res.data;
+        } else {
+          return false;
+        }
+      })
     },
 
     searchValidPhoneNumber: function (arr) {
@@ -91,6 +151,21 @@ angular.module('app').service('MasterPassService', ['$http', '$location', '$wind
       };
 
       return $http.post('./api/masterpass/checkUser', params).then(function (res) {
+        if(res && res.data.response) {
+          return res.data.response;
+        }
+      })
+    },
+
+    getCommission: function (sum) {
+      var params = {
+        "body": {
+          "invoice": sum
+        },
+        "action": "CalcPaymentAmount"
+      };
+
+      return $http.post('./api/masterpass', params).then(function (res) {
         if(res && res.data.response) {
           return res.data.response;
         }
@@ -241,7 +316,26 @@ angular.module('app').service('MasterPassService', ['$http', '$location', '$wind
           return answerDefault;
         case 'missed-phone':
           return hasNoPhoneNumber;
+        case 'phone-is-not-verified':
+          return phoneIsNotVerified;
       }
+    },
+
+    otpErrorMessages: function (msg) {
+      var answer;
+      switch (msg) {
+        case 'otp max attempts':
+          answer = 'Перевищена максимальна кiлькiсть спроб';
+          break;
+        case 'otp expired':
+          answer = 'Термін дії ОТР-паролю закінчився';
+          break;
+        case 'wrong otp':
+        case 'invalid value':
+          answer = 'Невiрний ОТР';
+          break;
+      }
+      return answer;
     },
 
     bankErrorMessage: function (msg) {

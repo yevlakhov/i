@@ -1,7 +1,23 @@
 'use strict';
 var request = require('request'),
     masterPassAuth = require('./mp.service'),
+    errorMessages = require('./bankResponses.service'),
     async = require('async');
+
+function getOptions(req) {
+  var config = require('../../config/environment');
+
+  var activiti = config.activiti;
+
+  return {
+    protocol: activiti.protocol,
+    hostname: activiti.hostname,
+    port: activiti.port,
+    path: activiti.path,
+    username: activiti.username,
+    password: activiti.password
+  };
+}
 
 module.exports.walletOperations = function (req, res) {
   var auth = masterPassAuth.getUserAuth();
@@ -155,8 +171,10 @@ module.exports.verify3DSCallback = function (req, res) {
           res.end();
         }
       });
-    } else {
-      res.redirect(callbackUrl)
+    } else if(result.response.pmt_status == 4 && result.response.error || result.response.error){
+      res.redirect(callbackUrl + '?status=' + result.response.error);
+    } else if(result.response.pmt_status == 4 && !result.response.error) {
+      res.redirect(callbackUrl + '?status=failed&bank_id=' + result.response.bank_response.bank_id + '&bank_response=' + result.response.bank_response.rc)
     }
   }
 };
@@ -185,4 +203,56 @@ module.exports.createSaleCancelPayment = function (req, res) {
         res.end();
       }
     });
+};
+
+module.exports.verifyPhoneNumber = function (req, res) {
+  var options = getOptions(req),
+      url = options.protocol + '://' + options.hostname + options.path + '/subject/message/sendSms';
+
+  var verifyData = masterPassAuth.createAndCheckOTP(req.query);
+
+    var callback = function(error, response, body) {
+      if(!error) {
+        res.send({message: body});
+        res.end();
+      } else {
+        res.send(error);
+        res.end();
+      }
+    };
+
+    return request.get({
+      'url': url,
+      'auth': {
+        'username': options.username,
+        'password': options.password
+      },
+      'qs': {
+        'phone': verifyData.phone,
+        'message': verifyData.code,
+        'sID_Order': '1'
+      }
+    }, callback);
+};
+
+module.exports.confirmOtp = function (req, res) {
+  var response = masterPassAuth.createAndCheckOTP(req.query);
+    if(response) {
+      res.send(response);
+      res.end();
+    } else {
+      res.send(false);
+      res.end();
+    }
+};
+
+module.exports.getErrorMessage = function (req, res) {
+  var response = errorMessages.getErrorMessage(req.query.code, req.query.error);
+  if(response) {
+    res.send(response);
+    res.end();
+  } else {
+    res.send('Спробуйте пiзнiше');
+    res.end();
+  }
 };

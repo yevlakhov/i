@@ -3,6 +3,7 @@
     "_default_idoc": {
       "sName": " ",
       "bWrite": true,
+      "aPermition" : ["Delegate","AddAcceptor","AddVisor"],
       "asID_Field_Read": ["*"],
       "asID_Field_Write": ["*"]
     
@@ -11,7 +12,7 @@
       "sName": " ",
       "bWrite": false,
       "asID_Field_Read": ["*"]
-         }
+    }
   },
   "step_1": {},
   "step_2": {},

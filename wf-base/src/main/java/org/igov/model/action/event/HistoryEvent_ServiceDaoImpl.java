@@ -186,6 +186,8 @@ public class HistoryEvent_ServiceDaoImpl extends GenericEntityDao<Long, HistoryE
         query.addEntity(ServicesStatistics.class);
 
         servicesStatistics = query.list();
+        
+        LOG.info("List servicesStatistics after get sql = {} ", servicesStatistics );
 
         return servicesStatistics;
     }

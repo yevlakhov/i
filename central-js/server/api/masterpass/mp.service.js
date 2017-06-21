@@ -64,3 +64,22 @@ module.exports.createGuid = function () {
 
   return result;
 };
+
+module.exports.createAndCheckOTP = function (data) {
+  var isTestServer = config.bTest, response;
+
+  if( data.phone && !data.value && data.value !== "") {
+    var code = isTestServer ? '0000' : Math.floor(1000 + Math.random() * 9000);
+    var string = '0000' ? '0000' : code.toString();
+
+    cache.set(buildKey(data.phone), string, 600);
+    response = {phone: data.phone, code: string};
+
+  } else if( data.phone && data.value ) {
+    cache.get(buildKey(data.phone), function (error, value) {
+      response = !!(value && value === data.value);
+    });
+  }
+
+  return response;
+};

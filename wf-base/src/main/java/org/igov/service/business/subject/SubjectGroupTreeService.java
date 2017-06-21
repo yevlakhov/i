@@ -15,8 +15,6 @@ import java.util.Set;
 
 import org.activiti.engine.IdentityService;
 import org.activiti.engine.identity.User;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
 import org.igov.model.core.BaseEntityDao;
 import org.igov.model.subject.SubjectGroup;
 import org.igov.model.subject.SubjectGroupResultTree;
@@ -227,7 +225,6 @@ public class SubjectGroupTreeService {
 
             }
 
-            // Map<Long, List<SubjectGroup>> subjToNodeMapFiltr = new HashMap<>();
             // достаем ид sID_Group_Activiti которое на вход
             LOG.info("sID_Group_Activiti for tree is {}", sID_Group_Activiti);
             Long groupFiltr = mapGroupActiviti.get(sID_Group_Activiti);
@@ -235,7 +232,6 @@ public class SubjectGroupTreeService {
             // детей его детей
             List<SubjectGroup> children = new ArrayList<>();
 
-            List<Long> idChildren = new ArrayList<>();
             if (isDisplayRootElement(bIncludeRoot)) {
                 SubjectGroup rootSubjectGroup = getRootSubjectGroup(parentChildren, groupFiltr);
                 children.add(rootSubjectGroup);
@@ -243,13 +239,13 @@ public class SubjectGroupTreeService {
                 // детей его детей
                 children = subjToNodeMap.get(groupFiltr);
             }
-            LOG.info("children.size: " + children.size());
+            //LOG.info("children.size: " + children.size());
             Map<Long, List<SubjectGroup>> hierarchyProcessSubject = new HashMap<>();
             // children полный список первого уровня
             if (children != null && !children.isEmpty()) {
 
                 // получаем только ид чилдренов полного списка детей первого уровня
-                idChildren = Lists
+                List<Long> idChildren = Lists
                         .newArrayList(Collections2.transform(children, new Function<SubjectGroup, Long>() {
                             @Override
                             public Long apply(SubjectGroup subjectGroup) {
@@ -259,10 +255,10 @@ public class SubjectGroupTreeService {
                 aChildResult.addAll(children);
                 LOG.info("idChildren.size: " + idChildren.size());
                 hierarchyProcessSubject = getChildrenTree(children, idChildren, subjToNodeMap, idParentList, checkDeepLevel(deepLevel), 1, aChildResult);
-                LOG.info("hierarchyProcessSubject" + hierarchyProcessSubject);
+                //LOG.info("hierarchyProcessSubject" + hierarchyProcessSubject);
             }
 
-            LOG.info("aChildResult {}", aChildResult);
+            //LOG.info("aChildResult {}", aChildResult);
 
             List<SubjectGroup> aChildResultByUser = new ArrayList<>();
 
@@ -297,23 +293,6 @@ public class SubjectGroupTreeService {
             }
 
             LOG.info("processSubjectResultTree" + processSubjectResultTree);
-
-            /**
-             * isSubjectType =true- был на вход тип орган или хьман, лист не
-             * пустой с ид Subject органа или хьманов, лист содержит groupFiltr
-             * возвращаем ответ, иначе ничего не возвращаем
-             */
-            /*if (isSubjectType && !resSubjectTypeList.isEmpty() 
-                    && resSubjectTypeList.contains(groupFiltr)) {
-                LOG.info("processSubjectResultTree isSubjectType " + processSubjectResultTree);
-                return processSubjectResultTree;
-            } else if (!isSubjectType) {
-                LOG.info("processSubjectResultTree !isSubjectType " + processSubjectResultTree);
-                return processSubjectResultTree;
-            } else {
-                SubjectGroupResultTree processSubjectResultTreeRes = new SubjectGroupResultTree();
-                return processSubjectResultTreeRes;
-            }*/
         }
 
         return processSubjectResultTree;
@@ -336,42 +315,29 @@ public class SubjectGroupTreeService {
 
         List<SubjectGroup> aSubjectGroupParent = new ArrayList<>();
 
-        String sSubjectTypeToFind;
+        //Получить SubjectGroup, который относятся к группе sID_Group_Activiti
+        Optional<SubjectGroup> oSubjectGroup = SubjectGroupDao.findBy("sID_Group_Activiti", sID_Group_Activiti);
+        LOG.info("aSubjectGroup consist: size={}, {}", oSubjectGroup, oSubjectGroup.toString());
 
-        sSubjectTypeToFind = sSubjectType;
-
-        if (sSubjectTypeToFind == null) {
-
-            sSubjectTypeToFind = getSubjectType(sID_Group_Activiti);
-        }
-
-        //Получили все SubjectGroup, которые относятся к группе sID_Group_Activiti
-        List<SubjectGroup> aSubjectGroup = SubjectGroupDao.findAllBy("sID_Group_Activiti", sID_Group_Activiti);
-        LOG.info("aSubjectGroup consist: " + "size: " + aSubjectGroup.size() + ", " + aSubjectGroup.toString());
-
-        for (SubjectGroup oSubjectGroup : aSubjectGroup) {
-
+        if (oSubjectGroup.isPresent()) {
             //ID для которого ищем департаменты, которым он подчиняется
-            Long nID = oSubjectGroup.getoSubject().getId();
-
+            Long nID = oSubjectGroup.get().getId();
             //Получаем SubjectGroupTree у которых oSubjectGroup_Child равны nID
             List<SubjectGroupTree> aSubjectGroupTree = SubjectGroupTreeDao.findAllBy("oSubjectGroup_Child.id", nID);
-            LOG.info("aSubjectGroup consist: " + "size: " + aSubjectGroupTree.size() + ", " + aSubjectGroupTree.toString());
+            LOG.info("aSubjectGroupTree size={}, {}",  aSubjectGroupTree.size(), aSubjectGroupTree.toString());
 
-            for (SubjectGroupTree oSubjectGroupTree : aSubjectGroupTree) {
-
+            for (SubjectGroupTree oSubjectGroupTree : aSubjectGroupTree) {     
+                
                 SubjectGroup oSubjectGroup_Parent = oSubjectGroupTree.getoSubjectGroup_Parent();
-
-                if (getSubjectType(oSubjectGroup_Parent.getsID_Group_Activiti()).equals(sSubjectTypeToFind)) {
-
+                LOG.info("oSubjectGroup_Parent={}", oSubjectGroup_Parent);
+                
+                String sSubjectGroup_ParentType = getSubjectType(oSubjectGroup_Parent.getsID_Group_Activiti());
+                if(sSubjectType == null || sSubjectGroup_ParentType.equalsIgnoreCase(sSubjectType)){
                     aSubjectGroupParent.add(oSubjectGroup_Parent);
                 }
             }
-
             LOG.info("aSubjectGroupParent: " + aSubjectGroupParent.toString());
-
         }
-
         return aSubjectGroupParent;
     }
 

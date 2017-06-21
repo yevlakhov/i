@@ -70,6 +70,10 @@ import java.text.SimpleDateFormat;
 import java.util.*;
 
 import static org.igov.io.fs.FileSystemData.getFiles_PatternPrint;
+import org.igov.model.action.vo.TaskDataResultVO;
+import org.igov.model.action.vo.TaskDataVO;
+import org.igov.model.document.DocumentStepSubjectRight;
+import org.igov.model.document.DocumentStepSubjectRightDao;
 
 import org.igov.service.business.subject.ProcessInfoShortVO;
 import org.igov.service.business.subject.SubjectRightBPService;
@@ -100,6 +104,10 @@ public class ActionTaskService {
     private static final String THE_STATUS_OF_TASK_IS_OPENED_ASSIGNED = "OpenedAssigned";
     private static final String THE_STATUS_OF_TASK_IS_OPENED = "Opened";
     private static final String THE_STATUS_OF_TASK_IS_DOCUMENTS = "Documents";
+    private static final String THE_STATUS_OF_TASK_IS_OPENED_ASSIGNED_DOCUMENT = "OpenedAssigneDocument";
+    private static final String THE_STATUS_OF_TASK_IS_OPENED_UNASSIGNED_PROCESSED_DOCUMENT = "OpenedUnassigneProcessedDocument";
+    private static final String THE_STATUS_OF_TASK_IS_OPENED_UNASSIGNED_UNPROCESSED_DOCUMENT = "OpenedUnassigneUnprocessedDocument";
+    private static final String THE_STATUS_OF_TASK_IS_OPENED_UNASSIGNED_WITHOUTECP_DOCUMENT = "OpenedUnassigneWithoutECPDocument";
 
     static final Comparator<FlowSlotTicket> FLOW_SLOT_TICKET_ORDER_CREATE_COMPARATOR = new Comparator<FlowSlotTicket>() {
         @Override
@@ -109,29 +117,32 @@ public class ActionTaskService {
     };
 
     private static final Logger LOG = LoggerFactory.getLogger(ActionTaskService.class);
+    
     @Autowired
     private RuntimeService oRuntimeService;
-    /////////////////////////////////////////////////////////////////////////////////////////////////////
     @Autowired
-    private TaskService oTaskService;
+    private TaskService oTaskService;    
     @Autowired
-    private HistoryEventService oHistoryEventService;
+    private HistoryEventService oHistoryEventService;    
     @Autowired
-    private RepositoryService oRepositoryService;
+    private RepositoryService oRepositoryService;    
     @Autowired
-    private FormService oFormService;
+    private FormService oFormService;    
     @Autowired
-    private IdentityService oIdentityService;
+    private IdentityService oIdentityService;    
     @Autowired
-    private HistoryService oHistoryService;
+    private HistoryService oHistoryService;    
     @Autowired
-    private GeneralConfig oGeneralConfig;
+    private GeneralConfig oGeneralConfig;    
     @Autowired
-    private FlowSlotTicketDao oFlowSlotTicketDao;
+    private FlowSlotTicketDao oFlowSlotTicketDao;   
     @Autowired
-    private CachedInvocationBean oCachedInvocationBean;
+    private CachedInvocationBean oCachedInvocationBean;    
     @Autowired
-    SubjectRightBPService oSubjectRightBPService;
+    private SubjectRightBPService oSubjectRightBPService;    
+    @Autowired
+    private DocumentStepSubjectRightDao oDocumentStepSubjectRightDao;
+    
 
     public static String parseEnumValue(String sEnumName) {
         LOG.info("(sEnumName={})", sEnumName);
@@ -1086,36 +1097,21 @@ public class ActionTaskService {
      * @return
      */
     public List<Map<String, String>> getBusinessProcessesOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {
-        
-        List<ProcessInstance> aProcessInstance = oRuntimeService.createNativeProcessInstanceQuery().sql(
-            "Select proc.* from act_hi_procinst proc, act_hi_identitylink link where proc.id_ = link.proc_inst_id_"
-                    + "                                                        and link.user_id_ = '" + sLogin + "'"
-            ).list();
-        LOG.info("NativeProcessInstanceQuery={}", aProcessInstance);
-        
-        List<ProcessDefinition> aProcessDefinition_Return = new ArrayList();
-        
-        for (ProcessInstance oProcessInstance : aProcessInstance) {
-            
-            ProcessDefinition oProcessDefinition = oRepositoryService.getProcessDefinition(oProcessInstance.getProcessDefinitionId());
-            LOG.info("getBusinessProcessesOfLogin oProcessDefinition={}", oProcessDefinition);
-            
-            if (bDocOnly && oProcessInstance.getProcessDefinitionId().startsWith("_doc_")) {
-                aProcessDefinition_Return.add(oProcessDefinition);
-            }
-        }
-        LOG.info("aProcessDefinition_Return={}", aProcessDefinition_Return);
-              
-        List<Map<String, String>> amPropertyBP = new LinkedList<>();/*
+                
+        List<ProcessDefinition> aProcessDefinition_Return = getProcessDefinitionOfLogin(sLogin, bDocOnly, sProcessDefinitionId);
+                
+        List<Map<String, String>> amPropertyBP = new LinkedList<>();
          
         for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return) {
             Map<String, String> mPropertyBP = new HashMap<>();
+            
             mPropertyBP.put("sID", oProcessDefinition.getKey());
             mPropertyBP.put("sName", oProcessDefinition.getName());
-            LOG.debug("Added record to response {}", mPropertyBP);
+            
+            LOG.info("Added record to response {}", mPropertyBP);
             amPropertyBP.add(mPropertyBP);
-        }*/
-
+        }
+                
         return amPropertyBP;
     }
     /**
@@ -1127,112 +1123,149 @@ public class ActionTaskService {
      * @return  Лист полей, согласно запросу
      */
     public List<Map<String, String>> getBusinessProcessesFieldsOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {
-        
-        List<ProcessDefinition> aProcessDefinition_Return = getBusinessProcessesObjectsOfLogin(sLogin, bDocOnly, sProcessDefinitionId);
+
+        List<ProcessDefinition> aProcessDefinition_Return = getProcessDefinitionOfLogin(sLogin, bDocOnly, sProcessDefinitionId);
         
         Map<String, Map<String, String>> amPropertyBP = new HashMap<String, Map<String, String>>();
+        
         for (ProcessDefinition oProcessDefinition : aProcessDefinition_Return) {
+            
             StartFormData formData = oFormService.getStartFormData(oProcessDefinition.getId());
+            
             for (FormProperty property : formData.getFormProperties()) {
+                
                 Map<String, String> mPropertyBP = new HashMap<String, String>();
+                
                 mPropertyBP.put("sID", property.getId());
                 mPropertyBP.put("sName", property.getName());
                 mPropertyBP.put("sID_Type", property.getType().getName());
+                
                 amPropertyBP.put(mPropertyBP.get("sID"), mPropertyBP);
-                LOG.debug("Added record to response {}", mPropertyBP);
+                
+                LOG.info("Added record to response {}", mPropertyBP);
             }
-
+                        
             Collection<FlowElement> elements = oRepositoryService.getBpmnModel(oProcessDefinition.getId()).getMainProcess().getFlowElements();
-            //LOG.info("getBusinessProcessesFieldsOfLogin: Collection<FlowElement> elements = {} for oProcessDefinition = {}", elements, oProcessDefinition.getId());
             
             for (FlowElement flowElement : elements) {
+                
                 if (flowElement instanceof UserTask) {
-                    LOG.debug("Processing user task with ID {} name {} ", flowElement.getId(), flowElement.getName());
+                    
+                    LOG.info("Processing user task with ID {} name {} ", flowElement.getId(), flowElement.getName());
+                    
                     UserTask userTask = (UserTask) flowElement;
+                    
                     for (org.activiti.bpmn.model.FormProperty property : userTask.getFormProperties()) {
+                        
                         Map<String, String> mPropertyBP = new HashMap<String, String>();
                         mPropertyBP.put("sID", property.getId());
                         mPropertyBP.put("sName", property.getName());
                         mPropertyBP.put("sID_Type", property.getType());
+                        
                         amPropertyBP.put(mPropertyBP.get("sID"), mPropertyBP);
-                        LOG.debug("Added record to response from user task {}", mPropertyBP);
+                        LOG.info("Added record to response from user task {}", mPropertyBP);
                     }
                 }
-
             }
-
         }
-
-        LOG.info("Total list of fields {}", amPropertyBP);
+        
         List<Map<String, String>> res = new LinkedList<Map<String, String>>();
         res.addAll(amPropertyBP.values());
+        
+        
         return res;
     }
 
-    private List<ProcessDefinition> getBusinessProcessesObjectsOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {
+    private List<ProcessDefinition> getProcessDefinitionOfLogin(String sLogin, Boolean bDocOnly, String sProcessDefinitionId) {    
         
-        if (sLogin == null || sLogin.isEmpty()) {
-            LOG.error("Unable to found business processes for sLogin=" + sLogin);
-            throw new ActivitiObjectNotFoundException(
-                    "Unable to found business processes for sLogin=" + sLogin,
-                    ProcessDefinition.class);
-        }
-        LOG.debug("Selecting business processes for the user with login: {}", sLogin);
-
-        List<ProcessDefinition> aProcessDefinition_Return = new LinkedList<>();
-        List<ProcessDefinition> aProcessDefinition = oRepositoryService
-                .createProcessDefinitionQuery()
-                .active()
-                .latestVersion().list();
-
-        //LOG.info("getBusinessProcessesObjectsOfLogin: all active processes aProcessDefinition = {}", aProcessDefinition);
+        List<ProcessInstance> aAllProcessInstance = new ArrayList<>();
         
-        if (CollectionUtils.isNotEmpty(aProcessDefinition)) {
-             
-            List<Group> aGroup = oIdentityService.createGroupQuery().groupMember(sLogin).list();
+        //вернуть только документы
+        if (bDocOnly) {
             
-            if (aGroup != null && !aGroup.isEmpty()) {
-                StringBuilder sb = new StringBuilder();
-                for (Group oGroup : aGroup) {
-                    sb.append(oGroup.getId());
-                    sb.append(",");
-                }
-                LOG.info("Found {}  groups for the user {}:{}", aGroup.size(), sLogin, sb.toString());
-            }
+            List<ProcessInstance> aProcessInstanceHistory = oRuntimeService.createNativeProcessInstanceQuery().sql(
+            "Select proc.* from act_hi_procinst proc, act_hi_identitylink link where proc.id_ = link.proc_inst_id_"
+                    + "                                                        and link.user_id_ = '" + sLogin + "'"
+                    + "                                                        and proc.proc_def_id_ like '_doc_%'"
+            ).list();
+                
+            List<ProcessInstance> aProcessInstanceActive = oRuntimeService.createNativeProcessInstanceQuery().sql(
+            "Select proc.* from act_ru_identitylink link, act_hi_taskinst task, act_hi_procinst proc where link.task_id_ = task.id_"
+                    + "                                                        and task.proc_inst_id_ = proc.proc_inst_id_"
+                    + "                                                        and link.group_id_ = '" + sLogin + "'"
+                    + "                                                        and proc.proc_def_id_ like '_doc_%'"
+            ).list();
             
-            LOG.debug("Found {} active process definitions", aProcessDefinition.size());
+            aAllProcessInstance.addAll(aProcessInstanceHistory);
+            aAllProcessInstance.addAll(aProcessInstanceActive);
+            
+        //вернуть только заданный sProcessDefinitionId
+        } else if (sProcessDefinitionId != null) {
+            
+            List<ProcessInstance> aProcessInstanceHistory = oRuntimeService.createNativeProcessInstanceQuery().sql(
+            "Select proc.* from act_hi_procinst proc, act_hi_identitylink link where proc.id_ = link.proc_inst_id_"
+                    + "                                                        and link.user_id_ = '" + sLogin + "'"
+                    + "                                                        and proc.proc_def_id_ like '" + sProcessDefinitionId + "%'"
+            ).list();
+                
+            List<ProcessInstance> aProcessInstanceActive = oRuntimeService.createNativeProcessInstanceQuery().sql(
+            "Select proc.* from act_ru_identitylink link, act_hi_taskinst task, act_hi_procinst proc where link.task_id_ = task.id_"
+                    + "                                                        and task.proc_inst_id_ = proc.proc_inst_id_"
+                    + "                                                        and link.group_id_ = '" + sLogin + "'"
+                    + "                                                        and proc.proc_def_id_ like '" + sProcessDefinitionId + "%'"
+            ).list();
+            
+            aAllProcessInstance.addAll(aProcessInstanceHistory);
+            aAllProcessInstance.addAll(aProcessInstanceActive);
+        
+        //вернуть все процессы для логина    
+        } else if (!bDocOnly && sProcessDefinitionId == null) { 
+            
+            List<ProcessInstance> aProcessInstanceHistory = oRuntimeService.createNativeProcessInstanceQuery().sql(
+            "Select proc.* from act_hi_procinst proc, act_hi_identitylink link where proc.id_ = link.proc_inst_id_"
+                    + "                                                        and link.user_id_ = '" + sLogin + "'"
+            ).list();
+                
+            List<ProcessInstance> aProcessInstanceActive = oRuntimeService.createNativeProcessInstanceQuery().sql(
+            "Select proc.* from act_ru_identitylink link, act_hi_taskinst task, act_hi_procinst proc where link.task_id_ = task.id_"
+                    + "                                                        and task.proc_inst_id_ = proc.proc_inst_id_"
+                    + "                                                        and link.group_id_ = '" + sLogin + "'"
+            ).list();
+            
+            aAllProcessInstance.addAll(aProcessInstanceHistory);
+            aAllProcessInstance.addAll(aProcessInstanceActive);
+        }    
+                       
+        //Сет в который записываются sProcessDefinitionId без версионности, чтобы убрать дубли одних и тех же процессов, но с разными версиями
+        Set<String> asProcessDefinitionIdWithoutVersion = new HashSet<>();
+        
+        //Лист без дублей
+        List<ProcessInstance> aProcessInstanceWithoutDuplicates = new ArrayList<>();
 
-            for (ProcessDefinition oProcessDefinition : aProcessDefinition) {
+        for (ProcessInstance oProcessInstance : aAllProcessInstance) {
+            
+            String sProcessDefinitionIdRoot = oProcessInstance.
+                    getProcessDefinitionId().substring(0, oProcessInstance.getProcessDefinitionId().indexOf(":"));
 
-                String sID_BP = oProcessDefinition.getId();
+            //если в сете уже лежит такой ProcessDefinitionId, то не кладем в итоговый лист
+            if (!asProcessDefinitionIdWithoutVersion.contains(sProcessDefinitionIdRoot)) {
 
-                LOG.debug("process definition id: sID_BP={}", oProcessDefinition.getId());
-
-                if (!bDocOnly || sID_BP.startsWith("_doc_")) {
-                    Set<String> aCandidateCroupsToCheck = getGroupsOfProcessTask(oProcessDefinition);
-
-                    loadCandidateStarterGroup(oProcessDefinition, aCandidateCroupsToCheck);
-                    LOG.info("aCandidateCroupsToCheck = {}", aCandidateCroupsToCheck);
-                    for (Group oGroup : aGroup) {
-                        for (String sProcessGroupMask : aCandidateCroupsToCheck) {//asProcessGroupMask
-                            if (sProcessGroupMask.contains("${")) {
-                                sProcessGroupMask = sProcessGroupMask.replaceAll("\\$\\{?.*}", "(.*)");
-                            }
-                            if (!sProcessGroupMask.contains("*")) {
-                                if (oGroup.getId().matches(sProcessGroupMask)) {
-                                    //return true;
-                                    aProcessDefinition_Return.add(oProcessDefinition);
-                                }
-                            }
-                        }
-                    }
-                }
+                aProcessInstanceWithoutDuplicates.add(oProcessInstance);
             }
-        } else {
-            LOG.info("Have not found active process definitions.");
+
+            asProcessDefinitionIdWithoutVersion.add(sProcessDefinitionIdRoot);
         }
         
-        LOG.info("getBusinessProcessesObjectsOfLogin: aProcessDefinition_Return = {}", aProcessDefinition_Return);
+        List<ProcessDefinition> aProcessDefinition_Return = new ArrayList<>();
+                        
+        for (ProcessInstance oProcessInstance : aProcessInstanceWithoutDuplicates) {   
+            
+            ProcessDefinition oProcessDefinition = oRepositoryService.
+                    getProcessDefinition(oProcessInstance.getProcessDefinitionId());
+            aProcessDefinition_Return.add(oProcessDefinition);
+        }  
+        LOG.info("aProcessDefinition_Return={}", aProcessDefinition_Return);
+        
         return aProcessDefinition_Return;
     }
     
@@ -1245,51 +1278,7 @@ public class ActionTaskService {
     @Deprecated //новый: getBusinessProcessesOfLogin 
     public List<Map<String, String>> getBusinessProcessesForUser(String sLogin) {
 
-        if (sLogin == null || sLogin.isEmpty()) {
-            LOG.error("Unable to found business processes for sLogin=" + sLogin);
-            throw new ActivitiObjectNotFoundException(
-                    "Unable to found business processes for sLogin=" + sLogin,
-                    ProcessDefinition.class);
-        }
-
-        List<Map<String, String>> result = new LinkedList<>();
-        //List<ProcessDefinition> resultProcessDefinitionList = new LinkedList<>();
-
-        List<ProcessInfoShortVO> aProcessInfoShortVO = new LinkedList<>();
-
-        LOG.info(String.format(
-                "Selecting business processes for the user with login: %s",
-                sLogin));
-
-        List<ProcessDefinition> processDefinitionsList = oRepositoryService
-                .createProcessDefinitionQuery().active().latestVersion().list();
-        if (CollectionUtils.isNotEmpty(processDefinitionsList)) {
-            LOG.info(String.format("Found %d active process definitions",
-                    processDefinitionsList.size()));
-
-            //resultProcessDefinitionList = getAvailabilityProcessDefinitionByLogin(sLogin, processDefinitionsList);
-            aProcessInfoShortVO = getAvailabilityProcessDefinitionByLogin(sLogin, processDefinitionsList);
-        } else {
-            LOG.info("Have not found active process definitions.");
-        }
-
-        for (ProcessInfoShortVO oProcessInfoShortVO : aProcessInfoShortVO) {
-            Map<String, String> process = new HashMap<>();
-            process.put("sID", oProcessInfoShortVO.getsID());
-            process.put("sName", oProcessInfoShortVO.getsName());
-            LOG.info(String.format("Added record to response %s", process.toString()));
-            result.add(process);
-        }
-        /*
-        for (ProcessDefinition processDef : resultProcessDefinitionList){
-            Map<String, String> process = new HashMap<>();
-            process.put("sID", processDef.getKey());
-            process.put("sName", processDef.getName());
-            LOG.info(String.format("Added record to response %s", process.toString()));
-            result.add(process);
-        }*/
-
-        return result;
+        return getBusinessProcessesOfLogin(sLogin, false, null);
     }
 
     private List<ProcessInfoShortVO> getAvailabilityProcessDefinitionByLogin(String sLogin, List<ProcessDefinition> aProcessDefinition) {
@@ -2299,7 +2288,9 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
         sql.append("SELECT count(task.*) FROM ACT_RU_TASK task, ACT_RU_IDENTITYLINK link WHERE task.ID_ = link.TASK_ID_ AND link.GROUP_ID_ IN(");
         sql.append(groupIdsSB.toString());
         sql.append(") ");
-
+        
+        LOG.info("sql query {}", sql);
+        
         return oTaskService.createNativeTaskQuery().sql(sql.toString()).count();
     }
 
@@ -2313,6 +2304,22 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
                 TaskInfo task = (TaskInfo) tasks.get(i);
                 Map<String, Object> taskInfo = populateTaskInfo(task, mapOfTickets.get(task.getProcessInstanceId()));             
                 data.add(taskInfo);
+            } catch (Exception e) {
+                LOG.error("error: Error while populatiing task", e);
+            }
+        }
+    }
+    
+    public void populateResultSortedByTasksOrderNew(boolean bFilterHasTicket,
+            List<?> tasks, Map<String, FlowSlotTicket> mapOfTickets,
+            List<TaskDataVO> aoTaskData) {
+
+        LOG.info("populateResultSortedByTasksOrder. number of tasks:{} number of tickets:{} ", tasks.size(), mapOfTickets.size());
+        for (int i = 0; i < tasks.size(); i++) {
+            try {
+                TaskInfo task = (TaskInfo) tasks.get(i);
+                TaskDataVO oPopulatedTaskDataVO = populateTaskInfoNew(task, mapOfTickets.get(task.getProcessInstanceId()));             
+                aoTaskData.add(oPopulatedTaskDataVO);
             } catch (Exception e) {
                 LOG.error("error: Error while populatiing task", e);
             }
@@ -2340,6 +2347,33 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
                 TaskInfo task = tasksMap.get(ticket.getnID_Task_Activiti());
                 Map<String, Object> taskInfo = populateTaskInfo(task, ticket);
                 data.add(taskInfo);
+            } catch (Exception e) {
+                LOG.error("error: ", e);
+            }
+        }
+    }
+    
+    public void populateResultSortedByTicketDateNew(boolean bFilterHasTicket, List<?> tasks,
+            Map<String, FlowSlotTicket> mapOfTickets, List<TaskDataVO> aoTaskData) {
+        LOG.info("Sorting result by flow slot ticket create date. Number of tasks:{} number of tickets:{}", tasks.size(), mapOfTickets.size());
+
+        List<FlowSlotTicket> tickets = new LinkedList<>();
+        tickets.addAll(mapOfTickets.values());
+        Collections.sort(tickets, FLOW_SLOT_TICKET_ORDER_CREATE_COMPARATOR);
+        LOG.info("Sorted tickets by order create date");
+
+        Map<String, TaskInfo> tasksMap = new HashMap<>();
+        for (int i = 0; i < tasks.size(); i++) {
+            TaskInfo task = (TaskInfo) tasks.get(i);
+            tasksMap.put(((TaskInfo) tasks.get(i)).getProcessInstanceId(), task);
+        }
+        
+        for (int i = 0; i < tickets.size(); i++) {
+            try {
+                FlowSlotTicket ticket = tickets.get(i);
+                TaskInfo task = tasksMap.get(ticket.getnID_Task_Activiti());
+                TaskDataVO oPopulatedTaskDataVO = populateTaskInfoNew(task, ticket);
+                aoTaskData.add(oPopulatedTaskDataVO);
             } catch (Exception e) {
                 LOG.error("error: ", e);
             }
@@ -2497,6 +2531,109 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
 
         return taskQuery;
     }
+    
+    public Object createQueryNew(String sLogin,
+            boolean bIncludeAlienAssignedTasks, String sOrderBy, String sFilterStatus,
+            List<String> groupsIds, String soaFilterField) {
+
+        Object taskQuery;
+        if (THE_STATUS_OF_TASK_IS_CLOSED.equalsIgnoreCase(sFilterStatus)) {
+            taskQuery = oHistoryService.createHistoricTaskInstanceQuery().taskInvolvedUser(sLogin).finished();
+            if ("taskCreateTime".equalsIgnoreCase(sOrderBy)) {
+                ((TaskInfoQuery) taskQuery).orderByTaskCreateTime();
+            } else {
+                ((TaskInfoQuery) taskQuery).orderByTaskId();
+            }
+
+            if (!StringUtils.isEmpty(soaFilterField)) {
+                JSONArray oJSONArray = new JSONArray(soaFilterField);
+                Map<String, String> mFilterField = new HashMap<>();
+                for (int i = 0; i < oJSONArray.length(); i++) {
+                    JSONObject oJSON = (JSONObject) oJSONArray.get(i);
+                    if (oJSON.has("sID") && oJSON.has("sValue")) {
+                        mFilterField.put(oJSON.getString("sID"), oJSON.getString("sValue"));
+                        ((TaskInfoQuery) taskQuery).processVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+//                                    
+                    } else {
+                        LOG.info("{} json element doesn't have either sID or sValue fields", i);
+                    }
+                }
+                LOG.info("Converted filter fields to the map mFilterField={}", mFilterField);
+            }
+            ((TaskInfoQuery) taskQuery).asc();
+        } else if (bIncludeAlienAssignedTasks) {
+            StringBuilder groupIdsSB = new StringBuilder();
+            for (int i = 0; i < groupsIds.size(); i++) {
+                groupIdsSB.append("'");
+                groupIdsSB.append(groupsIds.get(i));
+                groupIdsSB.append("'");
+                if (i < groupsIds.size() - 1) {
+                    groupIdsSB.append(",");
+                }
+            }
+
+            StringBuilder sql = new StringBuilder();
+            sql.append("SELECT task.* FROM ACT_RU_TASK task, ACT_RU_IDENTITYLINK link WHERE task.ID_ = link.TASK_ID_ AND link.GROUP_ID_ IN(");
+            sql.append(groupIdsSB.toString());
+            sql.append(") ");
+
+            if ("taskCreateTime".equalsIgnoreCase(sOrderBy)) {
+                sql.append(" order by task.CREATE_TIME_ asc");
+            } else {
+                sql.append(" order by task.ID_ asc");
+            }
+            LOG.info("Query to execute {}", sql.toString());
+            taskQuery = oTaskService.createNativeTaskQuery().sql(sql.toString());
+        } else {
+            
+            taskQuery = oTaskService.createTaskQuery();
+            
+            long startTime = System.currentTimeMillis();
+            
+            if (THE_STATUS_OF_TASK_IS_OPENED_UNASSIGNED.equalsIgnoreCase(sFilterStatus)) {
+                ((TaskQuery) taskQuery).taskCandidateUser(sLogin);
+                
+            } else if (THE_STATUS_OF_TASK_IS_OPENED_ASSIGNED.equalsIgnoreCase(sFilterStatus)) {
+                taskQuery = ((TaskQuery) taskQuery).taskAssignee(sLogin);
+                
+            } else if (THE_STATUS_OF_TASK_IS_OPENED.equalsIgnoreCase(sFilterStatus)) {
+                taskQuery = ((TaskQuery) taskQuery).taskCandidateOrAssigned(sLogin);
+                LOG.info("Opened JSONValue element in filter {}", JSONValue.toJSONString(taskQuery));
+                
+            } else if (THE_STATUS_OF_TASK_IS_DOCUMENTS.equalsIgnoreCase(sFilterStatus)) {
+                taskQuery = ((TaskQuery) taskQuery).taskCandidateOrAssigned(sLogin).processDefinitionKeyLikeIgnoreCase("_doc_%");
+                
+            } else if (THE_STATUS_OF_TASK_IS_OPENED_ASSIGNED_DOCUMENT.equals(sFilterStatus)) {
+                taskQuery = ((TaskQuery) taskQuery).taskAssignee(sLogin);
+                
+            }
+            
+            LOG.info("time: " + sFilterStatus + ": " + (System.currentTimeMillis() - startTime));
+            if ("taskCreateTime".equalsIgnoreCase(sOrderBy)) {
+                ((TaskQuery) taskQuery).orderByTaskCreateTime();
+            } else {
+                ((TaskQuery) taskQuery).orderByTaskId();
+            }
+
+            if (!StringUtils.isEmpty(soaFilterField)) {
+                JSONArray oJSONArray = new JSONArray(soaFilterField);
+                Map<String, String> mFilterField = new HashMap<>();
+                for (int i = 0; i < oJSONArray.length(); i++) {
+                    JSONObject oJSON = (JSONObject) oJSONArray.get(i);
+                    if (oJSON.has("sID") && oJSON.has("sValue")) {
+                        mFilterField.put(oJSON.getString("sID"), oJSON.getString("sValue"));
+                        ((TaskQuery) taskQuery)
+                                .processVariableValueEqualsIgnoreCase(oJSON.getString("sID"), oJSON.getString("sValue"));
+                        LOG.info("{} json element doesn't have either sID or sValue fields", i);
+                    }
+                }
+                LOG.info("Converted filter fields to the map mFilterField={}", mFilterField);
+            }
+            ((TaskQuery) taskQuery).asc();
+        }
+
+        return taskQuery;
+    }
 
     public Map<String, Object> populateTaskInfo(TaskInfo task, FlowSlotTicket flowSlotTicket) {
 
@@ -2553,6 +2690,66 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
         }
         
         return taskInfo;
+    }
+    
+        public TaskDataVO populateTaskInfoNew(TaskInfo task, FlowSlotTicket flowSlotTicket) {
+
+        String sPlace = "";
+        
+        //Выполняем поиск sPlace только, если процесс начинается на system
+        if (task.getProcessDefinitionId().startsWith("system")) {        
+            HistoricProcessInstance processInstance = oHistoryService.createHistoricProcessInstanceQuery().
+                    processInstanceId(task.getProcessInstanceId()).
+                    includeProcessVariables().singleResult();
+
+            sPlace = processInstance.getProcessVariables().containsKey("sPlace") ? (String) processInstance.getProcessVariables().get("sPlace") + " " : "";
+            LOG.info("Found process instance with variables. sPlace {} taskId {} processInstanceId {}", sPlace, task.getId(), task.getProcessInstanceId());
+        }
+
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+        
+        TaskDataVO oTaskData = new TaskDataVO();
+        
+        oTaskData.setsId(task.getId());
+        oTaskData.setsUrl(oGeneralConfig.getSelfHost() + "/wf/service/runtime/tasks/" + task.getId());
+        oTaskData.setsOwner(task.getOwner());
+        oTaskData.setsAssignee(task.getAssignee());
+        oTaskData.setoDelegationState((task instanceof Task) ? ((Task) task).getDelegationState() : null);
+        oTaskData.setsName(sPlace + task.getName());
+        oTaskData.setsDescription(task.getDescription());
+        oTaskData.setsCreateTime(sdf.format(task.getCreateTime()));
+        oTaskData.setsDueDate(task.getDueDate() != null ? sdf.format(task.getDueDate()) : null);
+        oTaskData.setnPriority(task.getPriority());
+        oTaskData.setbSuspended((task instanceof Task) ? ((Task) task).isSuspended() : null);
+        oTaskData.setsTaskDefinitionKey(task.getTaskDefinitionKey());
+        oTaskData.setsTenantId(task.getTenantId());
+        oTaskData.setsCategory(task.getCategory());
+        oTaskData.setsFormKey(task.getFormKey());
+        oTaskData.setsParentTaskId(task.getParentTaskId());
+        oTaskData.setsParentTaskUrl("");
+        oTaskData.setsExecutionId(task.getExecutionId());
+        oTaskData.setsExecutionUrl(oGeneralConfig.getSelfHost() + "/wf/service/runtime/executions/" + task.getExecutionId());
+        oTaskData.setsProcessInstanceId(task.getProcessInstanceId());
+        oTaskData.setsProcessInstanceUrl(oGeneralConfig.getSelfHost() + "/wf/service/runtime/process-instances/" + task.getProcessInstanceId());
+        oTaskData.setsProcessDefinitionId(task.getProcessDefinitionId());
+        oTaskData.setsProcessDefinitionUrl(oGeneralConfig.getSelfHost() + "/wf/service/repository/process-definitions/" + task.getProcessDefinitionId());
+        oTaskData.setaVariables(new LinkedList());
+
+        if (flowSlotTicket != null) {
+            LOG.info("Populating flow slot ticket");
+            DateTimeFormatter dtf = org.joda.time.format.DateTimeFormat.forPattern("yyyy-MM-dd_HH-mm-ss");
+            
+            Map<String, Object> flowSlotTicketData = new HashMap<>();
+            
+            flowSlotTicketData.put("nID", flowSlotTicket.getId());
+            flowSlotTicketData.put("nID_Subject", flowSlotTicket.getnID_Subject());
+            flowSlotTicketData.put("sDateStart", flowSlotTicket.getsDateStart() != null ? dtf.print(flowSlotTicket.getsDateStart()) : null);
+            flowSlotTicketData.put("sDateFinish", flowSlotTicket.getsDateFinish() != null ? dtf.print(flowSlotTicket.getsDateFinish()) : null);
+
+            oTaskData.setmFlowSlotTicketData(flowSlotTicketData);
+        }
+        
+        return oTaskData;
     }
 
     /**
@@ -2631,5 +2828,116 @@ LOG.info("mBody from ActionTaskService = {};", mBody);
 
     public void deleteHistoricProcessInstance(String snID_Process_Activiti){
         oHistoryService.deleteHistoricProcessInstance(snID_Process_Activiti);
+    }
+
+    /**
+     * Находим все таски по логину и фильтру.
+     * 
+     * @param sLogin            логин
+     * @param sFilterStatus     фильтр: OpenedUnassigneProcessedDocument - отработанные документы
+     *                          OpenedUnassigneUnprocessedDocument - неотработанные документы
+     *                          OpenedUnassigneWithoutECPDocument - документы без ЭЦП
+     * @param nSize             количество тасок, которые вернутся
+     * @param nStart            с какой таски начать отсчет для выборки
+     * @return обьект обвертка, который содержит лист TaskDataVO и данные для отрисовки на клиенте
+     */
+    public TaskDataResultVO getTasksByLoginAndFilterStatus(String sLogin, String sFilterStatus, Integer nSize, Integer nStart) {
+        
+        LOG.info("getTasksByLoginAndFilterStatus started");
+        TaskDataResultVO oTaskDataResultVO = new TaskDataResultVO();
+        long nTotalNumber;
+        
+        List<DocumentStepSubjectRight> aDocumentStepSubjectRight = oDocumentStepSubjectRightDao.findAllBy("sLogin", sLogin);
+                
+            List<Task> aAllTasks = new LinkedList<>();
+                
+            for (DocumentStepSubjectRight oDocumentStepSubjectRight : aDocumentStepSubjectRight) {
+
+                DateTime sDateECP = oDocumentStepSubjectRight.getsDateECP();
+                LOG.info("sDateECP={}", oDocumentStepSubjectRight.getsDateECP());
+
+                DateTime sDate = oDocumentStepSubjectRight.getsDate();
+                LOG.info("sDate={} ", sDate);
+
+                Boolean bWrite = oDocumentStepSubjectRight.getbWrite();
+                LOG.info("bWrite={} ", bWrite);
+
+                Boolean bNeedECP = oDocumentStepSubjectRight.getbNeedECP();
+
+                // проверяем, если даты ецп нет, но есть дата подписания - нашли
+                if (sFilterStatus.equals(THE_STATUS_OF_TASK_IS_OPENED_UNASSIGNED_WITHOUTECP_DOCUMENT)
+                        && sDate != null && bNeedECP != null && bNeedECP != false && sDateECP == null) {
+                    // Достаем nID_Process_Activiti у найденного
+                    // oDocumentStepSubjectRight через DocumentStep
+                    String snID_Process_Activiti = oDocumentStepSubjectRight.getDocumentStep()
+                            .getSnID_Process_Activiti();
+                    LOG.info("snID_Process of oDocumentStepSubjectRight: {}", snID_Process_Activiti);
+
+                    List<Task> aTaskOfDocumentStepSubjectRight = oTaskService.createTaskQuery()
+                                    .processInstanceId(snID_Process_Activiti).active().list();
+
+                    aAllTasks.addAll(aTaskOfDocumentStepSubjectRight);
+                    
+                } else if (sFilterStatus.equals(THE_STATUS_OF_TASK_IS_OPENED_UNASSIGNED_UNPROCESSED_DOCUMENT) 
+                        && sDate == null && (bWrite == true || bWrite == false)) {
+
+                    String snID_Process_Activiti = oDocumentStepSubjectRight.getDocumentStep()
+                            .getSnID_Process_Activiti();
+                    LOG.info("snID_Process of oDocumentStepSubjectRight: {}", snID_Process_Activiti);
+
+                    List<Task> aTaskOfDocumentStepSubjectRight = oTaskService.createTaskQuery()
+                                .processInstanceId(snID_Process_Activiti).active().list();
+
+                    aAllTasks.addAll(aTaskOfDocumentStepSubjectRight);
+
+                } else  if (sFilterStatus.equals(THE_STATUS_OF_TASK_IS_OPENED_UNASSIGNED_PROCESSED_DOCUMENT)
+                        && (sDate != null || bWrite == null)) {
+
+                    String snID_Process_Activiti = oDocumentStepSubjectRight.getDocumentStep()
+                            .getSnID_Process_Activiti();
+                    LOG.info("snID_Process of oDocumentStepSubjectRight: {}", snID_Process_Activiti);
+
+                    List<Task> aTaskOfDocumentStepSubjectRight = oTaskService.createTaskQuery()
+                                .processInstanceId(snID_Process_Activiti).active().list();
+
+                    aAllTasks.addAll(aTaskOfDocumentStepSubjectRight);
+                }
+            }
+            nTotalNumber = aAllTasks.size();
+            //Сортировка коллекции по дате создания таски, для реализации паджинации
+            Collections.sort(aAllTasks, (task1, task2) -> task1.getCreateTime().compareTo(task2.getCreateTime()));
+            
+            SimpleDateFormat oFormatter = new SimpleDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ");
+            
+            List<TaskDataVO> aTaskDataVO = new ArrayList<>();
+            //паджинация: из отсортированной коллекции берем nSize тасок,
+            //брать начинаем из nStart
+            for (int nIndex = nStart; aTaskDataVO.size() < nSize; nIndex++) {
+                
+                if (nIndex < nTotalNumber) {
+                    
+                    Task oTask = aAllTasks.get(nIndex);  
+                    
+                    TaskDataVO oTaskDataVO = new TaskDataVO();
+                    oTaskDataVO.setsProcessDefinitionId(oTask.getProcessDefinitionId());
+                    oTaskDataVO.setsCreateTime(oFormatter.format(oTask.getCreateTime()));
+                    oTaskDataVO.setsName(oTask.getName());
+                    oTaskDataVO.setsId(oTask.getId());
+                    oTaskDataVO.setsProcessInstanceId(oTask.getProcessInstanceId());
+
+                    aTaskDataVO.add(oTaskDataVO);
+                } else {
+                    break;
+                }
+            }
+            
+            oTaskDataResultVO.setAoTaskDataVO(aTaskDataVO);
+            oTaskDataResultVO.setnSize(nSize);
+            oTaskDataResultVO.setnStart(nStart);
+            oTaskDataResultVO.setsOrder("asc");
+            oTaskDataResultVO.setsSort("id");
+            oTaskDataResultVO.setnTotal(nTotalNumber);
+        
+        return oTaskDataResultVO;
     }
 }

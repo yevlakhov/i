@@ -1,6 +1,6 @@
 <div class='ng-modal' ng-show='printModalState.show'>
   <div class='ng-modal-overlay' ng-click='hideModal()'></div>
-  <div class='ng-modal-dialog' ng-style='dialogStyle'>
+  <div class='ng-modal-dialog' ng-style='dialogStyle' ng-class="{'col-xs-9 ml-10':isMenuOpened, 'col-xs-12':!isMenuOpened}">
     <div class='ng-modal-header'>
       <div class='ng-modal-close' ng-click='hideModal()'>X</div>
     </div>

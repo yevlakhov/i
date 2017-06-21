@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('dashboardJsApp').directive('printModal', ['$window', 'signDialog', 'generationService', '$base64', function ($window, signDialog, generationService, $base64) {
+angular.module('dashboardJsApp').directive('printModal', ['$window', '$rootScope', 'snapRemote', 'signDialog', 'generationService', '$base64', function ($window, $rootScope, snapRemote, signDialog, generationService, $base64) {
   return {
     restrict: 'E',
     link: function (scope, element, attrs, ngModel) {
@@ -16,7 +16,6 @@ angular.module('dashboardJsApp').directive('printModal', ['$window', 'signDialog
         scope.convertDisabledEnumFiedsToReadonlySimpleText();
         scope.signedContent = null;
       };
-
       scope.printContent = function () {
         var elementToPrint = element[0].getElementsByClassName('ng-modal-dialog-content')[0];
         var printContents = elementToPrint.innerHTML;
@@ -77,7 +76,6 @@ angular.module('dashboardJsApp').directive('printModal', ['$window', 'signDialog
         }
       };
 
-
       scope.signWithEDS = function () {
         if(scope.model.printTemplate.oEDS){
           if(scope.model.printTemplate.oEDS.sSignedContentURL){
@@ -109,10 +107,32 @@ angular.module('dashboardJsApp').directive('printModal', ['$window', 'signDialog
                 //todo react on error during sign
               }, 'ng-on-top-of-modal-dialog modal-info');
           });
-      }
-    },
-    templateUrl: 'components/print/PrintModal.html',
-    replace: true,
-    transclude: true
-  };
+      };
+
+        function toggleMenu(status) {
+          if(typeof status === 'boolean') {
+            if(status) {
+              scope.isMenuOpened = true;
+              snapRemote.open('left');
+            } else {
+              scope.isMenuOpened = false;
+              snapRemote.close();
+            }
+            localStorage.setItem('menu-status', JSON.stringify(status));
+          }
+        }
+
+        var menuStatus = localStorage.getItem('menu-status');
+        if(menuStatus) {
+          var status = JSON.parse(menuStatus);
+          toggleMenu(status);
+        } else {
+          scope.isMenuOpened = false;
+          snapRemote.close();
+        }
+      },
+        templateUrl: 'components/print/PrintModal.html',
+        replace: true,
+        transclude: true
+    };
 }]);

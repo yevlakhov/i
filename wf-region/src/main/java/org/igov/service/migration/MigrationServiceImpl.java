@@ -1,19 +1,21 @@
 package org.igov.service.migration;
 
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.activiti.bpmn.model.BpmnModel;
 import org.activiti.bpmn.model.FlowElement;
 import org.activiti.bpmn.model.UserTask;
-import org.activiti.engine.FormService;
-import org.activiti.engine.HistoryService;
-import org.activiti.engine.RepositoryService;
+import org.activiti.engine.*;
 import org.activiti.engine.form.FormProperty;
 import org.activiti.engine.form.StartFormData;
 import org.activiti.engine.history.HistoricProcessInstance;
 import org.activiti.engine.history.HistoricTaskInstance;
 import org.activiti.engine.history.HistoricVariableInstance;
+import org.activiti.engine.impl.persistence.entity.AttachmentEntity;
 import org.activiti.engine.repository.ProcessDefinition;
+import org.activiti.engine.task.Attachment;
+import org.apache.commons.lang.StringUtils;
 import org.igov.analytic.model.access.AccessGroup;
-
 import org.igov.analytic.model.access.AccessUser;
 import org.igov.analytic.model.attribute.*;
 import org.igov.analytic.model.config.Config;
@@ -22,14 +24,18 @@ import org.igov.analytic.model.process.*;
 import org.igov.analytic.model.process.Process;
 import org.igov.analytic.model.source.SourceDB;
 import org.igov.analytic.model.source.SourceDBDao;
-
-import org.igov.service.business.action.task.form.ui.Form;
+import org.igov.io.db.kv.analytic.impl.BytesMongoStorageAnalytic;
+import org.igov.service.business.action.task.core.ActionTaskService;
+import org.igov.service.migration.exception.MigrationException;
+import org.igov.util.VariableMultipartFile;
 import org.joda.time.DateTime;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.*;
 
 /**
@@ -50,7 +56,6 @@ import java.util.*;
  * 4) If populating analytic tables succeeds, then 'Config' table is updated with last process_instance_id
  * 5) Corresponding record is deleted from act_hi_procinst & act_hi_taskinst (this option is disabled in development mode)
  * <p>
- * Attribute & Attribute{*type*} это к соотношению CustomProcess & CustomProcessTask
  */
 @Service
 public class MigrationServiceImpl implements MigrationService {
@@ -79,24 +84,30 @@ public class MigrationServiceImpl implements MigrationService {
     @Autowired
     private RepositoryService repositoryService;
 
+    @Autowired
+    private BytesMongoStorageAnalytic bytesStorageAnalytic;
 
     @Autowired
-    private FormService formService;//
+    private FormService formService;
 
+    @Autowired
+    private TaskService taskService;
+
+    @Autowired
+    private ActionTaskService actionTaskService;
 
     private final static Logger LOG = LoggerFactory.getLogger(MigrationServiceImpl.class);
 
     @Override
-    public void migrateOldRecords() {
-        prepareAndSave(getHistoricProcessList());
+    public void migrateOldRecords(String processId) {
+        prepareAndSave(getHistoricProcessList(processId));
     }
 
-    private List<HistoricProcessInstance> getHistoricProcessList() {
-        return historyService.createNativeHistoricProcessInstanceQuery().sql(composeSql(getStartTime())).list();
+    private List<HistoricProcessInstance> getHistoricProcessList(String processId) {
+        return historyService.createNativeHistoricProcessInstanceQuery().sql(composeSql(getStartTime(), processId)).list();
     }
 
     private DateTime getStartTime() {
-        //Config config = configDao.findLatestConfig();
         Config config = configDao.findBy("name", "dateLastBackup").get();
         String dateTime = config.getsValue();
         DateTime time = DateTime.parse(dateTime);//date parsing doesn't work properly
@@ -106,12 +117,14 @@ public class MigrationServiceImpl implements MigrationService {
         return new DateTime(processInstance.getStartTime());
     }
 
-    private String composeSql(DateTime startTime) {
+    private String composeSql(DateTime startTime, String processId) {
         DateTime endTime = startTime.plusDays(3);
-        return "SELECT * from act_hi_procinst where proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null AND proc_inst_id_ =\'27065001\'";
-//        return "SELECT * from act_hi_procinst where start_time_ > TIMESTAMP \' "
-//               + startTime.toString("yyyy-MM-dd HH:mm:ss")
-//                + "\' AND start_time_ < TIMESTAMP \'" + endTime.toString("yyyy-MM-dd HH:mm:ss") + "\' AND proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null";
+        if (processId != null)
+            return "SELECT * from act_hi_procinst where proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null AND proc_inst_id_ =\'" + processId + "\'";
+        else
+            return "SELECT * from act_hi_procinst where start_time_ > TIMESTAMP \' "
+                    + startTime.toString("yyyy-MM-dd HH:mm:ss")
+                    + "\' AND start_time_ < TIMESTAMP \'" + endTime.toString("yyyy-MM-dd HH:mm:ss") + "\' AND proc_def_id_ not like \'%common_mreo_2%\' AND end_time_ is not null";
     }
 
     private void prepareAndSave(List<HistoricProcessInstance> historicProcessList) {
@@ -129,7 +142,7 @@ public class MigrationServiceImpl implements MigrationService {
         process.setoSourceDB(getSourceDBForIGov());
         process.setaAttribute(createAttributes(historicProcess.getId(), process, null));
         process.setaProcessTask(createProcessTaskList(historicProcess.getId(), process));
-        process.setsID_Data("sID_Data Process");
+        process.setsID_Data("");
         process.setCustomProcess(createCustomProcessToInsert(historicProcess, process));
         process.setaAccessGroup(getAccessGroupFromStartForm(historicProcess));//это со стартовой формы заполняется(act_hi_identitylink глянуть)
         process.setaAccessUser(null);
@@ -284,7 +297,6 @@ public class MigrationServiceImpl implements MigrationService {
                 createHistoricVariableInstanceQuery().processInstanceId(instanceId).list() :
                 historyService.
                         createHistoricVariableInstanceQuery().taskId(instanceId).list();
-
         Map<String, Object> attributes = convertToAttributesMap(variableInstanceList);
         List<Attribute> resultList = new ArrayList<>(attributes.size());
         attributes.forEach((id, value) -> {
@@ -293,24 +305,35 @@ public class MigrationServiceImpl implements MigrationService {
                 attribute.setoProcess(process);
             else
                 attribute.setoProcessTask(processTask);
+            attribute.setoAttributeTypeCustom(createAttributeTypeCustom(id, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
+            attribute.setoAttributeType(getAttributeType(value, attribute, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setName(id);
-            attribute.setoAttributeType(getAttributeType(value, attribute));
-            attribute.setsID_("sID_ Attribute");
+            attribute.setsID_(getsID_ForAttribute(id, process == null ? processTask.getoProcess().getsID_() : process.getsID_()));
             attribute.setoAttributeName(createAttributeName(id));
-            attribute.setoAttributeTypeCustom(createAttributeTypeCustom(id));
             resultList.add(attribute);
         });
         return resultList;
     }
 
-    private AttributeTypeCustom createAttributeTypeCustom(String variableId) {
+    private String getsID_ForAttribute(String variableId, String processId) {
         List<HistoricVariableInstance> historicVariableInstance =
-                historyService.createHistoricVariableInstanceQuery().variableName(variableId).list();
+                historyService.createNativeHistoricVariableInstanceQuery()
+                        .sql("SELECT * FROM act_hi_varinst where name_ = \'" + variableId + "\' AND proc_inst_id_ = \'" + processId + "\'").list();
+        return historicVariableInstance.get(0).getId();
+    }
+
+    private AttributeTypeCustom createAttributeTypeCustom(String variableId, String processId) {
+        List<HistoricVariableInstance> historicVariableInstance =
+                historyService.createNativeHistoricVariableInstanceQuery()
+                        .sql("SELECT * FROM act_hi_varinst where name_ = \'" + variableId + "\' AND proc_inst_id_ = \'" + processId + "\'").list();
+        if (!attributeTypeCustomDao.findBy("name", historicVariableInstance.get(0).getVariableTypeName()).isPresent())
+            throw new MigrationException("This id is missing in reference: " + historicVariableInstance.get(0).getVariableTypeName());
         return attributeTypeCustomDao.findBy("name", historicVariableInstance.get(0).getVariableTypeName()).get();
     }
 
     private AttributeName createAttributeName(String id) {
-        //return attributeNameDao.getAttributeNameByStringId(id);
+        if (!attributeNameDao.findBy("sID", id).isPresent())
+            throw new MigrationException("This sID is missing in reference (attributeNameDao): " + id);
         return attributeNameDao.findBy("sID", id).get();
     }
 
@@ -325,12 +348,34 @@ public class MigrationServiceImpl implements MigrationService {
     }
 
     //TODO write generics for this method
-    private AttributeType getAttributeType(Object obj, Attribute attribute) {
+    private AttributeType getAttributeType(Object obj, Attribute attribute, String processId) {
         AttributeType type = null;
         Class<?> clazz = obj.getClass();
         if (clazz.getSimpleName().equalsIgnoreCase("string")) {
             String string = (String) obj;
-            if (string.length() < 255) {
+            if (StringUtils.isNumeric(string) && StringUtils.isNotEmpty(string)) {
+                type = attributeTypeDao.findById(7L).get();
+                Attribute_File fileAttribute = new Attribute_File();
+                AttachmentEntity file = (AttachmentEntity) actionTaskService.getAttachment(string, 0, processId);
+                fileAttribute.setsContentType(file.getType());
+                fileAttribute.setoAttribute(attribute);
+                fileAttribute.setsFileName(file.getName());
+                fileAttribute.setsExtName(file.getName().split("\\.")[1]);
+                String newKey = transferAttachment(file.getContentId(), file.getName(), file.getType());
+                fileAttribute.setsID_Data(newKey);
+                attribute.setoAttribute_File(fileAttribute);
+            } else if (string.startsWith("{") && string.contains("Mongo")) {
+                type = attributeTypeDao.findById(7L).get();
+                Attribute_File fileAttribute = new Attribute_File();
+                Map<String, String> fileValuesMap = parseJsonStringToMap(string);
+                fileAttribute.setsFileName(fileValuesMap.get("sFileNameAndExt"));
+                fileAttribute.setsExtName(fileValuesMap.get("sFileNameAndExt").split("\\.")[1]);
+                fileAttribute.setsContentType(fileValuesMap.get("sContentType"));
+                String newKey = transferAttachment("Mongo-" + fileValuesMap.get("sKey"), fileValuesMap.get("sFileNameAndExt"), fileValuesMap.get("sContentType"));
+                fileAttribute.setoAttribute(attribute);
+                fileAttribute.setsID_Data(newKey);
+                attribute.setoAttribute_File(fileAttribute);
+            } else if (string.length() < 255) {
                 type = attributeTypeDao.findById(3L).get();
                 Attribute_StringShort shortString = new Attribute_StringShort();
                 shortString.setsValue(string);
@@ -366,7 +411,8 @@ public class MigrationServiceImpl implements MigrationService {
             date_attr.setoAttribute(attribute);
             attribute.setoAttribute_Date(date_attr);
         }
-        if (clazz.getSimpleName().equalsIgnoreCase("float")) {
+        if (clazz.getSimpleName().equalsIgnoreCase("float")
+                || clazz.getSimpleName().equalsIgnoreCase("double")) {
             type = attributeTypeDao.findById(2L).get();
             Attribute_Float float_attr = new Attribute_Float();
             float_attr.setnValue((Double) obj);
@@ -380,10 +426,47 @@ public class MigrationServiceImpl implements MigrationService {
             long_attr.setoAttribute(attribute);
             attribute.setoAttribute_Long(long_attr);
         }
-        if (clazz.getSimpleName().equalsIgnoreCase("file")) {
+        return type;
+    }
 
+    private Map<String, String> parseJsonStringToMap(String stringToParse) {
+        Map<String, Object> valueMap;
+        Map<String, String> resultMap = new HashMap<>();
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            valueMap = mapper.readValue(stringToParse, new TypeReference<Map<String, Object>>() {
+            });
+            for (Map.Entry<String, Object> entry : valueMap.entrySet()) {
+                if (entry.getKey().equals("sFileNameAndExt")
+                        || entry.getKey().equals("sContentType")
+                        || entry.getKey().equals("sKey"))
+                    resultMap.put(entry.getKey(), (String) entry.getValue());
+            }
+        } catch (IOException ex) {
+            LOG.error("Error during json-string parsing:{}", ex.getCause());
         }
 
-        return type;
+        return resultMap;
+    }
+
+    private String transferAttachment(String fileKey, String fileName, String contentType) {
+        InputStream attachmentStream = ((org.igov.service.conf.TaskServiceImpl) taskService)
+                .getAttachmentContentByMongoID(fileKey);
+        if (attachmentStream == null) {
+            throw new ActivitiObjectNotFoundException("Attachment with ID '"
+                    + fileKey + "' doesn't have content associated with it.",
+                    Attachment.class);
+        }
+        int nTo = fileName.lastIndexOf(".");
+        if (nTo >= 0) {
+            fileName = "attach_" + fileKey + "."
+                    + fileName.substring(nTo + 1);
+        }
+        VariableMultipartFile multipartFile = new VariableMultipartFile(
+                attachmentStream, fileName,
+                fileName, contentType);
+
+        byte[] result = multipartFile.getBytes();
+        return bytesStorageAnalytic.saveData(result);
     }
 }
