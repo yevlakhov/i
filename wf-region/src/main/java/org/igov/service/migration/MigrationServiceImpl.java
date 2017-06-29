@@ -104,17 +104,33 @@ public class MigrationServiceImpl implements MigrationService {
     }
 
     private List<HistoricProcessInstance> getHistoricProcessList(String processId) {
-        return historyService.createNativeHistoricProcessInstanceQuery().sql(composeSql(getStartTime(), processId)).list();
+        return historyService.createNativeHistoricProcessInstanceQuery().sql(composeSql(getStartTime(1), processId)).list();
     }
 
-    private DateTime getStartTime() {
-        Config config = configDao.findBy("name", "dateLastBackup").get();
-        String dateTime = config.getsValue();
-        DateTime time = DateTime.parse(dateTime);//date parsing doesn't work properly
-        HistoricProcessInstance processInstance =
-                historyService.createHistoricProcessInstanceQuery().finishedAfter(time.toDate())
-                        .orderByProcessInstanceStartTime().asc().listPage(0, 1).get(0);
-        return new DateTime(processInstance.getStartTime());
+    private DateTime getStartTime(int counter) {
+        Config config;
+        if(counter < 0)
+            throw new MigrationException("Data cannot be saved");
+        if (configDao.findBy("name", "dateLastBackup").isPresent()) {
+            config = configDao.findBy("name", "dateLastBackup").get();
+            String dateTime = config.getsValue();
+            DateTime time = DateTime.parse(dateTime);//date parsing doesn't work properly
+            HistoricProcessInstance processInstance =
+                    historyService.createHistoricProcessInstanceQuery().finishedAfter(time.toDate())
+                            .orderByProcessInstanceStartTime().asc().listPage(0, 1).get(0);
+            return new DateTime(processInstance.getStartTime());
+        } else {
+            configDao.saveOrUpdate(createNewConfigPoint());
+            return getStartTime(--counter);
+        }
+    }
+
+    private Config createNewConfigPoint() {
+        Config config = new Config();
+        config.setName("dateLastBackup");
+        config.setsValue("1900-01-01");
+        config.setId(2000L);
+        return config;
     }
 
     private String composeSql(DateTime startTime, String processId) {
