@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-import os, argparse, subprocess
+import os, argparse, subprocess, requests
 
 parser = argparse.ArgumentParser()
 parser.add_argument('-v', '--version', help='Project version', required=True)
@@ -42,16 +42,5 @@ subprocess.call("chmod +x scripts/*", shell=True)
 subprocess.check_call(commandArr)
 
 if(args.version == 'prod-kmda' and args.project == 'wf-central'):
-    c = [
-        "bash", "scripts/deploy_private.sh",
-        "--version", "prod-kmda",
-        "--type", "central",
-        "--tier", "front",
-        "--jenkins-user", "ValentynT",
-        "--jenkins-api", "6fd785a9da1b255b93355a25bb6f8599",
-        "--project", "central-js",
-        "--skip-test", "false",
-        "--skip-build", "false",
-        "--skip-deploy", "false"
-    ]
-    subprocess.Popen(c)
+    headers = {'Jenkins-Crumb':'4ced8d8bf67c451f8f38c69824c58b10'}
+    requests.post("https://ci.es.kievcity.gov.ua/job/Kit-Soft/job/kit_prod-kiev_Front_Central/buildWithParameters", headers=headers)
