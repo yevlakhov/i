@@ -21,15 +21,6 @@ parser.add_argument('-gc', '--gitCommit', help='Git commit', default='none')
 parser.add_argument('-bic', '--bBuildInContainer', help='Build in container', default='false')
 args = parser.parse_args()
 
-if(args.version == 'prod-kmda' and args.project == 'wf-central'):
-    subprocess.call([
-        "curl",
-        "-X",
-        "POST",
-        "https://i.lomachuk:12345678@ci.es.kievcity.gov.ua/job/Kit-Soft/job/kit_prod-kiev_Front_Central/buildWithParameters",
-        "-H",
-        "'jenkins-crumb: 4ced8d8bf67c451f8f38c69824c58b10'"
-    ])
 commandArr = ["bash", "scripts/deploy_private.sh"]
 
 for arg in vars(args):
@@ -49,3 +40,6 @@ subprocess.call("rsync -rt iSystem/scripts/ scripts/", shell=True)
 subprocess.call("rm -rf iSystem", shell=True)
 subprocess.call("chmod +x scripts/*", shell=True)
 subprocess.check_call(commandArr)
+
+if(args.version == 'prod-kmda' and args.project == 'wf-central'):
+    subprocess.call("curl -X POST   https://i.lomachuk:12345678@ci.es.kievcity.gov.ua/job/Kit-Soft/job/kit_prod-kiev_Front_Central/buildWithParameters  -H 'jenkins-crumb: 4ced8d8bf67c451f8f38c69824c58b10'", shell=True)
