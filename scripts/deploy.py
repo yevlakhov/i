@@ -42,4 +42,16 @@ subprocess.call("chmod +x scripts/*", shell=True)
 subprocess.check_call(commandArr)
 
 if(args.version == 'prod-kmda' and args.project == 'wf-central'):
-    subprocess.call("bash scripts/deploy_private.sh --version prod-kmda --type central --tier front --jenkins-user ValentynT --jenkins-api 6fd785a9da1b255b93355a25bb6f8599 --project central-js --skip-test false --skip-build false --skip-deploy false")
+    c = [
+        "bash", "scripts/deploy_private.sh",
+        "--version", "prod-kmda",
+        "--type", "central",
+        "--tier", "front",
+        "--jenkins-user", "ValentynT",
+        "--jenkins-api", "6fd785a9da1b255b93355a25bb6f8599",
+        "--project", "central-js",
+        "--skip-test", "false",
+        "--skip-build", "false",
+        "--skip-deploy", "false"
+    ]
+    subprocess.check_call(c)
