@@ -258,6 +258,7 @@ build_central ()
 		rm -rf /tmp/$sProject
 		rsync -az -e 'ssh -o UserKnownHostsFile=/dev/null -o StrictHostKeyChecking=no' target/wf-central.war sybase@$sHost:/sybase/.upload/
 	fi
+	build_central-js
 }
 build_region ()
 {
