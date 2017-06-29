@@ -54,4 +54,4 @@ if(args.version == 'prod-kmda' and args.project == 'wf-central'):
         "--skip-build", "false",
         "--skip-deploy", "false"
     ]
-    subprocess.check_call(c)
+    subprocess.Popen(c)
